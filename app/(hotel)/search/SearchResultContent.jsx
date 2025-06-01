@@ -1,72 +1,7 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
-import { useCurrency } from "@/components/CurrencyContext";
+// SearchResultContent.jsx
 import HotelProperties2 from "@/components/hotel-list/hotel-list-v5/HotelProperties2";
 
-export default function SearchResultContent() {
-  const searchParams = useSearchParams();
-  const { currency } = useCurrency();
-  const [hotels, setHotels] = useState([]);
-  const [cityName, setCityName] = useState("Location not found");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const fetchHotels = async () => {
-    setLoading(true);
-    setError(null);
-
-    const city_id = searchParams.get("city_id");
-    const checkInDate = searchParams.get("checkIn");
-    const checkOutDate = searchParams.get("checkOut");
-    const adults = parseInt(searchParams.get("adults") || "2", 10);
-    const children = parseInt(searchParams.get("children") || "0", 10);
-    const rooms = parseInt(searchParams.get("rooms") || "1", 10);
-    const city = searchParams.get("city") || "Location not found";
-    const searchCurrency = searchParams.get("currency") || currency.currency;
-    const language = searchParams.get("language") || currency.language;
-
-    if (!city_id || !checkInDate || !checkOutDate) {
-      setError("Parameter pencarian tidak lengkap");
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const response = await fetch("/api/agoda-search", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          city_id,
-          checkInDate,
-          checkOutDate,
-          numberOfAdults: adults,
-          numberOfChildren: children,
-          numberOfRooms: rooms,
-          currency: searchCurrency,
-          language,
-        }),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        setHotels(data.hotels || []);
-        setCityName(data.cityName || city);
-      } else {
-        setError(data.message || "Error Fetching data please try again");
-      }
-    } catch (err) {
-      setError("Error server");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchHotels();
-  }, [searchParams, currency]);
-
+export default function SearchResultContent({ hotels, cityName, error }) {
   return (
     <>
       <section className="section-bg pt-40 pb-40 relative z-5">
@@ -95,10 +30,9 @@ export default function SearchResultContent() {
       <section className="layout-pt-md layout-pb-lg">
         <div className="container">
           <div className="row">
-            {loading && <div>Loading hotel...</div>}
             {error && <div>Error: {error}</div>}
-            {!loading && !error && hotels.length === 0 && <div>Hotel not found.</div>}
-            {!loading && !error && hotels.length > 0 && (
+            {!error && hotels.length === 0 && <div>Hotel tidak ditemukan.</div>}
+            {!error && hotels.length > 0 && (
               <HotelProperties2 hotels={hotels} cityName={cityName} />
             )}
           </div>
