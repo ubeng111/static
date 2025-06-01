@@ -3,10 +3,8 @@
 import { useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
-import useSWR from 'swr';
 import ReactPaginate from 'react-paginate';
 
-// Dynamically import components to reduce initial bundle size
 const CallToActions = dynamic(() => import('@/components/common/CallToActions'), { ssr: false });
 const Header11 = dynamic(() => import('@/components/header/header-11'), { ssr: false });
 const DefaultFooter = dynamic(() => import('@/components/footer/default'), { ssr: false });
@@ -16,28 +14,11 @@ const Relatedstate88 = dynamic(() => import('@/components/hotel-single/Relatedst
 const MainFilterSearchBox = dynamic(() => import('@/components/hotel-list/common/MainFilterSearchBox'), { ssr: false });
 const TopBreadCrumbState = dynamic(() => import('@/components/hotel-list/hotel-list-v5/TopBreadCrumbState'), { ssr: false });
 
-export default function ClientPage({ categoryslug, countryslug, stateslug }) {
+export default function ClientPage({ categoryslug, countryslug, stateslug, hotels = [], relatedstate = [], pagination = { page: 1, totalPages: 1, totalHotels: 0 } }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const page = parseInt(searchParams.get('page')) || 1;
 
-  // Memoize the fetcher function
-  const fetcher = useCallback(async (url) => {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error('Failed to fetch data');
-    return response.json();
-  }, []);
-
-  // Use SWR for data fetching
-  const { data, error, isLoading } = useSWR(`/api/${categoryslug}/${countryslug}/${stateslug}?page=${page}`, fetcher, {
-    revalidateOnFocus: false,
-    keepPreviousData: true,
-  });
-
-  // Memoize derived data
-  const hotels = useMemo(() => data?.hotels || [], [data]);
-  const relatedstate = useMemo(() => data?.relatedstate || [], [data]);
-  const pagination = useMemo(() => data?.pagination || { page: 1, totalPages: 1, totalHotels: 0 }, [data]);
   const formattedCategory = useMemo(
     () => (categoryslug ? categoryslug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : 'Category'),
     [categoryslug]
@@ -51,7 +32,6 @@ export default function ClientPage({ categoryslug, countryslug, stateslug }) {
     [stateslug]
   );
 
-  // Handle pagination click
   const handlePageClick = useCallback(
     (event) => {
       const newPage = event.selected + 1;
@@ -62,27 +42,12 @@ export default function ClientPage({ categoryslug, countryslug, stateslug }) {
     [categoryslug, countryslug, stateslug, pagination.page, router]
   );
 
-  if (isLoading) {
-    return (
-      <div className="preloader">
-        <div className="preloader__wrap">
-          <div className="preloader__icon"></div>
-        </div>
-        <div className="preloader__title">Hoteloza..</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return <div>Error loading data. Please try again later.</div>;
-  }
-
   return (
     <>
       <div className="header-margin"></div>
       <Header11 />
       <section className="section-bg pt-40 pb-40 relative z-5">
-          <div className="section-bg__item col-12">
+        <div className="section-bg__item col-12">
           <img
             src="/img/misc/bg-1.webp"
             srcSet="/img/misc/bg-1.webp 480w, /img/misc/bg-1.webp 768w, /img/misc/bg-1.webp 1200w"
