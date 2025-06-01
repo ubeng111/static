@@ -31,12 +31,18 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
+      <head>
+        {/* Google Site Verification Meta Tag */}
+        <meta
+          name="google-site-verification"
+          content="2CUKI9cYViNxYurFPrRO39L2Qg9DHlUUu6mJssjkuVg"
+        />
+      </head>
       <body>
         <Provider store={store}>
           <CurrencyProvider>
             {children}
             <ScrollTop />
-            
           </CurrencyProvider>
         </Provider>
       </body>
