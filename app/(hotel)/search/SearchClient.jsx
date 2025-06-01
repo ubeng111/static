@@ -19,15 +19,15 @@ export default function SearchClient() {
     setLoading(true);
     setError(null);
 
-    const city_id = searchParams.get('city_id');
-    const checkInDate = searchParams.get('checkIn');
-    const checkOutDate = searchParams.get('checkOut');
+    const city_id = searchParams.get('city_id') || '';
+    const checkInDate = searchParams.get('checkIn') || '';
+    const checkOutDate = searchParams.get('checkOut') || '';
     const adults = parseInt(searchParams.get('adults') || '2', 10);
     const children = parseInt(searchParams.get('children') || '0', 10);
     const rooms = parseInt(searchParams.get('rooms') || '1', 10);
     const city = searchParams.get('city') || 'Lokasi Tidak Diketahui';
-    const searchCurrency = searchParams.get('currency') || currency.currency;
-    const language = searchParams.get('language') || currency.language;
+    const searchCurrency = searchParams.get('currency') || currency?.currency || 'USD';
+    const language = searchParams.get('language') || currency?.language || 'en';
 
     if (!city_id || !checkInDate || !checkOutDate) {
       setError('Parameter pencarian tidak lengkap');

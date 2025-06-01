@@ -1,9 +1,11 @@
 // app/search/page.jsx
 import { Suspense } from 'react';
-import SearchClient from './SearchClient'; // Import the client component
+import SearchClient from './SearchClient';
 import Header11 from "@/components/header/header-11";
 import DefaultFooter from "@/components/footer/default";
 import CallToActions from "@/components/common/CallToActions";
+
+export const dynamic = 'force-dynamic'; // Force dynamic rendering to handle query parameters
 
 export default function SearchPage() {
   return (
