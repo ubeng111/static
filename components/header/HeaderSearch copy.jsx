@@ -85,10 +85,10 @@ const HeaderSearch = () => {
           onChange={handleInputChange}
           onFocus={() => setIsFocused(true)}
           style={{
-            width: '100%',
+            width: '70%',
             height: '30px',
             fontSize: '13px',
-            padding: '4px 6px',
+            padding: '3px 6px',
             border: '1px solid #ccc',
             borderRadius: '4px',
             backgroundColor: '#fff',

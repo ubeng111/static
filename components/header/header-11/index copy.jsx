@@ -32,7 +32,7 @@ const Header1 = () => {
         boxSizing: 'border-box',
       }}
     >
-      <div className="header__container px-30 sm:px-10">
+      <div className="header__container px-20 sm:px-10">
         <div className="row items-center flex-col sm:flex-row">
           {/* Left Section */}
           <div className="col-auto w-full sm:w-auto flex justify-center sm:justify-start">
@@ -45,7 +45,7 @@ const Header1 = () => {
               </Link>
 
               {/* Menu */}
-              <div className="header-menu" style={{ marginLeft: '200px' }}>
+              <div className="header-menu" style={{ marginLeft: '100px' }}>
                 <div className="header-menu__content">
                   <MainMenu style="text-dark-1" />
                 </div>
@@ -53,12 +53,7 @@ const Header1 = () => {
             </div>
           </div>
 
-          {/* Center Section: CurrencyMenu */}
-          <div className="col-auto w-full sm:w-auto currency-center-wrapper">
-            <CurrencyMenu textClass="text-dark-1" />
-          </div>
-
-          {/* Right Section: HeaderSearch */}
+          {/* Right Section: HeaderSearch (Now moved to the left) */}
           <div className="col-auto w-full sm:w-auto flex justify-center sm:justify-end">
             <div className="d-flex items-center flex-wrap">
               <HeaderSearch />
@@ -68,6 +63,11 @@ const Header1 = () => {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Center Section: CurrencyMenu (Now moved to the right) */}
+          <div className="col-auto w-full sm:w-auto currency-center-wrapper">
+            <CurrencyMenu textClass="text-dark-1" />
           </div>
         </div>
       </div>
@@ -82,62 +82,95 @@ const Header1 = () => {
             name: 'Hoteloza',
             description: 'Hoteloza - A premium hotel experience.',
             url: 'https://hoteloza.com',
-            logo: 'https://hoteloza.com/img/general/logo-dark-2.svg.'
+            logo: 'https://hoteloza.com/img/general/logo-dark-2.svg.',
           }),
         }}
       />
 
       {/* CSS for Logo Text and Icon */}
-      <style jsx>{`
-        .header-logo {
-          display: flex;
-          align-items: center;
-          text-decoration: none;
-        }
+     <style jsx>{`
+  .header-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
 
-        .logo-icon {
-          font-size: 22px; /* Slightly smaller for minimalism */
-          color: #000000;
-          margin-right: 8px;
-          transition: color 0.3s ease;
-        }
+  .logo-icon {
+    font-size: 22px;
+    color: #000000;
+    margin-right: 8px;
+    transition: color 0.3s ease;
+  }
 
-        .logo-text {
-          font-family: 'Poppins', sans-serif; /* Default font from original code */
-          font-size: 26px; /* Slightly smaller for minimalism */
-          font-weight: 500; /* Not too thick, lighter */
-          color: #000000;
-          text-decoration: none;
-          transition: color 0.3s ease;
-        }
+  .logo-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: #000000;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
 
-        .header-logo:hover .logo-icon,
-        .header-logo:hover .logo-text {
-          color: #333333; /* Dark gray on hover */
-        }
+  .header-logo:hover .logo-icon,
+  .header-logo:hover .logo-text {
+    color: #333333; /* Dark gray on hover */
+  }
 
-        /* Apply 100px padding-left on desktop to the parent container */
-        @media (min-width: 768px) {
-          .header-left-section {
-            padding-left: 100px; /* Moves the entire left section (logo + menu) to the right */
-          }
-        }
+  /* Adjust padding and alignment for the left section */
+  @media (min-width: 768px) {
+    .header-left-section {
+      padding-left: 100px;
+      display: flex;
+      align-items: center;
+    }
+  }
 
-        @media (max-width: 640px) {
-          .logo-icon {
-            font-size: 18px;
-          }
-          .logo-text {
-            font-size: 22px;
-          }
-          .currency-center-wrapper {
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
-            margin-bottom: 10px;
-          }
-        }
-      `}</style>
+  /* Adjustments for smaller screens (iPhone SE) */
+  @media (max-width: 640px) {
+    .logo-icon {
+      font-size: 18px;
+    }
+
+    .logo-text {
+      font-size: 22px;
+    }
+
+    .header-left-section {
+      padding-left: 0; /* Remove extra padding */
+      justify-content: center; /* Center items on smaller screens */
+    }
+
+    .currency-center-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    /* Ensure that the search bar and currency menu are aligned correctly */
+    .header-search-wrapper,
+    .currency-center-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .row.x-gap-1 {
+      justify-content: center;
+    }
+
+    .header-menu__content {
+      margin-left: 0; /* Remove margin for smaller screens */
+    }
+
+    /* Additional tweaks for vertical alignment */
+    .col-auto {
+      flex: 1 1 auto; /* Allow flex to grow and shrink properly */
+      display: flex;
+      justify-content: center;
+    }
+  }
+`}</style>
     </header>
   );
 };

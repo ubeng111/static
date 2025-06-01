@@ -91,7 +91,7 @@ const CurrencyMenu = ({ textClass }) => {
           const selectedItem = currencyContent.find((item) => item.currency === e.target.value);
           if (selectedItem) handleItemClick(selectedItem);
         }}
-        className={`w-full min-w-0 px-2 py-1 text-14 xs:text-14 text-dark-1 bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-dark-3 appearance-none cursor-pointer ${textClass}`}
+        className={`w-full min-w-0 px-2 py-1 text-12 xs:text-12 text-dark-1 bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-dark-3 appearance-none cursor-pointer ${textClass}`}
         aria-label="Pilih mata uang"
       >
         {currencyContent.map((item) => (
@@ -125,7 +125,7 @@ const CurrencyMenu = ({ textClass }) => {
         }
         @media (max-width: 375px) {
           .currency-menu-container {
-            max-width: 80px;
+            max-width: 150px;
           }
         }
       `}</style>

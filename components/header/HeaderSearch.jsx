@@ -1,3 +1,4 @@
+// HeaderSearch.jsx
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -10,13 +11,11 @@ const HeaderSearch = () => {
   const router = useRouter();
   const dropdownRef = useRef(null);
 
-  // Fetch city suggestions from the API
   const fetchCities = async (searchTerm) => {
     if (!searchTerm.trim()) {
       setSuggestions([]);
       return;
     }
-
     try {
       const response = await fetch(`/api/city-id?city=${encodeURIComponent(searchTerm)}`);
       if (!response.ok) {
@@ -32,30 +31,21 @@ const HeaderSearch = () => {
     }
   };
 
-  // Handle input change and fetch suggestions
   const handleInputChange = (e) => {
     const value = e.target.value;
     setQuery(value);
     fetchCities(value);
   };
 
-  // Handle form submission
   const handleSearch = (e) => {
     e.preventDefault();
-    if (suggestions.length === 1) {
-      // If only one city is found, navigate directly
-      router.push(`/search-result?city_id=${encodeURIComponent(suggestions[0].city_id)}`);
-      setQuery('');
-      setSuggestions([]);
-    } else if (suggestions.length > 0) {
-      // If multiple cities, select the first one (or keep dropdown open)
+    if (suggestions.length >= 1) {
       router.push(`/search-result?city_id=${encodeURIComponent(suggestions[0].city_id)}`);
       setQuery('');
       setSuggestions([]);
     }
   };
 
-  // Handle suggestion click
   const handleSuggestionClick = (cityId) => {
     router.push(`/search-result?city_id=${encodeURIComponent(cityId)}`);
     setQuery('');
@@ -63,7 +53,6 @@ const HeaderSearch = () => {
     setIsFocused(false);
   };
 
-  // Handle clicks outside to close dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -76,7 +65,7 @@ const HeaderSearch = () => {
   }, []);
 
   return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: '120px', flexShrink: 1, marginRight: '8px' }}>
+    <div style={{ position: 'relative', width: '100%', maxWidth: '100px', flexShrink: 0 }}>
       <form onSubmit={handleSearch}>
         <input
           type="text"
@@ -88,7 +77,7 @@ const HeaderSearch = () => {
             width: '100%',
             height: '30px',
             fontSize: '13px',
-            padding: '4px 6px',
+            padding: '3px 6px',
             border: '1px solid #ccc',
             borderRadius: '4px',
             backgroundColor: '#fff',
@@ -112,7 +101,7 @@ const HeaderSearch = () => {
             listStyle: 'none',
             padding: 0,
             margin: 0,
-            maxHeight: '200px',
+            maxHeight: '150px',
             overflowY: 'auto',
           }}
         >

@@ -1,3 +1,4 @@
+// index.jsx
 'use client';
 
 import Link from 'next/link';
@@ -32,20 +33,16 @@ const Header1 = () => {
         boxSizing: 'border-box',
       }}
     >
-      <div className="header__container px-30 sm:px-10">
-        <div className="row items-center flex-col sm:flex-row">
-          {/* Left Section */}
-          <div className="col-auto w-full sm:w-auto flex justify-center sm:justify-start">
-            {/* Added 'header-left-section' class here */}
+      <div className="header__container px-10 sm:px-20">
+        <div className="row items-center flex-row flex-wrap">
+          {/* Left Section: Logo and Menu */}
+          <div className="col-auto flex justify-center sm:justify-start">
             <div className="d-flex items-center flex-wrap header-left-section">
-              {/* Logo */}
               <Link href="/" className="header-logo" aria-label="Hoteloza Hotel Logo">
                 <i className="fas fa-hotel logo-icon" aria-hidden="true"></i>
                 <span className="logo-text">Hoteloza</span>
               </Link>
-
-              {/* Menu */}
-              <div className="header-menu" style={{ marginLeft: '200px' }}>
+              <div className="header-menu" style={{ marginLeft: '20px' }}>
                 <div className="header-menu__content">
                   <MainMenu style="text-dark-1" />
                 </div>
@@ -53,21 +50,12 @@ const Header1 = () => {
             </div>
           </div>
 
-          {/* Right Section: HeaderSearch (Now moved to the left) */}
-          <div className="col-auto w-full sm:w-auto flex justify-center sm:justify-end">
-            <div className="d-flex items-center flex-wrap">
+          {/* Right Section: Search and Currency */}
+          <div className="col-auto flex justify-center sm:justify-end">
+            <div className="d-flex items-center flex-row gap-5">
               <HeaderSearch />
-              <div className="row x-gap-1 items-center">
-                <div className="col-auto">
-                  <div className="w-1 h-20 bg-white-20" />
-                </div>
-              </div>
+              <CurrencyMenu textClass="text-dark-1" />
             </div>
-          </div>
-
-          {/* Center Section: CurrencyMenu (Now moved to the right) */}
-          <div className="col-auto w-full sm:w-auto currency-center-wrapper">
-            <CurrencyMenu textClass="text-dark-1" />
           </div>
         </div>
       </div>
@@ -87,7 +75,6 @@ const Header1 = () => {
         }}
       />
 
-      {/* CSS for Logo Text and Icon */}
       <style jsx>{`
         .header-logo {
           display: flex;
@@ -96,16 +83,16 @@ const Header1 = () => {
         }
 
         .logo-icon {
-          font-size: 22px; /* Slightly smaller for minimalism */
+          font-size: 22px;
           color: #000000;
           margin-right: 8px;
           transition: color 0.3s ease;
         }
 
         .logo-text {
-          font-family: 'Poppins', sans-serif; /* Default font from original code */
-          font-size: 26px; /* Slightly smaller for minimalism */
-          font-weight: 500; /* Not too thick, lighter */
+          font-family: 'Poppins', sans-serif;
+          font-size: 26px;
+          font-weight: 500;
           color: #000000;
           text-decoration: none;
           transition: color 0.3s ease;
@@ -113,28 +100,35 @@ const Header1 = () => {
 
         .header-logo:hover .logo-icon,
         .header-logo:hover .logo-text {
-          color: #333333; /* Dark gray on hover */
+          color: #333333;
         }
 
-        /* Apply 100px padding-left on desktop to the parent container */
-        @media (min-width: 768px) {
-          .header-left-section {
-            padding-left: 100px; /* Moves the entire left section (logo + menu) to the right */
+        @media (max-width: 375px) {
+          .header__container {
+            padding: 0 8px;
           }
-        }
-
-        @media (max-width: 640px) {
+          .header-left-section {
+            padding-left: 0;
+            justify-content: flex-start;
+          }
+          .header-menu {
+            margin-left: 10px;
+          }
+          .col-auto {
+            flex: 0 0 auto;
+          }
+          .d-flex.items-center.flex-row {
+            gap: 5px;
+            max-width: 200px;
+          }
+          .header-logo {
+            flex-shrink: 0;
+          }
           .logo-icon {
             font-size: 18px;
           }
           .logo-text {
             font-size: 22px;
-          }
-          .currency-center-wrapper {
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
-            margin-bottom: 10px;
           }
         }
       `}</style>
