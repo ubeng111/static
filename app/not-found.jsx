@@ -5,7 +5,7 @@ import CallToActions from "@/components/common/CallToActions";
 import NotFound from "@/components/common/NotFound";
 
 export const metadata = {
-  title: "404 || GoTrip - Travel & Tour React NextJS Template",
+  title: "404 || Hotelazo",
   description: "Sorry, the page you're looking for doesn't exist.",
 };
 
