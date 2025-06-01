@@ -1,3 +1,4 @@
+// CityContent.jsx
 "use client";
 
 import { useSearchParams } from "next/navigation";
@@ -5,6 +6,7 @@ import dynamic from "next/dynamic";
 import useSWR from "swr";
 import HotelProperties88 from "@/components/hotel-list/hotel-list-v5/HotelProperties88";
 import Faqcity from "@/components/faq/Faqcity";
+import { useEffect, useState } from "react"; // Import useEffect and useState
 
 // Dynamically import non-critical components
 const ReactPaginate = dynamic(() => import("react-paginate"), { ssr: false });
@@ -19,33 +21,58 @@ const fetcher = async (url) => {
   return response.json();
 };
 
-export default function CityContent() {
-  const searchParams = useSearchParams();
-  const cityId = searchParams.get("city_id");
-  const page = parseInt(searchParams.get("page")) || 1;
+// Menerima initialCityId dan initialPage sebagai props
+export default function CityContent({ initialCityId, initialPage }) {
+  // Gunakan state lokal untuk cityId dan page yang akan diupdate oleh useSearchParams
+  const [currentCityId, setCurrentCityId] = useState(initialCityId);
+  const [currentPage, setCurrentPage] = useState(initialPage);
 
-  // SWR hook for data fetching
+  // useSearchParams hanya akan dieksekusi di sisi klien
+  const searchParams = useSearchParams();
+
+  // useEffect untuk sinkronisasi searchParams ke state lokal setelah hidrasi
+  useEffect(() => {
+    const newCityId = searchParams.get("city_id");
+    const newPage = parseInt(searchParams.get("page")) || 1;
+
+    // Hanya update state jika berbeda dari nilai awal atau yang ada
+    if (newCityId !== currentCityId) {
+      setCurrentCityId(newCityId);
+    }
+    if (newPage !== currentPage) {
+      setCurrentPage(newPage);
+    }
+  }, [searchParams, currentCityId, currentPage]);
+
+
+  // SWR hook for data fetching, menggunakan state lokal
   const { data, error, isLoading } = useSWR(
-    cityId ? `/api/city?city_id=${encodeURIComponent(cityId)}&page=${page}` : null,
+    currentCityId ? `/api/city?city_id=${encodeURIComponent(currentCityId)}&page=${currentPage}` : null,
     fetcher,
     {
       revalidateOnFocus: false,
       dedupingInterval: 60000, // Cache for 1 minute
+      // Opsional: initialData untuk SWR jika Anda memiliki data awal dari server
+      // initialData: { hotels: [], pagination: { page: initialPage, totalPages: 1, totalHotels: 0 } }
     }
   );
 
   const hotels = data?.hotels || [];
-  const pagination = data?.pagination || { page: 1, totalPages: 1, totalHotels: 0 };
+  const pagination = data?.pagination || { page: currentPage, totalPages: 1, totalHotels: 0 }; // Gunakan currentPage di pagination
 
   const handlePageClick = (event) => {
     const newPage = event.selected + 1;
-    if (newPage === pagination.page) return;
-    // Update URL with new page
+    if (newPage === pagination.page) return; // Prevent unnecessary updates
+
     const newUrl = new URL(window.location);
     newUrl.searchParams.set("page", newPage);
-    window.history.pushState({}, "", newUrl);
+    window.history.pushState({}, "", newUrl.toString()); // Gunakan newUrl.toString()
+    setCurrentPage(newPage); // Update state lokal juga
     window.scrollTo(0, 0);
   };
+
+  // Safe access to city name
+  const cityName = hotels.length > 0 ? hotels[0].city : "Kota";
 
   if (isLoading) {
     return (
@@ -58,7 +85,8 @@ export default function CityContent() {
     );
   }
 
-  if (error || !cityId) {
+  // Jika cityId tidak ada (baik dari initial prop maupun dari useSearchParams), tampilkan pesan error
+  if (error || !currentCityId) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-red-500 text-lg">
@@ -87,7 +115,7 @@ export default function CityContent() {
             <div className="col-12">
               <div className="text-center">
                 <h1 className="text-30 fw-600 text-white">
-                  Search Result Properties In {hotels[0]?.city || "Kota"}
+                  Search Result Properties In {cityName}
                 </h1>
               </div>
             </div>
@@ -125,12 +153,12 @@ export default function CityContent() {
             <div className="row y-gap-20">
               <div className="col-12 text-center">
                 <h2 className="text-22 fw-500">
-                  FAQ {hotels[0]?.city || "properti ini"}
+                  FAQ {cityName}
                 </h2>
               </div>
               <div className="col-lg-8 offset-lg-2">
                 <div className="accordion -simple row y-gap-20 js-accordion">
-                  <Faqcity city={hotels[0]?.city || "properti ini"} />
+                  <Faqcity city={cityName} />
                 </div>
               </div>
             </div>

@@ -1,5 +1,5 @@
 // app/(others)/about/page.jsx
-import Client from "./Client";
+import Client from "./Client"; // Import Client normally again
 
 export const metadata = {
   title: "About - Hoteloza",

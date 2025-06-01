@@ -1,14 +1,19 @@
+// Client.jsx
 "use client"; // Mark this as a Client Component
 
-import Header1 from "@/components/header/header-11";
-import DefaultFooter from "@/components/footer/default";
-import WhyChoose from "@/components/block/BlockGuide";
-import Block1 from "@/components/about/Block1";
-import Image from "next/image";
-import Counter from "@/components/counter/Counter";
-import Testimonial from "@/components/testimonial/Testimonial";
-import Counter2 from "@/components/counter/Counter2";
-import CallToActions from "@/components/common/CallToActions";
+import Image from "next/image"; // next/image biasanya aman, tidak perlu dynamic import
+import dynamic from "next/dynamic"; // Import dynamic untuk komponen yang hanya dirender di klien
+
+// Dynamically import ALL potentially problematic components with ssr: false.
+// Ini adalah langkah paling aman untuk mengatasi prerendering issues.
+const Header1 = dynamic(() => import("@/components/header/header-11"), { ssr: false });
+const DefaultFooter = dynamic(() => import("@/components/footer/default"), { ssr: false });
+const WhyChoose = dynamic(() => import("@/components/block/BlockGuide"), { ssr: false });
+const Block1 = dynamic(() => import("@/components/about/Block1"), { ssr: false });
+const Counter = dynamic(() => import("@/components/counter/Counter"), { ssr: false });
+const Testimonial = dynamic(() => import("@/components/testimonial/Testimonial"), { ssr: false });
+const Counter2 = dynamic(() => import("@/components/counter/Counter2"), { ssr: false });
+const CallToActions = dynamic(() => import("@/components/common/CallToActions"), { ssr: false }); // Juga dynamic import ini
 
 const Client = () => {
   return (
