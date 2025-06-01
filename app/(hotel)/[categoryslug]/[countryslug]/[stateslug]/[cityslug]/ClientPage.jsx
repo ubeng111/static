@@ -104,7 +104,7 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, citys
       <div className="pt-40 sm:pt-20 item_gap-x30">
         {relatedcity.length > 0 ? (
           <Relatedcity88
-            relatedCity={relatedcity}
+            relatedcity={relatedcity}
             categoryslug={categoryslug}
             countryslug={countryslug}
             stateslug={stateslug}
