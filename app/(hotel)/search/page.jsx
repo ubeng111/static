@@ -1,16 +1,104 @@
-// page.jsx
-import { Suspense } from "react";
+// app/search/page.jsx
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useCurrency } from '@/components/CurrencyContext';
 import Header11 from "@/components/header/header-11";
 import DefaultFooter from "@/components/footer/default";
+import HotelProperties2 from "@/components/hotel-list/hotel-list-v5/HotelProperties2";
 import CallToActions from "@/components/common/CallToActions";
 import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox";
-import SearchResultContent from "./SearchResultContent";
 
-export default function SearchPage({ hotels, cityName, error }) {
+export default function SearchPage() {
+  const searchParams = useSearchParams();
+  const { currency } = useCurrency();
+  const [hotels, setHotels] = useState([]);
+  const [cityName, setCityName] = useState('Lokasi Tidak Diketahui');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchHotels = async () => {
+    setLoading(true);
+    setError(null);
+
+    const city_id = searchParams.get('city_id');
+    const checkInDate = searchParams.get('checkIn');
+    const checkOutDate = searchParams.get('checkOut');
+    const adults = parseInt(searchParams.get('adults') || '2', 10);
+    const children = parseInt(searchParams.get('children') || '0', 10);
+    const rooms = parseInt(searchParams.get('rooms') || '1', 10);
+    const city = searchParams.get('city') || 'Lokasi Tidak Diketahui';
+    const searchCurrency = searchParams.get('currency') || currency.currency;
+    const language = searchParams.get('language') || currency.language;
+
+    if (!city_id || !checkInDate || !checkOutDate) {
+      setError('Parameter pencarian tidak lengkap');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/agoda-search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          city_id,
+          checkInDate,
+          checkOutDate,
+          numberOfAdults: adults,
+          numberOfChildren: children,
+          numberOfRooms: rooms,
+          currency: searchCurrency,
+          language,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setHotels(data.hotels || []);
+        setCityName(data.cityName || city);
+      } else {
+        setError(data.message || 'Gagal mengambil data hotel');
+      }
+    } catch (err) {
+      setError('Error server');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchHotels();
+  }, [searchParams, currency]);
+
   return (
     <>
       <div className="header-margin"></div>
       <Header11 />
+      <section className="section-bg pt-40 pb-40 relative z-5">
+        <div className="section-bg__item col-12">
+          <img
+            src="/img/misc/bg-1.webp"
+            srcSet="/img/misc/bg-1.webp 480w, /img/misc/bg-1.webp 768w, /img/misc/bg-1.webp 1200w"
+            alt="Luxury background image"
+            loading="lazy"
+            className="w-full h-full object-cover"
+            width="1200"
+            height="800"
+          />
+        </div>
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <div className="text-center">
+                <h1 className="text-30 fw-600 text-white">Search Result Accomodation In {cityName}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="layout-pt-sm">
         <div className="container">
           <div className="row">
@@ -20,78 +108,21 @@ export default function SearchPage({ hotels, cityName, error }) {
           </div>
         </div>
       </section>
-      <Suspense fallback={<div>Loading...</div>}>
-        <SearchResultContent hotels={hotels} cityName={cityName} error={error} />
-      </Suspense>
+
+      <section className="layout-pt-md layout-pb-lg">
+        <div className="container">
+          <div className="row">
+            {loading && <div>Loading hotel...</div>}
+            {error && <div>Error: {error}</div>}
+            {!loading && !error && hotels.length === 0 && <div>Hotel not found.</div>}
+            {!loading && !error && hotels.length > 0 && (
+              <HotelProperties2 hotels={hotels} cityName={cityName} />
+            )}
+          </div>
+        </div>
+      </section>
       <CallToActions />
       <DefaultFooter />
     </>
   );
-}
-
-export async function getServerSideProps(context) {
-  const { query } = context;
-  const city_id = query.city_id;
-  const checkInDate = query.checkIn;
-  const checkOutDate = query.checkOut;
-  const adults = parseInt(query.adults || "2", 10);
-  const children = parseInt(query.children || "0", 10);
-  const rooms = parseInt(query.rooms || "1", 10);
-  const city = query.city || "Location not found";
-  const currency = query.currency || "USD"; // Default mata uang
-  const language = query.language || "en"; // Default bahasa
-
-  if (!city_id || !checkInDate || !checkOutDate) {
-    return {
-      props: {
-        hotels: [],
-        cityName: city,
-        error: "Parameter pencarian tidak lengkap",
-      },
-    };
-  }
-
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/agoda-search`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        city_id,
-        checkInDate,
-        checkOutDate,
-        numberOfAdults: adults,
-        numberOfChildren: children,
-        numberOfRooms: rooms,
-        currency,
-        language,
-      }),
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      return {
-        props: {
-          hotels: data.hotels || [],
-          cityName: data.cityName || city,
-          error: null,
-        },
-      };
-    } else {
-      return {
-        props: {
-          hotels: [],
-          cityName: city,
-          error: data.message || "Gagal mengambil data, silakan coba lagi",
-        },
-      };
-    }
-  } catch (err) {
-    return {
-      props: {
-        hotels: [],
-        cityName: city,
-        error: "Kesalahan server",
-      },
-    };
-  }
 }
