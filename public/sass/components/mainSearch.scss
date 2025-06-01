@@ -1,0 +1,236 @@
+.mainSearch {
+  position: relative;
+  z-index: 2;
+
+  @include media-below(lg) {
+    width: 100%;
+    border-radius: 6px !important; // Border-radius lebih kecil
+    padding: 1px; // Padding minimal
+  }
+
+  .button-grid {
+    display: grid;
+    grid-template-columns: 1fr 250px 290px auto;
+
+    > * + * {
+      border-left: 1px solid var(--color-border);
+    }
+
+    @include media-below(lg) {
+      grid-template-columns: 1fr;
+      gap: 0; // Tanpa jarak antar elemen
+
+      > * + * {
+        border-left: 0;
+        border-top: 0.5px solid var(--color-border); // Border lebih tipis
+      }
+    }
+  }
+
+  .button-item {
+    border: none !important;
+    padding: 1px; // Padding sangat minimal
+    font-size: 10px; // Font sangat kecil
+  }
+
+  &__submit {
+    @include media-below(lg) {
+      border-radius: 6px !important;
+      padding: 1px;
+      font-size: 10px; // Font sangat kecil
+    }
+  }
+
+  &.-col-2 {
+    .button-grid {
+      grid-template-columns: 1fr 1fr min-content;
+
+      @include media-below(lg) {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+    }
+  }
+
+  &.-col-4 {
+    .button-grid {
+      grid-template-columns: auto auto 200px 200px min-content;
+
+      @include media-below(lg) {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+    }
+  }
+
+  &.-col-3-big {
+    .button-grid {
+      grid-template-columns: 1fr 0.6fr 0.6fr auto;
+
+      @include media-below(lg) {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+    }
+  }
+
+  &.-col-5 {
+    .button-grid {
+      grid-template-columns: auto auto auto auto auto min-content;
+
+      @include media-below(lg) {
+        grid-template-columns: 1fr;
+        gap: 0;
+
+        > * + * {
+          border-left: 0;
+          border-top: 0.5px solid var(--color-border);
+        }
+      }
+    }
+  }
+
+  &.-w-900 {
+    width: 900px;
+
+    @include media-below(lg) {
+      width: 100%;
+    }
+  }
+
+  &.-w-1070 {
+    width: 1070px;
+    max-width: 100%;
+
+    @include media-below(lg) {
+      width: 100%;
+    }
+  }
+}
+
+.searchMenu-loc {
+  position: relative;
+
+  &__field {
+    position: absolute;
+    margin: 0; // Tanpa margin sama sekali
+    top: 100%;
+    left: 0;
+    z-index: 20;
+    width: 100%;
+    max-width: 100vw;
+    border: 0.5px solid var(--color-border); // Border lebih tipis
+    border-radius: 6px;
+    pointer-events: none;
+    opacity: 0;
+
+    @include media-below(lg) {
+      width: 100%;
+      left: 0;
+      right: 0;
+    }
+
+    @include media-below(sm) {
+      left: 0;
+      right: 0;
+    }
+
+    &.-is-active {
+      pointer-events: auto;
+      opacity: 1;
+    }
+  }
+
+  .-link {
+    &:hover {
+      background-color: color-opac(blue-1, 0.1) !important;
+    }
+  }
+
+  .-link.active {
+    background-color: color-opac(blue-1, 0.1) !important;
+  }
+}
+
+.searchMenu-date {
+  position: relative;
+
+  &.-left {
+    .searchMenu-date__field {
+      transform: none !important;
+    }
+  }
+
+  &.-right {
+    .searchMenu-date__field {
+      left: unset;
+      right: 0;
+      transform: none !important;
+    }
+  }
+
+  &__field {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 5;
+    width: 100%;
+    max-width: 100vw;
+    margin: 0; // Tanpa margin sama sekali
+    border: 0.5px solid var(--color-border); // Border lebih tipis
+    border-radius: 6px;
+    transform: none;
+    pointer-events: none;
+    opacity: 0;
+
+    @include media-below(lg) {
+      width: 100%;
+      left: 0;
+      right: 0;
+    }
+
+    @include media-below(sm) {
+      left: 0;
+      right: 0;
+    }
+
+    &.-is-active {
+      pointer-events: auto;
+      opacity: 1;
+    }
+  }
+}
+
+.searchMenu-guests {
+  position: relative;
+
+  &__field {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 5;
+    width: 100%;
+    max-width: 100vw;
+    margin: 0; // Tanpa margin sama sekali
+    border: 0.5px solid var(--color-border); // Border lebih tipis
+    border-radius: 6px;
+    pointer-events: none;
+    opacity: 0;
+
+    @include media-below(lg) {
+      width: 100%;
+      left: 0;
+      right: 0;
+    }
+
+    @include media-below(sm) {
+      left: 0;
+      right: 0;
+    }
+
+    &.-is-active {
+      pointer-events: auto;
+      opacity: 1;
+    }
+  }
+}

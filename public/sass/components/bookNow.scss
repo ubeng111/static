@@ -1,0 +1,105 @@
+/* Sticky Book Now Button */
+.sticky-book-now {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.sticky-book-now .button {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.6);
+  animation: pulse-animation 2s infinite ease-in-out;
+  white-space: nowrap;
+}
+
+.sticky-book-now .button:hover {
+  background-color: #0056b3;
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.8);
+}
+
+/* Icon Styling */
+.sticky-book-now .icon-arrow-top-right {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 10px;
+  background: url('/path/to/icon-arrow-top-right.svg') no-repeat center;
+  background-size: contain;
+}
+
+/* Pulse Animation */
+@keyframes pulse-animation {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.6);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.8);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.6);
+  }
+}
+
+/* Responsive Design */
+
+/* Small screens (e.g., phones < 576px) */
+@media (max-width: 576px) {
+  .sticky-book-now {
+    bottom: 15px;
+    right: 15px;
+  }
+
+  .sticky-book-now .button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .sticky-book-now .icon-arrow-top-right {
+    width: 14px;
+    height: 14px;
+    margin-left: 8px;
+  }
+}
+
+/* Medium screens (e.g., large phones, small tablets: 576px - 768px) */
+@media (min-width: 576px) and (max-width: 768px) {
+  .sticky-book-now .button {
+    padding: 11px 22px;
+    font-size: 15px;
+  }
+}
+
+/* Tablets and larger (768px - 992px) */
+@media (min-width: 768px) and (max-width: 992px) {
+  .sticky-book-now .button {
+    padding: 12px 24px;
+    font-size: 16px;
+  }
+}
+
+/* Fix for very small screens (e.g., < 360px) */
+@media (max-width: 360px) {
+  .sticky-book-now {
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .sticky-book-now .button {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}

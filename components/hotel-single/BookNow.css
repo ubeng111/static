@@ -1,0 +1,42 @@
+.book-now-container {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.book-now-button {
+  display: inline-block;
+  background-color: #c53030; /* Darker coral for better contrast */
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px; /* Rounded full */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+  font-size: 1.125rem; /* text-lg */
+  pointer-events: auto;
+}
+
+.book-now-button:hover {
+  background-color: #a12626; /* Even darker coral for hover */
+}
+
+.book-now-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #fb7185, 0 0 0 4px rgba(0, 0, 0, 0.1); /* Focus ring with coral bright */
+}
+
+/* Responsive for small screens */
+@media (max-width: 640px) {
+  .book-now-container {
+    right: 2rem; /* Shift left slightly on mobile */
+  }
+
+  .book-now-button {
+    font-size: 1rem; /* text-base for mobile */
+    padding: 0.5rem 1.25rem;
+  }
+}

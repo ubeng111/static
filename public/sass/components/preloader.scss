@@ -1,0 +1,78 @@
+/* styles/components/preloader.scss */
+.preloader {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff; /* Putih bersih sebagai background */
+  transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
+  visibility: visible;
+  opacity: 1;
+  flex-direction: row; /* Elemen akan disusun secara horizontal */
+}
+
+.preloader.-is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.preloader__icon {
+  width: 40px; /* Ukuran gambar logo lebih besar */
+  height: 40px; /* Ukuran gambar logo lebih besar */
+  background-image: url('/img/icons/icon.png'); /* Menggunakan gambar pesawat */
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: preloaderMove 2s ease-in-out infinite, rotateIcon 2s linear infinite;
+  margin-right: 15px; /* Memberikan spasi di antara ikon dan teks */
+}
+
+.preloader__title {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  margin: 0;
+  text-transform: uppercase;
+  display: flex;
+  gap: 5px; /* Memberikan jarak antar huruf */
+  animation: blinkText 0.8s infinite; /* Menambahkan animasi kelap-kelip lebih cepat */
+}
+
+@keyframes preloaderMove {
+  0% {
+    transform: translateY(-10px); /* Mulai dari atas */
+  }
+  50% {
+    transform: translateY(10px); /* Bergerak ke bawah */
+  }
+  100% {
+    transform: translateY(-10px); /* Kembali ke posisi semula */
+  }
+}
+
+@keyframes rotateIcon {
+  0% {
+    transform: rotate(0deg); /* Posisi awal */
+  }
+  100% {
+    transform: rotate(360deg); /* Putar penuh */
+  }
+}
+
+@keyframes blinkText {
+  0% {
+    opacity: 1; /* Teks terlihat */
+  }
+  50% {
+    opacity: 0; /* Teks menghilang */
+  }
+  100% {
+    opacity: 1; /* Teks kembali terlihat */
+  }
+}
