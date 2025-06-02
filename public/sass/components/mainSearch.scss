@@ -123,8 +123,7 @@
     border: 0.5px solid #e0e0e0;
     border-radius: 4px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    // REMOVED: max-height: 150px;
-    // REMOVED: overflow-y: auto;
+    // REMOVED: max-height dan overflow-y di sini untuk semua dropdown agar defaultnya tidak ada scroll
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.15s ease;
@@ -149,8 +148,7 @@
       top: calc(100% + 5px);
       left: 0;
       width: 100%;
-      // REMOVED: max-height: 150px;
-      // REMOVED: overflow-y: auto;
+      // REMOVED: max-height dan overflow-y di sini
       background: #fff;
       border: 0.5px solid #e0e0e0;
       border-radius: 4px;
@@ -203,12 +201,30 @@
   .searchMenu-date {
     .dropdown {
       padding: 4px;
+      // Perhatikan: Tanggal mungkin memerlukan max-height dan scroll di mobile juga
+      // @include media-below(md) {
+      //   max-height: 250px; // Sesuaikan tinggi ini
+      //   overflow-y: auto;
+      // }
     }
   }
 
   .searchMenu-guests {
     .dropdown {
       padding: 8px;
+
+      // --- MODIFIED: Added max-height and overflow for mobile views only ---
+      @include media-below(md) { // Untuk ukuran tablet dan HP
+        max-height: calc(100vh - 150px); // Mengisi sebagian besar layar, sisakan ruang untuk header/footer
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch; // Smooth scrolling di iOS
+        top: calc(100% + 5px); // Pastikan posisinya di bawah input
+        left: 0;
+        right: 0;
+        max-width: none; // Hapus batasan max-width jika ada
+        transform: none; // Hapus transform jika ada
+      }
+      // --- END MODIFIED ---
 
       .counter-box {
         .counter-row {

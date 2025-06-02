@@ -48,6 +48,8 @@ const GuestSearch = ({ onGuestChange }) => {
   });
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+  // Tambahkan ref untuk tombol pemicu
+  const triggerRef = useRef(null); 
 
   useEffect(() => {
     if (onGuestChange) {
@@ -64,6 +66,7 @@ const GuestSearch = ({ onGuestChange }) => {
       ...prev,
       [name]: value,
     }));
+    // Pastikan onGuestChange selalu dipanggil dengan state terbaru
     if (onGuestChange) {
       onGuestChange({ ...guestCounts, [name]: value });
     }
@@ -71,13 +74,22 @@ const GuestSearch = ({ onGuestChange }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
+      // Jika klik terjadi di dalam dropdown itu sendiri, biarkan terbuka
+      // Jika klik terjadi di elemen pemicu, biarkan `toggleDropdown` yang mengelolanya
+      if (
+        dropdownRef.current && dropdownRef.current.contains(event.target) ||
+        triggerRef.current && triggerRef.current.contains(event.target)
+      ) {
+        return; // Jangan lakukan apa-apa
       }
+      
+      // Jika tidak di dalam dropdown dan tidak di pemicu, tutup dropdown
+      setIsOpen(false);
     };
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, []); // Dependensi kosong karena kita tidak perlu me-re-run ini jika refs berubah
 
   return (
     <div className="searchMenu-guests search-field">
@@ -89,6 +101,7 @@ const GuestSearch = ({ onGuestChange }) => {
         role="button"
         onClick={toggleDropdown}
         aria-label="Select guest options"
+        ref={triggerRef} // Kaitkan ref ini ke elemen pemicu
       >
         {guestCounts.Adults} Adult{guestCounts.Adults !== 1 ? 's' : ''},{" "}
         {guestCounts.Children} Child{guestCounts.Children !== 1 ? 'ren' : ''},{" "}
