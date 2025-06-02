@@ -97,7 +97,7 @@ export default function ClientPage({ categoryslug, countryslug, stateslug }) {
           <div className="row">
             <div className="col-12">
               <div className="text-center">
-                <h1 className="text-30 fw-600 text-white">
+                <h1 className="text-25 fw-600 text-white">
                   Best Cheap {formattedCategory} in {formattedState}
                 </h1>
               </div>

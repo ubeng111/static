@@ -80,8 +80,8 @@ const HeaderSearch = () => {
           onChange={handleInputChange}
           onFocus={() => setIsFocused(true)}
           style={{
-            width: '100%',
-            height: '30px', /* Consistent height */
+            width: '80%',
+            height: '32px', /* Consistent height */
             fontSize: '13px',
             padding: '3px 6px',
             border: '1px solid #ccc',
@@ -134,7 +134,7 @@ const HeaderSearch = () => {
         /* Responsive styles for HeaderSearch input */
         @media (max-width: 479px) {
           input {
-            height: 26px !important; /* Make it smaller on very small screens */
+            height: 32px !important; /* Make it smaller on very small screens */
             font-size: 11px !important;
             padding: 2px 4px !important;
           }

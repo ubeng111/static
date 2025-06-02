@@ -160,7 +160,7 @@ const CurrencyMenu = ({ textClass }) => {
         /* Responsive styles for CurrencyMenu */
         @media (max-width: 767px) { /* Tablet Kecil & Mobile */
           .currency-menu-container {
-            width: 70px;
+            width: 50px;
             min-width: 60px;
             max-width: 70px;
           }
@@ -176,13 +176,13 @@ const CurrencyMenu = ({ textClass }) => {
 
         @media (max-width: 479px) { /* Mobile Sangat Kecil */
           .currency-menu-container {
-            width: 65px; /* Paling kecil untuk layar sempit */
-            min-width: 60px;
-            max-width: 65px;
+            width: 55px; /* Paling kecil untuk layar sempit */
+            min-width: 50px;
+            max-width: 55px;
           }
           select {
             font-size: 10px;
-            height: 24px;
+            height: 20px;
             padding: 0 4px;
           }
           option {

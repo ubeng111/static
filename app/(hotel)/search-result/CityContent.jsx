@@ -114,7 +114,7 @@ export default function CityContent({ initialCityId, initialPage }) {
           <div className="row">
             <div className="col-12">
               <div className="text-center">
-                <h1 className="text-30 fw-600 text-white">
+                <h1 className="text-25 fw-600 text-white">
                   Search Result Properties In {cityName}
                 </h1>
               </div>
