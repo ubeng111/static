@@ -1,3 +1,4 @@
+// index.jsx
 'use client';
 
 import Link from 'next/link';
@@ -30,44 +31,33 @@ const Header1 = () => {
       style={{
         borderBottom: '2px solid #1E90FF',
         boxSizing: 'border-box',
+        width: '100%',
       }}
     >
-      <div className="header__container px-20 sm:px-10">
-        <div className="row items-center flex-col sm:flex-row">
-          {/* Left Section */}
-          <div className="col-auto w-full sm:w-auto flex justify-center sm:justify-start">
-            {/* Added 'header-left-section' class here */}
-            <div className="d-flex items-center flex-wrap header-left-section">
-              {/* Logo */}
-              <Link href="/" className="header-logo" aria-label="Hoteloza Hotel Logo">
-                <i className="fas fa-hotel logo-icon" aria-hidden="true"></i>
-                <span className="logo-text">Hoteloza</span>
-              </Link>
-
-              {/* Menu */}
-              <div className="header-menu" style={{ marginLeft: '100px' }}>
-                <div className="header-menu__content">
-                  <MainMenu style="text-dark-1" />
-                </div>
+      <div className="header__container"> {/* Remove px-10 sm:px-20 here, handle with CSS */}
+        <div className="main-header-row">
+          {/* Left Section: Logo and MainMenu */}
+          <div className="header-left-group">
+            <Link href="/" className="header-logo" aria-label="Hoteloza Hotel Logo">
+              <i className="fas fa-hotel logo-icon" aria-hidden="true"></i>
+              <span className="logo-text">Hoteloza</span>
+            </Link>
+            {/* MainMenu: Tampilan berbeda di mobile vs desktop */}
+            <div className="header-menu">
+              <div className="header-menu__content">
+                <MainMenu style="text-dark-1" />
               </div>
             </div>
+            {/* Tambahkan placeholder untuk hamburger menu jika diperlukan di sini */}
+            {/* <div className="hamburger-menu-icon" style={{display: 'none'}}>☰</div> */}
           </div>
 
-          {/* Right Section: HeaderSearch (Now moved to the left) */}
-          <div className="col-auto w-full sm:w-auto flex justify-center sm:justify-end">
-            <div className="d-flex items-center flex-wrap">
+          {/* Right Section: Search and Currency */}
+          <div className="header-right-group">
+            <div className="search-currency-wrapper">
               <HeaderSearch />
-              <div className="row x-gap-1 items-center">
-                <div className="col-auto">
-                  <div className="w-1 h-20 bg-white-20" />
-                </div>
-              </div>
+              <CurrencyMenu textClass="text-dark-1" />
             </div>
-          </div>
-
-          {/* Center Section: CurrencyMenu (Now moved to the right) */}
-          <div className="col-auto w-full sm:w-auto currency-center-wrapper">
-            <CurrencyMenu textClass="text-dark-1" />
           </div>
         </div>
       </div>
@@ -87,90 +77,135 @@ const Header1 = () => {
         }}
       />
 
-      {/* CSS for Logo Text and Icon */}
-     <style jsx>{`
-  .header-logo {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-  }
+      <style jsx>{`
+        .header__container {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          height: 60px; /* Default height */
+          padding: 0 40px; /* Default padding */
+          box-sizing: border-box; /* Pastikan padding dihitung dalam lebar */
+        }
 
-  .logo-icon {
-    font-size: 22px;
-    color: #000000;
-    margin-right: 8px;
-    transition: color 0.3s ease;
-  }
+        .main-header-row {
+          display: flex;
+          width: 100%;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: nowrap; /* CRITICAL: Prevent the main header row from wrapping */
+        }
 
-  .logo-text {
-    font-family: 'Poppins', sans-serif;
-    font-size: 26px;
-    font-weight: 500;
-    color: #000000;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
+        .header-left-group, .header-right-group {
+          display: flex;
+          align-items: center;
+          flex-shrink: 0; /* Hindari penyusutan yang tidak diinginkan */
+        }
 
-  .header-logo:hover .logo-icon,
-  .header-logo:hover .logo-text {
-    color: #333333; /* Dark gray on hover */
-  }
+        .header-logo {
+          display: flex;
+          align-items: center;
+          text-decoration: none;
+          flex-shrink: 0; /* Logo should never shrink */
+        }
 
-  /* Adjust padding and alignment for the left section */
-  @media (min-width: 768px) {
-    .header-left-section {
-      padding-left: 100px;
-      display: flex;
-      align-items: center;
-    }
-  }
+        .logo-icon {
+          font-size: 22px;
+          color: #000000;
+          margin-right: 8px;
+          transition: color 0.3s ease;
+        }
 
-  /* Adjustments for smaller screens (iPhone SE) */
-  @media (max-width: 640px) {
-    .logo-icon {
-      font-size: 18px;
-    }
+        .logo-text {
+          font-family: 'Poppins', sans-serif;
+          font-size: 26px;
+          font-weight: 500;
+          color: #000000;
+          text-decoration: none;
+          transition: color 0.3s ease;
+        }
 
-    .logo-text {
-      font-size: 22px;
-    }
+        .header-logo:hover .logo-icon,
+        .header-logo:hover .logo-text {
+          color: #333333;
+        }
 
-    .header-left-section {
-      padding-left: 0; /* Remove extra padding */
-      justify-content: center; /* Center items on smaller screens */
-    }
+        /* MainMenu default: Visible on desktop */
+        .header-menu {
+          margin-left: 20px; /* Default gap between logo and menu */
+          flex-shrink: 1; /* Allow menu to shrink if space is tight */
+          min-width: 0; /* Penting untuk flex-shrink */
+        }
 
-    .currency-center-wrapper {
-      display: flex;
-      justify-content: center;
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
+        .search-currency-wrapper {
+          display: flex;
+          align-items: center;
+          flex-wrap: nowrap; /* CRITICAL: Prevent search and currency from wrapping */
+          gap: 15px; /* Default gap */
+          flex-shrink: 0; /* Tidak menyusut kecuali terpaksa */
+        }
 
-    /* Ensure that the search bar and currency menu are aligned correctly */
-    .header-search-wrapper,
-    .currency-center-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+        /* --- Media Queries for Responsiveness --- */
 
-    .row.x-gap-1 {
-      justify-content: center;
-    }
+        /* Tablet (768px - 1023px) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+          .header__container {
+            padding: 0 20px;
+            height: 55px; /* Slightly shorter */
+          }
+          .header-menu {
+            margin-left: 10px; /* Reduce gap */
+            font-size: 0.9em; /* Slightly smaller font if needed */
+          }
+          .logo-icon {
+            font-size: 20px;
+          }
+          .logo-text {
+            font-size: 24px;
+          }
+          .search-currency-wrapper {
+            gap: 10px;
+          }
+        }
 
-    .header-menu__content {
-      margin-left: 0; /* Remove margin for smaller screens */
-    }
+        /* Mobile Large (480px - 767px) */
+        @media (max-width: 767px) {
+          .header__container {
+            padding: 0 10px; /* Reduced padding */
+            height: 50px; /* Shorter header height */
+          }
+          .header-menu {
+            display: none; /* Hide MainMenu on these mobile screens (hamburger menu should be here) */
+          }
+          .logo-icon {
+            font-size: 18px;
+          }
+          .logo-text {
+            font-size: 22px;
+          }
+          .search-currency-wrapper {
+            gap: 8px; /* Further reduce gap */
+          }
+        }
 
-    /* Additional tweaks for vertical alignment */
-    .col-auto {
-      flex: 1 1 auto; /* Allow flex to grow and shrink properly */
-      display: flex;
-      justify-content: center;
-    }
-  }
-`}</style>
+        /* Mobile Small (<= 479px) */
+        @media (max-width: 479px) {
+          .header__container {
+            padding: 0 5px; /* Minimal padding */
+            height: 48px; /* Even shorter */
+          }
+          .logo-icon {
+            font-size: 16px;
+            margin-right: 5px; /* Reduce logo margin */
+          }
+          .logo-text {
+            font-size: 18px; /* Smallest font for logo text */
+          }
+          /* .header-menu is already display: none */
+          .search-currency-wrapper {
+            gap: 5px; /* Minimal gap */
+          }
+        }
+      `}</style>
     </header>
   );
 };
