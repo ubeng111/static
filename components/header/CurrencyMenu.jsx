@@ -125,7 +125,7 @@ const CurrencyMenu = ({ textClass }) => {
           -moz-appearance: none;
           appearance: none;
           width: 100%; /* Agar mengisi lebar container */
-          height: 30px; /* Seragamkan tinggi */
+          height: 25px; /* Seragamkan tinggi */
           padding: 0 8px;
           text-overflow: ellipsis; /* Memotong teks dengan elipsis jika terlalu panjang */
           white-space: nowrap; /* Mencegah teks melompat ke baris baru */
@@ -166,7 +166,7 @@ const CurrencyMenu = ({ textClass }) => {
           }
           select {
             font-size: 11px;
-            height: 28px;
+            height: 30px;
             padding: 0 6px;
           }
           option {
@@ -182,7 +182,7 @@ const CurrencyMenu = ({ textClass }) => {
           }
           select {
             font-size: 10px;
-            height: 26px;
+            height: 24px;
             padding: 0 4px;
           }
           option {

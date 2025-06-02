@@ -113,10 +113,13 @@ const Header1 = () => {
         .logo-text {
           font-family: 'Poppins', sans-serif;
           font-size: 26px;
-          font-weight: 500;
+          font-weight: 700; /* Bold text */
           color: #FFFFFF;
           text-decoration: none;
           transition: color 0.3s ease;
+          border: 2px solid #FFFFFF; /* White border around text */
+          border-radius: 4px; /* Slight rounding for aesthetics */
+          padding: 2px 6px; /* Padding to ensure text fits well within border */
         }
 
         .header-logo:hover .logo-icon,
@@ -154,6 +157,10 @@ const Header1 = () => {
           }
           .logo-text {
             font-size: 24px;
+            font-weight: 700; /* Maintain bold */
+            border: 2px solid #FFFFFF; /* Maintain white border */
+            border-radius: 4px;
+            padding: 2px 5px;
           }
           .search-currency-wrapper {
             gap: 10px;
@@ -173,6 +180,10 @@ const Header1 = () => {
           }
           .logo-text {
             font-size: 22px;
+            font-weight: 700; /* Maintain bold */
+            border: 2px solid #FFFFFF; /* Maintain white border */
+            border-radius: 4px;
+            padding: 2px 5px;
           }
           .search-currency-wrapper {
             gap: 8px;
@@ -190,6 +201,10 @@ const Header1 = () => {
           }
           .logo-text {
             font-size: 18px;
+            font-weight: 700; /* Maintain bold */
+            border: 2px solid #FFFFFF; /* Maintain white border */
+            border-radius: 4px;
+            padding: 2px 4px;
           }
           .search-currency-wrapper {
             gap: 5px;
