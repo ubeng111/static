@@ -36,7 +36,7 @@ const styles = {
     minWidth: 0, // Allows text truncation within flex container
     textDecoration: 'none',
     color: '#1a1a1a',
-    fontSize: '13px',
+    fontSize: '14px',
     fontWeight: 500,
     overflow: 'hidden',
     textOverflow: 'ellipsis',

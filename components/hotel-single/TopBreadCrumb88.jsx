@@ -17,7 +17,7 @@ const TopBreadCrumb88 = ({ hotel }) => {
   const baseUrl = `/${categorySlug}/${countrySlug}/${stateSlug}/${citySlug}`;
 
   return (
-    <section className="py-10 d-flex items-center bg-white"> {/* Changed bg-light-2 to bg-white */}
+    <section className="py-10 d-flex items-center bg-white">
       <div className="container">
         <div className="row y-gap-10 items-center justify-between">
           <div className="col-auto">
@@ -60,12 +60,14 @@ const TopBreadCrumb88 = ({ hotel }) => {
             </nav>
           </div>
 
+          {/*
           <div className="col-auto">
             <Link href={baseUrl} className="text-14 text-blue-1 underline">
               All {capitalizeFirstLetter(hotel?.category) || "Hotels"} in{" "}
               {capitalizeFirstLetter(hotel?.city) || "Unknown City"}
             </Link>
           </div>
+          */}
         </div>
       </div>
     </section>

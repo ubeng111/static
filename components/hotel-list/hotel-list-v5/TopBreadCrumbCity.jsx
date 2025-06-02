@@ -48,19 +48,22 @@ const TopBreadCrumbCity = ({ hotel, categoryslug, countryslug, stateslug, citysl
                 <Link href={`/${category}/${country}/${state}`} className="text-blue-1">
                   {capitalizeFirstLetter(state)}
                 </Link>
-                </div>
-             <div className="col-auto">
+              </div>
+              <div className="col-auto">
                 {capitalizeFirstLetter(city)}
               </div>
             </div>
           </div>
 
+          {/* This is the div that contains the "All [Category] in [City]" link. It has been removed. */}
+          {/*
           <div className="col-auto">
             <Link href={baseUrl} className="text-14 text-blue-1 underline">
               All {capitalizeFirstLetter(category) || "Hotels"} in{" "}
               {capitalizeFirstLetter(city)}
             </Link>
           </div>
+          */}
         </div>
       </div>
     </section>

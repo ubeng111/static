@@ -40,6 +40,8 @@ const TopBreadCrumbState = ({ categoryslug, countryslug, stateslug }) => {
             </div>
           </div>
 
+          {/* The following div containing the "All [Category] in [State]" link has been removed. */}
+          {/*
           <div className="col-auto">
             <Link
               href={`/${categoryslug}/${countryslug}/${stateslug}`}
@@ -49,6 +51,7 @@ const TopBreadCrumbState = ({ categoryslug, countryslug, stateslug }) => {
               {capitalizeFirstLetter(stateslug) || "Unknown State"}
             </Link>
           </div>
+          */}
         </div>
       </div>
     </section>

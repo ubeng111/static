@@ -28,11 +28,14 @@ const TopBreadCrumbCategory = ({ categoryslug }) => {
             </div>
           </div>
 
+          {/* The following div containing the "All [Category]" link has been removed. */}
+          {/*
           <div className="col-auto">
             <Link href={`/${categoryslug}`} className="text-14 text-blue-1 underline">
               All {capitalizeFirstLetter(categoryslug) || "Hotels"}
             </Link>
           </div>
+          */}
         </div>
       </div>
     </section>

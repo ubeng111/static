@@ -95,7 +95,7 @@ export default function ClientPage({ categoryslug, countryslug, schema }) {
             <div className="col-12">
               <div className="text-center">
                 <h1 className="text-30 fw-600 text-white">
-                  Cheap Hotel {formattedCategory} in {formattedCountry}
+                  Cheap {formattedCategory} in {formattedCountry}
                 </h1>
               </div>
             </div>

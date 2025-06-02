@@ -74,7 +74,7 @@ export async function GET(req, { params }) {
       SELECT DISTINCT country, countryslug
       FROM public.hotels
       WHERE categoryslug = $1 AND country != ''
-      LIMIT 40
+      LIMIT 120
     `;
     const relatedCountryResult = await client.query(relatedCountryQuery, [categoryslug]);
 
