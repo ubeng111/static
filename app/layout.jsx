@@ -14,7 +14,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/index.scss";
 import { Provider } from "react-redux";
 import { store } from "../store/store";
-import { CurrencyProvider } from "../components/CurrencyContext"; // Corrected path
+import { CurrencyProvider } from "../components/CurrencyContext";
 
 // Muat bootstrap.bundle.min.js untuk mendukung dropdown
 if (typeof window !== "undefined") {
@@ -32,17 +32,20 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        {/* Meta tag Content-Type */}
+        <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
         {/* Google Site Verification Meta Tag */}
-        <meta
-          name="google-site-verification"
-          content="2CUKI9cYViNxYurFPrRO39L2Qg9DHlUUu6mJssjkuVg"
-        />
+        <meta name="google-site-verification" content="r6fR48wCY8bPAJatfyVhTJmF5ctC1lSg2Y3z0B4LMrg" />
+        {/* Verifikasi untuk mesin pencari lain, misalnya Yandex atau Bing */}
+        <meta name="yandex-verification" content="48cd7acca9df9841" /> {/* Ubah ke 'msvalidate.01' untuk Bing jika perlu */}
       </head>
       <body>
         <Provider store={store}>
           <CurrencyProvider>
             {children}
             <ScrollTop />
+            {/* Teks verifikasi disembunyikan agar tidak terlihat oleh pengguna */}
+            <div style={{ display: "none" }}>Verification: 48cd7acca9df9841</div>
           </CurrencyProvider>
         </Provider>
       </body>
