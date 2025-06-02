@@ -1,4 +1,5 @@
-// components/hotel-list/hotel-list-v5/HotelProperties2.jsx
+'use client';
+
 import Image from "next/image";
 import Slider from "react-slick";
 import { useCurrency } from '@/components/CurrencyContext';
@@ -57,7 +58,7 @@ const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui" }) => {
 
         return (
           <div
-            className="col-lg-3 col-md-6 col-6 mb-30"
+            className="col-lg-3 col-md-6 col-12 mb-30" // Ubah col-6 menjadi col-12
             key={hotel.id || index}
             data-aos="fade"
             data-aos-delay={hotel.delayAnimation}

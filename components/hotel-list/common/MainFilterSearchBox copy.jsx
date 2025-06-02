@@ -79,7 +79,7 @@ const MainFilterSearchBox = () => {
 
   const handleSearch = () => {
     if (!params.city_id || !params.checkInDate || !params.checkOutDate) {
-      alert('Pilih kota dan tanggal.');
+      alert('Select city and date.');
       return;
     }
 
@@ -115,7 +115,7 @@ const MainFilterSearchBox = () => {
             onClick={handleSearch}
           >
             <i className="icon-search text-20 mr-10" />
-            Cari
+            Search
           </button>
         </div>
       </div>

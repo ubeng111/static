@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Slider from "react-slick";
 import isTextMatched from "../../../utils/isTextMatched";
-import React from "react"; // Import React
+import React from "react";
 
 const HotelProperties88 = ({ hotels }) => {
   const itemSettings = {
@@ -40,7 +40,7 @@ const HotelProperties88 = ({ hotels }) => {
     <>
       {hotels.map((item, index) => (
         <div
-          className="col-lg-3 col-md-4 col-6 mb-30"
+          className="col-lg-3 col-md-4 col-12 mb-30" // Ubah col-6 menjadi col-12
           key={item?.id || index}
           data-aos="fade"
           data-aos-delay={index * 100}
@@ -87,8 +87,6 @@ const HotelProperties88 = ({ hotels }) => {
                     </div>
                   ))}
                 </Slider>
-
-                
 
                 <div className="cardImage__leftBadge">
                   {item?.category && (

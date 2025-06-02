@@ -5,37 +5,47 @@ import DatePicker, { DateObject } from 'react-multi-date-picker';
 
 const DateSearch = ({ onDateChange }) => {
   const [dates, setDates] = useState([
-    new DateObject(), // Default check-in: hari ini
-    new DateObject().add(1, 'day'), // Default check-out: besok
+    new DateObject(),
+    new DateObject().add(1, 'day'),
   ]);
+  const [numberOfMonths, setNumberOfMonths] = useState(2); // Default for SSR
 
   useEffect(() => {
+    const handleResize = () => {
+      setNumberOfMonths(window.innerWidth < 576 ? 1 : 2);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    // Call onDateChange only if the callback exists and dates are valid
     if (onDateChange && dates.length === 2) {
-      onDateChange(dates);
+      const timer = setTimeout(() => onDateChange(dates), 100); // Debounce
+      return () => clearTimeout(timer);
     }
-  }, []); // Hanya jalankan sekali saat komponen dimuat
+  }, [dates, onDateChange]); // Dependency array to prevent infinite loops
 
   const handleDateChange = (newDates) => {
     if (newDates && newDates.length === 2) {
       setDates(newDates);
-      if (onDateChange) {
-        onDateChange(newDates);
-      }
     }
   };
 
   return (
-    <div className="w-full">
+    <div className="searchMenu-date search-field">
+      <label>Check-in - Check-out</label>
       <DatePicker
-        className="w-full px-4 py-2 border border-gray-300 rounded-4 h-10 text-15 leading-[15px] bg-white"
-        containerClassName="w-full"
         value={dates}
         onChange={handleDateChange}
-        numberOfMonths={2}
-        offsetY={10}
+        numberOfMonths={numberOfMonths}
         range
-        format="MMMM DD"
+        format="MMM DD"
         minDate={new Date()}
+        inputClass="w-full h-32 px-6 py-2"
+        containerStyle={{ width: '100%' }}
+        calendarPosition="bottom-left"
       />
     </div>
   );

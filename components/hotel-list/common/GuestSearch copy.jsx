@@ -39,9 +39,10 @@ const Counter = ({ name, defaultValue, onCounterChange }) => {
         <div className="col-auto">
           <div className="d-flex items-center js-counter">
             <button
-              className="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down"
+              className="button -outline-blue-1 text-blue-1 size-44 rounded-4 js-down"
               onClick={decrementCount}
-              aria-label={`Kurangi jumlah ${name}`}
+              aria-label={`Decrease ${name} count`}
+              style={{ minWidth: '44px', minHeight: '44px', margin: '0 8px' }}
             >
               <i className="icon-minus text-12" />
             </button>
@@ -49,9 +50,10 @@ const Counter = ({ name, defaultValue, onCounterChange }) => {
               <div className="text-15 js-count">{count}</div>
             </div>
             <button
-              className="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up"
+              className="button -outline-blue-1 text-blue-1 size-44 rounded-4 js-up"
               onClick={incrementCount}
-              aria-label={`Tambah jumlah ${name}`}
+              aria-label={`Increase ${name} count`}
+              style={{ minWidth: '44px', minHeight: '44px', margin: '0 8px' }}
             >
               <i className="icon-plus text-12" />
             </button>
@@ -69,20 +71,20 @@ const GuestSearch = ({ onGuestChange }) => {
     Children: 0,
     Rooms: 1,
   });
+  const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Kirim data tamu default saat komponen dimuat
   useEffect(() => {
     if (onGuestChange) {
       onGuestChange(guestCounts);
     }
-  }, []); // Hanya jalankan sekali saat komponen dimuat
+  }, []);
 
-  // Fungsi untuk membuka dropdown
   const openDropdown = () => {
     if (dropdownRef.current && typeof window.bootstrap !== 'undefined') {
       const dropdown = new window.bootstrap.Dropdown(dropdownRef.current);
       dropdown.show();
+      setIsOpen(true);
     }
   };
 
@@ -99,24 +101,27 @@ const GuestSearch = ({ onGuestChange }) => {
   };
 
   const handleInputClick = () => {
-    openDropdown(); // Buka dropdown saat diklik
+    openDropdown();
   };
 
   return (
     <div className="searchMenu-guests px-20 lg:py-20 lg:px-0 js-form-dd bg-white position-relative">
       <div
         ref={dropdownRef}
+        role="button"
         data-bs-toggle="dropdown"
         data-bs-auto-close="outside"
-        aria-expanded="false"
+        aria-expanded={isOpen}
+        aria-label="Select guest options"
         data-bs-offset="0,22"
         onClick={handleInputClick}
+        tabIndex={0}
       >
-        <h4 className="text-15 fw-500 ls-2 lh-16">Tamu</h4>
+        <h4 className="text-15 fw-500 ls-2 lh-16">Guest</h4>
         <div className="text-15 text-light-1 ls-2 lh-16">
-          <span className="js-count-adult">{guestCounts.Adults}</span> dewasa -{' '}
-          <span className="js-count-child">{guestCounts.Children}</span> anak -{' '}
-          <span className="js-count-room">{guestCounts.Rooms}</span> kamar
+          <span className="js-count-adult">{guestCounts.Adults}</span> Adult -{' '}
+          <span className="js-count-child">{guestCounts.Children}</span> Children -{' '}
+          <span className="js-count-room">{guestCounts.Rooms}</span> Room
         </div>
       </div>
       <div className="shadow-2 dropdown-menu min-width-400">

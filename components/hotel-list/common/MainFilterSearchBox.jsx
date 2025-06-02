@@ -1,4 +1,3 @@
-// components/hotel-list/common/MainFilterSearchBox.jsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -24,48 +23,30 @@ const MainFilterSearchBox = () => {
     language: currency.language,
   });
 
-  // Perbarui searchParams saat currency berubah
   useEffect(() => {
     setParams((prev) => ({
       ...prev,
       currency: currency.currency,
       language: currency.language,
     }));
-  }, [currency]);
-
-  // Perbarui URL otomatis saat mata uang berubah
-  useEffect(() => {
-    if (!params.city_id || !params.checkInDate || !params.checkOutDate) return;
-
-    const query = new URLSearchParams({
-      city: params.city || '',
-      city_id: params.city_id,
-      checkIn: params.checkInDate,
-      checkOut: params.checkOutDate,
-      adults: params.adults.toString(),
-      children: params.children.toString(),
-      rooms: params.rooms.toString(),
-      currency: params.currency,
-      language: params.language,
-    }).toString();
-
-    router.replace(`/search?${query}`, { scroll: false });
-  }, [params.currency, params.language]);
+  }, [currency.currency, currency.language]);
 
   const updateCity = (cityData) => {
     setParams((prev) => ({
       ...prev,
-      city: cityData?.city,
-      city_id: cityData?.city_id,
+      city: cityData?.city || null,
+      city_id: cityData?.city_id || null,
     }));
   };
 
   const updateDates = (dates) => {
-    setParams((prev) => ({
-      ...prev,
-      checkInDate: dates[0]?.format('YYYY-MM-DD'),
-      checkOutDate: dates[1]?.format('YYYY-MM-DD'),
-    }));
+    if (dates && dates.length === 2) {
+      setParams((prev) => ({
+        ...prev,
+        checkInDate: dates[0]?.format('YYYY-MM-DD'),
+        checkOutDate: dates[1]?.format('YYYY-MM-DD'),
+      }));
+    }
   };
 
   const updateGuests = (guestCounts) => {
@@ -79,7 +60,7 @@ const MainFilterSearchBox = () => {
 
   const handleSearch = () => {
     if (!params.city_id || !params.checkInDate || !params.checkOutDate) {
-      alert('Select city and date.');
+      alert('Please select city and dates.');
       return;
     }
 
@@ -99,25 +80,14 @@ const MainFilterSearchBox = () => {
   };
 
   return (
-<div className="mainSearch -col-3-big bg-white px-10 py-10 lg:px-20 lg:pt-5 lg:pb-20 rounded-xl mt-8 border border-gray-300 shadow-md transition-all hover:shadow-lg">
-      <div className="button-grid items-center">
+    <div className="mainSearch">
+      <div className="search-form">
         <LocationSearch onCitySelect={updateCity} />
-        <div className="searchMenu-date px-30 lg:py-20 sm:px-20 js-form-dd js-calendar">
-          <div>
-            <h4 className="text-15 fw-500 ls-2 lh-16">Check in - Check out</h4>
-            <DateSearch onDateChange={updateDates} />
-          </div>
-        </div>
+        <DateSearch onDateChange={updateDates} />
         <GuestSearch onGuestChange={updateGuests} />
-        <div className="button-item h-full">
-          <button
-            className="button -dark-1 py-15 px-40 h-full col-12 rounded-0 bg-blue-1 text-white"
-            onClick={handleSearch}
-          >
-            <i className="icon-search text-20 mr-10" />
-            Search
-          </button>
-        </div>
+        <button className="search-button" onClick={handleSearch}>
+          Search
+        </button>
       </div>
     </div>
   );

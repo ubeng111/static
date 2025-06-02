@@ -65,7 +65,13 @@ const HeaderSearch = () => {
   }, []);
 
   return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: '100px', flexShrink: 0 }}>
+    <div style={{
+        position: 'relative',
+        flex: '1 1 auto', /* Allow it to grow and shrink */
+        minWidth: '70px',  /* Minimal width for search bar (e.g. for "Search...") */
+        maxWidth: '220px', /* Maximum width for search bar on larger screens */
+        boxSizing: 'border-box'
+      }}>
       <form onSubmit={handleSearch}>
         <input
           type="text"
@@ -75,13 +81,14 @@ const HeaderSearch = () => {
           onFocus={() => setIsFocused(true)}
           style={{
             width: '100%',
-            height: '30px',
+            height: '30px', /* Consistent height */
             fontSize: '13px',
             padding: '3px 6px',
             border: '1px solid #ccc',
             borderRadius: '4px',
             backgroundColor: '#fff',
             color: '#000',
+            boxSizing: 'border-box'
           }}
         />
       </form>
@@ -123,6 +130,16 @@ const HeaderSearch = () => {
           ))}
         </ul>
       )}
+      <style jsx>{`
+        /* Responsive styles for HeaderSearch input */
+        @media (max-width: 479px) {
+          input {
+            height: 26px !important; /* Make it smaller on very small screens */
+            font-size: 11px !important;
+            padding: 2px 4px !important;
+          }
+        }
+      `}</style>
     </div>
   );
 };
