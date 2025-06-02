@@ -34,7 +34,7 @@ export async function POST(req) {
     }
 
     const client = await pool.connect();
-    let cityName = 'Lokasi Tidak Diketahui';
+    let cityName = 'Not found';
     try {
       const cityQuery = 'SELECT city FROM public.hotels WHERE city_id = $1 LIMIT 1';
       const cityResult = await client.query(cityQuery, [city_id]);
