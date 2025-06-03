@@ -1,21 +1,27 @@
+// Hotels2.jsx
 import Image from "next/image";
 import Link from "next/link";
 import Slider from "react-slick";
-import isTextMatched from "../../utils/isTextMatched";
-import React, { useRef, useEffect } from "react"; // Added useRef, useEffect
+import React, { useRef, useEffect, useCallback } from "react"; // Added useCallback
+
+// Utility function (assuming it's optimized)
+const isTextMatched = (text, match) => text && text.toLowerCase() === match.toLowerCase();
 
 const Hotels2 = ({ relatedHotels, itemsToShow = 4 }) => {
-  const sliderRef = useRef(null); // Ref to access the slider
+  const sliderRef = useRef(null);
 
   if (!relatedHotels || relatedHotels.length === 0) {
     return <div>No related hotels available.</div>;
   }
 
   const totalItems = relatedHotels.length;
-  const displayedHotels = relatedHotels.slice(0, 8);
+  // Limiting displayed hotels to a reasonable number to avoid excessive DOM even before slider initializes
+  // The slider will handle showing only a subset based on settings, but this prevents rendering too many initially.
+  const displayedHotels = relatedHotels.slice(0, 12); // Consider a reasonable upper limit for initial render
   const effectiveItemsToShow = Math.min(itemsToShow, totalItems);
 
-  const settings = {
+  // Memoize settings to prevent unnecessary re-renders of Slider
+  const settings = React.useMemo(() => ({
     dots: true,
     infinite: totalItems > effectiveItemsToShow,
     speed: 500,
@@ -85,25 +91,26 @@ const Hotels2 = ({ relatedHotels, itemsToShow = 4 }) => {
         </button>
       );
     },
-    afterChange: () => updateFocusableElements(), // Call to update focus after slide change
-  };
+    afterChange: () => updateFocusableElements(),
+  }), [totalItems, effectiveItemsToShow]); // Dependencies for memoization
 
-  const itemSettings = {
+  const itemSettings = React.useMemo(() => ({
     dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-  };
+  }), []); // No dependencies, as these settings are static
 
-  function ArrowSlick(props) {
+  // Memoize ArrowSlick component to prevent re-renders
+  const ArrowSlick = React.memo(({ type, onClick }) => {
     const className =
-      props.type === "next"
+      type === "next"
         ? "slick_arrow-between slick_arrow -next arrow-md flex-center button -blue-1 bg-white shadow-1 size-44 rounded-full sm:d-none js-next"
         : "slick_arrow-between slick_arrow -prev arrow-md flex-center button -blue-1 bg-white shadow-1 size-44 rounded-full sm:d-none js-prev";
 
     const char =
-      props.type === "next" ? (
+      type === "next" ? (
         <i className="icon icon-chevron-right text-16" aria-hidden="true"></i>
       ) : (
         <span className="icon icon-chevron-left text-16" aria-hidden="true"></span>
@@ -112,119 +119,130 @@ const Hotels2 = ({ relatedHotels, itemsToShow = 4 }) => {
     return (
       <button
         className={className}
-        onClick={props.onClick}
-        aria-label={props.type === "next" ? "Next slide" : "Previous slide"}
+        onClick={onClick}
+        aria-label={type === "next" ? "Next slide" : "Previous slide"}
         style={{ minWidth: '44px', minHeight: '44px', margin: '0 8px' }}
       >
         {char}
       </button>
     );
-  }
+  });
 
-  const renderHotelCard = (item, i) => (
-    <div
-      className="col-xl-3 col-lg-3 col-sm-6"
-      key={item?.id || i}
-      data-aos="fade"
-    >
-      <Link
-        href={`/${item?.categoryslug || "unknown"}/${item?.countryslug || "unknown"}/${item?.stateslug || "unknown"}/${item?.cityslug || "unknown"}/${item?.hotelslug || "unknown"}`}
-        className="hotelsCard -type-1 hover-inside-slider"
-        tabIndex={-1} // Initially not focusable, updated by useEffect
-        data-slide-index={i} // Add index for identification
+  // Optimize the mapping for category colors
+  const categoryColorMap = React.useMemo(() => new Map([
+    ["entire bungalow", "bg-brown-1 text-white"],
+    ["house", "bg-red-1 text-white"],
+    ["hostel", "bg-dark-1 text-white"],
+    ["hotel", "bg-blue-1 text-white"],
+    ["villa", "bg-brown-1 text-white"],
+    ["guesthouse", "bg-dark-1 text-white"],
+    ["lodge", "bg-blue-1 text-white"],
+    ["ryokan", "bg-brown-1 text-white"],
+    ["homestay", "bg-yellow-1 text-dark-1"],
+    ["inn", "bg-yellow-1 text-dark"],
+    ["serviced apartment", "bg-dark-3 text-white"],
+    ["hotel, inn", "bg-red-1 text-white"],
+    ["resort villa", "bg-red-1 text-white"],
+    ["motel", "bg-purple-1 text-white"],
+    ["holiday park", "bg-brown-1 text-white"],
+    ["apartment/flat", "bg-blue-1 text-white"],
+    ["apartment", "bg-blue-1 text-white"],
+    ["resort", "bg-purple-1 text-white"],
+    ["farm stay", "bg-blue-1 text-white"],
+    ["riad", "bg-blue-1 text-white"],
+    ["motel, hotel", "bg-yellow-2 text-dark"],
+    ["minsu", "bg-brown-1 text-white"],
+    ["entire house", "bg-dark-3 text-white"],
+  ]), []);
+
+
+  const renderHotelCard = useCallback((item, i) => {
+    const categoryClass = categoryColorMap.get((item?.category || "").toLowerCase()) || "Serviced Apartment"; // Default class
+    const hotelLink = `/${item?.categoryslug || "unknown"}/${item?.countryslug || "unknown"}/${item?.stateslug || "unknown"}/${item?.cityslug || "unknown"}/${item?.hotelslug || "unknown"}`;
+
+    return (
+      <div
+        className="col-xl-3 col-lg-3 col-sm-6"
+        key={item?.id || i}
+        data-aos="fade"
       >
-        <div className="hotelsCard__image">
-          <div className="cardImage inside-slider">
-            <Slider
-              {...itemSettings}
-              arrows={true}
-              nextArrow={<ArrowSlick type="next" />}
-              prevArrow={<ArrowSlick type="prev" />}
-            >
-              {item?.img && (
-                <div className="cardImage ratio ratio-1:1">
-                  <div className="cardImage__content">
-                    <Image
-                      width={300}
-                      height={300}
-                      className="rounded-4 col-12 js-lazy"
-                      src={item?.img || "/path/to/default-image.jpg"}
-                      alt={`Hotel image for ${item?.title || "Untitled Hotel"}`}
-                    />
-                  </div>
-                </div>
-              )}
-              {Array.isArray(item?.slideimg) &&
-                item?.slideimg.slice(0, 2).map((slide, i) => (
-                  <div className="cardImage ratio ratio-1:1" key={i}>
+        <Link
+          href={hotelLink}
+          className="hotelsCard -type-1 hover-inside-slider"
+          tabIndex={-1}
+          data-slide-index={i}
+        >
+          <div className="hotelsCard__image">
+            <div className="cardImage inside-slider">
+              <Slider
+                {...itemSettings}
+                arrows={true}
+                nextArrow={<ArrowSlick type="next" />}
+                prevArrow={<ArrowSlick type="prev" />}
+              >
+                {item?.img && (
+                  <div className="cardImage ratio ratio-1:1">
                     <div className="cardImage__content">
                       <Image
                         width={300}
                         height={300}
                         className="rounded-4 col-12 js-lazy"
-                        src={slide || "/path/to/default-image.jpg"}
-                        alt={`Slide image ${i + 1} for ${item?.title || "Untitled Hotel"}`}
+                        src={item?.img || "/path/to/default-image.jpg"}
+                        alt={`Hotel image for ${item?.title || "Untitled Hotel"}`}
+                        priority={i < effectiveItemsToShow} // Prioritize images in the initial view
                       />
                     </div>
                   </div>
-                ))}
-            </Slider>
+                )}
+                {Array.isArray(item?.slideimg) &&
+                  item?.slideimg.slice(0, 2).map((slide, slideIndex) => (
+                    <div className="cardImage ratio ratio-1:1" key={slideIndex}>
+                      <div className="cardImage__content">
+                        <Image
+                          width={300}
+                          height={300}
+                          className="rounded-4 col-12 js-lazy"
+                          src={slide || "/path/to/default-image.jpg"}
+                          alt={`Slide image ${slideIndex + 1} for ${item?.title || "Untitled Hotel"}`}
+                          // Only prioritize if it's the first few slides and part of the main image display
+                          priority={i < effectiveItemsToShow && slideIndex === 0}
+                        />
+                      </div>
+                    </div>
+                  ))}
+              </Slider>
 
-            <div className="cardImage__leftBadge">
-              <div
-                className={`py-5 px-15 rounded-right-4 text-12 lh-16 fw-500 uppercase 
-                  ${isTextMatched(item?.category || "", "Entire bungalow") ? "bg-brown-1 text-white" : ""} 
-                  ${isTextMatched(item?.category || "", "House") ? "bg-red-1 text-white" : ""} 
-                  ${isTextMatched(item?.category || "", "Hostel") ? "bg-dark-1 text-white" : ""} 
-                  ${isTextMatched(item?.category || "", "Hotel") ? "bg-blue-1 text-white" : ""} 
-                  ${isTextMatched(item?.category || "", "Villa") ? "bg-brown-1 text-white" : ""} 
-                  ${isTextMatched(item?.category || "", "Guesthouse") ? "bg-dark-1 text-white" : ""} 
-                  ${isTextMatched(item?.category || "", "Lodge") ? "bg-blue-1 text-white" : "Serviced Apartment"} 
-                  ${isTextMatched(item?.category || "", "Ryokan") ? "bg-brown-1 text-white" : ""} 
-                  ${isTextMatched(item?.category || "", "Homestay") ? "bg-yellow-1 text-dark-1" : ""} 
-                  ${isTextMatched(item?.category || "", "Inn") ? "bg-yellow-1 text-dark" : ""} 
-                  ${isTextMatched(item?.category || "", "Serviced apartment") ? "bg-dark-3 text-white" : ""} 
-                  ${isTextMatched(item?.category || "", "Hotel, Inn") ? "bg-red-1 text-white" : ""} 
-                  ${isTextMatched(item?.category || "", "Resort villa") ? "bg-red-1 text-white" : ""} 
-                  ${isTextMatched(item?.category || "", "Motel") ? "bg-purple-1 text-white" : ""} 
-                  ${isTextMatched(item?.category || "", "Holiday park") ? "bg-brown-1 text-white" : ""} 
-                  ${isTextMatched(item?.category || "", "Apartment/Flat") ? "bg-blue-1 text-white" : ""} 
-                  ${isTextMatched(item?.category || "", "Apartment") ? "bg-blue-1 text-white" : ""} 
-                  ${isTextMatched(item?.category || "", "resort") ? "bg-purple-1 text-white" : ""} 
-                  ${isTextMatched(item?.category || "", "Farm stay") ? "bg-blue-1 text-white" : ""} 
-                  ${isTextMatched(item?.category || "", "Riad") ? "bg-blue-1 text-white" : ""} 
-                  ${isTextMatched(item?.category || "", "Motel, Hotel") ? "bg-yellow-2 text-dark" : ""} 
-                  ${isTextMatched(item?.category || "", "Minsu") ? "bg-brown-1 text-white" : ""} 
-                  ${isTextMatched(item?.category || "", "Entire House") ? "bg-dark-3 text-white" : ""}`}
-              >
-                {item?.category || "No category"}
+              <div className="cardImage__leftBadge">
+                <div className={`py-5 px-15 rounded-right-4 text-12 lh-16 fw-500 uppercase ${categoryClass}`}>
+                  {item?.category || "No category"}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="hotelsCard__content mt-10">
-          <h3 className="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">
-            <span>{item?.title || "Untitled Hotel"}</span>
-          </h3>
-          <p className="text-light-1 lh-14 text-14 mt-5">
-            {item?.location || "Location not available"}
-          </p>
-          <div className="d-flex items-center mt-20">
-            <div className="flex-center bg-blue-1 rounded-4 size-30 text-12 fw-600 text-white">
-              {item?.ratings || "No rating"}
-            </div>
-            <div className="text-14 text-dark-1 fw-500 ml-10">Exceptional</div>
-            <div className="text-14 text-light-1 ml-10">
-              {item?.numberofreviews} reviews
+          <div className="hotelsCard__content mt-10">
+            <h3 className="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">
+              <span>{item?.title || "Untitled Hotel"}</span>
+            </h3>
+            <p className="text-light-1 lh-14 text-14 mt-5">
+              {item?.location || "Location not available"}
+            </p>
+            <div className="d-flex items-center mt-20">
+              <div className="flex-center bg-blue-1 rounded-4 size-30 text-12 fw-600 text-white">
+                {item?.ratings || "No rating"}
+              </div>
+              <div className="text-14 text-dark-1 fw-500 ml-10">Exceptional</div>
+              <div className="text-14 text-light-1 ml-10">
+                {item?.numberofreviews} reviews
+              </div>
             </div>
           </div>
-        </div>
-      </Link>
-    </div>
-  );
+        </Link>
+      </div>
+    );
+  }, [itemSettings, effectiveItemsToShow, categoryColorMap]); // Dependencies for useCallback
 
   // Function to update focusable elements based on slide visibility
-  const updateFocusableElements = () => {
+  const updateFocusableElements = useCallback(() => {
     if (!sliderRef.current) return;
     const slider = sliderRef.current;
     const slides = slider.innerSlider?.list?.querySelectorAll('.slick-slide');
@@ -237,12 +255,12 @@ const Hotels2 = ({ relatedHotels, itemsToShow = 4 }) => {
         link.setAttribute('tabIndex', isHidden ? '-1' : '0');
       }
     });
-  };
+  }, []);
 
   // Run on mount and after slide changes
   useEffect(() => {
     updateFocusableElements();
-  }, [displayedHotels]);
+  }, [displayedHotels, updateFocusableElements]);
 
   return totalItems === 1 ? (
     <div className="row">{renderHotelCard(displayedHotels[0], 0)}</div>
