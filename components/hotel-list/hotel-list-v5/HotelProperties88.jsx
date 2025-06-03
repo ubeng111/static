@@ -1,37 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import Slider from "react-slick";
-import isTextMatched from "../../../utils/isTextMatched";
-import React from "react";
 
-const HotelProperties88 = ({ hotels }) => {
-  const itemSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
+// Utility function for category matching (assumed server-compatible)
+const isTextMatched = (text, match) => text?.toLowerCase() === match?.toLowerCase();
 
-  function ArrowSlick(props) {
-    let className =
-      props.type === "next"
-        ? "slick_arrow-between slick_arrow -next arrow-md flex-center button -blue-1 bg-white shadow-1 size-30 rounded-full sm:d-none js-next"
-        : "slick_arrow-between slick_arrow -prev arrow-md flex-center button -blue-1 bg-white shadow-1 size-30 rounded-full sm:d-none js-prev";
-    className += " arrow";
-    const char =
-      props.type === "next" ? (
-        <i className="icon icon-chevron-right text-12"></i>
-      ) : (
-        <span className="icon icon-chevron-left text-12"></span>
-      );
-    return (
-      <button className={className} onClick={props.onClick}>
-        {char}
-      </button>
-    );
-  }
-
+export default function HotelProperties88({ hotels }) {
   if (!hotels || !Array.isArray(hotels) || hotels.length === 0) {
     return <div>No hotels found.</div>;
   }
@@ -40,54 +13,30 @@ const HotelProperties88 = ({ hotels }) => {
     <>
       {hotels.map((item, index) => (
         <div
-          className="col-lg-3 col-md-4 col-12 mb-30" // Ubah col-6 menjadi col-12
+          className="col-lg-3 col-md-4 col-12 mb-30"
           key={item?.id || index}
-          data-aos="fade"
-          data-aos-delay={index * 100}
         >
           <Link
             href={`/${item?.categoryslug || 'unknown'}/${item?.countryslug || 'unknown'}/${item?.stateslug || 'unknown'}/${item?.cityslug || 'unknown'}/${item.hotelslug || 'unknown'}`}
             className="hotelsCard -type-1 hover-inside-slider"
           >
             <div className="hotelsCard__image">
-              <div className="cardImage inside-slider">
-                <Slider
-                  {...itemSettings}
-                  arrows={true}
-                  nextArrow={<ArrowSlick type="next" />}
-                  prevArrow={<ArrowSlick type="prev" />}
-                >
-                  {item?.img && (
-                    <div className="cardImage ratio ratio-1:1">
-                      <div className="cardImage__content">
-                        <Image
-                          width={300}
-                          height={300}
-                          className="rounded-4 col-12"
-                          src={item.img}
-                          alt={item.title || "Hotel image"}
-                          loading="eager"
-                          fetchPriority="high"
-                        />
-                      </div>
+              <div className="cardImage">
+                {item?.img && (
+                  <div className="cardImage ratio ratio-1:1">
+                    <div className="cardImage__content">
+                      <Image
+                        width={300}
+                        height={300}
+                        className="rounded-4 col-12"
+                        src={item.img}
+                        alt={item.title || "Hotel image"}
+                        loading="eager"
+                        fetchPriority="high"
+                      />
                     </div>
-                  )}
-                  {item?.slideimg?.slice(0, 2).map((slide, i) => (
-                    <div className="cardImage ratio ratio-1:1" key={i}>
-                      <div className="cardImage__content">
-                        <Image
-                          width={300}
-                          height={300}
-                          className="rounded-4 col-12"
-                          src={slide}
-                          alt={`Slide ${i + 1}`}
-                          loading="lazy"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </Slider>
-
+                  </div>
+                )}
                 <div className="cardImage__leftBadge">
                   {item?.category && (
                     <div
@@ -142,6 +91,4 @@ const HotelProperties88 = ({ hotels }) => {
       ))}
     </>
   );
-};
-
-export default React.memo(HotelProperties88);
+}
