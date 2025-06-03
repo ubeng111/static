@@ -21,7 +21,7 @@ const TopBreadCrumbCity = ({ hotel, categoryslug, countryslug, stateslug, citysl
   const baseUrl = `/${category}/${country}/${state}/${city}`;
 
   return (
-    <section className="py-10 d-flex items-center bg-light-2">
+    <section className="py-10 d-flex items-center bg-white">
       <div className="container">
         <div className="row y-gap-10 items-center justify-between">
           <div className="col-auto">
