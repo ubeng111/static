@@ -97,8 +97,8 @@ export default function ClientPage({ categoryslug, schema }) {
 
       <TopBreadCrumbCategory categoryslug={categoryslug} />
 
-      <section className="layout-pt-md">
-        <div className="container">
+          <section className="layout-pt-md">
+            <div className="container">
           <div className="row">
             <div className="col-12">
               <MainFilterSearchBox />

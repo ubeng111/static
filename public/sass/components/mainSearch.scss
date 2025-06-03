@@ -1,93 +1,50 @@
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap; /* added line */
-  border: 0;
-}
-
 .mainSearch {
   position: relative;
   z-index: 10;
-  background: transparent;
-  border-radius: 0;
-  border: none;
+  background: #fff;
+  border-radius: 6px;
+  border: 0.5px solid #e0e0e0;
   padding: 6px;
   margin: 4px 0;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 
-  // Default height for mainSearch on smaller screens
-  height: 46px; // Mengurangi tinggi default untuk semua layar di bawah lg
-  display: flex; // Ensure it's a flex container for alignment
-  align-items: center; // Vertically align items
-
-  @include media-above(lg) {
-    height: 60px;
-  }
-
-  @include media-below(xs) {
+  @include media-below(xs) { // Layar <360px
     padding: 4px;
     margin: 2px 0;
-    height: 44px; // Mengurangi tinggi untuk perangkat extra small (mobile)
   }
 
   .search-form {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 4px;
-    align-items: flex-end;
 
     @include media-above(lg) {
       flex-direction: row;
       align-items: center;
       gap: 6px;
-      flex-grow: 1;
     }
   }
 
   .search-field {
     position: relative;
-    flex: 1 1 calc(25% - 4px);
-    min-width: 100px;
-    border: none;
-    padding: 0;
+    flex: 1;
 
-    @include media-below(lg) {
-      flex: 1 1 calc(33.333% - 4px);
-    }
-
-    @include media-below(md) {
-      flex: 1 1 calc(50% - 4px);
-    }
-
-    @include media-below(xs) {
-      flex: 1 1 100%;
-      min-width: unset;
-    }
-
+    // Hide the label
     label {
-      display: none;
+      display: none; // This will hide the label
     }
 
     input,
     div[role="button"] {
       width: 100%;
-      height: 36px; // Mengurangi tinggi default input untuk layar kecil
+      height: 32px; // Default height for smaller screens
       padding: 4px 8px;
-      border: 2px solid #FFA500;
+      border: 0.5px solid #e0e0e0;
       border-radius: 4px;
       font-size: 14px;
       color: #333;
       background: #fff;
       transition: border-color 0.15s ease;
-
-      @include media-above(lg) {
-        height: 52px; // Tinggi tetap untuk layar besar
-      }
 
       &:focus {
         outline: none;
@@ -97,36 +54,45 @@
     }
   }
 
+  // Adjust for 3 columns on larger screens
+  @include media-above(lg) {
+    .search-form {
+      display: grid; // Change to grid for better column control
+      grid-template-columns: repeat(3, 1fr) auto; // 3 equal columns for fields, auto for button
+      gap: 6px; // Maintain gap
+      align-items: center; // Align items vertically
+    }
+
+    .search-field {
+      flex: unset; // Remove flex: 1 as grid handles sizing
+      min-width: 0; // Allows content to shrink within grid
+
+      input,
+      div[role="button"] {
+        height: 48px; // Increased height for desktop screens (adjust as needed)
+        padding: 8px 12px; // Adjust padding to match new height
+        font-size: 16px; // Optionally increase font size for desktop
+      }
+    }
+
+    .search-button {
+      grid-column: span 1; // Ensure button takes 1 column space
+      height: 48px; // Match button height to input field height
+      font-size: 16px; // Optionally increase font size for desktop
+    }
+  }
+
   .search-button {
-    background: #0056b3;
+    background: #004a99;
     color: #fff;
     border: none;
     border-radius: 4px;
-    height: 36px; // Menyesuaikan tinggi tombol dengan input fields
+    height: 36px; // Default height for smaller screens
     padding: 0 12px;
-    font-size: 16px;
+    font-size: 13px;
     font-weight: 500;
     cursor: pointer;
     transition: background 0.15s ease;
-    margin-left: auto;
-    align-self: flex-end;
-    flex-shrink: 0;
-    flex-grow: 0;
-
-    @include media-above(lg) {
-      align-self: center;
-      height: 52px; // Tinggi tetap untuk layar besar
-    }
-
-    @include media-below(md) {
-      width: 100%;
-      margin-left: 0;
-      margin-top: 4px;
-    }
-
-    @include media-below(xs) {
-      height: 40px; // Mengurangi tinggi tombol untuk perangkat mobile
-    }
 
     &:hover {
       background: #0056b3;
@@ -143,6 +109,8 @@
     border: 0.5px solid #e0e0e0;
     border-radius: 4px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    max-height: 150px;
+    overflow-y: auto;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.15s ease;
@@ -162,18 +130,20 @@
   .searchMenu-loc {
     .dropdown {
       display: flex;
-      flex-direction: column;
+      flex-direction: column; /* Pastikan item tersusun vertikal */
       position: absolute;
       top: calc(100% + 5px);
       left: 0;
-      width: 100%;
+      width: 100%; /* Lebar sesuai input */
+      max-height: 150px;
+      overflow-y: auto;
       background: #fff;
       border: 0.5px solid #e0e0e0;
       border-radius: 4px;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
       padding: 4px;
       z-index: 20;
-      opacity: 1;
+      opacity: 1; /* Pastikan terlihat saat aktif */
       pointer-events: auto;
 
       &.-is-active {
@@ -182,10 +152,10 @@
       }
 
       @include media-below(lg) {
-        width: 100%;
-        max-width: none;
+        width: 100%; /* Lebar penuh di mobile */
+        max-width: none; /* Hilangkan batasan 90vw */
         left: 0;
-        transform: none;
+        transform: none; /* Hilangkan transform */
       }
     }
 
@@ -193,13 +163,13 @@
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      width: 100%;
+      width: 100%; /* Lebar penuh untuk setiap item */
       padding: 6px 8px;
       font-size: 12px;
       color: #333;
       cursor: pointer;
       border-radius: 2px;
-      word-break: break-word;
+      word-break: break-word; /* Cegah teks panjang mengganggu layout */
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -224,28 +194,17 @@
 
   .searchMenu-guests {
     .dropdown {
-      padding: 8px;
-
-      @include media-below(md) {
-        max-height: calc(100vh - 150px);
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        top: calc(100% + 5px);
-        left: 0;
-        right: 0;
-        max-width: none;
-        transform: none;
-      }
+      padding: 4px;
 
       .counter-box {
         .counter-row {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 8px 0;
+          padding: 4px 0;
 
           .counter-label {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 500;
             color: #555;
           }
@@ -253,26 +212,23 @@
           .counter-controls {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
 
             .counter-value {
-              font-size: 14px;
-              width: 30px;
+              font-size: 12px;
+              width: 20px;
               text-align: center;
             }
 
             button {
-              width: 40px;
-              height: 40px;
+              width: 24px;
+              height: 24px;
               border: 0.5px solid #e0e0e0;
-              border-radius: 4px;
+              border-radius: 2px;
               background: #fff;
-              font-size: 18px;
+              font-size: 10px;
               color: #007bff;
               cursor: pointer;
-              display: flex;
-              align-items: center;
-              justify-content: center;
 
               &:disabled {
                 color: #ccc;
@@ -284,7 +240,7 @@
 
         .divider {
           border-top: 0.5px solid #e0e0e0;
-          margin: 8px 0;
+          margin: 4px 0;
         }
       }
     }
