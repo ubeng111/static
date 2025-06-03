@@ -1,3 +1,15 @@
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap; /* added line */
+  border: 0;
+}
+
 .mainSearch {
   position: relative;
   z-index: 10;
@@ -8,15 +20,19 @@
   margin: 4px 0;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 
+  // Default height for mainSearch on smaller screens
+  height: 46px; // Mengurangi tinggi default untuk semua layar di bawah lg
+  display: flex; // Ensure it's a flex container for alignment
+  align-items: center; // Vertically align items
+
   @include media-above(lg) {
     height: 60px;
-    display: flex;
-    align-items: center;
   }
 
   @include media-below(xs) {
     padding: 4px;
     margin: 2px 0;
+    height: 44px; // Mengurangi tinggi untuk perangkat extra small (mobile)
   }
 
   .search-form {
@@ -60,7 +76,7 @@
     input,
     div[role="button"] {
       width: 100%;
-      height: 30px; // Default height for smaller screens
+      height: 36px; // Mengurangi tinggi default input untuk layar kecil
       padding: 4px 8px;
       border: 2px solid #FFA500;
       border-radius: 4px;
@@ -70,7 +86,7 @@
       transition: border-color 0.15s ease;
 
       @include media-above(lg) {
-        height: 52px; // Increased height to make it taller
+        height: 52px; // Tinggi tetap untuk layar besar
       }
 
       &:focus {
@@ -82,11 +98,11 @@
   }
 
   .search-button {
-    background: #007bff;
+    background: #0056b3;
     color: #fff;
     border: none;
     border-radius: 4px;
-    height: 36px; // Default height for smaller screens
+    height: 36px; // Menyesuaikan tinggi tombol dengan input fields
     padding: 0 12px;
     font-size: 16px;
     font-weight: 500;
@@ -99,7 +115,7 @@
 
     @include media-above(lg) {
       align-self: center;
-      height: 52px; // Matched height with the inputs
+      height: 52px; // Tinggi tetap untuk layar besar
     }
 
     @include media-below(md) {
@@ -108,11 +124,9 @@
       margin-top: 4px;
     }
 
-    // --- MODIFIED: Added specific height for extra small screens (mobile) ---
     @include media-below(xs) {
-      height: 44px; // Increased height for mobile screens
+      height: 40px; // Mengurangi tinggi tombol untuk perangkat mobile
     }
-    // --- END MODIFIED ---
 
     &:hover {
       background: #0056b3;

@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useId } from 'react'; // Import useId hook
 import DatePicker, { DateObject } from 'react-multi-date-picker';
 
 const DateSearch = ({ onDateChange }) => {
+  const inputId = useId(); // Generate a unique ID for the input
+
   const [dates, setDates] = useState([
     new DateObject(),
     new DateObject().add(1, 'day'),
@@ -35,7 +37,8 @@ const DateSearch = ({ onDateChange }) => {
 
   return (
     <div className="searchMenu-date search-field">
-      <label>Check-in - Check-out</label>
+      {/* Label yang terhubung secara programatis dan disembunyikan secara visual */}
+      <label htmlFor={inputId} className="sr-only">Check-in - Check-out</label>
       <DatePicker
         value={dates}
         onChange={handleDateChange}
@@ -46,6 +49,8 @@ const DateSearch = ({ onDateChange }) => {
         inputClass="w-full h-32 px-6 py-2"
         containerStyle={{ width: '100%' }}
         calendarPosition="bottom-left"
+        // Teruskan ID ke input yang dirender oleh DatePicker
+        inputProps={{ id: inputId, placeholder: "Check-in ~ Check-out" }}
       />
     </div>
   );
