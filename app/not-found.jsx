@@ -1,8 +1,9 @@
 // app/not-found.jsx
-import DefaultHeader from "@/components/header/default-header";
 import DefaultFooter from "@/components/footer/default";
 import CallToActions from "@/components/common/CallToActions";
 import NotFound from "@/components/common/NotFound";
+import Header1 from "@/components/header/header-11";
+
 
 export const metadata = {
   title: "404 || Hotelazo",
@@ -13,7 +14,7 @@ const NotFoundPage = () => {
   return (
     <>
       <div className="header-margin"></div>
-      <DefaultHeader />
+      <Header1 />
       <NotFound />
       <CallToActions />
       <DefaultFooter />
