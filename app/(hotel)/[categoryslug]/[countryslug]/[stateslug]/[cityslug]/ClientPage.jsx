@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import useSWR from 'swr';
 import ReactPaginate from 'react-paginate';
+import Relatedcity88 from '@/components/hotel-single/Relatedcity88';
 
 // Dynamically import components to reduce initial bundle size
 const CallToActions = dynamic(() => import('@/components/common/CallToActions'), { ssr: false });
@@ -12,7 +13,6 @@ const Header11 = dynamic(() => import('@/components/header/header-11'), { ssr: f
 const DefaultFooter = dynamic(() => import('@/components/footer/default'), { ssr: false });
 const HotelProperties88 = dynamic(() => import('@/components/hotel-list/hotel-list-v5/HotelProperties88'), { ssr: false });
 const Faqcity = dynamic(() => import('@/components/faq/Faqcity'), { ssr: false });
-const Relatedcity88 = dynamic(() => import('@/components/hotel-single/Relatedcity88'), { ssr: false });
 const MainFilterSearchBox = dynamic(() => import('@/components/hotel-list/common/MainFilterSearchBox'), { ssr: false });
 const TopBreadCrumbCity = dynamic(() => import('@/components/hotel-list/hotel-list-v5/TopBreadCrumbCity'), { ssr: false });
 

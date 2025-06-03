@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import useSWR from 'swr';
 import ReactPaginate from 'react-paginate';
+import Relatedcountry88 from '@/components/hotel-single/Relatedcountry88';
 
 // Dynamically import components to reduce initial bundle size
 const CallToActions = dynamic(() => import('@/components/common/CallToActions'), { ssr: false });
@@ -12,7 +13,6 @@ const Header11 = dynamic(() => import('@/components/header/header-11'), { ssr: f
 const DefaultFooter = dynamic(() => import('@/components/footer/default'), { ssr: false });
 const HotelProperties88 = dynamic(() => import('@/components/hotel-list/hotel-list-v5/HotelProperties88'), { ssr: false });
 const Faqcountry = dynamic(() => import('@/components/faq/Faqcountry'), { ssr: false });
-const Relatedcountry88 = dynamic(() => import('@/components/hotel-single/Relatedcountry88'), { ssr: false });
 const MainFilterSearchBox = dynamic(() => import('@/components/hotel-list/common/MainFilterSearchBox'), { ssr: false });
 const TopBreadCrumbCountry = dynamic(() => import('@/components/hotel-list/hotel-list-v5/TopBreadCrumbCountry'), { ssr: false });
 

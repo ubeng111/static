@@ -1,6 +1,3 @@
-'use client';
-
-import React, { memo } from 'react';
 import Link from 'next/link';
 
 // CSS for truncation and responsive layout
@@ -52,7 +49,7 @@ const styles = {
   },
 };
 
-const RelatedHotels = ({ relatedHotels }) => {
+export default function RelatedHotels({ relatedHotels }) {
   if (!Array.isArray(relatedHotels) || relatedHotels.length === 0) {
     return (
       <div style={styles.container}>
@@ -116,6 +113,4 @@ const RelatedHotels = ({ relatedHotels }) => {
       </div>
     </div>
   );
-};
-
-export default memo(RelatedHotels);
+}

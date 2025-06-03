@@ -5,13 +5,13 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import useSWR from 'swr';
 import ReactPaginate from 'react-paginate';
+import Relatedcategory88 from '@/components/hotel-single/Relatedcategory88';
 
 // Dynamically import components to reduce initial bundle size
 const CallToActions = dynamic(() => import('@/components/common/CallToActions'), { ssr: false });
 const Header11 = dynamic(() => import('@/components/header/header-11'), { ssr: false });
 const DefaultFooter = dynamic(() => import('@/components/footer/default'), { ssr: false });
 const HotelProperties88 = dynamic(() => import('@/components/hotel-list/hotel-list-v5/HotelProperties88'), { ssr: false });
-const Relatedcategory88 = dynamic(() => import('@/components/hotel-single/Relatedcategory88'), { ssr: false });
 const MainFilterSearchBox = dynamic(() => import('@/components/hotel-list/common/MainFilterSearchBox'), { ssr: false });
 const TopBreadCrumbCategory = dynamic(() => import('@/components/hotel-list/hotel-list-v5/TopBreadCrumbCategory'), { ssr: false });
 
