@@ -6,7 +6,7 @@ const createSlug = (city) => {
     : 'unknown-city';
 };
 
-const Relatedstate88 = React.memo(({ relatedstate, stateslug, countryslug, categoryslug }) => { // <--- React.memo applied here
+const Relatedstate88 = React.memo(({ relatedstate, stateslug, countryslug, categoryslug }) => {
   const formattedState = stateslug
     ? stateslug
         .replace(/-/g, ' ')
@@ -47,7 +47,8 @@ const Relatedstate88 = React.memo(({ relatedstate, stateslug, countryslug, categ
               <div className="p-2 border rounded bg-white shadow-sm transition-all hover:shadow-md hover:bg-light">
                 <a
                   href={`/${categoryslug}/${countryslug}/${stateslug}/${citySlug}`}
-                  className="fs-6 fw-medium text-dark d-block text-start text-decoration-none"
+                  className="fw-medium text-dark d-block text-start text-decoration-none"
+                  style={{ fontSize: '14px' }}
                 >
                   {`${formattedCategory} In ${capitalizedCity}`}
                 </a>

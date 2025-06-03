@@ -6,13 +6,18 @@ const createSlug = (city) => {
     : 'unknown-city';
 };
 
-const Relatedcity88 = React.memo(({ relatedcity, stateslug, countryslug, categoryslug }) => { // <--- React.memo applied here
-  // Format nama state dari slug URL
+const Relatedcity88 = React.memo(({ relatedcity, stateslug, countryslug, categoryslug }) => {
   const formattedState = stateslug
     ? stateslug
         .replace(/-/g, ' ')
         .replace(/\b\w/g, (char) => char.toUpperCase())
     : 'Unknown State';
+
+  const formattedCategory = categoryslug
+    ? categoryslug
+        .replace(/-/g, ' ')
+        .replace(/\b\w/g, (char) => char.toUpperCase())
+    : 'Unknown Category';
 
   if (!Array.isArray(relatedcity) || relatedcity.length === 0) {
     return (
@@ -24,12 +29,10 @@ const Relatedcity88 = React.memo(({ relatedcity, stateslug, countryslug, categor
     );
   }
 
-  // Filter untuk menghapus duplikasi berdasarkan cityslug
   const uniqueCities = Array.from(
     new Map(relatedcity.map((city) => [city.cityslug, city])).values()
   );
 
-  // Ambil 40 kota pertama
   const displayedCities = uniqueCities.slice(0, 40);
 
   return (
@@ -49,9 +52,10 @@ const Relatedcity88 = React.memo(({ relatedcity, stateslug, countryslug, categor
               <div className="p-2 border rounded bg-white shadow-sm transition-all hover:shadow-md hover:bg-light">
                 <a
                   href={`/${categoryslug}/${countryslug}/${stateslug}/${citySlug}`}
-                  className="fs-6 fw-medium text-dark d-block text-start text-decoration-none"
+                  className="fw-medium text-dark d-block text-start text-decoration-none"
+                  style={{ fontSize: '14px' }}
                 >
-                  {capitalizedCity}
+                  {`${formattedCategory} In ${capitalizedCity}`}
                 </a>
               </div>
             </div>
