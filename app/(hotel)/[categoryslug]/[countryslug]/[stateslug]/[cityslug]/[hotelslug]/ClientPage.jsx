@@ -1,141 +1,254 @@
 'use client';
 
-import { useMemo, useCallback } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import useSWR from 'swr';
-import BookNow from '@/components/hotel-single/BookNow';
 
 // Dynamically import components
-const ClientPageContent = dynamic(() => import('@/components/hotel-single/ClientPageContent'), { ssr: false });
+const CallToActions = dynamic(() => import('@/components/common/CallToActions'), { ssr: false });
+const Header11 = dynamic(() => import('@/components/header/header-11'), { ssr: false });
+const DefaultFooter = dynamic(() => import('@/components/footer/default'), { ssr: false });
+const GalleryTwo = dynamic(() => import('@/components/hotel-single/GalleryTwo'), { ssr: false });
+const MapComponent = dynamic(() => import('@/components/hotel-single/MapComponent'), { ssr: false });
+const Facilities = dynamic(() => import('@/components/hotel-single/Facilities'), { ssr: false });
+const Hotels2 = dynamic(() => import('@/components/hotels/Hotels2'), { ssr: false });
+const LandmarkList = dynamic(() => import('@/components/hotel-single/LandmarkList'), { ssr: false });
+const TopBreadCrumb88 = dynamic(() => import('@/components/hotel-single/TopBreadCrumb88'), { ssr: false });
+const MainFilterSearchBox = dynamic(() => import('@/components/hotel-list/common/MainFilterSearchBox'), { ssr: false });
+const RelatedHotels = dynamic(() => import('@/components/hotel-single/RelatedHotels'), { ssr: false });
 
-export default function ClientPage({ categoryslug, countryslug, stateslug, cityslug, hotelslug }) {
-  const searchParams = useSearchParams();
+// Reusable AccordionItem component
+const AccordionItem = ({ id, icon, title, isOpen, toggle, ariaLabel, children }) => (
+  <div className="accordion-item mb-20">
+    <button
+      className="accordion-header"
+      onClick={toggle}
+      data-bs-toggle="collapse"
+      data-bs-target={`#${id}`}
+      aria-expanded={isOpen}
+      aria-controls={id}
+      aria-label={ariaLabel}
+      type="button"
+    >
+      <i className={`${icon} accordion-icon`}></i>
+      {title}
+      <i className={`fas fa-chevron-down accordion-chevron ${isOpen ? 'open' : ''}`}></i>
+    </button>
+    <div id={id} className={`accordion-collapse collapse ${isOpen ? 'show' : ''}`}>
+      <div className="accordion-body">{children}</div>
+    </div>
+  </div>
+);
 
-  // Memoize the fetcher function
-  const fetcher = useCallback(async (url) => {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error('Failed to fetch hotel data');
-    return response.json();
-  }, []);
+export default function ClientPage({
+  hotel,
+  relatedHotels,
+  hotelslug,
+  categoryslug,
+  countryslug,
+  stateslug,
+  cityslug,
+}) {
+  // State for accordion sections
+  const [openSections, setOpenSections] = useState({
+    overview: true,
+    facilities: true,
+    map: true,
+    landmark: true,
+    relatedHotels: true,
+  });
 
-  // Use SWR for data fetching
-  const { data, error, isLoading } = useSWR(
-    `/api/${categoryslug}/${countryslug}/${stateslug}/${cityslug}/${hotelslug}`,
-    fetcher,
-    {
-      revalidateOnFocus: false,
-      keepPreviousData: true,
-      dedupingInterval: 60000, // Cache for 1 minute
-      onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
-        if (retryCount >= 3) return;
-        setTimeout(() => revalidate({ retryCount }), 5000);
-      },
-    }
-  );
+  const toggleSection = (section) => {
+    setOpenSections((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
+  };
 
-  // Memoize derived data
-  const hotel = useMemo(() => data?.hotel || { title: formatSlug(hotelslug) }, [data, hotelslug]);
-  const relatedHotels = useMemo(() => data?.relatedHotels || [], [data]);
-  const schema = useMemo(
-    () => ({
-      '@context': 'https://schema.org',
-      '@type': ['Hotel', 'LocalBusiness'],
-      name: hotel.title,
-      description: `Book ${hotel.title}, a luxury hotel in ${formatSlug(cityslug)} for ${new Date().getFullYear()} on Hoteloza.`,
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: hotel.city,
-        addressRegion: hotel.state,
-        addressCountry: hotel.country,
-      },
-      geo: {
-        '@type': 'GeoCoordinates',
-        latitude: hotel.latitude,
-        longitude: hotel.longitude,
-      },
-      image: hotel.img || 'https://hoteloza.com/default-hotel-image.jpg',
-      numberOfRooms: hotel.numberrooms,
-      telephone: hotel.telephone || '',
-      email: hotel.email || '',
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: hotel.ratings || 0,
-        reviewCount: hotel.numberOfReviews || 0,
-      },
-      breadcrumb: {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hoteloza.com' },
-          {
-            '@type': 'ListItem',
-            position: 2,
-            name: hotel.category || 'Hotels',
-            item: `https://hoteloza.com/${categoryslug}`,
-          },
-          {
-            '@type': 'ListItem',
-            position: 3,
-            name: hotel.country,
-            item: `https://hoteloza.com/${categoryslug}/${countryslug}`,
-          },
-          {
-            '@type': 'ListItem',
-            position: 4,
-            name: hotel.state,
-            item: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}`,
-          },
-          {
-            '@type': 'ListItem',
-            position: 5,
-            name: hotel.city,
-            item: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}`,
-          },
-          {
-            '@type': 'ListItem',
-            position: 6,
-            name: hotel.title,
-            item: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}/${hotelslug}`,
-          },
-        ],
-      },
-    }),
-    [hotel, categoryslug, countryslug, stateslug, cityslug, hotelslug]
-  );
-
-  if (isLoading) {
+  // Safeguard for missing hotel data
+  if (!hotel) {
     return (
-      <div className="preloader">
-        <div className="preloader__wrap">
-          <div className="preloader__icon"></div>
-        </div>
-        <div className="preloader__title">Hoteloza...</div>
+      <div className="text-center py-5">
+        <p>Hotel data is not available. Please try again later.</p>
       </div>
     );
   }
 
-  if (error) {
-    return <div>Error loading hotel data. Please try again later.</div>;
-  }
-
   return (
     <>
-      <script type="application/ld+json">{JSON.stringify(schema)}</script>
-      <BookNow hotel={hotel} hotelId={hotel?.id} />
-      <ClientPageContent
-        hotel={hotel}
-        relatedHotels={relatedHotels}
-        useHotels2={true}
-        hotelslug={hotelslug}
-        categoryslug={categoryslug}
-        countryslug={countryslug}
-        stateslug={stateslug}
-        cityslug={cityslug}
-      />
+      <style jsx>{`
+        .accordion-header {
+          transition: background-color 0.3s ease, box-shadow 0.3s ease;
+          border-radius: 8px;
+          padding: 15px 20px;
+          background-color: #001F3F; /* Navy blue */
+          color: #ffffff;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          font-weight: 500;
+          font-size: 16px;
+          border: none;
+          width: 100%;
+          text-align: left;
+        }
+        .accordion-header:hover {
+          background-color: #003366; /* Lighter navy blue for hover */
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        .accordion-body {
+          background-color: #f8fafc;
+          border-radius: 0 0 8px 8px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+          padding: 20px;
+        }
+        .accordion-icon {
+          margin-right: 12px;
+          font-size: 18px;
+        }
+        .accordion-chevron {
+          margin-left: auto;
+          transition: transform 0.3s ease;
+        }
+        .accordion-chevron.open {
+          transform: rotate(180deg);
+        }
+      `}</style>
+
+      <div className="header-margin"></div>
+      <Header11 />
+
+      {/* Top Breadcrumb Section */}
+      <div className="py-10 bg-white">
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <TopBreadCrumb88 hotel={hotel} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Search Filter Section */}
+      <section className="layout-pt-md">
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <MainFilterSearchBox />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery Section */}
+      <section className="mt-40" id="overview">
+        <div className="container">
+          <GalleryTwo hotel={hotel} />
+        </div>
+      </section>
+
+      {/* Main Sections */}
+      <section className="pt-40 layout-pb-md">
+        <div className="container">
+          <div className="accordion -simple js-accordion" id="hotelAccordion">
+            {/* Overview Section */}
+            
+
+            {/* Facilities Section */}
+            <AccordionItem
+              id="facilitiesCollapse"
+              icon="fas fa-concierge-bell"
+              title={`Facilities of ${hotel?.title}`}
+              isOpen={openSections.facilities}
+              toggle={() => toggleSection('facilities')}
+              ariaLabel={`Toggle Facilities of ${hotel?.title}`}
+            >
+              <div className="row x-gap-40 y-gap-40">
+                <Facilities />
+              </div>
+            </AccordionItem>
+
+            {/* Nearby Landmarks Section */}
+            {hotel?.latitude && hotel?.longitude && (
+              <AccordionItem
+                id="landmarkCollapse"
+                icon="fas fa-landmark"
+                title="Nearby Landmarks"
+                isOpen={openSections.landmark}
+                toggle={() => toggleSection('landmark')}
+                ariaLabel="Toggle Nearby Landmarks"
+              >
+                <LandmarkList latitude={hotel.latitude} longitude={hotel.longitude} />
+              </AccordionItem>
+            )}
+
+            {/* Related Hotels Section with Hotels2 and RelatedHotels */}
+            {relatedHotels && relatedHotels.length > 0 && (
+              <AccordionItem
+                id="relatedHotelsCollapse"
+                icon="fas fa-hotel"
+                title={`Popular properties similar to ${hotel?.title}`}
+                isOpen={openSections.relatedHotels}
+                toggle={() => toggleSection('relatedHotels')}
+                ariaLabel={`Toggle Popular properties similar to ${hotel?.title}`}
+              >
+                <div className="row justify-center text-center">
+                  <div className="col-auto">
+                    <div className="sectionTitle -simple">
+                      <h2
+                        className="sectionTitle"
+                        style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}
+                      >
+                        Popular properties similar to {hotel?.title || 'Hotel'}
+                      </h2>
+                      <p
+                        className="sectionTitle"
+                        style={{ fontSize: '14px', marginTop: '14px' }}
+                      >
+                        Find top-rated stays with similar perks near your destination
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="pt-40 sm:pt-20 item_gap-x30">
+                  <Hotels2 relatedHotels={relatedHotels} />
+                  <RelatedHotels
+                    relatedHotels={relatedHotels}
+                    category={categoryslug}
+                    city={hotel?.city || ''}
+                  />
+                </div>
+              </AccordionItem>
+            )}
+          </div>
+
+          {/* Sidebar (Map) */}
+          <div className="row y-gap-30">
+            <div className="col-12">
+              <div className="accordion -simple js-accordion" id="sidebarAccordion">
+                {hotel?.latitude && hotel?.longitude && (
+                  <AccordionItem
+                    id="mapCollapse"
+                    icon="fas fa-map-marker-alt"
+                    title="Location Map"
+                    isOpen={openSections.map}
+                    toggle={() => toggleSection('map')}
+                    ariaLabel="Toggle Location Map"
+                  >
+                    <MapComponent
+                      latitude={hotel?.latitude}
+                      longitude={hotel?.longitude}
+                      title={hotel?.title}
+                    />
+                  </AccordionItem>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <CallToActions />
+      <DefaultFooter />
     </>
   );
 }
-
-// Helper function to format slugs
-const formatSlug = (slug) =>
-  slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
