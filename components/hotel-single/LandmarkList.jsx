@@ -24,10 +24,17 @@ const LandmarkList = ({ latitude, longitude }) => {
 
     const fetchLandmarks = async () => {
       try {
-        const radius = 10000;
-        const response = await fetch(
-          `https://overpass.kumi.systems/api/interpreter?data=[out:json];node(around:${radius},${latitude},${longitude})["name"];out;`
-        );
+        const radius = 5000;
+        // Construct the Overpass QL query
+        const query = `[out:json];node(around:${radius},${latitude},${longitude})["name"];out;`;
+
+        // Use the new API endpoint and headers
+        const response = await fetch(`/api/overpass?data=${encodeURIComponent(query)}`, {
+          headers: {
+            'Accept': 'application/json',
+            'Accept-Encoding': 'gzip'
+          }
+        });
         const data = await response.json();
 
         const landmarksList = data.elements
