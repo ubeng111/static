@@ -51,7 +51,21 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
   }
 }
 
-// generateMetadata function: This runs on the server to provide SEO metadata
+export async function generateStaticParams() {
+ 
+
+  return [
+    {
+      categoryslug: 'hotel',
+      countryslug: 'usa',
+      stateslug: 'california',
+      cityslug: 'los-angeles',
+      hotelslug: 'the-ritz-carlton-los-angeles',
+    },
+  ];
+}
+
+
 export async function generateMetadata({ params }) {
   console.log('Metadata params:', params); // Debug log
   const resolvedParams = await params; // Await the params Promise
@@ -66,7 +80,6 @@ export async function generateMetadata({ params }) {
       return {
         title: `${formattedHotel}, ${formattedCity} - Hotel Not Found | Hoteloza`,
         description: `The hotel ${formattedHotel} in ${formattedCity} was not found on Hoteloza.`,
-        robots: { index: false, follow: false },
       };
     }
 
@@ -161,7 +174,6 @@ export async function generateMetadata({ params }) {
     return {
       title: `Hotel Not Found | Hoteloza`,
       description: `The requested hotel could not be found due to an error.`,
-      robots: { index: false, follow: false },
     };
   }
 }
