@@ -1,22 +1,69 @@
 import dynamic from 'next/dynamic';
+import { notFound } from 'next/navigation';
+
+// Helper function to sanitize slugs
+const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
+
+// Helper function to format slugs
+const formatSlug = (slug) =>
+  slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
+
+// Function to fetch city data
+async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
+  const sanitizedCategory = sanitizeSlug(categoryslug);
+  const sanitizedCountry = sanitizeSlug(countryslug);
+  const sanitizedState = sanitizeSlug(stateslug);
+  const sanitizedCity = sanitizeSlug(cityslug);
+  if (!sanitizedCategory || !sanitizedCountry || !sanitizedState || !sanitizedCity) {
+    console.error('Invalid slugs:', { categoryslug, countryslug, stateslug, cityslug });
+    return null;
+  }
+
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+  const apiUrl = `${baseUrl}/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`;
+
+  try {
+    const response = await fetch(apiUrl, { cache: 'no-store' });
+    if (!response.ok) {
+      console.error(`Failed to fetch city data for ${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}. Status: ${response.status}`);
+      return null;
+    }
+    return response.json();
+  } catch (error) {
+    console.error('Error fetching city data:', error);
+    return null;
+  }
+}
 
 const ClientPage = dynamic(() => import('./ClientPage'));
 
 export async function generateMetadata({ params }) {
   const { categoryslug, countryslug, stateslug, cityslug } = params;
-  const formattedCity = cityslug
-    ? cityslug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
-    : 'City';
-  const formattedState = stateslug
-    ? stateslug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
-    : 'State';
-  const formattedCountry = countryslug
-    ? countryslug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
-    : 'Country';
-  const formattedCategory = categoryslug
-    ? categoryslug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
-    : 'Category';
-  const currentYear = new Date().getFullYear(); // Dynamic year (2025)
+  const sanitizedCategory = sanitizeSlug(categoryslug);
+  const sanitizedCountry = sanitizeSlug(countryslug);
+  const sanitizedState = sanitizeSlug(stateslug);
+  const sanitizedCity = sanitizeSlug(cityslug);
+
+  if (!sanitizedCategory || !sanitizedCountry || !sanitizedState || !sanitizedCity) {
+    return {
+      title: 'Page Not Found | Hoteloza',
+      description: 'The requested category, country, state, or city was not found on Hoteloza.',
+    };
+  }
+
+  const data = await getCityData(categoryslug, countryslug, stateslug, cityslug);
+  if (!data || !data.hotels || data.hotels.length === 0) {
+    return {
+      title: 'Page Not Found | Hoteloza',
+      description: 'The requested category, country, state, or city was not found on Hoteloza.',
+    };
+  }
+
+  const formattedCity = formatSlug(sanitizedCity) || 'City';
+  const formattedState = formatSlug(sanitizedState) || 'State';
+  const formattedCountry = formatSlug(sanitizedCountry) || 'Country';
+  const formattedCategory = formatSlug(sanitizedCategory) || 'Category';
+  const currentYear = new Date().getFullYear();
 
   return {
     title: `${currentYear}’s Hottest ${formattedCategory} in ${formattedCity}, ${formattedCountry} - Book Now!`,
@@ -24,77 +71,58 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: `Top ${formattedCategory} in ${formattedCity}, ${formattedState} ${currentYear} | Hoteloza`,
       description: `Book top ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState} for ${currentYear} on Hoteloza. Enjoy exclusive deals now!`,
-      url: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}`,
+      url: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`,
       type: 'website',
     },
   };
 }
 
-export default function Page({ params }) {
+export default async function Page({ params }) {
   const { categoryslug, countryslug, stateslug, cityslug } = params;
-  const formattedCity = cityslug
-    ? cityslug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
-    : 'City';
-  const formattedState = stateslug
-    ? stateslug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
-    : 'State';
-  const formattedCountry = countryslug
-    ? countryslug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
-    : 'Country';
-  const formattedCategory = categoryslug
-    ? categoryslug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
-    : 'Category';
-  const currentYear = new Date().getFullYear(); // Dynamic year (2025)
+  const sanitizedCategory = sanitizeSlug(categoryslug);
+  const sanitizedCountry = sanitizeSlug(countryslug);
+  const sanitizedState = sanitizeSlug(stateslug);
+  const sanitizedCity = sanitizeSlug(cityslug);
+
+  if (!sanitizedCategory || !sanitizedCountry || !sanitizedState || !sanitizedCity) {
+    notFound();
+  }
+
+  const data = await getCityData(categoryslug, countryslug, stateslug, cityslug);
+  if (!data || !data.hotels || data.hotels.length === 0) {
+    notFound();
+  }
+
+  const formattedCity = formatSlug(sanitizedCity) || 'City';
+  const formattedState = formatSlug(sanitizedState) || 'State';
+  const formattedCountry = formatSlug(sanitizedCountry) || 'Country';
+  const formattedCategory = formatSlug(sanitizedCategory) || 'Category';
+  const currentYear = new Date().getFullYear();
 
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
     name: `Top ${formattedCategory} in ${formattedCity}, ${formattedState} ${currentYear}`,
     description: `Book top ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState} for ${currentYear} on Hoteloza with exclusive deals and amenities.`,
-    url: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}`,
+    url: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`,
     breadcrumb: {
       '@type': 'BreadcrumbList',
       itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Home',
-          item: 'https://hoteloza.com',
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: formattedCategory,
-          item: `https://hoteloza.com/${categoryslug}`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 3,
-          name: formattedCountry,
-          item: `https://hoteloza.com/${categoryslug}/${countryslug}`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 4,
-          name: formattedState,
-          item: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 5,
-          name: formattedCity,
-          item: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}`,
-        },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hoteloza.com' },
+        { '@type': 'ListItem', position: 2, name: formattedCategory, item: `https://hoteloza.com/${sanitizedCategory}` },
+        { '@type': 'ListItem', position: 3, name: formattedCountry, item: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}` },
+        { '@type': 'ListItem', position: 4, name: formattedState, item: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}` },
+        { '@type': 'ListItem', position: 5, name: formattedCity, item: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}` },
       ],
     },
   };
 
   return (
     <ClientPage
-      categoryslug={categoryslug}
-      countryslug={countryslug}
-      stateslug={stateslug}
-      cityslug={cityslug}
+      categoryslug={sanitizedCategory}
+      countryslug={sanitizedCountry}
+      stateslug={sanitizedState}
+      cityslug={sanitizedCity}
       schema={schema}
     />
   );
