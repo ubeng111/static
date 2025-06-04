@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 
-// Dynamically import components
 const CallToActions = dynamic(() => import('@/components/common/CallToActions'), { ssr: false });
 const Header11 = dynamic(() => import('@/components/header/header-11'), { ssr: false });
 const DefaultFooter = dynamic(() => import('@/components/footer/default'), { ssr: false });
@@ -14,9 +13,7 @@ const Hotels2 = dynamic(() => import('@/components/hotels/Hotels2'), { ssr: fals
 const LandmarkList = dynamic(() => import('@/components/hotel-single/LandmarkList'), { ssr: false });
 const TopBreadCrumb88 = dynamic(() => import('@/components/hotel-single/TopBreadCrumb88'), { ssr: false });
 const MainFilterSearchBox = dynamic(() => import('@/components/hotel-list/common/MainFilterSearchBox'), { ssr: false });
-const RelatedHotels = dynamic(() => import('@/components/hotel-single/RelatedHotels'), { ssr: false });
 
-// Reusable AccordionItem component
 const AccordionItem = ({ id, icon, title, isOpen, toggle, ariaLabel, children }) => (
   <div className="accordion-item mb-20">
     <button
@@ -48,7 +45,6 @@ export default function ClientPage({
   stateslug,
   cityslug,
 }) {
-  // State for accordion sections
   const [openSections, setOpenSections] = useState({
     overview: true,
     facilities: true,
@@ -64,7 +60,6 @@ export default function ClientPage({
     }));
   };
 
-  // Safeguard for missing hotel data
   if (!hotel) {
     return (
       <div className="text-center py-5">
@@ -80,7 +75,7 @@ export default function ClientPage({
           transition: background-color 0.3s ease, box-shadow 0.3s ease;
           border-radius: 8px;
           padding: 15px 20px;
-          background-color: #001F3F; /* Navy blue */
+          background-color: #001F3F;
           color: #ffffff;
           display: flex;
           align-items: center;
@@ -92,7 +87,7 @@ export default function ClientPage({
           text-align: left;
         }
         .accordion-header:hover {
-          background-color: #003366; /* Lighter navy blue for hover */
+          background-color: #003366;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
         .accordion-body {
@@ -117,7 +112,6 @@ export default function ClientPage({
       <div className="header-margin"></div>
       <Header11 />
 
-      {/* Top Breadcrumb Section */}
       <div className="py-10 bg-white">
         <div className="container">
           <div className="row">
@@ -128,7 +122,6 @@ export default function ClientPage({
         </div>
       </div>
 
-      {/* Search Filter Section */}
       <section className="layout-pt-md">
         <div className="container">
           <div className="row">
@@ -139,21 +132,26 @@ export default function ClientPage({
         </div>
       </section>
 
-      {/* Gallery Section */}
       <section className="mt-40" id="overview">
         <div className="container">
           <GalleryTwo hotel={hotel} />
         </div>
       </section>
 
-      {/* Main Sections */}
       <section className="pt-40 layout-pb-md">
         <div className="container">
           <div className="accordion -simple js-accordion" id="hotelAccordion">
-            {/* Overview Section */}
-            
+            <AccordionItem
+              id="overviewCollapse"
+              icon="fas fa-info-circle"
+              title={`About ${hotel?.title}`}
+              isOpen={openSections.overview}
+              toggle={() => toggleSection('overview')}
+              ariaLabel={`Toggle About ${hotel?.title}`}
+            >
+              <p>{hotel?.overview || 'Discover the luxury and comfort of this hotel, offering top amenities and a memorable stay.'}</p>
+            </AccordionItem>
 
-            {/* Facilities Section */}
             <AccordionItem
               id="facilitiesCollapse"
               icon="fas fa-concierge-bell"
@@ -167,21 +165,32 @@ export default function ClientPage({
               </div>
             </AccordionItem>
 
-            {/* Nearby Landmarks Section */}
             {hotel?.latitude && hotel?.longitude && (
-              <AccordionItem
-                id="landmarkCollapse"
-                icon="fas fa-landmark"
-                title="Nearby Landmarks"
-                isOpen={openSections.landmark}
-                toggle={() => toggleSection('landmark')}
-                ariaLabel="Toggle Nearby Landmarks"
-              >
-                <LandmarkList latitude={hotel.latitude} longitude={hotel.longitude} />
-              </AccordionItem>
+              <>
+                <AccordionItem
+                  id="mapCollapse"
+                  icon="fas fa-map-marker-alt"
+                  title="Location Map"
+                  isOpen={openSections.map}
+                  toggle={() => toggleSection('map')}
+                  ariaLabel="Toggle Location Map"
+                >
+                  <MapComponent latitude={hotel.latitude} longitude={hotel.longitude} />
+                </AccordionItem>
+
+                <AccordionItem
+                  id="landmarkCollapse"
+                  icon="fas fa-landmark"
+                  title="Nearby Landmarks"
+                  isOpen={openSections.landmark}
+                  toggle={() => toggleSection('landmark')}
+                  ariaLabel="Toggle Nearby Landmarks"
+                >
+                  <LandmarkList latitude={hotel.latitude} longitude={hotel.longitude} />
+                </AccordionItem>
+              </>
             )}
 
-            {/* Related Hotels Section with Hotels2 and RelatedHotels */}
             {relatedHotels && relatedHotels.length > 0 && (
               <AccordionItem
                 id="relatedHotelsCollapse"
@@ -191,58 +200,15 @@ export default function ClientPage({
                 toggle={() => toggleSection('relatedHotels')}
                 ariaLabel={`Toggle Popular properties similar to ${hotel?.title}`}
               >
-                <div className="row justify-center text-center">
-                  <div className="col-auto">
-                    <div className="sectionTitle -simple">
-                      <h2
-                        className="sectionTitle"
-                        style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}
-                      >
-                        Popular properties similar to {hotel?.title || 'Hotel'}
-                      </h2>
-                      <p
-                        className="sectionTitle"
-                        style={{ fontSize: '14px', marginTop: '14px' }}
-                      >
-                        Find top-rated stays with similar perks near your destination
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="pt-40 sm:pt-20 item_gap-x30">
-                  <Hotels2 relatedHotels={relatedHotels} />
-                  <RelatedHotels
-                    relatedHotels={relatedHotels}
-                    category={categoryslug}
-                    city={hotel?.city || ''}
-                  />
-                </div>
+                <Hotels2
+                  hotels={relatedHotels}
+                  categoryslug={categoryslug}
+                  countryslug={countryslug}
+                  stateslug={stateslug}
+                  cityslug={cityslug}
+                />
               </AccordionItem>
             )}
-          </div>
-
-          {/* Sidebar (Map) */}
-          <div className="row y-gap-30">
-            <div className="col-12">
-              <div className="accordion -simple js-accordion" id="sidebarAccordion">
-                {hotel?.latitude && hotel?.longitude && (
-                  <AccordionItem
-                    id="mapCollapse"
-                    icon="fas fa-map-marker-alt"
-                    title="Location Map"
-                    isOpen={openSections.map}
-                    toggle={() => toggleSection('map')}
-                    ariaLabel="Toggle Location Map"
-                  >
-                    <MapComponent
-                      latitude={hotel?.latitude}
-                      longitude={hotel?.longitude}
-                      title={hotel?.title}
-                    />
-                  </AccordionItem>
-                )}
-              </div>
-            </div>
           </div>
         </div>
       </section>

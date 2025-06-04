@@ -75,6 +75,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
+ 
+
   const { categoryslug, countryslug, stateslug } = params;
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
@@ -94,38 +96,55 @@ export default async function Page({ params }) {
   const formattedCategory = formatSlug(sanitizedCategory) || 'Category';
   const currentYear = new Date().getFullYear();
 
-  const baseUrl = 'https://hoteloza.com';
-  const currentUrl = `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
-
-  const schemaMarkup = {
+  const schema = {
     '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'WebPage',
-        url: currentUrl,
-        name: `Best ${formattedCategory} in ${formattedState}, ${formattedCountry} ${currentYear}`,
-        description: `Discover the best ${formattedCategory.toLowerCase()} in ${formattedState}, ${formattedCountry} for ${currentYear} on Hoteloza. Book your perfect stay with top amenities and exclusive offers.`,
-        publisher: {
-          '@type': 'Organization',
-          name: 'Hoteloza',
-          logo: { '@type': 'ImageObject', url: `${baseUrl}/logo.png` },
+    '@type': 'ItemList',
+    name: `Best ${formattedCategory} in ${formattedState}, ${formattedCountry} ${currentYear}`,
+    description: `Discover the best ${formattedCategory.toLowerCase()} in ${formattedState}, ${formattedCountry} for ${currentYear} on Hoteloza.`,
+    url: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`,
+    itemListElement: data.hotels.map((hotel, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'Hotel',
+        name: hotel.title,
+        url: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${hotel.cityslug}/${hotel.hotelslug}`,
+        image: hotel.img || (hotel.slideImg && hotel.slideImg[0]) || '',
+        priceRange: hotel.price ? `$${hotel.price} - $${hotel.price + 100}` : '$$$',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: hotel.city,
+          addressRegion: hotel.state,
+          addressCountry: hotel.country,
         },
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: hotel.latitude,
+          longitude: hotel.longitude,
+        },
+        aggregateRating: hotel.ratings
+          ? {
+              '@type': 'AggregateRating',
+              ratingValue: parseFloat(hotel.ratings).toFixed(1),
+              reviewCount: parseInt(hotel.numberOfReviews) || 0,
+            }
+          : null,
       },
-      {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
-          { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${sanitizedCategory}` },
-          { '@type': 'ListItem', position: 3, name: formattedCountry, item: `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}` },
-          { '@type': 'ListItem', position: 4, name: formattedState, item: currentUrl },
-        ],
-      },
-    ],
+    })),
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hoteloza.com' },
+        { '@type': 'ListItem', position: 2, name: formattedCategory, item: `https://hoteloza.com/${sanitizedCategory}` },
+        { '@type': 'ListItem', position: 3, name: formattedCountry, item: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}` },
+        { '@type': 'ListItem', position: 4, name: formattedState, item: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}` },
+      ],
+    },
   };
 
   return (
     <>
-      <script type="application/ld+json">{JSON.stringify(schemaMarkup)}</script>
+      <script type="application/ld+json">{JSON.stringify(schema)}</script>
       <ClientPage categoryslug={sanitizedCategory} countryslug={sanitizedCountry} stateslug={sanitizedState} />
     </>
   );

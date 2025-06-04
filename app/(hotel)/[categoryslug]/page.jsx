@@ -86,10 +86,39 @@ export default async function Page({ params }) {
 
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: `Top ${formattedCategory} Deals in ${currentYear}`,
-    description: `Explore top ${formattedCategory.toLowerCase()} for ${currentYear} on Hoteloza with exclusive deals and premium amenities.`,
+    '@type': 'ItemList',
+    name: `Top ${formattedCategory} Hotels ${currentYear}`,
+    description: `Explore top ${formattedCategory.toLowerCase()} hotels for ${currentYear} on Hoteloza.`,
     url: `https://hoteloza.com/${sanitizedCategory}`,
+    itemListElement: data.hotels.map((hotel, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'Hotel',
+        name: hotel.title,
+        url: `https://hoteloza.com/${sanitizedCategory}/${hotel.countryslug}/${hotel.stateslug}/${hotel.cityslug}/${hotel.hotelslug}`,
+        image: hotel.img || (hotel.slideImg && hotel.slideImg[0]) || '',
+        priceRange: hotel.price ? `$${hotel.price} - $${hotel.price + 100}` : '$$$',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: hotel.city,
+          addressRegion: hotel.state,
+          addressCountry: hotel.country,
+        },
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: hotel.latitude,
+          longitude: hotel.longitude,
+        },
+        aggregateRating: hotel.ratings
+          ? {
+              '@type': 'AggregateRating',
+              ratingValue: parseFloat(hotel.ratings).toFixed(1),
+              reviewCount: parseInt(hotel.numberOfReviews) || 0,
+            }
+          : null,
+      },
+    })),
     breadcrumb: {
       '@type': 'BreadcrumbList',
       itemListElement: [
@@ -99,5 +128,10 @@ export default async function Page({ params }) {
     },
   };
 
-  return <ClientPage categoryslug={sanitizedCategory} schema={schema} />;
+  return (
+    <>
+      <script type="application/ld+json">{JSON.stringify(schema)}</script>
+      <ClientPage categoryslug={sanitizedCategory} schema={schema} />
+    </>
+  );
 }

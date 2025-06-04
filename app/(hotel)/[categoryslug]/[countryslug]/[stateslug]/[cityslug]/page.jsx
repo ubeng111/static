@@ -101,10 +101,39 @@ export default async function Page({ params }) {
 
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'WebPage',
+    '@type': 'ItemList',
     name: `Top ${formattedCategory} in ${formattedCity}, ${formattedState} ${currentYear}`,
-    description: `Book top ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState} for ${currentYear} on Hoteloza with exclusive deals and amenities.`,
+    description: `Book top ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState} for ${currentYear} on Hoteloza.`,
     url: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`,
+    itemListElement: data.hotels.map((hotel, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'Hotel',
+        name: hotel.title,
+        url: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}/${hotel.hotelslug}`,
+        image: hotel.img || (hotel.slideImg && hotel.slideImg[0]) || '',
+        priceRange: hotel.price ? `$${hotel.price} - $${hotel.price + 100}` : '$$$',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: hotel.city,
+          addressRegion: hotel.state,
+          addressCountry: hotel.country,
+        },
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: hotel.latitude,
+          longitude: hotel.longitude,
+        },
+        aggregateRating: hotel.ratings
+          ? {
+              '@type': 'AggregateRating',
+              ratingValue: parseFloat(hotel.ratings).toFixed(1),
+              reviewCount: parseInt(hotel.numberOfReviews) || 0,
+            }
+          : null,
+      },
+    })),
     breadcrumb: {
       '@type': 'BreadcrumbList',
       itemListElement: [
@@ -118,12 +147,15 @@ export default async function Page({ params }) {
   };
 
   return (
-    <ClientPage
-      categoryslug={sanitizedCategory}
-      countryslug={sanitizedCountry}
-      stateslug={sanitizedState}
-      cityslug={sanitizedCity}
-      schema={schema}
-    />
+    <>
+      <script type="application/ld+json">{JSON.stringify(schema)}</script>
+      <ClientPage
+        categoryslug={sanitizedCategory}
+        countryslug={sanitizedCountry}
+        stateslug={sanitizedState}
+        cityslug={sanitizedCity}
+        schema={schema}
+      />
+    </>
   );
 }

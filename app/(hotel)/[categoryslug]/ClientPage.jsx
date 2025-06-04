@@ -8,7 +8,6 @@ import ReactPaginate from 'react-paginate';
 import Relatedcategory88 from '@/components/hotel-single/Relatedcategory88';
 import HotelProperties88 from '@/components/hotel-list/hotel-list-v5/HotelProperties88';
 
-// Dynamically import components to reduce initial bundle size
 const CallToActions = dynamic(() => import('@/components/common/CallToActions'), { ssr: false });
 const Header11 = dynamic(() => import('@/components/header/header-11'), { ssr: false });
 const DefaultFooter = dynamic(() => import('@/components/footer/default'), { ssr: false });
@@ -20,20 +19,17 @@ export default function ClientPage({ categoryslug, schema }) {
   const searchParams = useSearchParams();
   const page = parseInt(searchParams.get('page')) || 1;
 
-  // Memoize the fetcher function to prevent re-creation
   const fetcher = useCallback(async (url) => {
     const response = await fetch(url);
     if (!response.ok) throw new Error('Failed to fetch data');
     return response.json();
   }, []);
 
-  // Use SWR for data fetching
   const { data, error, isLoading } = useSWR(`/api/${categoryslug}?page=${page}`, fetcher, {
-    revalidateOnFocus: false, // Prevent revalidation on focus
-    keepPreviousData: true, // Keep previous data while fetching new data
+    revalidateOnFocus: false,
+    keepPreviousData: true,
   });
 
-  // Memoize derived data
   const hotels = useMemo(() => data?.hotels || [], [data]);
   const relatedcategory = useMemo(() => data?.relatedcategory || [], [data]);
   const pagination = useMemo(() => data?.pagination || { page: 1, totalPages: 1, totalHotels: 0 }, [data]);
@@ -42,7 +38,6 @@ export default function ClientPage({ categoryslug, schema }) {
     [categoryslug]
   );
 
-  // Handle pagination click
   const handlePageClick = useCallback(
     (event) => {
       const newPage = event.selected + 1;
@@ -70,6 +65,7 @@ export default function ClientPage({ categoryslug, schema }) {
 
   return (
     <>
+      <script type="application/ld+json">{JSON.stringify(schema)}</script>
       <div className="header-margin"></div>
       <Header11 />
       <section className="section-bg pt-40 pb-40 relative z-5">
@@ -97,8 +93,8 @@ export default function ClientPage({ categoryslug, schema }) {
 
       <TopBreadCrumbCategory categoryslug={categoryslug} />
 
-          <section className="layout-pt-md">
-            <div className="container">
+      <section className="layout-pt-md">
+        <div className="container">
           <div className="row">
             <div className="col-12">
               <MainFilterSearchBox />
