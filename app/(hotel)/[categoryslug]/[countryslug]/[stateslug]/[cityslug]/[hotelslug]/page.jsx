@@ -2,6 +2,7 @@
 import { notFound } from 'next/navigation';
 import BookNow from '@/components/hotel-single/BookNow';
 import ClientPage from './ClientPage';
+import Script from 'next/script';
 
 // Helper function to format slugs for display purposes
 const formatSlug = (slug) =>
@@ -33,11 +34,10 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
   // Use environment variable for base URL
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
   const apiUrl = `${baseUrl}/api/${sanitizedParams.categoryslug}/${sanitizedParams.countryslug}/${sanitizedParams.stateslug}/${sanitizedParams.cityslug}/${sanitizedParams.hotelslug}`;
-  console.log('Constructed API URL:', apiUrl); // Debug log
+  console.log('Constructed API URL:', apiUrl);
 
   try {
     const response = await fetch(apiUrl, { cache: 'no-store' });
-
     if (!response.ok) {
       console.error(
         `Failed to fetch hotel data for ${sanitizedParams.hotelslug}. Status: ${response.status} - ${response.statusText}`
@@ -52,8 +52,6 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
 }
 
 export async function generateStaticParams() {
- 
-
   return [
     {
       categoryslug: 'hotel',
@@ -65,15 +63,13 @@ export async function generateStaticParams() {
   ];
 }
 
-
 export async function generateMetadata({ params }) {
-  console.log('Metadata params:', params); // Debug log
-  const resolvedParams = await params; // Await the params Promise
+  const resolvedParams = await params;
+  console.log('Metadata params:', resolvedParams);
   const { categoryslug, countryslug, stateslug, cityslug, hotelslug } = resolvedParams;
 
   try {
     const data = await getHotelData(resolvedParams);
-
     if (!data || !data.hotel) {
       const formattedHotel = formatSlug(hotelslug) || 'Hotel';
       const formattedCity = formatSlug(cityslug) || 'City';
@@ -106,68 +102,6 @@ export async function generateMetadata({ params }) {
         description: `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza. Enjoy a memorable stay with exclusive offers.`,
         images: [hotel.img || hotel.slideimg || ''],
       },
-      'schema:Hotel': JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': ['Hotel', 'LocalBusiness'],
-        name: hotel.title,
-        description: hotel.description || `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza.`,
-        address: {
-          '@type': 'PostalAddress',
-          addressLocality: hotel.city,
-          addressRegion: hotel.state,
-          addressCountry: hotel.country,
-        },
-        geo: {
-          '@type': 'GeoCoordinates',
-          latitude: hotel.latitude,
-          longitude: hotel.longitude,
-        },
-        image: hotel.img || hotel.slideimg,
-        numberOfRooms: hotel.numberofrooms,
-        telephone: hotel.telephone,
-        email: hotel.email,
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: hotel.ratings ? parseFloat(hotel.ratings).toFixed(1) : undefined,
-          reviewCount: hotel.numberofreviews ? parseInt(hotel.numberofreviews) : 0,
-        },
-        breadcrumb: {
-          '@type': 'BreadcrumbList',
-          itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hoteloza.com' },
-            {
-              '@type': 'ListItem',
-              position: 2,
-              name: formatSlug(categoryslug),
-              item: `https://hoteloza.com/${categoryslug}`,
-            },
-            {
-              '@type': 'ListItem',
-              position: 3,
-              name: formatSlug(countryslug),
-              item: `https://hoteloza.com/${categoryslug}/${countryslug}`,
-            },
-            {
-              '@type': 'ListItem',
-              position: 4,
-              name: formatSlug(stateslug),
-              item: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}`,
-            },
-            {
-              '@type': 'ListItem',
-              position: 5,
-              name: formatSlug(cityslug),
-              item: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}`,
-            },
-            {
-              '@type': 'ListItem',
-              position: 6,
-              name: hotel.title,
-              item: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}/${hotelslug}`,
-            },
-          ],
-        },
-      }),
     };
   } catch (error) {
     console.error('Error in generateMetadata:', error);
@@ -178,31 +112,113 @@ export async function generateMetadata({ params }) {
   }
 }
 
-// Default export: This is the actual page component, a Server Component
 export default async function HotelDetailPage({ params }) {
-  const resolvedParams = await params; // Await the params Promise
-  console.log('Received params in HotelDetailPage:', resolvedParams); // Debug log
+  const resolvedParams = await params;
+  console.log('Received params in HotelDetailPage:', resolvedParams);
   const data = await getHotelData(resolvedParams);
 
   if (!data || !data.hotel) {
     notFound();
   }
 
-  console.log('Hotel data:', data.hotel); // Debug log
-  console.log('Related hotels:', data.relatedHotels); // Debug log
+  const hotel = data.hotel;
+  const formattedHotel = formatSlug(resolvedParams.hotelslug) || hotel.title;
+  const formattedCity = formatSlug(resolvedParams.cityslug) || hotel.city;
+  const currentYear = new Date().getFullYear();
+
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': ['Hotel', 'LocalBusiness'],
+    name: hotel.title,
+    description: hotel.description || `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza.`,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: hotel.city,
+      addressRegion: hotel.state,
+      addressCountry: hotel.country,
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: parseFloat(hotel.latitude) || 0, // Ensure valid number
+      longitude: parseFloat(hotel.longitude) || 0, // Ensure valid number
+    },
+    image: hotel.img || hotel.slideimg || '',
+    numberOfRooms: parseInt(hotel.numberofrooms) || 0,
+    telephone: hotel.telephone || '',
+    email: hotel.email || '',
+    priceRange: hotel.priceRange || '$$$', // Add priceRange for rich results
+    checkinTime: hotel.checkinTime || '15:00', // Add checkinTime
+    checkoutTime: hotel.checkoutTime || '11:00', // Add checkoutTime
+    url: `https://hoteloza.com/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}/${resolvedParams.hotelslug}`,
+    ...(hotel.ratings && {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: parseFloat(hotel.ratings).toFixed(1),
+        reviewCount: parseInt(hotel.numberofreviews) || 0,
+      },
+    }),
+    ...(hotel.starRating && {
+      starRating: {
+        '@type': 'Rating',
+        ratingValue: parseFloat(hotel.starRating),
+        bestRating: '5',
+      },
+    }),
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hoteloza.com' },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: formatSlug(resolvedParams.categoryslug),
+          item: `https://hoteloza.com/${resolvedParams.categoryslug}`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: formatSlug(resolvedParams.countryslug),
+          item: `https://hoteloza.com/${resolvedParams.categoryslug}/${resolvedParams.countryslug}`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 4,
+          name: formatSlug(resolvedParams.stateslug),
+          item: `https://hoteloza.com/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 5,
+          name: formatSlug(resolvedParams.cityslug),
+          item: `https://hoteloza.com/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 6,
+          name: hotel.title,
+          item: `https://hoteloza.com/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}/${resolvedParams.hotelslug}`,
+        },
+      ],
+    },
+  };
 
   return (
     <>
+      <Script
+        id="hotel-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
       <BookNow hotel={data.hotel} hotelId={data.hotel?.id} />
       <ClientPage
         hotel={data.hotel}
         relatedHotels={data.relatedHotels}
         useHotels2={true}
-        hotelslug={resolvedParams.hotelslug} // Use resolved params
-        categoryslug={resolvedParams.categoryslug} // Use resolved params
-        countryslug={resolvedParams.countryslug} // Use resolved params
-        stateslug={resolvedParams.stateslug} // Use resolved params
-        cityslug={resolvedParams.cityslug} // Use resolved params
+        hotelslug={resolvedParams.hotelslug}
+        categoryslug={resolvedParams.categoryslug}
+        countryslug={resolvedParams.countryslug}
+        stateslug={resolvedParams.stateslug}
+        cityslug={resolvedParams.cityslug}
       />
     </>
   );
