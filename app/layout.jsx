@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import ScrollTop from "../components/common/ScrollTop";
 import "swiper/css/scrollbar";
 import "swiper/css/effect-cards";
 import "aos/dist/aos.css";
@@ -13,14 +14,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/index.scss";
 import { Provider } from "react-redux";
 import { store } from "../store/store";
-import { CurrencyProvider } from "../components/CurrencyContext";
-import ScrollTop from "../components/common/ScrollTop";
+import { CurrencyProvider } from "../components/CurrencyContext"; // Corrected path
 
+// Muat bootstrap.bundle.min.js untuk mendukung dropdown
 if (typeof window !== "undefined") {
-  require("bootstrap/js/dist/dropdown");
+  require("bootstrap/dist/js/bootstrap.bundle.min.js");
 }
 
-export default function RootLayout({ children, hotels = [] }) {
+export default function RootLayout({ children }) {
   useEffect(() => {
     Aos.init({
       duration: 1200,
@@ -31,24 +32,10 @@ export default function RootLayout({ children, hotels = [] }) {
   return (
     <html lang="en">
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Your Site Title</title>
-        {/* Preload gambar LCP */}
-        {hotels?.[0]?.img && (
-          <link
-            rel="preload"
-            href={hotels[0].img}
-            as="image"
-            fetchPriority="high"
-            type="image/webp"
-          />
-        )}
-        {/* CSS asinkronus */}
-        <link
-          rel="stylesheet"
-          href="/_next/static/css/bootstrap.min.css"
-          media="print"
-          onLoad="this.media='all'"
+        {/* Google Site Verification Meta Tag */}
+        <meta
+          name="google-site-verification"
+          content="2CUKI9cYViNxYurFPrRO39L2Qg9DHlUUu6mJssjkuVg"
         />
       </head>
       <body>
