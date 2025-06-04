@@ -17,7 +17,8 @@ const GalleryTwo = ({ hotel }) => {
           <div className="col-auto">
             <div className="row x-gap-10 sm:x-gap-20 items-center">
               <div className="col-auto">
-                <h1 className="text-24 sm:text-28 md:text-30 fw-600">{hotel?.title?.slice(0, 30)}</h1>
+                {/* Perbaikan di sini: Hapus .slice(0, 30) */}
+                <h1 className="text-24 sm:text-28 md:text-30 fw-600">{hotel?.title}</h1>
               </div>
               <div className="col-auto">
                 {[...Array(5)].map((_, i) => (
@@ -68,8 +69,9 @@ const GalleryTwo = ({ hotel }) => {
         {/* Overview Section */}
         {hotel?.overview && (
           <div className="pt-20 sm:pt-30 md:pt-40 px-0">
+            {/* Perbaikan di sini: Hapus .slice(0, 30) */}
             <h2 className="text-20 sm:text-22 fw-500 border-top-light mb-10 sm:mb-20">
-              Overview {hotel?.title?.slice(0, 30)}
+              Overview {hotel?.title}
             </h2>
             {(() => {
               const sentences = hotel.overview.split(".").filter(Boolean);
