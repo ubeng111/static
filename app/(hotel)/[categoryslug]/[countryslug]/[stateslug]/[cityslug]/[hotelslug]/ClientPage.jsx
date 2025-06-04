@@ -3,20 +3,19 @@
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 
-// Dynamically import components
-const CallToActions = dynamic(() => import('@/components/common/CallToActions'), { ssr: false });
-const Header11 = dynamic(() => import('@/components/header/header-11'), { ssr: false });
-const DefaultFooter = dynamic(() => import('@/components/footer/default'), { ssr: false });
-const GalleryTwo = dynamic(() => import('@/components/hotel-single/GalleryTwo'), { ssr: false });
+import GalleryTwo from '@/components/hotel-single/GalleryTwo';
+const CallToActions = dynamic(() => import('@/components/common/CallToActions'), { ssr: true });
+const Header11 = dynamic(() => import('@/components/header/header-11'), { ssr: true });
+const DefaultFooter = dynamic(() => import('@/components/footer/default'), { ssr: true });
 const MapComponent = dynamic(() => import('@/components/hotel-single/MapComponent'), { ssr: false });
-const Facilities = dynamic(() => import('@/components/hotel-single/Facilities'), { ssr: false });
-const Hotels2 = dynamic(() => import('@/components/hotels/Hotels2'), { ssr: false });
-const LandmarkList = dynamic(() => import('@/components/hotel-single/LandmarkList'), { ssr: false });
-const TopBreadCrumb88 = dynamic(() => import('@/components/hotel-single/TopBreadCrumb88'), { ssr: false });
-const MainFilterSearchBox = dynamic(() => import('@/components/hotel-list/common/MainFilterSearchBox'), { ssr: false });
-const RelatedHotels = dynamic(() => import('@/components/hotel-single/RelatedHotels'), { ssr: false });
+const Facilities = dynamic(() => import('@/components/hotel-single/Facilities'), { ssr: true });
+const Hotels2 = dynamic(() => import('@/components/hotels/Hotels2'), { ssr: true });
+const LandmarkList = dynamic(() => import('@/components/hotel-single/LandmarkList'), { ssr: true });
+const TopBreadCrumb88 = dynamic(() => import('@/components/hotel-single/TopBreadCrumb88'), { ssr: true });
+const MainFilterSearchBox = dynamic(() => import('@/components/hotel-list/common/MainFilterSearchBox'), { ssr: true });
+const RelatedHotels = dynamic(() => import('@/components/hotel-single/RelatedHotels'), { ssr: true });
 
-// Reusable AccordionItem component
+// AccordionItem Component
 const AccordionItem = ({ id, icon, title, isOpen, toggle, ariaLabel, children }) => (
   <div className="accordion-item mb-20">
     <button
@@ -48,7 +47,6 @@ export default function ClientPage({
   stateslug,
   cityslug,
 }) {
-  // State for accordion sections, removed 'overview'
   const [openSections, setOpenSections] = useState({
     facilities: true,
     map: true,
@@ -63,7 +61,6 @@ export default function ClientPage({
     }));
   };
 
-  // Safeguard for missing hotel data
   if (!hotel) {
     return (
       <div className="text-center py-5">
@@ -74,31 +71,32 @@ export default function ClientPage({
 
   return (
     <>
-      <style jsx>{`
-        .accordion-header {
-          transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      {/* GLOBAL STYLE */}
+      <style jsx global>{`
+        .accordion-item .accordion-header {
+          background-color: #0056b3 !important;
+          color: white !important;
           border-radius: 8px;
           padding: 15px 20px;
-          background-color: #001F3F; /* Navy blue */
-          color: #ffffff;
-          display: flex;
-          align-items: center;
-          cursor: pointer;
           font-weight: 500;
           font-size: 16px;
           border: none;
           width: 100%;
           text-align: left;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
-        .accordion-header:hover {
-          background-color: #003366; /* Lighter navy blue for hover */
+        .accordion-item .accordion-header:hover {
+          background-color: #003366 !important;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
         .accordion-body {
           background-color: #f8fafc;
           border-radius: 0 0 8px 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
           padding: 20px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
         .accordion-icon {
           margin-right: 12px;
@@ -113,10 +111,11 @@ export default function ClientPage({
         }
       `}</style>
 
+      {/* Header */}
       <div className="header-margin"></div>
       <Header11 />
 
-      {/* Top Breadcrumb Section */}
+      {/* Breadcrumb */}
       <div className="py-10 bg-white">
         <div className="container">
           <div className="row">
@@ -127,7 +126,7 @@ export default function ClientPage({
         </div>
       </div>
 
-      {/* Search Filter Section */}
+      {/* Search Filter */}
       <section className="layout-pt-md">
         <div className="container">
           <div className="row">
@@ -138,18 +137,17 @@ export default function ClientPage({
         </div>
       </section>
 
-      {/* Gallery Section */}
+      {/* Gallery */}
       <section className="mt-40" id="overview">
         <div className="container">
           <GalleryTwo hotel={hotel} />
         </div>
       </section>
 
-      {/* Main Sections */}
+      {/* Accordions */}
       <section className="pt-40 layout-pb-md">
         <div className="container">
           <div className="accordion -simple js-accordion" id="hotelAccordion">
-            {/* Facilities Section */}
             <AccordionItem
               id="facilitiesCollapse"
               icon="fas fa-concierge-bell"
@@ -163,7 +161,6 @@ export default function ClientPage({
               </div>
             </AccordionItem>
 
-            {/* Nearby Landmarks Section */}
             {hotel?.latitude && hotel?.longitude && (
               <AccordionItem
                 id="landmarkCollapse"
@@ -177,8 +174,7 @@ export default function ClientPage({
               </AccordionItem>
             )}
 
-            {/* Related Hotels Section with Hotels2 and RelatedHotels */}
-            {relatedHotels && relatedHotels.length > 0 && (
+            {relatedHotels?.length > 0 && (
               <AccordionItem
                 id="relatedHotelsCollapse"
                 icon="fas fa-hotel"
@@ -189,20 +185,12 @@ export default function ClientPage({
               >
                 <div className="row justify-center text-center">
                   <div className="col-auto">
-                    <div className="sectionTitle -simple">
-                      <h2
-                        className="sectionTitle"
-                        style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}
-                      >
-                        Popular properties similar to {hotel?.title || 'Hotel'}
-                      </h2>
-                      <p
-                        className="sectionTitle"
-                        style={{ fontSize: '14px', marginTop: '14px' }}
-                      >
-                        Find top-rated stays with similar perks near your destination
-                      </p>
-                    </div>
+                    <h2 style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>
+                      Popular properties similar to {hotel?.title}
+                    </h2>
+                    <p style={{ fontSize: '14px', marginTop: '14px' }}>
+                      Find top-rated stays with similar perks near your destination
+                    </p>
                   </div>
                 </div>
                 <div className="pt-40 sm:pt-20 item_gap-x30">
@@ -223,7 +211,7 @@ export default function ClientPage({
             )}
           </div>
 
-          {/* Sidebar (Map) */}
+          {/* Sidebar Accordion */}
           <div className="row y-gap-30">
             <div className="col-12">
               <div className="accordion -simple js-accordion" id="sidebarAccordion">
