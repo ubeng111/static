@@ -1,251 +1,167 @@
+import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
-import BookNow from '@/components/hotel-single/BookNow';
-import ClientPage from './ClientPage';
-import Script from 'next/script';
 
-// Helper function to format slugs for display purposes
+// Helper function to sanitize slugs
+const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
+
+// Helper function to format slugs
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
-// Function to fetch hotel data for both metadata and page content
-async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, hotelslug }) {
-  // Sanitize slugs to prevent invalid characters
-  const sanitizedParams = {
-    categoryslug: categoryslug?.replace(/[^a-zA-Z0-9-]/g, ''),
-    countryslug: countryslug?.replace(/[^a-zA-Z0-9-]/g, ''),
-    stateslug: stateslug?.replace(/[^a-zA-Z0-9-]/g, ''),
-    cityslug: cityslug?.replace(/[^a-zA-Z0-9-]/g, ''),
-    hotelslug: hotelslug?.replace(/[^a-zA-Z0-9-]/g, ''),
-  };
-
-  // Validate parameters
-  if (
-    !sanitizedParams.categoryslug ||
-    !sanitizedParams.countryslug ||
-    !sanitizedParams.stateslug ||
-    !sanitizedParams.cityslug ||
-    !sanitizedParams.hotelslug
-  ) {
-    console.error('Missing required parameters after sanitization:', sanitizedParams);
+// Function to fetch city data
+async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
+  const sanitizedCategory = sanitizeSlug(categoryslug);
+  const sanitizedCountry = sanitizeSlug(countryslug);
+  const sanitizedState = sanitizeSlug(stateslug);
+  const sanitizedCity = sanitizeSlug(cityslug);
+  if (!sanitizedCategory || !sanitizedCountry || !sanitizedState || !sanitizedCity) {
+    console.error('Invalid slugs:', { categoryslug, countryslug, stateslug, cityslug });
     return null;
   }
 
-  // Use environment variable for base URL
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
-  const apiUrl = `${baseUrl}/api/${sanitizedParams.categoryslug}/${sanitizedParams.countryslug}/${sanitizedParams.stateslug}/${sanitizedParams.cityslug}/${sanitizedParams.hotelslug}`;
-  console.log('Constructed API URL:', apiUrl);
+  const apiUrl = `${baseUrl}/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`;
 
   try {
-    // --- PERUBAHAN PENTING DI SINI ---
-    // Menggunakan `next: { revalidate: <seconds> }` untuk Incremental Static Regeneration (ISR).
-    // Ini akan membangun halaman secara statis, tetapi merevalidasi data setelah waktu yang ditentukan.
-    // Misal: 3600 detik = 1 jam. Pilih waktu yang sesuai dengan seberapa sering data Anda berubah.
-    const response = await fetch(apiUrl, { next: { revalidate: 3600 } }); // Revalidasi setiap 1 jam
-
+    const response = await fetch(apiUrl, { cache: 'no-store' });
     if (!response.ok) {
-      console.error(
-        `Failed to fetch hotel data for ${sanitizedParams.hotelslug}. Status: ${response.status} - ${response.statusText}`
-      );
+      console.error(`Failed to fetch city data for ${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}. Status: ${response.status}`);
       return null;
     }
     return response.json();
   } catch (error) {
-    console.error('Error fetching hotel data in getHotelData:', error);
+    console.error('Error fetching city data:', error);
     return null;
   }
 }
 
-// --- PERUBAHAN PENTING DI SINI ---
-// Menentukan revalidasi di tingkat halaman (page.jsx).
-// Ini adalah fallback untuk semua fetch di halaman ini jika tidak ada `revalidate` spesifik pada fetch tersebut.
-// Jika ada `revalidate` pada fetch individual, itu akan mengambil prioritas.
-// Next.js akan meregenerasi halaman ini (termasuk data hotel) setiap 3600 detik (1 jam).
-export const revalidate = 3600;
-
-export async function generateStaticParams() {
-  // Fungsi ini digunakan untuk pre-render halaman statis pada waktu build.
-  // Anda harus mengisi ini dengan daftar slugs yang valid dari database Anda
-  // untuk hotel-hotel yang paling penting yang ingin Anda cache.
-  // Contoh di bawah ini hanya untuk demo. Anda perlu mendapatkan daftar ini secara dinamis dari DB.
-  // Jika Anda tidak memiliki daftar besar untuk pre-render, Anda bisa membiarkan ini kosong
-  // atau hanya dengan beberapa contoh, dan Next.js akan membangun sisanya on-demand (ISR).
-  return [
-    {
-      categoryslug: 'hotel',
-      countryslug: 'usa',
-      stateslug: 'california',
-      cityslug: 'los-angeles',
-      hotelslug: 'the-ritz-carlton-los-angeles',
-    },
-    // Tambahkan lebih banyak kombinasi slug di sini jika perlu.
-    // Contoh untuk URL yang 404 jika ada data:
-    // { categoryslug: 'entire-house', countryslug: 'russia', stateslug: 'yaroslavskaya', cityslug: 'nama-kota-di-yaroslavskaya', hotelslug: 'nama-hotel-di-yaroslavskaya' },
-  ];
-}
+const ClientPage = dynamic(() => import('./ClientPage'));
 
 export async function generateMetadata({ params }) {
-  const resolvedParams = await params;
-  console.log('Metadata params:', resolvedParams);
-  const { categoryslug, countryslug, stateslug, cityslug, hotelslug } = resolvedParams;
+  const { categoryslug, countryslug, stateslug, cityslug } = params;
+  const sanitizedCategory = sanitizeSlug(categoryslug);
+  const sanitizedCountry = sanitizeSlug(countryslug);
+  const sanitizedState = sanitizeSlug(stateslug);
+  const sanitizedCity = sanitizeSlug(cityslug);
 
-  try {
-    // getHotelData akan menggunakan cache ISR
-    const data = await getHotelData(resolvedParams);
-    if (!data || !data.hotel) {
-      const formattedHotel = formatSlug(hotelslug) || 'Hotel';
-      const formattedCity = formatSlug(cityslug) || 'City';
-      return {
-        title: `${formattedHotel}, ${formattedCity} - Hotel Not Found | Hoteloza`,
-        description: `The hotel ${formattedHotel} in ${formattedCity} was not found on Hoteloza.`,
-      };
-    }
-
-    const hotel = data.hotel;
-    const formattedHotel = formatSlug(hotelslug) || hotel.title;
-    const formattedCity = formatSlug(cityslug) || hotel.city;
-    const currentYear = new Date().getFullYear();
-
+  if (!sanitizedCategory || !sanitizedCountry || !sanitizedState || !sanitizedCity) {
     return {
-      title: `${formattedHotel}, ${formattedCity} - ${currentYear} Luxury Awaits on Hoteloza!`,
-      description: `Stay in style at ${formattedHotel}, ${formattedCity} with Hoteloza’s ${currentYear} exclusive offers. Book now for premium amenities and a stay you’ll never forget!`,
-      alternates: {
-        canonical: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}/${hotelslug}`,
-      },
-      openGraph: {
-        title: `${formattedHotel}, ${formattedCity} - Book Your ${currentYear} Stay | Hoteloza`,
-        description: `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza. Enjoy a memorable stay with exclusive offers.`,
-        url: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}/${hotelslug}`,
-        images: [hotel.img || hotel.slideimg || ''],
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title: `${formattedHotel}, ${formattedCity} - Book Your ${currentYear} Stay | Hoteloza`,
-        description: `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza. Enjoy a memorable stay with exclusive offers.`,
-        images: [hotel.img || hotel.slideimg || ''],
-      },
-    };
-  } catch (error) {
-    console.error('Error in generateMetadata:', error);
-    return {
-      title: `Hotel Not Found | Hoteloza`,
-      description: `The requested hotel could not be found due to an error.`,
+      title: 'Page Not Found | Hoteloza',
+      description: 'The requested category, country, state, or city was not found on Hoteloza.',
     };
   }
-}
 
-export default async function HotelDetailPage({ params }) {
-  const resolvedParams = await params;
-  console.log('Received params in HotelDetailPage:', resolvedParams);
-  // getHotelData akan menggunakan cache ISR
-  const data = await getHotelData(resolvedParams);
-
-  if (!data || !data.hotel) {
-    notFound(); // Menggunakan notFound() dari Next.js untuk menampilkan halaman 404
+  const data = await getCityData(categoryslug, countryslug, stateslug, cityslug);
+  if (!data || !data.hotels || data.hotels.length === 0) {
+    return {
+      title: 'Page Not Found | Hoteloza',
+      description: 'The requested category, country, state, or city was not found on Hoteloza.',
+    };
   }
 
-  const hotel = data.hotel;
-  const formattedHotel = formatSlug(resolvedParams.hotelslug) || hotel.title;
-  const formattedCity = formatSlug(resolvedParams.cityslug) || hotel.city;
+  const formattedCity = formatSlug(sanitizedCity) || 'City';
+  const formattedState = formatSlug(sanitizedState) || 'State';
+  const formattedCountry = formatSlug(sanitizedCountry) || 'Country';
+  const formattedCategory = formatSlug(sanitizedCategory) || 'Category';
   const currentYear = new Date().getFullYear();
 
-  const schemas = [
-    {
-      '@context': 'https://schema.org',
-      '@type': ['Hotel', 'LocalBusiness'],
-      name: hotel.title,
-      description: hotel.description || `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza.`,
+  return {
+    title: `${currentYear}’s Hottest ${formattedCategory} in ${formattedCity}, ${formattedCountry} - Book Now!`,
+    description: `Discover ${formattedCity}, ${formattedState}’s top ${formattedCategory.toLowerCase()} for ${currentYear} on Hoteloza. Secure your spot with exclusive deals—don’t wait!`,
+    openGraph: {
+      title: `Top ${formattedCategory} in ${formattedCity}, ${formattedState} ${currentYear} | Hoteloza`,
+      description: `Book top ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState} for ${currentYear} on Hoteloza. Enjoy exclusive deals now!`,
+      url: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`,
+      type: 'website',
+    },
+  };
+}
+
+export default async function Page({ params }) {
+  const { categoryslug, countryslug, stateslug, cityslug } = params;
+  const sanitizedCategory = sanitizeSlug(categoryslug);
+  const sanitizedCountry = sanitizeSlug(countryslug);
+  const sanitizedState = sanitizeSlug(stateslug);
+  const sanitizedCity = sanitizeSlug(cityslug);
+
+  if (!sanitizedCategory || !sanitizedCountry || !sanitizedState || !sanitizedCity) {
+    notFound();
+  }
+
+  const data = await getCityData(categoryslug, countryslug, stateslug, cityslug);
+  if (!data || !data.hotels || data.hotels.length === 0) {
+    notFound();
+  }
+
+  const formattedCity = formatSlug(sanitizedCity) || 'City';
+  const formattedState = formatSlug(sanitizedState) || 'State';
+  const formattedCountry = formatSlug(sanitizedCountry) || 'Country';
+  const formattedCategory = formatSlug(sanitizedCategory) || 'Category';
+  const currentYear = new Date().getFullYear();
+
+  const baseUrl = 'https://hoteloza.com';
+  const currentUrl = `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`;
+
+  // Create ItemList schema for hotels
+  const hotelItems = data.hotels.map((hotel, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    item: {
+      '@type': 'Hotel',
+      name: hotel.name || hotel.title || 'Unnamed Hotel',
+      url: hotel.hotelslug ? `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}/${hotel.hotelslug}` : `${currentUrl}/${hotel.id || index + 1}`,
       address: {
         '@type': 'PostalAddress',
-        addressLocality: hotel.city,
-        addressRegion: hotel.state,
-        addressCountry: hotel.country,
+        streetAddress: hotel.lokasi || 'Unknown Address',
+        addressLocality: hotel.kota ? formatSlug(hotel.kota) : formattedCity || 'Unknown City',
+        addressRegion: hotel['negara bagian'] ? formatSlug(hotel['negara bagian']) : formattedState || 'Unknown Region',
+        addressCountry: hotel.country ? formatSlug(hotel.country) : formattedCountry || 'Unknown Country',
       },
-      geo: {
-        '@type': 'GeoCoordinates',
-        latitude: parseFloat(hotel.latitude) || 0,
-        longitude: parseFloat(hotel.longitude) || 0,
+      description: hotel.description || hotel.overview || `A ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState}.`,
+    },
+  }));
+
+  const schemaMarkup = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        url: currentUrl,
+        name: `Top ${formattedCategory} in ${formattedCity}, ${formattedState} ${currentYear}`,
+        description: `Book top ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState} for ${currentYear} on Hoteloza with exclusive deals and amenities.`,
+        publisher: {
+          '@type': 'Organization',
+          name: 'Hoteloza',
+          logo: { '@type': 'ImageObject', url: `${baseUrl}/logo.png` },
+        },
       },
-      image: hotel.img || hotel.slideimg || '',
-      numberOfRooms: parseInt(hotel.numberofrooms) || 0,
-      telephone: hotel.telephone || '',
-      email: hotel.email || '',
-      priceRange: hotel.priceRange || '$$$',
-      checkinTime: hotel.checkinTime || '15:00',
-      checkoutTime: hotel.checkoutTime || '11:00',
-      url: `https://hoteloza.com/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}/${resolvedParams.hotelslug}`,
-      ...(hotel.ratings && {
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: parseFloat(hotel.ratings).toFixed(1),
-          bestRating: 10, // Explicitly set to match 1–10 scale
-          worstRating: 1, // Explicitly set to match 1–10 scale
-          reviewCount: parseInt(hotel.numberofreviews) || 0,
-        },
-      }),
-      ...(hotel.starRating && {
-        starRating: {
-          '@type': 'Rating',
-          ratingValue: parseFloat(hotel.starRating),
-          bestRating: 5, // Star ratings are typically 1–5
-        },
-      }),
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hoteloza.com' },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: formatSlug(resolvedParams.categoryslug),
-          item: `https://hoteloza.com/${resolvedParams.categoryslug}`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 3,
-          name: formatSlug(resolvedParams.countryslug),
-          item: `https://hoteloza.com/${resolvedParams.categoryslug}/${resolvedParams.countryslug}`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 4,
-          name: formatSlug(resolvedParams.stateslug),
-          item: `https://hoteloza.com/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 5,
-          name: formatSlug(resolvedParams.cityslug),
-          item: `https://hoteloza.com/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 6,
-          name: hotel.title,
-          item: `https://hoteloza.com/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}/${resolvedParams.hotelslug}`,
-        },
-      ],
-    },
-  ];
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+          { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${sanitizedCategory}` },
+          { '@type': 'ListItem', position: 3, name: formattedCountry, item: `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}` },
+          { '@type': 'ListItem', position: 4, name: formattedState, item: `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}` },
+          { '@type': 'ListItem', position: 5, name: formattedCity, item: currentUrl },
+        ],
+      },
+      {
+        '@type': 'ItemList',
+        name: `Top ${formattedCategory} in ${formattedCity}, ${formattedState}`,
+        description: `A list of top ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState} for ${currentYear} on Hoteloza.`,
+        itemListElement: hotelItems,
+      },
+    ],
+  };
 
   return (
     <>
-      <Script
-        id="hotel-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
-      />
-      <BookNow hotel={data.hotel} hotelId={data.hotel?.id} />
+      <script type="application/ld+json">{JSON.stringify(schemaMarkup)}</script>
       <ClientPage
-        hotel={data.hotel}
-        relatedHotels={data.relatedHotels}
-        useHotels2={true}
-        hotelslug={resolvedParams.hotelslug}
-        categoryslug={resolvedParams.categoryslug}
-        countryslug={resolvedParams.countryslug}
-        stateslug={resolvedParams.stateslug}
-        cityslug={resolvedParams.cityslug}
+        categoryslug={sanitizedCategory}
+        countryslug={sanitizedCountry}
+        stateslug={sanitizedState}
+        cityslug={sanitizedCity}
       />
     </>
   );
