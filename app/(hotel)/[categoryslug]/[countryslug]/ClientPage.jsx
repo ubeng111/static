@@ -69,6 +69,10 @@ export default function ClientPage({ categoryslug, countryslug }) {
     return <div>Error loading data. Please try again later.</div>;
   }
 
+  if (!hotels.length) {
+    return <div>No hotels found for this country.</div>;
+  }
+
   return (
     <>
       <div className="header-margin"></div>
@@ -90,7 +94,7 @@ export default function ClientPage({ categoryslug, countryslug }) {
             <div className="col-12">
               <div className="text-center">
                 <h1 className="text-30 fw-600 text-white">
-                  Cheap {formattedCategory} in {formattedCountry}
+                  Cheap {formattedCategory} in {hotels[0]?.country ? formatSlug(hotels[0].country) : formattedCountry}
                 </h1>
               </div>
             </div>
@@ -136,7 +140,7 @@ export default function ClientPage({ categoryslug, countryslug }) {
         {relatedcountry.length > 0 ? (
           <Relatedcountry88 relatedcountry={relatedcountry} categoryslug={categoryslug} countryslug={countryslug} />
         ) : (
-          <p>No related states found.</p>
+          <p>No related countries found.</p>
         )}
       </div>
 
@@ -145,11 +149,11 @@ export default function ClientPage({ categoryslug, countryslug }) {
           <div className="pt-40 border-top-light">
             <div className="row y-gap-20">
               <div className="col-12 text-center">
-                <h2 className="text-22 fw-500">FAQs about {hotels[0]?.country || formattedCountry} hotels</h2>
+                <h2 className="text-22 fw-500">FAQs about {hotels[0]?.country ? formatSlug(hotels[0].country) : formattedCountry} hotels</h2>
               </div>
               <div className="col-lg-8 offset-lg-2">
                 <div className="accordion -simple row y-gap-20 js-accordion">
-                  <Faqcountry country={hotels[0]?.country || formattedCountry} />
+                  <Faqcountry country={hotels[0]?.country ? formatSlug(hotels[0].country) : formattedCountry} />
                 </div>
               </div>
             </div>
