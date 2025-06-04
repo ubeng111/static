@@ -6,7 +6,6 @@ import { useEffect } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import ScrollTop from "../components/common/ScrollTop";
 import "swiper/css/scrollbar";
 import "swiper/css/effect-cards";
 import "aos/dist/aos.css";
@@ -14,14 +13,15 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/index.scss";
 import { Provider } from "react-redux";
 import { store } from "../store/store";
-import { CurrencyProvider } from "../components/CurrencyContext"; // Corrected path
+import { CurrencyProvider } from "../components/CurrencyContext";
+import ScrollTop from "../components/common/ScrollTop";
 
-// Muat bootstrap.bundle.min.js untuk mendukung dropdown
+// Muat hanya komponen Bootstrap yang diperlukan
 if (typeof window !== "undefined") {
-  require("bootstrap/dist/js/bootstrap.bundle.min.js");
+  require("bootstrap/js/dist/dropdown"); // Hanya muat dropdown
 }
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children, hotels }) {
   useEffect(() => {
     Aos.init({
       duration: 1200,
@@ -32,10 +32,23 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* Google Site Verification Meta Tag */}
-        <meta
-          name="google-site-verification"
-          content="2CUKI9cYViNxYurFPrRO39L2Qg9DHlUUu6mJssjkuVg"
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Your Site Title</title>
+        {/* Preload gambar LCP jika tersedia */}
+        {hotels?.[0]?.img && (
+          <link
+            rel="preload"
+            href={hotels[0].img}
+            as="image"
+            fetchPriority="high"
+          />
+        )}
+        {/* CSS asinkronus untuk mengurangi render-blocking */}
+        <link
+          rel="stylesheet"
+          href="/path/to/bootstrap.min.css"
+          media="print"
+          onLoad="this.media='all'"
         />
       </head>
       <body>

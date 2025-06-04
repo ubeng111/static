@@ -31,9 +31,8 @@ export default function HotelProperties88({ hotels }) {
                         className="rounded-4 col-12"
                         src={item.img}
                         alt={item.title || "Hotel image"}
-                        sizes="(max-width: 768px) 100vw, 300px" // Responsive sizes
-                        loading={index === 0 ? "eager" : "lazy"} // Eager for first image, lazy for others
-                        fetchPriority={index === 0 ? "high" : "auto"} // High priority for LCP candidate
+                        loading="eager"
+                        fetchPriority="high"
                       />
                     </div>
                   </div>
