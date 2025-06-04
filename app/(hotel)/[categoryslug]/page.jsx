@@ -112,14 +112,26 @@ export default async function Page({ params }) {
     {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
+      name: `Top ${formattedCategory} in ${currentYear}`,
+      description: `A list of top ${formattedCategory.toLowerCase()} for ${currentYear} on Hoteloza.`,
       itemListElement: data.hotels.map((hotel, index) => ({
         '@type': 'ListItem',
         position: index + 1,
         item: {
           '@type': 'Hotel',
-          name: hotel.title,
-          url: `${baseUrl}/${sanitizedCategory}/${hotel.countrySlug}/${hotel.stateSlug}/${hotel.citySlug}/${hotel.slug}`,
+          name: hotel.title || hotel.name || 'Unnamed Hotel',
+          url: hotel.hotelslug && hotel.countryslug && hotel.stateslug && hotel.cityslug
+            ? `${baseUrl}/${sanitizedCategory}/${hotel.countryslug}/${hotel.stateslug}/${hotel.cityslug}/${hotel.hotelslug}`
+            : `${currentUrl}/${hotel.id || index + 1}`,
           image: hotel.img || hotel.slideimg || '',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: hotel.lokasi || 'Unknown Address',
+            addressLocality: hotel.kota ? formatSlug(hotel.kota) : 'Unknown City',
+            addressRegion: hotel['negara bagian'] ? formatSlug(hotel['negara bagian']) : 'Unknown Region',
+            addressCountry: hotel.country ? formatSlug(hotel.country) : 'Unknown Country',
+          },
+          description: hotel.description || hotel.overview || `A ${formattedCategory.toLowerCase()} in ${hotel.kota ? formatSlug(hotel.kota) : 'unknown location'}.`,
         },
       })),
     },

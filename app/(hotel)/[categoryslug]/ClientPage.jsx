@@ -35,7 +35,7 @@ export default function ClientPage({ categoryslug }) {
   const relatedcategory = useMemo(() => data?.relatedcategory || [], [data]);
   const pagination = useMemo(() => data?.pagination || { page: 1, totalPages: 1, totalHotels: 0 }, [data]);
   const formattedCategory = useMemo(
-    () => categoryslug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()),
+    () => (categoryslug ? categoryslug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : 'Category'),
     [categoryslug]
   );
 
@@ -62,6 +62,10 @@ export default function ClientPage({ categoryslug }) {
 
   if (error) {
     return <div>Error loading data. Please try again later.</div>;
+  }
+
+  if (!hotels.length) {
+    return <div>No hotels found for this category.</div>;
   }
 
   return (
