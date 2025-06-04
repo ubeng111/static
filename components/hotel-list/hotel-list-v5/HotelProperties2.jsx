@@ -1,6 +1,5 @@
 'use client';
 
-import Image from "next/image";
 import Slider from "react-slick";
 import { useCurrency } from '@/components/CurrencyContext';
 
@@ -44,7 +43,7 @@ const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui" }) => {
         const hotel = {
           id: item.hotelId,
           title: item.hotelName || "Nama Hotel Tidak Tersedia",
-          img: item.imageURL || "/img/default-hotel.jpg",
+          img: item.imageURL || "/images/placeholder.jpg",
           slideimg: item.slideImages || [],
           location: cityName,
           ratings: item.reviewScore || 0,
@@ -58,7 +57,7 @@ const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui" }) => {
 
         return (
           <div
-            className="col-lg-3 col-md-6 col-12 mb-30" // Ubah col-6 menjadi col-12
+            className="col-lg-3 col-md-6 col-12 mb-30"
             key={hotel.id || index}
             data-aos="fade"
             data-aos-delay={hotel.delayAnimation}
@@ -80,14 +79,13 @@ const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui" }) => {
                     {hotel.img && (
                       <div className="cardImage ratio ratio-1:1">
                         <div className="cardImage__content">
-                          <Image
+                          <img
                             width={300}
                             height={300}
                             className="rounded-4 col-12"
                             src={hotel.img}
                             alt={`Gambar dari hotel ${hotel.title}`}
                             loading="eager"
-                            fetchPriority="high"
                           />
                         </div>
                       </div>
@@ -96,7 +94,7 @@ const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui" }) => {
                       hotel.slideimg.slice(0, 2).map((slide, i) => (
                         <div className="cardImage ratio ratio-1:1" key={i}>
                           <div className="cardImage__content">
-                            <Image
+                            <img
                               width={300}
                               height={300}
                               className="rounded-4 col-12"
