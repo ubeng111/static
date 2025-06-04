@@ -79,41 +79,17 @@ export async function GET(req, { params }) {
     const totalHotels = parseInt(result.rows[0].total, 10);
     const totalPages = Math.ceil(totalHotels / LIMIT);
 
-    // **PERBAIKAN DI SINI UNTUK relatedStateQuery:**
     const relatedStateQuery = `
       SELECT DISTINCT state, stateslug
       FROM public.hotels
-      WHERE
-        categoryslug = $1 AND
-        countryslug = $2 AND
-        state != '' AND
-        stateslug IS NOT NULL AND
-        stateslug ~ '^[a-z0-9-]+$' -- Pastikan stateslug valid
-      GROUP BY state, stateslug   -- Kelompokkan berdasarkan state dan stateslug
-      HAVING COUNT(id) > 0        -- Hanya sertakan state yang memiliki setidaknya satu hotel
+      WHERE categoryslug = $1 AND countryslug = $2 AND state != ''
       LIMIT 40
     `;
     const relatedStateResult = await client.query(relatedStateQuery, [categoryslug, countryslug]);
 
-    // Pembersihan data hotel (sama seperti yang sebelumnya saya jelaskan)
-    const cleanHotels = result.rows.map(row => {
-        if (row.id) {
-            return {
-                id: row.id, title: row.title, city: row.city, state: row.state, country: row.country,
-                category: row.category, categoryslug: row.categoryslug, countryslug: row.countryslug,
-                stateslug: row.stateslug, cityslug: row.cityslug, hotelslug: row.hotelslug,
-                img: row.img, location: row.location, ratings: row.ratings,
-                numberOfReviews: row.numberOfReviews, numberrooms: row.numberrooms, overview: row.overview,
-                city_id: row.city_id, latitude: row.latitude, longitude: row.longitude,
-            };
-        }
-        return null;
-    }).filter(Boolean);
-
-
     const response = {
-      hotels: cleanHotels,
-      relatedcountry: relatedStateResult.rows, // Ini adalah related states, bukan related countries
+      hotels: JSON.parse(JSON.stringify(result.rows.slice(0, -1))),
+      relatedcountry: JSON.parse(JSON.stringify(relatedStateResult.rows)),
       pagination: { page, totalPages, totalHotels },
     };
 

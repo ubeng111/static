@@ -11,13 +11,14 @@ const GalleryTwo = ({ hotel }) => {
 
   return (
     <section className="pt-10 sm:pt-20 md:pt-40">
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      {/* PERUBAHAN DI SINI: Meningkatkan nilai gap-y- untuk jarak yang lebih jauh */}
+      {/* Menggunakan gap-y-64 (sekitar 10rem/160px), sm:gap-y-80, md:gap-y-96 */}
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col gap-y-64 sm:gap-y-80 md:gap-y-96">
         {/* Hotel Details */}
         <div className="row justify-between items-end">
           <div className="col-auto">
             <div className="row x-gap-10 sm:x-gap-20 items-center">
               <div className="col-auto">
-                {/* Perbaikan di sini: Hapus .slice(0, 30) */}
                 <h1 className="text-24 sm:text-28 md:text-30 fw-600">{hotel?.title}</h1>
               </div>
               <div className="col-auto">
@@ -68,8 +69,7 @@ const GalleryTwo = ({ hotel }) => {
 
         {/* Overview Section */}
         {hotel?.overview && (
-          <div className="pt-20 sm:pt-30 md:pt-40 px-0">
-            {/* Perbaikan di sini: Hapus .slice(0, 30) */}
+          <div className="px-0"> {/* Tidak ada pt- atau mt- di sini, karena gap-y- pada parent akan mengelolanya */}
             <h2 className="text-20 sm:text-22 fw-500 border-top-light mb-10 sm:mb-20">
               Overview {hotel?.title}
             </h2>
