@@ -2,24 +2,27 @@ import React from "react";
 
 const createSlug = (city) => {
   return city
-    ? city.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '')
-    : 'unknown-city';
+    ? city.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "")
+    : "unknown-city";
 };
 
 const Relatedstate88 = React.memo(({ relatedstate, stateslug, countryslug, categoryslug }) => {
   const formattedState = stateslug
     ? stateslug
-        .replace(/-/g, ' ')
+        .replace(/-/g, " ")
         .replace(/\b\w/g, (char) => char.toUpperCase())
-    : 'Unknown State';
+    : "Unknown State";
 
   const formattedCategory = categoryslug
     ? categoryslug
-        .replace(/-/g, ' ')
+        .replace(/-/g, " ")
         .replace(/\b\w/g, (char) => char.toUpperCase())
-    : 'Unknown Category';
+    : "Unknown Category";
 
-  if (!Array.isArray(relatedstate) || relatedstate.length === 0) {
+  // Filter out cities without hotels
+  const validCities = relatedstate?.filter((cityData) => cityData.hasHotels);
+
+  if (!Array.isArray(validCities) || validCities.length === 0) {
     return (
       <div className="container">
         <h2 className="text-center fw-bold mb-3 text-dark">
@@ -34,13 +37,13 @@ const Relatedstate88 = React.memo(({ relatedstate, stateslug, countryslug, categ
       <h2 className="text-center fw-bold mb-3 text-dark">
         🏨 Cities in {formattedState}
       </h2>
-      
+
       <div className="row g-2">
-        {relatedstate.map((cityData, index) => {
+        {validCities.map((cityData, index) => {
           const citySlug = cityData.cityslug || createSlug(cityData.city);
           const capitalizedCity = cityData.city
             ? cityData.city.charAt(0).toUpperCase() + cityData.city.slice(1)
-            : 'Unknown City';
+            : "Unknown City";
 
           return (
             <div key={`${cityData.city}-${index}`} className="col-6 col-md-4 col-lg-3">
@@ -48,7 +51,7 @@ const Relatedstate88 = React.memo(({ relatedstate, stateslug, countryslug, categ
                 <a
                   href={`/${categoryslug}/${countryslug}/${stateslug}/${citySlug}`}
                   className="fw-medium text-dark d-block text-start text-decoration-none"
-                  style={{ fontSize: '14px' }}
+                  style={{ fontSize: "14px" }}
                 >
                   {`${formattedCategory} In ${capitalizedCity}`}
                 </a>
