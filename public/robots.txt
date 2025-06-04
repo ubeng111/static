@@ -2,4 +2,18 @@ User-agent: *
 Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://hoteloza.com/sitemap_index.xml
+Sitemap: https://hoteloza.com/sitemap_index1.xml
+Sitemap: https://hoteloza.com/sitemap_index2.xml
+Sitemap: https://hoteloza.com/sitemap_index3.xml
+Sitemap: https://hoteloza.com/sitemap_index4.xml
+Sitemap: https://hoteloza.com/sitemap_index5.xml
+Sitemap: https://hoteloza.com/sitemap_index6.xml
+Sitemap: https://hoteloza.com/sitemap_index7.xml
+Sitemap: https://hoteloza.com/sitemap_index8.xml
+Sitemap: https://hoteloza.com/sitemap_index9.xml
+Sitemap: https://hoteloza.com/sitemap_index10.xml
+Sitemap: https://hoteloza.com/sitemap_index11.xml
+Sitemap: https://hoteloza.com/sitemap_index12.xml
+Sitemap: https://hoteloza.com/sitemap_index13.xml
+Sitemap: https://hoteloza.com/sitemap_index14.xml
+Sitemap: https://hoteloza.com/sitemap_index15.xml
