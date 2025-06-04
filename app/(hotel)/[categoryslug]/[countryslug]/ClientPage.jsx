@@ -1,3 +1,4 @@
+// ClientPage.jsx (Country)
 'use client';
 
 import { useCallback, useMemo } from 'react';
@@ -15,7 +16,7 @@ const Faqcountry = dynamic(() => import('@/components/faq/Faqcountry'), { ssr: f
 const MainFilterSearchBox = dynamic(() => import('@/components/hotel-list/common/MainFilterSearchBox'), { ssr: false });
 const TopBreadCrumbCountry = dynamic(() => import('@/components/hotel-list/hotel-list-v5/TopBreadCrumbCountry'), { ssr: false });
 
-export default function ClientPage({ categoryslug, countryslug, schema }) {
+export default function ClientPage({ categoryslug, countryslug }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const page = parseInt(searchParams.get('page')) || 1;
@@ -70,7 +71,6 @@ export default function ClientPage({ categoryslug, countryslug, schema }) {
 
   return (
     <>
-      <script type="application/ld+json">{JSON.stringify(schema)}</script>
       <div className="header-margin"></div>
       <Header11 />
       <section className="section-bg pt-40 pb-40 relative z-5">

@@ -1,5 +1,7 @@
+// page.jsx (City)
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
+import Script from 'next/script';
 
 // Helper function to sanitize slugs
 const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
@@ -35,7 +37,7 @@ async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
   }
 }
 
-const ClientPage = dynamic(() => import('./ClientPage'));
+const ClientPage = dynamic(() => import('./ClientPage'), { ssr: false });
 
 export async function generateMetadata({ params }) {
   const { categoryslug, countryslug, stateslug, cityslug } = params;
@@ -98,32 +100,62 @@ export default async function Page({ params }) {
   const formattedCountry = formatSlug(sanitizedCountry) || 'Country';
   const formattedCategory = formatSlug(sanitizedCategory) || 'Category';
   const currentYear = new Date().getFullYear();
+  const baseUrl = 'https://hoteloza.com';
+  const currentUrl = `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`;
 
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: `Top ${formattedCategory} in ${formattedCity}, ${formattedState} ${currentYear}`,
-    description: `Book top ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState} for ${currentYear} on Hoteloza with exclusive deals and amenities.`,
-    url: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`,
-    breadcrumb: {
+  const schemas = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: `Top ${formattedCategory} in ${formattedCity}, ${formattedState} ${currentYear}`,
+      description: `Book top ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState} for ${currentYear} on Hoteloza with exclusive deals and amenities.`,
+      url: currentUrl,
+      publisher: {
+        '@type': 'Organization',
+        name: 'Hoteloza',
+        logo: { '@type': 'ImageObject', url: `${baseUrl}/logo.png` },
+      },
+    },
+    {
+      '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hoteloza.com' },
-        { '@type': 'ListItem', position: 2, name: formattedCategory, item: `https://hoteloza.com/${sanitizedCategory}` },
-        { '@type': 'ListItem', position: 3, name: formattedCountry, item: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}` },
-        { '@type': 'ListItem', position: 4, name: formattedState, item: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}` },
-        { '@type': 'ListItem', position: 5, name: formattedCity, item: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}` },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+        { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${sanitizedCategory}` },
+        { '@type': 'ListItem', position: 3, name: formattedCountry, item: `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}` },
+        { '@type': 'ListItem', position: 4, name: formattedState, item: `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}` },
+        { '@type': 'ListItem', position: 5, name: formattedCity, item: currentUrl },
       ],
     },
-  };
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      itemListElement: data.hotels.map((hotel, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'Hotel',
+          name: hotel.title,
+          url: `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}/${hotel.slug}`,
+          image: hotel.img || hotel.slideimg || '',
+        },
+      })),
+    },
+  ];
 
   return (
-    <ClientPage
-      categoryslug={sanitizedCategory}
-      countryslug={sanitizedCountry}
-      stateslug={sanitizedState}
-      cityslug={sanitizedCity}
-      schema={schema}
-    />
+    <>
+      <Script
+        id="city-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
+      />
+      <ClientPage
+        categoryslug={sanitizedCategory}
+        countryslug={sanitizedCountry}
+        stateslug={sanitizedState}
+        cityslug={sanitizedCity}
+      />
+    </>
   );
 }

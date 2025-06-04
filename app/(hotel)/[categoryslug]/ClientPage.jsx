@@ -1,3 +1,4 @@
+// ClientPage.jsx (Category)
 'use client';
 
 import { useCallback, useMemo } from 'react';
@@ -14,7 +15,7 @@ const DefaultFooter = dynamic(() => import('@/components/footer/default'), { ssr
 const MainFilterSearchBox = dynamic(() => import('@/components/hotel-list/common/MainFilterSearchBox'), { ssr: false });
 const TopBreadCrumbCategory = dynamic(() => import('@/components/hotel-list/hotel-list-v5/TopBreadCrumbCategory'), { ssr: false });
 
-export default function ClientPage({ categoryslug, schema }) {
+export default function ClientPage({ categoryslug }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const page = parseInt(searchParams.get('page')) || 1;
@@ -65,7 +66,6 @@ export default function ClientPage({ categoryslug, schema }) {
 
   return (
     <>
-      <script type="application/ld+json">{JSON.stringify(schema)}</script>
       <div className="header-margin"></div>
       <Header11 />
       <section className="section-bg pt-40 pb-40 relative z-5">

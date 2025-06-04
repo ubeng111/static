@@ -1,5 +1,7 @@
+// page.jsx (State)
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
+import Script from 'next/script';
 
 // Helper function to sanitize slugs
 const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
@@ -93,39 +95,55 @@ export default async function Page({ params }) {
   const formattedCountry = formatSlug(sanitizedCountry) || 'Country';
   const formattedCategory = formatSlug(sanitizedCategory) || 'Category';
   const currentYear = new Date().getFullYear();
-
   const baseUrl = 'https://hoteloza.com';
   const currentUrl = `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
 
-  const schemaMarkup = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'WebPage',
-        url: currentUrl,
-        name: `Best ${formattedCategory} in ${formattedState}, ${formattedCountry} ${currentYear}`,
-        description: `Discover the best ${formattedCategory.toLowerCase()} in ${formattedState}, ${formattedCountry} for ${currentYear} on Hoteloza. Book your perfect stay with top amenities and exclusive offers.`,
-        publisher: {
-          '@type': 'Organization',
-          name: 'Hoteloza',
-          logo: { '@type': 'ImageObject', url: `${baseUrl}/logo.png` },
+  const schemas = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: `Best ${formattedCategory} in ${formattedState}, ${formattedCountry} ${currentYear}`,
+      description: `Discover the best ${formattedCategory.toLowerCase()} in ${formattedState}, ${formattedCountry} for ${currentYear} on Hoteloza. Book your perfect stay with top amenities and exclusive offers.`,
+      url: currentUrl,
+      publisher: {
+        '@type': 'Organization',
+        name: 'Hoteloza',
+        logo: { '@type': 'ImageObject', url: `${baseUrl}/logo.png` },
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+        { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${sanitizedCategory}` },
+        { '@type': 'ListItem', position: 3, name: formattedCountry, item: `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}` },
+        { '@type': 'ListItem', position: 4, name: formattedState, item: currentUrl },
+      ],
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      itemListElement: data.hotels.map((hotel, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'Hotel',
+          name: hotel.title,
+          url: `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${hotel.citySlug}/${hotel.slug}`,
+          image: hotel.img || hotel.slideimg || '',
         },
-      },
-      {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
-          { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${sanitizedCategory}` },
-          { '@type': 'ListItem', position: 3, name: formattedCountry, item: `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}` },
-          { '@type': 'ListItem', position: 4, name: formattedState, item: currentUrl },
-        ],
-      },
-    ],
-  };
+      })),
+    },
+  ];
 
   return (
     <>
-      <script type="application/ld+json">{JSON.stringify(schemaMarkup)}</script>
+      <Script
+        id="state-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
+      />
       <ClientPage categoryslug={sanitizedCategory} countryslug={sanitizedCountry} stateslug={sanitizedState} />
     </>
   );

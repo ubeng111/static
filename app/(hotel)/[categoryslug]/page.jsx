@@ -1,5 +1,7 @@
+// page.jsx (Category)
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
+import Script from 'next/script';
 
 // Helper function to sanitize slugs
 const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
@@ -83,21 +85,54 @@ export default async function Page({ params }) {
 
   const formattedCategory = formatSlug(sanitizedCategory);
   const currentYear = new Date().getFullYear();
+  const baseUrl = 'https://hoteloza.com';
+  const currentUrl = `${baseUrl}/${sanitizedCategory}`;
 
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: `Top ${formattedCategory} Deals in ${currentYear}`,
-    description: `Explore top ${formattedCategory.toLowerCase()} for ${currentYear} on Hoteloza with exclusive deals and premium amenities.`,
-    url: `https://hoteloza.com/${sanitizedCategory}`,
-    breadcrumb: {
+  const schemas = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: `Top ${formattedCategory} Deals in ${currentYear}`,
+      description: `Explore top ${formattedCategory.toLowerCase()} for ${currentYear} on Hoteloza with exclusive deals and premium amenities.`,
+      url: currentUrl,
+      publisher: {
+        '@type': 'Organization',
+        name: 'Hoteloza',
+        logo: { '@type': 'ImageObject', url: `${baseUrl}/logo.png` },
+      },
+    },
+    {
+      '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hoteloza.com' },
-        { '@type': 'ListItem', position: 2, name: formattedCategory, item: `https://hoteloza.com/${sanitizedCategory}` },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+        { '@type': 'ListItem', position: 2, name: formattedCategory, item: currentUrl },
       ],
     },
-  };
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      itemListElement: data.hotels.map((hotel, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'Hotel',
+          name: hotel.title,
+          url: `${baseUrl}/${sanitizedCategory}/${hotel.countrySlug}/${hotel.stateSlug}/${hotel.citySlug}/${hotel.slug}`,
+          image: hotel.img || hotel.slideimg || '',
+        },
+      })),
+    },
+  ];
 
-  return <ClientPage categoryslug={sanitizedCategory} schema={schema} />;
+  return (
+    <>
+      <Script
+        id="category-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
+      />
+      <ClientPage categoryslug={sanitizedCategory} />
+    </>
+  );
 }

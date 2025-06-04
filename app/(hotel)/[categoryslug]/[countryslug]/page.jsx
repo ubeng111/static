@@ -1,5 +1,7 @@
+// page.jsx (Country)
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
+import Script from 'next/script';
 
 // Helper function to sanitize slugs
 const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
@@ -88,22 +90,55 @@ export default async function Page({ params }) {
   const formattedCountry = formatSlug(sanitizedCountry) || 'Country';
   const formattedCategory = formatSlug(sanitizedCategory) || 'Category';
   const currentYear = new Date().getFullYear();
+  const baseUrl = 'https://hoteloza.com';
+  const currentUrl = `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}`;
 
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: `Best ${formattedCategory} in ${formattedCountry} ${currentYear}`,
-    description: `Find the best ${formattedCategory.toLowerCase()} in ${formattedCountry} for ${currentYear} on Hoteloza with top hotels and exclusive deals.`,
-    url: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}`,
-    breadcrumb: {
+  const schemas = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: `Best ${formattedCategory} in ${formattedCountry} ${currentYear}`,
+      description: `Find the best ${formattedCategory.toLowerCase()} in ${formattedCountry} for ${currentYear} on Hoteloza with top hotels and exclusive deals.`,
+      url: currentUrl,
+      publisher: {
+        '@type': 'Organization',
+        name: 'Hoteloza',
+        logo: { '@type': 'ImageObject', url: `${baseUrl}/logo.png` },
+      },
+    },
+    {
+      '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hoteloza.com' },
-        { '@type': 'ListItem', position: 2, name: formattedCategory, item: `https://hoteloza.com/${sanitizedCategory}` },
-        { '@type': 'ListItem', position: 3, name: formattedCountry, item: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}` },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+        { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${sanitizedCategory}` },
+        { '@type': 'ListItem', position: 3, name: formattedCountry, item: currentUrl },
       ],
     },
-  };
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      itemListElement: data.hotels.map((hotel, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'Hotel',
+          name: hotel.title,
+          url: `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}/${hotel.stateSlug}/${hotel.citySlug}/${hotel.slug}`,
+          image: hotel.img || hotel.slideimg || '',
+        },
+      })),
+    },
+  ];
 
-  return <ClientPage categoryslug={sanitizedCategory} countryslug={sanitizedCountry} schema={schema} />;
+  return (
+    <>
+      <Script
+        id="country-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
+      />
+      <ClientPage categoryslug={sanitizedCategory} countryslug={sanitizedCountry} />
+    </>
+  );
 }
