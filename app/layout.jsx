@@ -16,12 +16,11 @@ import { store } from "../store/store";
 import { CurrencyProvider } from "../components/CurrencyContext";
 import ScrollTop from "../components/common/ScrollTop";
 
-// Muat hanya komponen Bootstrap yang diperlukan
 if (typeof window !== "undefined") {
-  require("bootstrap/js/dist/dropdown"); // Hanya muat dropdown
+  require("bootstrap/js/dist/dropdown");
 }
 
-export default function RootLayout({ children, hotels }) {
+export default function RootLayout({ children, hotels = [] }) {
   useEffect(() => {
     Aos.init({
       duration: 1200,
@@ -34,19 +33,20 @@ export default function RootLayout({ children, hotels }) {
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Your Site Title</title>
-        {/* Preload gambar LCP jika tersedia */}
+        {/* Preload gambar LCP */}
         {hotels?.[0]?.img && (
           <link
             rel="preload"
             href={hotels[0].img}
             as="image"
             fetchPriority="high"
+            type="image/webp"
           />
         )}
-        {/* CSS asinkronus untuk mengurangi render-blocking */}
+        {/* CSS asinkronus */}
         <link
           rel="stylesheet"
-          href="/path/to/bootstrap.min.css"
+          href="/_next/static/css/bootstrap.min.css"
           media="print"
           onLoad="this.media='all'"
         />
