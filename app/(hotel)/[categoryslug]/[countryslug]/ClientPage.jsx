@@ -16,6 +16,10 @@ const Faqcountry = dynamic(() => import('@/components/faq/Faqcountry'), { ssr: f
 const MainFilterSearchBox = dynamic(() => import('@/components/hotel-list/common/MainFilterSearchBox'), { ssr: false });
 const TopBreadCrumbCountry = dynamic(() => import('@/components/hotel-list/hotel-list-v5/TopBreadCrumbCountry'), { ssr: false });
 
+// Helper function to format slugs
+const formatSlug = (slug) =>
+  slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
+
 export default function ClientPage({ categoryslug, countryslug }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -36,12 +40,18 @@ export default function ClientPage({ categoryslug, countryslug }) {
   const relatedcountry = useMemo(() => data?.relatedcountry || [], [data]);
   const pagination = useMemo(() => data?.pagination || { page: 1, totalPages: 1, totalHotels: 0 }, [data]);
   const formattedCategory = useMemo(
-    () => (categoryslug ? categoryslug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : 'Category'),
+    () => (categoryslug ? formatSlug(categoryslug) : 'Category'),
     [categoryslug]
   );
   const formattedCountry = useMemo(
-    () => (countryslug ? countryslug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : 'Country'),
+    () => (countryslug ? formatSlug(countryslug) : 'Country'),
     [countryslug]
+  );
+
+  // Compute country name safely
+  const displayCountry = useMemo(
+    () => (hotels[0]?.country ? formatSlug(hotels[0].country) : formattedCountry),
+    [hotels, formattedCountry]
   );
 
   const handlePageClick = useCallback(
@@ -94,7 +104,7 @@ export default function ClientPage({ categoryslug, countryslug }) {
             <div className="col-12">
               <div className="text-center">
                 <h1 className="text-30 fw-600 text-white">
-                  Cheap {formattedCategory} in {hotels[0]?.country ? formatSlug(hotels[0].country) : formattedCountry}
+                  Cheap {formattedCategory} in {displayCountry}
                 </h1>
               </div>
             </div>
@@ -149,11 +159,11 @@ export default function ClientPage({ categoryslug, countryslug }) {
           <div className="pt-40 border-top-light">
             <div className="row y-gap-20">
               <div className="col-12 text-center">
-                <h2 className="text-22 fw-500">FAQs about {hotels[0]?.country ? formatSlug(hotels[0].country) : formattedCountry} hotels</h2>
+                <h2 className="text-22 fw-500">FAQs about {displayCountry} hotels</h2>
               </div>
               <div className="col-lg-8 offset-lg-2">
                 <div className="accordion -simple row y-gap-20 js-accordion">
-                  <Faqcountry country={hotels[0]?.country ? formatSlug(hotels[0].country) : formattedCountry} />
+                  <Faqcountry country={displayCountry} />
                 </div>
               </div>
             </div>
