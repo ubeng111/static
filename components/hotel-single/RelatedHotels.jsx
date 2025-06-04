@@ -39,14 +39,6 @@ const styles = {
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
   },
-  badge: {
-    fontSize: '10px',
-    padding: '4px 8px',
-    whiteSpace: 'nowrap',
-    backgroundColor: '#0056b3',
-    color: '#fff',
-    borderRadius: '12px',
-  },
 };
 
 export default function RelatedHotels({ relatedHotels }) {
@@ -103,7 +95,10 @@ export default function RelatedHotels({ relatedHotels }) {
                 >
                   {hotelTitle}
                 </Link>
-                <span style={styles.badge}>
+                <span
+                  className="badge bg-primary rounded-pill ms-1"
+                  style={{ fontSize: '11px' }}
+                >
                   {ratings} / {reviews} reviews
                 </span>
               </div>

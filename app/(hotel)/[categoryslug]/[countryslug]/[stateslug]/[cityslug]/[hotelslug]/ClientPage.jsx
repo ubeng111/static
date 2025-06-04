@@ -1,13 +1,9 @@
-// app/[categoryslug]/[countryslug]/[stateslug]/[cityslug]/[hotelslug]/ClientPage.jsx
 'use client';
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 
-// Use direct import for server component, or dynamic with SSR enabled
-import GalleryTwo from '@/components/hotel-single/GalleryTwo'; // For server component
-// OR: const GalleryTwo = dynamic(() => import('@/components/hotel-single/GalleryTwo'), { ssr: true }); // For client component with SSR
-
+import GalleryTwo from '@/components/hotel-single/GalleryTwo';
 const CallToActions = dynamic(() => import('@/components/common/CallToActions'), { ssr: true });
 const Header11 = dynamic(() => import('@/components/header/header-11'), { ssr: true });
 const DefaultFooter = dynamic(() => import('@/components/footer/default'), { ssr: true });
@@ -19,6 +15,7 @@ const TopBreadCrumb88 = dynamic(() => import('@/components/hotel-single/TopBread
 const MainFilterSearchBox = dynamic(() => import('@/components/hotel-list/common/MainFilterSearchBox'), { ssr: true });
 const RelatedHotels = dynamic(() => import('@/components/hotel-single/RelatedHotels'), { ssr: true });
 
+// AccordionItem Component
 const AccordionItem = ({ id, icon, title, isOpen, toggle, ariaLabel, children }) => (
   <div className="accordion-item mb-20">
     <button
@@ -74,31 +71,32 @@ export default function ClientPage({
 
   return (
     <>
-      <style jsx>{`
-        .accordion-header {
-          transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      {/* GLOBAL STYLE */}
+      <style jsx global>{`
+        .accordion-item .accordion-header {
+          background-color: #0056b3 !important;
+          color: white !important;
           border-radius: 8px;
           padding: 15px 20px;
-          background-color: #001F3F;
-          color: #ffffff;
-          display: flex;
-          align-items: center;
-          cursor: pointer;
           font-weight: 500;
           font-size: 16px;
           border: none;
           width: 100%;
           text-align: left;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
-        .accordion-header:hover {
-          background-color: #003366;
+        .accordion-item .accordion-header:hover {
+          background-color: #003366 !important;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
         .accordion-body {
           background-color: #f8fafc;
           border-radius: 0 0 8px 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
           padding: 20px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
         .accordion-icon {
           margin-right: 12px;
@@ -113,9 +111,11 @@ export default function ClientPage({
         }
       `}</style>
 
+      {/* Header */}
       <div className="header-margin"></div>
       <Header11 />
 
+      {/* Breadcrumb */}
       <div className="py-10 bg-white">
         <div className="container">
           <div className="row">
@@ -126,6 +126,7 @@ export default function ClientPage({
         </div>
       </div>
 
+      {/* Search Filter */}
       <section className="layout-pt-md">
         <div className="container">
           <div className="row">
@@ -136,12 +137,14 @@ export default function ClientPage({
         </div>
       </section>
 
+      {/* Gallery */}
       <section className="mt-40" id="overview">
         <div className="container">
           <GalleryTwo hotel={hotel} />
         </div>
       </section>
 
+      {/* Accordions */}
       <section className="pt-40 layout-pb-md">
         <div className="container">
           <div className="accordion -simple js-accordion" id="hotelAccordion">
@@ -171,7 +174,7 @@ export default function ClientPage({
               </AccordionItem>
             )}
 
-            {relatedHotels && relatedHotels.length > 0 && (
+            {relatedHotels?.length > 0 && (
               <AccordionItem
                 id="relatedHotelsCollapse"
                 icon="fas fa-hotel"
@@ -182,20 +185,12 @@ export default function ClientPage({
               >
                 <div className="row justify-center text-center">
                   <div className="col-auto">
-                    <div className="sectionTitle -simple">
-                      <h2
-                        className="sectionTitle"
-                        style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}
-                      >
-                        Popular properties similar to {hotel?.title || 'Hotel'}
-                      </h2>
-                      <p
-                        className="sectionTitle"
-                        style={{ fontSize: '14px', marginTop: '14px' }}
-                      >
-                        Find top-rated stays with similar perks near your destination
-                      </p>
-                    </div>
+                    <h2 style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>
+                      Popular properties similar to {hotel?.title}
+                    </h2>
+                    <p style={{ fontSize: '14px', marginTop: '14px' }}>
+                      Find top-rated stays with similar perks near your destination
+                    </p>
                   </div>
                 </div>
                 <div className="pt-40 sm:pt-20 item_gap-x30">
@@ -216,6 +211,7 @@ export default function ClientPage({
             )}
           </div>
 
+          {/* Sidebar Accordion */}
           <div className="row y-gap-30">
             <div className="col-12">
               <div className="accordion -simple js-accordion" id="sidebarAccordion">
