@@ -1,7 +1,5 @@
 'use client';
 
-import Image from "next/image";
-
 const GalleryTwo = ({ hotel }) => {
   // Combine location and city without duplicating city name
   const address = (() => {
@@ -42,24 +40,26 @@ const GalleryTwo = ({ hotel }) => {
         <div className="galleryGrid -type-1 pt-20 sm:pt-30 px-0">
           {hotel?.img && (
             <div className="galleryGrid__item">
-              <Image
+              <img
                 width={600}
                 height={500}
-                src={hotel.img}
-                alt={`Hotel Image ${hotel?.title}`}
+                src={hotel.img || '/images/placeholder.jpg'}
+                alt={`Hotel Image ${hotel?.title || 'Unknown'}`}
                 className="rounded-4"
+                loading="lazy"
               />
             </div>
           )}
 
           {hotel?.slideimg?.slice(0, 4).map((image, index) => (
             <div className="galleryGrid__item" key={index}>
-              <Image
+              <img
                 width={450}
                 height={375}
-                src={image}
+                src={image || '/images/placeholder.jpg'}
                 alt={`Slide Image ${index + 1}`}
                 className="rounded-4"
+                loading="lazy"
               />
             </div>
           ))}
