@@ -1,12 +1,11 @@
-// route.js (country level)
-import { Pool } from "pg";
-import fs from "fs";
-import path from "path";
-import "dotenv/config";
+import { Pool } from 'pg';
+import fs from 'fs';
+import path from 'path';
+import 'dotenv/config';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
-  ssl: { ca: fs.readFileSync(path.resolve("certs", "root.crt")) },
+  ssl: { ca: fs.readFileSync(path.resolve('certs', 'root.crt')) },
 });
 
 const cache = {};
@@ -29,13 +28,13 @@ const LIMIT = 13;
 export async function GET(req, { params }) {
   const { categoryslug, countryslug } = params;
   if (!categoryslug || !countryslug) {
-    return new Response(JSON.stringify({ message: "Category and country slugs are required" }), { status: 400 });
+    return new Response(JSON.stringify({ message: 'Category and country slugs are required' }), { status: 400 });
   }
 
   const url = new URL(req.url);
-  const page = parseInt(url.searchParams.get("page") || "1", 10);
+  const page = parseInt(url.searchParams.get('page') || '1', 10);
   if (page < 1) {
-    return new Response(JSON.stringify({ message: "Page must be a positive number" }), { status: 400 });
+    return new Response(JSON.stringify({ message: 'Page must be a positive number' }), { status: 400 });
   }
 
   const cacheKey = `hotels_${categoryslug}_${countryslug}_page_${page}`;
@@ -53,7 +52,7 @@ export async function GET(req, { params }) {
       [categoryslug, countryslug]
     );
     if (validateHierarchy.rows.length === 0) {
-      return new Response(JSON.stringify({ message: "Invalid category or country" }), { status: 400 });
+      return new Response(JSON.stringify({ message: 'Invalid category or country' }), { status: 400 });
     }
 
     const query = `
@@ -74,16 +73,15 @@ export async function GET(req, { params }) {
     const result = await client.query(query, [categoryslug, countryslug, LIMIT, offset]);
 
     if (result.rows.length === 0) {
-      return new Response(JSON.stringify({ message: "No hotels found for this country" }), { status: 404 });
+      return new Response(JSON.stringify({ message: 'No hotels found for this country' }), { status: 404 });
     }
 
     const totalHotels = parseInt(result.rows[0].total, 10);
     const totalPages = Math.ceil(totalHotels / LIMIT);
 
     const relatedStateQuery = `
-      SELECT DISTINCT state, stateslug,
-             (SELECT COUNT(*) FROM public.hotels h WHERE h.categoryslug = $1 AND h.countryslug = $2 AND h.state = s.state) > 0 AS hasHotels
-      FROM public.hotels s
+      SELECT DISTINCT state, stateslug
+      FROM public.hotels
       WHERE categoryslug = $1 AND countryslug = $2 AND state != ''
       LIMIT 40
     `;
@@ -99,11 +97,11 @@ export async function GET(req, { params }) {
 
     return new Response(JSON.stringify(response), {
       status: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error("Error executing query", error.stack);
-    return new Response(JSON.stringify({ message: "Server error" }), { status: 500 });
+    console.error('Error executing query', error.stack);
+    return new Response(JSON.stringify({ message: 'Server error' }), { status: 500 });
   } finally {
     client.release();
   }

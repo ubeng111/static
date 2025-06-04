@@ -1,12 +1,12 @@
 // route.js (city level)
-import { Pool } from "pg";
-import fs from "fs";
-import path from "path";
-import "dotenv/config";
+import { Pool } from 'pg';
+import fs from 'fs';
+import path from 'path';
+import 'dotenv/config';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
-  ssl: { ca: fs.readFileSync(path.resolve("certs", "root.crt")) },
+  ssl: { ca: fs.readFileSync(path.resolve('certs', 'root.crt')) },
 });
 
 const cache = {};
@@ -29,13 +29,13 @@ const LIMIT = 13;
 export async function GET(req, { params }) {
   const { categoryslug, countryslug, stateslug, cityslug } = params;
   if (!categoryslug || !countryslug || !stateslug || !cityslug) {
-    return new Response(JSON.stringify({ message: "All slugs are required" }), { status: 400 });
+    return new Response(JSON.stringify({ message: 'All slugs are required' }), { status: 400 });
   }
 
   const url = new URL(req.url);
-  const page = parseInt(url.searchParams.get("page") || "1", 10);
+  const page = parseInt(url.searchParams.get('page') || '1', 10);
   if (page < 1) {
-    return new Response(JSON.stringify({ message: "Page must be a positive number" }), { status: 400 });
+    return new Response(JSON.stringify({ message: 'Page must be a positive number' }), { status: 400 });
   }
 
   const cacheKey = `hotels_${categoryslug}_${countryslug}_${stateslug}_${cityslug}_page_${page}`;
@@ -53,7 +53,7 @@ export async function GET(req, { params }) {
       [categoryslug, countryslug, stateslug, cityslug]
     );
     if (validateHierarchy.rows.length === 0) {
-      return new Response(JSON.stringify({ message: "Invalid hierarchy" }), { status: 400 });
+      return new Response(JSON.stringify({ message: 'Invalid hierarchy' }), { status: 400 });
     }
 
     const query = `
@@ -74,22 +74,21 @@ export async function GET(req, { params }) {
     const result = await client.query(query, [categoryslug, countryslug, stateslug, cityslug, LIMIT, offset]);
 
     if (result.rows.length === 0) {
-      return new Response(JSON.stringify({ message: "No hotels found for this city" }), { status: 404 });
+      return new Response(JSON.stringify({ message: 'No hotels found for this city' }), { status: 404 });
     }
 
     const totalHotels = parseInt(result.rows[0].total, 10);
     const totalPages = Math.ceil(totalHotels / LIMIT);
 
     const relatedCityQuery = `
-      SELECT DISTINCT city, cityslug,
-             (SELECT COUNT(*) FROM public.hotels h WHERE h.categoryslug = $1 AND h.countryslug = $2 AND h.stateslug = $3 AND h.city = c.city) > 0 AS hasHotels
-      FROM public.hotels c
+      SELECT DISTINCT city, cityslug
+      FROM public.hotels
       WHERE categoryslug = $1 AND countryslug = $2 AND stateslug = $3 AND cityslug != $4 AND city != ''
       LIMIT 40
     `;
     const relatedCityResult = await client.query(relatedCityQuery, [categoryslug, countryslug, stateslug, cityslug]);
 
-    const cleanHotels = result.rows.slice(0, -1).map((row) => ({
+    const cleanHotels = result.rows.slice(0, -1).map(row => ({
       id: row.id,
       title: row.title,
       city: row.city,
@@ -122,11 +121,11 @@ export async function GET(req, { params }) {
 
     return new Response(JSON.stringify(response), {
       status: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error("Error executing query", error.stack);
-    return new Response(JSON.stringify({ message: "Server error" }), { status: 500 });
+    console.error('Error executing query', error.stack);
+    return new Response(JSON.stringify({ message: 'Server error' }), { status: 500 });
   } finally {
     client.release();
   }
