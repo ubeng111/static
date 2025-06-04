@@ -47,9 +47,13 @@ export async function GET(req, { params }) {
   const client = await pool.connect();
 
   try {
+    // Tidak ada validasi hirarki untuk categoryslug saja karena itu adalah level tertinggi di sini
+    // Jika tidak ada hotel sama sekali untuk categoryslug, query utama akan menangani dengan 404
+
     const query = `
       WITH hotel_data AS (
-        SELECT * FROM public.hotels
+        SELECT id, title, city, state, country, category, categoryslug, countryslug, stateslug, cityslug, hotelslug, img, location, ratings, numberOfReviews, numberrooms, overview, city_id, latitude, longitude
+        FROM public.hotels
         WHERE categoryslug = $1
         ORDER BY id ASC
         LIMIT $2 OFFSET $3
@@ -70,17 +74,39 @@ export async function GET(req, { params }) {
     const totalHotels = parseInt(result.rows[0].total, 10);
     const totalPages = Math.ceil(totalHotels / LIMIT);
 
+    // **PERBAIKAN DI SINI UNTUK relatedCountryQuery:**
     const relatedCountryQuery = `
       SELECT DISTINCT country, countryslug
       FROM public.hotels
-      WHERE categoryslug = $1 AND country != ''
+      WHERE
+        categoryslug = $1 AND
+        country != '' AND
+        countryslug IS NOT NULL AND
+        countryslug ~ '^[a-z0-9-]+$' -- Pastikan countryslug valid
+      GROUP BY country, countryslug  -- Kelompokkan berdasarkan country dan countryslug
+      HAVING COUNT(id) > 0         -- Hanya sertakan country yang memiliki setidaknya satu hotel
       LIMIT 120
     `;
     const relatedCountryResult = await client.query(relatedCountryQuery, [categoryslug]);
 
+    // Pembersihan data hotel (sama seperti yang sebelumnya saya jelaskan)
+    const cleanHotels = result.rows.map(row => {
+        if (row.id) {
+            return {
+                id: row.id, title: row.title, city: row.city, state: row.state, country: row.country,
+                category: row.category, categoryslug: row.categoryslug, countryslug: row.countryslug,
+                stateslug: row.stateslug, cityslug: row.cityslug, hotelslug: row.hotelslug,
+                img: row.img, location: row.location, ratings: row.ratings,
+                numberOfReviews: row.numberOfReviews, numberrooms: row.numberrooms, overview: row.overview,
+                city_id: row.city_id, latitude: row.latitude, longitude: row.longitude,
+            };
+        }
+        return null;
+    }).filter(Boolean);
+
     const response = {
-      hotels: result.rows.slice(0, -1),
-      relatedcategory: relatedCountryResult.rows,
+      hotels: cleanHotels,
+      relatedcategory: relatedCountryResult.rows, // Ini adalah related countries, bukan related categories
       pagination: { page, totalPages, totalHotels },
     };
 

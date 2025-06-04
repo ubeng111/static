@@ -78,17 +78,57 @@ export async function GET(req, { params }) {
     const totalHotels = parseInt(result.rows[0].total, 10);
     const totalPages = Math.ceil(totalHotels / LIMIT);
 
+    // **PERBAIKAN DI SINI:**
     const relatedCityQuery = `
-      SELECT DISTINCT city, cityslug
+      SELECT city, cityslug
       FROM public.hotels
-      WHERE categoryslug = $1 AND countryslug = $2 AND stateslug = $3 AND city != ''
-      LIMIT 40
+      WHERE
+        categoryslug = $1 AND
+        countryslug = $2 AND
+        stateslug = $3 AND
+        city != '' AND
+        cityslug IS NOT NULL AND
+        cityslug ~ '^[a-z0-9-]+$'
+      GROUP BY city, cityslug  -- Grouping berdasarkan kota dan slug kota
+      HAVING COUNT(id) > 0   -- Hanya sertakan kota yang memiliki setidaknya satu hotel
+      LIMIT 40;
     `;
     const relatedCityResult = await client.query(relatedCityQuery, [categoryslug, countryslug, stateslug]);
 
     const response = {
-      hotels: result.rows.slice(0, -1),
-      relatedstate: relatedCityResult.rows,
+      // Perhatikan: result.rows.slice(0, -1) ini mungkin bermasalah
+      // jika `total` ada di baris terakhir dan Anda tidak memprosesnya
+      // dengan benar. Pastikan `cleanHotels` difilter dengan baik.
+      hotels: result.rows.map(row => {
+        // Hanya sertakan properti hotel yang relevan, buang 'total'
+        if (row.id) { // Cek apakah ini baris data hotel, bukan baris total
+          return {
+            id: row.id,
+            title: row.title,
+            city: row.city,
+            state: row.state,
+            country: row.country,
+            category: row.category,
+            categoryslug: row.categoryslug,
+            countryslug: row.countryslug,
+            stateslug: row.stateslug,
+            cityslug: row.cityslug,
+            hotelslug: row.hotelslug,
+            img: row.img,
+            location: row.location,
+            ratings: row.ratings,
+            numberOfReviews: row.numberOfReviews,
+            numberrooms: row.numberrooms,
+            overview: row.overview,
+            city_id: row.city_id,
+            latitude: row.latitude,
+            longitude: row.longitude,
+          };
+        }
+        return null;
+      }).filter(Boolean), // Filter entri null jika ada
+
+      relatedcity: relatedCityResult.rows, // Mengganti relatedstate dengan relatedcity agar konsisten dengan Relatedcity88.jsx
       pagination: { page, totalPages, totalHotels },
     };
 
