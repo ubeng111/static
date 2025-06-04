@@ -73,6 +73,10 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, citys
     return <div>Error loading data. Please try again later.</div>;
   }
 
+  if (!hotels.length) {
+    return <div>No hotels found for this location.</div>;
+  }
+
   return (
     <>
       <div className="header-margin"></div>
@@ -94,7 +98,7 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, citys
             <div className="col-12">
               <div className="text-center">
                 <h1 className="text-30 fw-600 text-white">
-                  Best Affordable {formattedCategory} in {hotels[0]?.city || formattedCity}
+                  Best Affordable {formattedCategory} in {hotels[0]?.kota ? hotels[0].kota.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : formattedCity}
                 </h1>
               </div>
             </div>
@@ -155,11 +159,11 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, citys
           <div className="pt-40 border-top-light">
             <div className="row y-gap-20">
               <div className="col-12 text-center">
-                <h2 className="text-22 fw-500">FAQs about {hotels[0]?.city || formattedCity} hotels</h2>
+                <h2 className="text-22 fw-500">FAQs about {hotels[0]?.kota ? hotels[0].kota.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : formattedCity} hotels</h2>
               </div>
               <div className="col-lg-8 offset-lg-2">
                 <div className="accordion -simple row y-gap-20 js-accordion">
-                  <Faqcity city={hotels[0]?.city || formattedCity} />
+                  <Faqcity city={hotels[0]?.kota ? hotels[0].kota.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : formattedCity} />
                 </div>
               </div>
             </div>

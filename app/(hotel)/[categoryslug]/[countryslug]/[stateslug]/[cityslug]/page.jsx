@@ -108,15 +108,16 @@ export default async function Page({ params }) {
     position: index + 1,
     item: {
       '@type': 'Hotel',
-      name: hotel.name || 'Unnamed Hotel',
-      url: hotel.url ? `${baseUrl}${hotel.url}` : currentUrl,
+      name: hotel.name || hotel.title || 'Unnamed Hotel',
+      url: hotel.hotelslug ? `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}/${hotel.hotelslug}` : `${currentUrl}/${hotel.id || index + 1}`,
       address: {
         '@type': 'PostalAddress',
-        addressLocality: formattedCity,
-        addressRegion: formattedState,
-        addressCountry: formattedCountry,
+        streetAddress: hotel.lokasi || 'Unknown Address',
+        addressLocality: hotel.kota ? formatSlug(hotel.kota) : formattedCity || 'Unknown City',
+        addressRegion: hotel['negara bagian'] ? formatSlug(hotel['negara bagian']) : formattedState || 'Unknown Region',
+        addressCountry: hotel.country ? formatSlug(hotel.country) : formattedCountry || 'Unknown Country',
       },
-      description: hotel.description || `A ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState}.`,
+      description: hotel.description || hotel.overview || `A ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState}.`,
     },
   }));
 
