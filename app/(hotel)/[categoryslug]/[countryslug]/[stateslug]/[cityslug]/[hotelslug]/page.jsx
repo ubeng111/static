@@ -1,16 +1,13 @@
-// page.jsx
+// app/[categoryslug]/[countryslug]/[stateslug]/[cityslug]/[hotelslug]/page.jsx
 import { notFound } from 'next/navigation';
 import BookNow from '@/components/hotel-single/BookNow';
 import ClientPage from './ClientPage';
 import Script from 'next/script';
 
-// Helper function to format slugs for display purposes
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
-// Function to fetch hotel data for both metadata and page content
 async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, hotelslug }) {
-  // Sanitize slugs to prevent invalid characters
   const sanitizedParams = {
     categoryslug: categoryslug?.replace(/[^a-zA-Z0-9-]/g, ''),
     countryslug: countryslug?.replace(/[^a-zA-Z0-9-]/g, ''),
@@ -19,7 +16,6 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
     hotelslug: hotelslug?.replace(/[^a-zA-Z0-9-]/g, ''),
   };
 
-  // Validate parameters
   if (
     !sanitizedParams.categoryslug ||
     !sanitizedParams.countryslug ||
@@ -27,26 +23,25 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
     !sanitizedParams.cityslug ||
     !sanitizedParams.hotelslug
   ) {
-    console.error('Missing required parameters after sanitization:', sanitizedParams);
+    console.error('Missing required parameters:', sanitizedParams);
     return null;
   }
 
-  // Use environment variable for base URL
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
   const apiUrl = `${baseUrl}/api/${sanitizedParams.categoryslug}/${sanitizedParams.countryslug}/${sanitizedParams.stateslug}/${sanitizedParams.cityslug}/${sanitizedParams.hotelslug}`;
-  console.log('Constructed API URL:', apiUrl);
 
   try {
-    const response = await fetch(apiUrl, { cache: 'no-store' });
+    const response = await fetch(apiUrl, {
+      next: { revalidate: 3600 },
+      cache: 'force-cache',
+    });
     if (!response.ok) {
-      console.error(
-        `Failed to fetch hotel data for ${sanitizedParams.hotelslug}. Status: ${response.status} - ${response.statusText}`
-      );
+      console.error(`Failed to fetch hotel data: ${response.status} - ${response.statusText}`);
       return null;
     }
     return response.json();
   } catch (error) {
-    console.error('Error fetching hotel data in getHotelData:', error);
+    console.error('Error fetching hotel data:', error);
     return null;
   }
 }
@@ -65,56 +60,56 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
-  console.log('Metadata params:', resolvedParams);
   const { categoryslug, countryslug, stateslug, cityslug, hotelslug } = resolvedParams;
+  const data = await getHotelData(resolvedParams);
 
-  try {
-    const data = await getHotelData(resolvedParams);
-    if (!data || !data.hotel) {
-      const formattedHotel = formatSlug(hotelslug) || 'Hotel';
-      const formattedCity = formatSlug(cityslug) || 'City';
-      return {
-        title: `${formattedHotel}, ${formattedCity} - Hotel Not Found | Hoteloza`,
-        description: `The hotel ${formattedHotel} in ${formattedCity} was not found on Hoteloza.`,
-      };
-    }
-
-    const hotel = data.hotel;
-    const formattedHotel = formatSlug(hotelslug) || hotel.title;
-    const formattedCity = formatSlug(cityslug) || hotel.city;
-    const currentYear = new Date().getFullYear();
-
+  if (!data || !data.hotel) {
+    const formattedHotel = formatSlug(hotelslug) || 'Hotel';
+    const formattedCity = formatSlug(cityslug) || 'City';
     return {
-      title: `${formattedHotel}, ${formattedCity} - ${currentYear} Luxury Awaits on Hoteloza!`,
-      description: `Stay in style at ${formattedHotel}, ${formattedCity} with Hoteloza’s ${currentYear} exclusive offers. Book now for premium amenities and a stay you’ll never forget!`,
-      alternates: {
-        canonical: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}/${hotelslug}`,
-      },
-      openGraph: {
-        title: `${formattedHotel}, ${formattedCity} - Book Your ${currentYear} Stay | Hoteloza`,
-        description: `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza. Enjoy a memorable stay with exclusive offers.`,
-        url: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}/${hotelslug}`,
-        images: [hotel.img || hotel.slideimg || ''],
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title: `${formattedHotel}, ${formattedCity} - Book Your ${currentYear} Stay | Hoteloza`,
-        description: `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza. Enjoy a memorable stay with exclusive offers.`,
-        images: [hotel.img || hotel.slideimg || ''],
-      },
-    };
-  } catch (error) {
-    console.error('Error in generateMetadata:', error);
-    return {
-      title: `Hotel Not Found | Hoteloza`,
-      description: `The requested hotel could not be found due to an error.`,
+      title: `${formattedHotel}, ${formattedCity} - Hotel Not Found | Hoteloza`,
+      description: `The hotel ${formattedHotel} in ${formattedCity} was not found on Hoteloza.`,
     };
   }
+
+  const hotel = data.hotel;
+  const formattedHotel = formatSlug(hotelslug) || hotel.title;
+  const formattedCity = formatSlug(cityslug) || hotel.city;
+  const currentYear = new Date().getFullYear();
+
+  return {
+    title: `${formattedHotel}, ${formattedCity} - ${currentYear} Luxury Awaits on Hoteloza!`,
+    description: `Stay in style at ${formattedHotel}, ${formattedCity} with Hoteloza’s ${currentYear} exclusive offers. Book now for premium amenities and a stay you’ll never forget!`,
+    alternates: {
+      canonical: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}/${hotelslug}`,
+    },
+    openGraph: {
+      title: `${formattedHotel}, ${formattedCity} - Book Your ${currentYear} Stay | Hoteloza`,
+      description: `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza. Enjoy a memorable stay with exclusive offers.`,
+      url: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}/${hotelslug}`,
+      images: [hotel.img || hotel.slideimg?.[0] || ''],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${formattedHotel}, ${formattedCity} - Book Your ${currentYear} Stay | Hoteloza`,
+      description: `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza. Enjoy a memorable stay with exclusive offers.`,
+      images: [hotel.img || hotel.slideimg?.[0] || ''],
+    },
+    other: {
+      'link-preload': hotel.img
+        ? JSON.stringify({
+            rel: 'preload',
+            href: hotel.img,
+            as: 'image',
+            fetchPriority: 'high',
+          })
+        : undefined,
+    },
+  };
 }
 
 export default async function HotelDetailPage({ params }) {
   const resolvedParams = await params;
-  console.log('Received params in HotelDetailPage:', resolvedParams);
   const data = await getHotelData(resolvedParams);
 
   if (!data || !data.hotel) {
@@ -122,16 +117,12 @@ export default async function HotelDetailPage({ params }) {
   }
 
   const hotel = data.hotel;
-  const formattedHotel = formatSlug(resolvedParams.hotelslug) || hotel.title;
-  const formattedCity = formatSlug(resolvedParams.cityslug) || hotel.city;
-  const currentYear = new Date().getFullYear();
-
   const schemas = [
     {
       '@context': 'https://schema.org',
       '@type': ['Hotel', 'LocalBusiness'],
       name: hotel.title,
-      description: hotel.description || `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza.`,
+      description: hotel.description || `Book ${formatSlug(resolvedParams.hotelslug) || hotel.title}, a luxury hotel in ${formatSlug(resolvedParams.cityslug) || hotel.city} for ${new Date().getFullYear()} on Hoteloza.`,
       address: {
         '@type': 'PostalAddress',
         addressLocality: hotel.city,
@@ -143,7 +134,7 @@ export default async function HotelDetailPage({ params }) {
         latitude: parseFloat(hotel.latitude) || 0,
         longitude: parseFloat(hotel.longitude) || 0,
       },
-      image: hotel.img || hotel.slideimg || '',
+      image: hotel.img || hotel.slideimg?.[0] || '',
       numberOfRooms: parseInt(hotel.numberofrooms) || 0,
       telephone: hotel.telephone || '',
       email: hotel.email || '',
@@ -155,8 +146,8 @@ export default async function HotelDetailPage({ params }) {
         aggregateRating: {
           '@type': 'AggregateRating',
           ratingValue: parseFloat(hotel.ratings).toFixed(1),
-          bestRating: 10, // Explicitly set to match 1–10 scale
-          worstRating: 1, // Explicitly set to match 1–10 scale
+          bestRating: 10,
+          worstRating: 1,
           reviewCount: parseInt(hotel.numberofreviews) || 0,
         },
       }),
@@ -164,7 +155,7 @@ export default async function HotelDetailPage({ params }) {
         starRating: {
           '@type': 'Rating',
           ratingValue: parseFloat(hotel.starRating),
-          bestRating: 5, // Star ratings are typically 1–5
+          bestRating: 5,
         },
       }),
     },
@@ -218,7 +209,6 @@ export default async function HotelDetailPage({ params }) {
       <ClientPage
         hotel={data.hotel}
         relatedHotels={data.relatedHotels}
-        useHotels2={true}
         hotelslug={resolvedParams.hotelslug}
         categoryslug={resolvedParams.categoryslug}
         countryslug={resolvedParams.countryslug}
@@ -228,3 +218,5 @@ export default async function HotelDetailPage({ params }) {
     </>
   );
 }
+
+export const revalidate = 3600;

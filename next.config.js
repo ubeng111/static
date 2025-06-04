@@ -22,8 +22,10 @@ const nextConfig = {
       { protocol: 'https', hostname: 'pix8.agoda.net', pathname: '/hotelimages/**' },
       { protocol: 'https', hostname: 'flagcdn.com', pathname: '/**' },
     ],
-    formats: ['image/webp'], // Prefer WebP for better compression
-    minimumCacheTTL: 31536000, // Cache images for 1 year
+    formats: ['image/webp'],
+    minimumCacheTTL: 31536000,
+    deviceSizes: [640, 750, 828, 1080, 1200],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   webpack: (config, { isServer }) => {
     config.resolve.alias['@components'] = path.join(__dirname, 'components');
