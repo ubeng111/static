@@ -102,6 +102,24 @@ export default async function Page({ params }) {
   const baseUrl = 'https://hoteloza.com';
   const currentUrl = `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`;
 
+  // Create ItemList schema for hotels
+  const hotelItems = data.hotels.map((hotel, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    item: {
+      '@type': 'Hotel',
+      name: hotel.name || 'Unnamed Hotel',
+      url: hotel.url ? `${baseUrl}${hotel.url}` : currentUrl,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: formattedCity,
+        addressRegion: formattedState,
+        addressCountry: formattedCountry,
+      },
+      description: hotel.description || `A ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState}.`,
+    },
+  }));
+
   const schemaMarkup = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -125,6 +143,12 @@ export default async function Page({ params }) {
           { '@type': 'ListItem', position: 4, name: formattedState, item: `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}` },
           { '@type': 'ListItem', position: 5, name: formattedCity, item: currentUrl },
         ],
+      },
+      {
+        '@type': 'ItemList',
+        name: `Top ${formattedCategory} in ${formattedCity}, ${formattedState}`,
+        description: `A list of top ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState} for ${currentYear} on Hoteloza.`,
+        itemListElement: hotelItems,
       },
     ],
   };
