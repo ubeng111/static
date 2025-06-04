@@ -86,21 +86,17 @@ export default async function Page({ params }) {
 
   const schema = {
     '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'WebPage',
-        name: `Top ${formattedCategory} Deals in ${currentYear}`,
-        description: `Explore top ${formattedCategory.toLowerCase()} for ${currentYear} on Hoteloza with exclusive deals and premium amenities.`,
-        url: `https://hoteloza.com/${sanitizedCategory}`,
-      },
-      {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hoteloza.com' },
-          { '@type': 'ListItem', position: 2, name: formattedCategory, item: `https://hoteloza.com/${sanitizedCategory}` },
-        ],
-      },
-    ],
+    '@type': 'WebPage',
+    name: `Top ${formattedCategory} Deals in ${currentYear}`,
+    description: `Explore top ${formattedCategory.toLowerCase()} for ${currentYear} on Hoteloza with exclusive deals and premium amenities.`,
+    url: `https://hoteloza.com/${sanitizedCategory}`,
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hoteloza.com' },
+        { '@type': 'ListItem', position: 2, name: formattedCategory, item: `https://hoteloza.com/${sanitizedCategory}` },
+      ],
+    },
   };
 
   return <ClientPage categoryslug={sanitizedCategory} schema={schema} />;

@@ -1,3 +1,4 @@
+// page.jsx
 import { notFound } from 'next/navigation';
 import BookNow from '@/components/hotel-single/BookNow';
 import ClientPage from './ClientPage';
@@ -51,6 +52,8 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
 }
 
 export async function generateStaticParams() {
+ 
+
   return [
     {
       categoryslug: 'hotel',
@@ -61,6 +64,7 @@ export async function generateStaticParams() {
     },
   ];
 }
+
 
 export async function generateMetadata({ params }) {
   console.log('Metadata params:', params); // Debug log
@@ -94,83 +98,75 @@ export async function generateMetadata({ params }) {
         title: `${formattedHotel}, ${formattedCity} - Book Your ${currentYear} Stay | Hoteloza`,
         description: `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza. Enjoy a memorable stay with exclusive offers.`,
         url: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}/${hotelslug}`,
-        images: [hotel.img || hotel.slideImg?.[0] || ''],
+        images: [hotel.img || hotel.slideimg || ''],
       },
       twitter: {
         card: 'summary_large_image',
         title: `${formattedHotel}, ${formattedCity} - Book Your ${currentYear} Stay | Hoteloza`,
         description: `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza. Enjoy a memorable stay with exclusive offers.`,
-        images: [hotel.img || hotel.slideImg?.[0] || ''],
+        images: [hotel.img || hotel.slideimg || ''],
       },
       'schema:Hotel': JSON.stringify({
         '@context': 'https://schema.org',
-        '@graph': [
-          {
-            '@type': ['Hotel', 'LocalBusiness'],
-            name: hotel.title,
-            description: hotel.description || `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza.`,
-            address: {
-              '@type': 'PostalAddress',
-              addressLocality: hotel.city,
-              addressRegion: hotel.state,
-              addressCountry: hotel.country,
+        '@type': ['Hotel', 'LocalBusiness'],
+        name: hotel.title,
+        description: hotel.description || `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza.`,
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: hotel.city,
+          addressRegion: hotel.state,
+          addressCountry: hotel.country,
+        },
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: hotel.latitude,
+          longitude: hotel.longitude,
+        },
+        image: hotel.img || hotel.slideimg,
+        numberOfRooms: hotel.numberofrooms,
+        telephone: hotel.telephone,
+        email: hotel.email,
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: hotel.ratings ? parseFloat(hotel.ratings).toFixed(1) : undefined,
+          reviewCount: hotel.numberofreviews ? parseInt(hotel.numberofreviews) : 0,
+        },
+        breadcrumb: {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hoteloza.com' },
+            {
+              '@type': 'ListItem',
+              position: 2,
+              name: formatSlug(categoryslug),
+              item: `https://hoteloza.com/${categoryslug}`,
             },
-            geo: {
-              '@type': 'GeoCoordinates',
-              latitude: hotel.latitude,
-              longitude: hotel.longitude,
+            {
+              '@type': 'ListItem',
+              position: 3,
+              name: formatSlug(countryslug),
+              item: `https://hoteloza.com/${categoryslug}/${countryslug}`,
             },
-            image: hotel.img || hotel.slideImg?.[0],
-            numberOfRooms: hotel.numberofrooms || undefined,
-            telephone: hotel.telephone || undefined,
-            email: hotel.email || undefined,
-            aggregateRating: hotel.ratings && hotel.numberofreviews > 0
-              ? {
-                  '@type': 'AggregateRating',
-                  ratingValue: parseFloat(hotel.ratings).toFixed(1),
-                  reviewCount: parseInt(hotel.numberofreviews),
-                  bestRating: 10,
-                  worstRating: 1,
-                }
-              : undefined,
-          },
-          {
-            '@type': 'BreadcrumbList',
-            itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hoteloza.com' },
-              {
-                '@type': 'ListItem',
-                position: 2,
-                name: formatSlug(categoryslug),
-                item: `https://hoteloza.com/${categoryslug}`,
-              },
-              {
-                '@type': 'ListItem',
-                position: 3,
-                name: formatSlug(countryslug),
-                item: `https://hoteloza.com/${categoryslug}/${countryslug}`,
-              },
-              {
-                '@type': 'ListItem',
-                position: 4,
-                name: formatSlug(stateslug),
-                item: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}`,
-              },
-              {
-                '@type': 'ListItem',
-                position: 5,
-                name: formatSlug(cityslug),
-                item: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}`,
-              },
-              {
-                '@type': 'ListItem',
-                position: 6,
-                name: hotel.title,
-                item: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}/${hotelslug}`,
-              },
-            ],
-          },
-        ],
+            {
+              '@type': 'ListItem',
+              position: 4,
+              name: formatSlug(stateslug),
+              item: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}`,
+            },
+            {
+              '@type': 'ListItem',
+              position: 5,
+              name: formatSlug(cityslug),
+              item: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}`,
+            },
+            {
+              '@type': 'ListItem',
+              position: 6,
+              name: hotel.title,
+              item: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}/${hotelslug}`,
+            },
+          ],
+        },
       }),
     };
   } catch (error) {
@@ -182,6 +178,7 @@ export async function generateMetadata({ params }) {
   }
 }
 
+// Default export: This is the actual page component, a Server Component
 export default async function HotelDetailPage({ params }) {
   const resolvedParams = await params; // Await the params Promise
   console.log('Received params in HotelDetailPage:', resolvedParams); // Debug log
@@ -201,11 +198,11 @@ export default async function HotelDetailPage({ params }) {
         hotel={data.hotel}
         relatedHotels={data.relatedHotels}
         useHotels2={true}
-        hotelslug={resolvedParams.hotelslug}
-        categoryslug={resolvedParams.categoryslug}
-        countryslug={resolvedParams.countryslug}
-        stateslug={resolvedParams.stateslug}
-        cityslug={resolvedParams.cityslug}
+        hotelslug={resolvedParams.hotelslug} // Use resolved params
+        categoryslug={resolvedParams.categoryslug} // Use resolved params
+        countryslug={resolvedParams.countryslug} // Use resolved params
+        stateslug={resolvedParams.stateslug} // Use resolved params
+        cityslug={resolvedParams.cityslug} // Use resolved params
       />
     </>
   );

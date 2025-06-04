@@ -91,22 +91,18 @@ export default async function Page({ params }) {
 
   const schema = {
     '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'WebPage',
-        name: `Best ${formattedCategory} in ${formattedCountry} ${currentYear}`,
-        description: `Find the best ${formattedCategory.toLowerCase()} in ${formattedCountry} for ${currentYear} on Hoteloza with top hotels and exclusive deals.`,
-        url: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}`,
-      },
-      {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hoteloza.com' },
-          { '@type': 'ListItem', position: 2, name: formattedCategory, item: `https://hoteloza.com/${sanitizedCategory}` },
-          { '@type': 'ListItem', position: 3, name: formattedCountry, item: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}` },
-        ],
-      },
-    ],
+    '@type': 'WebPage',
+    name: `Best ${formattedCategory} in ${formattedCountry} ${currentYear}`,
+    description: `Find the best ${formattedCategory.toLowerCase()} in ${formattedCountry} for ${currentYear} on Hoteloza with top hotels and exclusive deals.`,
+    url: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}`,
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hoteloza.com' },
+        { '@type': 'ListItem', position: 2, name: formattedCategory, item: `https://hoteloza.com/${sanitizedCategory}` },
+        { '@type': 'ListItem', position: 3, name: formattedCountry, item: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}` },
+      ],
+    },
   };
 
   return <ClientPage categoryslug={sanitizedCategory} countryslug={sanitizedCountry} schema={schema} />;
