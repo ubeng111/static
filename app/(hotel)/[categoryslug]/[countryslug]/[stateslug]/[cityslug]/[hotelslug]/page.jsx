@@ -32,17 +32,33 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
 
   try {
     const response = await fetch(apiUrl, {
-      next: { revalidate: 3600 },
-      cache: 'force-cache',
+      next: { revalidate: 3600 }, // ISR: Revalidate every hour
+      cache: 'force-cache', // Cache response
     });
     if (!response.ok) {
       console.error(`Failed to fetch hotel data: ${response.status} - ${response.statusText}`);
       return null;
     }
-    return response.json();
+    const data = await response.json();
+    // Ensure hotel object exists
+    if (!data?.hotel) {
+      console.error('No hotel data found in response');
+      return null;
+    }
+    return data;
   } catch (error) {
-    console.error('Error fetching hotel data:', error);
-    return null;
+    console.error('Error fetching hotel data:', error.message);
+    // Fallback data to prevent null hotel
+    return {
+      hotel: {
+        title: formatSlug(sanitizedParams.hotelslug) || 'Hotel',
+        city: formatSlug(sanitizedParams.cityslug) || 'City',
+        location: formatSlug(sanitizedParams.cityslug) || 'City',
+        img: '/fallback-image.jpg', // Use a local fallback image
+        overview: 'This is a fallback description for the hotel.',
+      },
+      relatedHotels: [],
+    };
   }
 }
 
@@ -63,16 +79,11 @@ export async function generateMetadata({ params }) {
   const { categoryslug, countryslug, stateslug, cityslug, hotelslug } = resolvedParams;
   const data = await getHotelData(resolvedParams);
 
-  if (!data || !data.hotel) {
-    const formattedHotel = formatSlug(hotelslug) || 'Hotel';
-    const formattedCity = formatSlug(cityslug) || 'City';
-    return {
-      title: `${formattedHotel}, ${formattedCity} - Hotel Not Found | Hoteloza`,
-      description: `The hotel ${formattedHotel} in ${formattedCity} was not found on Hoteloza.`,
-    };
-  }
-
-  const hotel = data.hotel;
+  const hotel = data?.hotel || {
+    title: formatSlug(hotelslug) || 'Hotel',
+    city: formatSlug(cityslug) || 'City',
+    img: '/fallback-image.jpg',
+  };
   const formattedHotel = formatSlug(hotelslug) || hotel.title;
   const formattedCity = formatSlug(cityslug) || hotel.city;
   const currentYear = new Date().getFullYear();
@@ -87,13 +98,13 @@ export async function generateMetadata({ params }) {
       title: `${formattedHotel}, ${formattedCity} - Book Your ${currentYear} Stay | Hoteloza`,
       description: `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza. Enjoy a memorable stay with exclusive offers.`,
       url: `https://hoteloza.com/${categoryslug}/${countryslug}/${stateslug}/${cityslug}/${hotelslug}`,
-      images: [hotel.img || hotel.slideimg?.[0] || ''],
+      images: [hotel.img || '/fallback-image.jpg'],
     },
     twitter: {
       card: 'summary_large_image',
       title: `${formattedHotel}, ${formattedCity} - Book Your ${currentYear} Stay | Hoteloza`,
       description: `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza. Enjoy a memorable stay with exclusive offers.`,
-      images: [hotel.img || hotel.slideimg?.[0] || ''],
+      images: [hotel.img || '/fallback-image.jpg'],
     },
     other: {
       'link-preload': hotel.img
@@ -126,15 +137,15 @@ export default async function HotelDetailPage({ params }) {
       address: {
         '@type': 'PostalAddress',
         addressLocality: hotel.city,
-        addressRegion: hotel.state,
-        addressCountry: hotel.country,
+        addressRegion: hotel.state || '',
+        addressCountry: hotel.country || '',
       },
       geo: {
         '@type': 'GeoCoordinates',
         latitude: parseFloat(hotel.latitude) || 0,
         longitude: parseFloat(hotel.longitude) || 0,
       },
-      image: hotel.img || hotel.slideimg?.[0] || '',
+      image: hotel.img || '/fallback-image.jpg',
       numberOfRooms: parseInt(hotel.numberofrooms) || 0,
       telephone: hotel.telephone || '',
       email: hotel.email || '',
@@ -208,7 +219,7 @@ export default async function HotelDetailPage({ params }) {
       <BookNow hotel={data.hotel} hotelId={data.hotel?.id} />
       <ClientPage
         hotel={data.hotel}
-        relatedHotels={data.relatedHotels}
+        relatedHotels={data.relatedHotels || []}
         hotelslug={resolvedParams.hotelslug}
         categoryslug={resolvedParams.categoryslug}
         countryslug={resolvedParams.countryslug}
