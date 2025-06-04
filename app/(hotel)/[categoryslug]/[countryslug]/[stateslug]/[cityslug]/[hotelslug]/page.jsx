@@ -1,4 +1,3 @@
-// page.jsx
 import { notFound } from 'next/navigation';
 import BookNow from '@/components/hotel-single/BookNow';
 import ClientPage from './ClientPage';
@@ -37,7 +36,12 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
   console.log('Constructed API URL:', apiUrl);
 
   try {
-    const response = await fetch(apiUrl, { cache: 'no-store' });
+    // --- PERUBAHAN PENTING DI SINI ---
+    // Menggunakan `next: { revalidate: <seconds> }` untuk Incremental Static Regeneration (ISR).
+    // Ini akan membangun halaman secara statis, tetapi merevalidasi data setelah waktu yang ditentukan.
+    // Misal: 3600 detik = 1 jam. Pilih waktu yang sesuai dengan seberapa sering data Anda berubah.
+    const response = await fetch(apiUrl, { next: { revalidate: 3600 } }); // Revalidasi setiap 1 jam
+
     if (!response.ok) {
       console.error(
         `Failed to fetch hotel data for ${sanitizedParams.hotelslug}. Status: ${response.status} - ${response.statusText}`
@@ -51,7 +55,20 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
   }
 }
 
+// --- PERUBAHAN PENTING DI SINI ---
+// Menentukan revalidasi di tingkat halaman (page.jsx).
+// Ini adalah fallback untuk semua fetch di halaman ini jika tidak ada `revalidate` spesifik pada fetch tersebut.
+// Jika ada `revalidate` pada fetch individual, itu akan mengambil prioritas.
+// Next.js akan meregenerasi halaman ini (termasuk data hotel) setiap 3600 detik (1 jam).
+export const revalidate = 3600;
+
 export async function generateStaticParams() {
+  // Fungsi ini digunakan untuk pre-render halaman statis pada waktu build.
+  // Anda harus mengisi ini dengan daftar slugs yang valid dari database Anda
+  // untuk hotel-hotel yang paling penting yang ingin Anda cache.
+  // Contoh di bawah ini hanya untuk demo. Anda perlu mendapatkan daftar ini secara dinamis dari DB.
+  // Jika Anda tidak memiliki daftar besar untuk pre-render, Anda bisa membiarkan ini kosong
+  // atau hanya dengan beberapa contoh, dan Next.js akan membangun sisanya on-demand (ISR).
   return [
     {
       categoryslug: 'hotel',
@@ -60,6 +77,9 @@ export async function generateStaticParams() {
       cityslug: 'los-angeles',
       hotelslug: 'the-ritz-carlton-los-angeles',
     },
+    // Tambahkan lebih banyak kombinasi slug di sini jika perlu.
+    // Contoh untuk URL yang 404 jika ada data:
+    // { categoryslug: 'entire-house', countryslug: 'russia', stateslug: 'yaroslavskaya', cityslug: 'nama-kota-di-yaroslavskaya', hotelslug: 'nama-hotel-di-yaroslavskaya' },
   ];
 }
 
@@ -69,6 +89,7 @@ export async function generateMetadata({ params }) {
   const { categoryslug, countryslug, stateslug, cityslug, hotelslug } = resolvedParams;
 
   try {
+    // getHotelData akan menggunakan cache ISR
     const data = await getHotelData(resolvedParams);
     if (!data || !data.hotel) {
       const formattedHotel = formatSlug(hotelslug) || 'Hotel';
@@ -115,10 +136,11 @@ export async function generateMetadata({ params }) {
 export default async function HotelDetailPage({ params }) {
   const resolvedParams = await params;
   console.log('Received params in HotelDetailPage:', resolvedParams);
+  // getHotelData akan menggunakan cache ISR
   const data = await getHotelData(resolvedParams);
 
   if (!data || !data.hotel) {
-    notFound();
+    notFound(); // Menggunakan notFound() dari Next.js untuk menampilkan halaman 404
   }
 
   const hotel = data.hotel;
