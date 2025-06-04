@@ -76,18 +76,11 @@ export async function GET(request, { params }) {
       });
     }
 
-    // **PERBAIKAN DI SINI UNTUK relatedHotelsQuery:**
     const relatedHotelsQuery = `
-      SELECT id, title, city, state, country, category, categoryslug, countryslug, stateslug, cityslug, hotelslug, img, location, ratings, numberOfReviews, numberrooms, overview, city_id, latitude, longitude
-      FROM public.hotels
-      WHERE
-        cityslug = $1 AND
-        categoryslug = $2 AND
-        hotelslug != $3 AND
-        -- Menambahkan kriteria validasi untuk memastikan data dasar ada
-        title IS NOT NULL AND title != '' AND
-        img IS NOT NULL AND img != '' AND
-        hotelslug IS NOT NULL AND hotelslug ~ '^[a-z0-9-]+$'
+      SELECT * FROM public.hotels
+      WHERE cityslug = $1
+        AND categoryslug = $2
+        AND hotelslug != $3
       ORDER BY RANDOM()
       LIMIT 15;
     `;
