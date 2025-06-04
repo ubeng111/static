@@ -133,6 +133,7 @@ export default function ClientPage({ categoryslug, countryslug }) {
       </section>
 
       <div style={{ display: 'flex', justifyContent: 'center', transform: 'translateY(-90px)', marginTop: '7%' }}>
+      <nav aria-label="Pagination">
         <ReactPaginate
           pageCount={pagination.totalPages}
           onPageChange={handlePageClick}
@@ -140,11 +141,19 @@ export default function ClientPage({ categoryslug, countryslug }) {
           activeClassName="active"
           pageClassName="page-item"
           pageLinkClassName="page-link"
-          previousLabel={null}
-          nextLabel={null}
+          previousLabel="Previous"
+          nextLabel="Next"
           forcePage={pagination.page - 1}
+          previousClassName="page-item"
+          nextClassName="page-item"
+          previousLinkClassName="page-link"
+          nextLinkClassName="page-link"
+          breakLabel="..."
+          breakClassName="page-item break"
+          breakLinkClassName="page-link"
         />
-      </div>
+      </nav>
+    </div>
 
       <div className="pt-40 sm:pt-20 item_gap-x30">
         {relatedcountry.length > 0 ? (
