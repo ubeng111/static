@@ -126,45 +126,50 @@ export default async function HotelDetailPage({ params }) {
   const formattedCity = formatSlug(resolvedParams.cityslug) || hotel.city;
   const currentYear = new Date().getFullYear();
 
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': ['Hotel', 'LocalBusiness'],
-    name: hotel.title,
-    description: hotel.description || `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza.`,
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: hotel.city,
-      addressRegion: hotel.state,
-      addressCountry: hotel.country,
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: parseFloat(hotel.latitude) || 0, // Ensure valid number
-      longitude: parseFloat(hotel.longitude) || 0, // Ensure valid number
-    },
-    image: hotel.img || hotel.slideimg || '',
-    numberOfRooms: parseInt(hotel.numberofrooms) || 0,
-    telephone: hotel.telephone || '',
-    email: hotel.email || '',
-    priceRange: hotel.priceRange || '$$$', // Add priceRange for rich results
-    checkinTime: hotel.checkinTime || '15:00', // Add checkinTime
-    checkoutTime: hotel.checkoutTime || '11:00', // Add checkoutTime
-    url: `https://hoteloza.com/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}/${resolvedParams.hotelslug}`,
-    ...(hotel.ratings && {
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: parseFloat(hotel.ratings).toFixed(1),
-        reviewCount: parseInt(hotel.numberofreviews) || 0,
+  const schemas = [
+    {
+      '@context': 'https://schema.org',
+      '@type': ['Hotel', 'LocalBusiness'],
+      name: hotel.title,
+      description: hotel.description || `Book ${formattedHotel}, a luxury hotel in ${formattedCity} for ${currentYear} on Hoteloza.`,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: hotel.city,
+        addressRegion: hotel.state,
+        addressCountry: hotel.country,
       },
-    }),
-    ...(hotel.starRating && {
-      starRating: {
-        '@type': 'Rating',
-        ratingValue: parseFloat(hotel.starRating),
-        bestRating: '5',
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: parseFloat(hotel.latitude) || 0,
+        longitude: parseFloat(hotel.longitude) || 0,
       },
-    }),
-    breadcrumb: {
+      image: hotel.img || hotel.slideimg || '',
+      numberOfRooms: parseInt(hotel.numberofrooms) || 0,
+      telephone: hotel.telephone || '',
+      email: hotel.email || '',
+      priceRange: hotel.priceRange || '$$$',
+      checkinTime: hotel.checkinTime || '15:00',
+      checkoutTime: hotel.checkoutTime || '11:00',
+      url: `https://hoteloza.com/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}/${resolvedParams.hotelslug}`,
+      ...(hotel.ratings && {
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: parseFloat(hotel.ratings).toFixed(1),
+          bestRating: 10, // Explicitly set to match 1–10 scale
+          worstRating: 1, // Explicitly set to match 1–10 scale
+          reviewCount: parseInt(hotel.numberofreviews) || 0,
+        },
+      }),
+      ...(hotel.starRating && {
+        starRating: {
+          '@type': 'Rating',
+          ratingValue: parseFloat(hotel.starRating),
+          bestRating: 5, // Star ratings are typically 1–5
+        },
+      }),
+    },
+    {
+      '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hoteloza.com' },
@@ -200,14 +205,14 @@ export default async function HotelDetailPage({ params }) {
         },
       ],
     },
-  };
+  ];
 
   return (
     <>
       <Script
         id="hotel-schema"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
       />
       <BookNow hotel={data.hotel} hotelId={data.hotel?.id} />
       <ClientPage
