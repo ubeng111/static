@@ -14,6 +14,7 @@ const LandmarkList = dynamic(() => import('@/components/hotel-single/LandmarkLis
 const TopBreadCrumb88 = dynamic(() => import('@/components/hotel-single/TopBreadCrumb88'), { ssr: true });
 const MainFilterSearchBox = dynamic(() => import('@/components/hotel-list/common/MainFilterSearchBox'), { ssr: true });
 const RelatedHotels = dynamic(() => import('@/components/hotel-single/RelatedHotels'), { ssr: true });
+const Faq = dynamic(() => import('@/components/faq/Faq'), { ssr: false }); // FAQ
 
 // AccordionItem Component
 const AccordionItem = ({ id, icon, title, isOpen, toggle, ariaLabel, children }) => (
@@ -52,6 +53,7 @@ export default function ClientPage({
     map: true,
     landmark: true,
     relatedHotels: true,
+    faq: true, // <-- Tambahkan FAQ state
   });
 
   const toggleSection = (section) => {
@@ -71,7 +73,6 @@ export default function ClientPage({
 
   return (
     <>
-      {/* GLOBAL STYLE */}
       <style jsx global>{`
         .accordion-item .accordion-header {
           background-color: #0056b3 !important;
@@ -111,11 +112,9 @@ export default function ClientPage({
         }
       `}</style>
 
-      {/* Header */}
       <div className="header-margin"></div>
       <Header11 />
 
-      {/* Breadcrumb */}
       <div className="py-10 bg-white">
         <div className="container">
           <div className="row">
@@ -126,7 +125,6 @@ export default function ClientPage({
         </div>
       </div>
 
-      {/* Search Filter */}
       <section className="layout-pt-md">
         <div className="container">
           <div className="row">
@@ -137,14 +135,12 @@ export default function ClientPage({
         </div>
       </section>
 
-      {/* Gallery */}
       <section className="mt-40" id="overview">
         <div className="container">
           <GalleryTwo hotel={hotel} />
         </div>
       </section>
 
-      {/* Accordions */}
       <section className="pt-40 layout-pb-md">
         <div className="container">
           <div className="accordion -simple js-accordion" id="hotelAccordion">
@@ -209,9 +205,23 @@ export default function ClientPage({
                 </div>
               </AccordionItem>
             )}
+
+            {/* FAQ Section */}
+            <AccordionItem
+              id="faqCollapse"
+              icon="fas fa-question-circle"
+              title="Frequently Asked Questions"
+              isOpen={openSections.faq}
+              toggle={() => toggleSection('faq')}
+              ariaLabel="Toggle Frequently Asked Questions"
+            >
+              <div id="Faq1" className="row y-gap-20">
+                <Faq title={hotel?.title} />
+              </div>
+            </AccordionItem>
           </div>
 
-          {/* Sidebar Accordion */}
+          {/* Map Section in Sidebar */}
           <div className="row y-gap-30">
             <div className="col-12">
               <div className="accordion -simple js-accordion" id="sidebarAccordion">
