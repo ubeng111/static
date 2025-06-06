@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import useSWR from 'swr';
 import ReactPaginate from 'react-paginate';
-import RelatedCountry88 from '@/components/hotel-single/RelatedCountry88'; // Pastikan import nama file yang benar
+import Relatedcountry88 from '@/components/hotel-single/Relatedcountry88'; // Pastikan import nama file yang benar
 import HotelProperties88 from '@/components/hotel-list/hotel-list-v5/HotelProperties88';
 
 const CallToActions = dynamic(() => import('@/components/common/CallToActions'), { ssr: false });
@@ -142,7 +142,7 @@ export default function ClientPage({ countryslug }) {
       <div className="pt-40 sm:pt-20 item_gap-x30">
         {/* Perbaikan: Meneruskan prop 'relatedStates' dan 'categoryslug' */}
         {relatedStates.length > 0 ? (
-          <RelatedCountry88 relatedStates={relatedStates} countryslug={countryslug} categoryslug={categoryslug} />
+          <Relatedcountry88 relatedStates={relatedStates} countryslug={countryslug} categoryslug={categoryslug} />
         ) : (
           <p>No related states found for this country.</p>
         )}
