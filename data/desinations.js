@@ -1,3 +1,4 @@
+ export const destinations1 =
 [
   {
     "id": 1,
