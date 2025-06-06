@@ -194,14 +194,13 @@ const Hotels2 = ({ relatedHotels, itemsToShow = 4 }) => {
                     <div className="cardImage ratio ratio-1:1">
                       <div className="cardImage__content">
                         <img
-  width={300}
-  height={300}
-  className="rounded-4 col-12 js-lazy"
-  src={(item.img?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
-  alt={`Hotel image for ${item?.title || "Untitled Hotel"}`}
-  loading={i < effectiveItemsToShow ? "eager" : "lazy"}
-/>
-
+                          width={300}
+                          height={300}
+                          className="rounded-4 col-12 js-lazy"
+                          src={(item.img?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
+                          alt={`Hotel image for ${item?.title || "Untitled Hotel"}`}
+                          loading={i < effectiveItemsToShow ? "eager" : "lazy"}
+                        />
                       </div>
                     </div>
                   )}
@@ -213,7 +212,7 @@ const Hotels2 = ({ relatedHotels, itemsToShow = 4 }) => {
                             width={300}
                             height={300}
                             className="rounded-4 col-12 js-lazy"
-                            src={slide || "/images/placeholder.jpg"}
+                            src={(slide?.replace('http://', 'https://')) || "/images/placeholder.jpg"}
                             alt={`Slide image ${slideIndex + 1} for ${item?.title || "Untitled Hotel"}`}
                             loading="lazy"
                           />

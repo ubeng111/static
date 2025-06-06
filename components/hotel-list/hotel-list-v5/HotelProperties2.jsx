@@ -83,7 +83,7 @@ const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui" }) => {
                             width={300}
                             height={300}
                             className="rounded-4 col-12"
-  src={(hotel.img?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
+                            src={(hotel.img?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
                             alt={`Gambar dari hotel ${hotel.title}`}
                             loading="eager"
                           />
@@ -98,7 +98,7 @@ const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui" }) => {
                               width={300}
                               height={300}
                               className="rounded-4 col-12"
-                              src={slide}
+                              src={(slide?.replace('http://', 'https://')) || "/images/placeholder.jpg"}
                               alt={`Gambar slider ${i + 1} dari hotel ${hotel.title}`}
                               loading="lazy"
                             />
