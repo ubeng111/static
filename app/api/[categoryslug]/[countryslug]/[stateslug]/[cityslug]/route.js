@@ -1,4 +1,3 @@
-// route.js (city level)
 import { Pool } from 'pg';
 import fs from 'fs';
 import path from 'path';
@@ -71,6 +70,7 @@ export async function GET(req, { params }) {
       SELECT hotel_data.*, hotel_count.total
       FROM hotel_data, hotel_count;
     `;
+
     const result = await client.query(query, [categoryslug, countryslug, stateslug, cityslug, LIMIT, offset]);
 
     if (result.rows.length === 0) {
@@ -80,15 +80,7 @@ export async function GET(req, { params }) {
     const totalHotels = parseInt(result.rows[0].total, 10);
     const totalPages = Math.ceil(totalHotels / LIMIT);
 
-    const relatedCityQuery = `
-      SELECT DISTINCT city, cityslug
-      FROM public.hotels
-      WHERE categoryslug = $1 AND countryslug = $2 AND stateslug = $3 AND cityslug != $4 AND city != ''
-      LIMIT 40
-    `;
-    const relatedCityResult = await client.query(relatedCityQuery, [categoryslug, countryslug, stateslug, cityslug]);
-
-    const cleanHotels = result.rows.slice(0, -1).map(row => ({
+    const cleanHotels = result.rows.map(row => ({
       id: row.id,
       title: row.title,
       city: row.city,
@@ -110,6 +102,14 @@ export async function GET(req, { params }) {
       latitude: row.latitude,
       longitude: row.longitude,
     }));
+
+    const relatedCityQuery = `
+      SELECT DISTINCT city, cityslug
+      FROM public.hotels
+      WHERE categoryslug = $1 AND countryslug = $2 AND stateslug = $3 AND cityslug != $4 AND city != ''
+      LIMIT 40
+    `;
+    const relatedCityResult = await client.query(relatedCityQuery, [categoryslug, countryslug, stateslug, cityslug]);
 
     const response = {
       hotels: cleanHotels,

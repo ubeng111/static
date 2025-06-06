@@ -1,7 +1,7 @@
 import { Pool } from 'pg';
 import fs from 'fs';
 import path from 'path';
-import 'dotenv/config'; // Impor dotenv untuk memuat .env
+import 'dotenv/config';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
@@ -66,8 +66,9 @@ export async function GET(req, { params }) {
         SELECT COUNT(*) AS total FROM public.hotels
         WHERE categoryslug = $1 AND countryslug = $2 AND stateslug = $3
       )
-      SELECT hotel_data.*, hotel_count.total
-      FROM hotel_data, hotel_count;
+      SELECT hd.*, hc.total
+      FROM hotel_data hd
+      CROSS JOIN hotel_count hc;
     `;
     const result = await client.query(query, [categoryslug, countryslug, stateslug, LIMIT, offset]);
 
@@ -77,17 +78,18 @@ export async function GET(req, { params }) {
 
     const totalHotels = parseInt(result.rows[0].total, 10);
     const totalPages = Math.ceil(totalHotels / LIMIT);
+    const hotels = result.rows.map(({ total, ...hotel }) => hotel); // Clean hotel data
 
     const relatedCityQuery = `
       SELECT DISTINCT city, cityslug
       FROM public.hotels
-      WHERE categoryslug = $1 AND countryslug = $2 AND stateslug = $3 AND city != ''
+      WHERE categoryslug = $1 AND countryslug = $2 AND stateslug = $3 AND city IS NOT NULL AND city != ''
       LIMIT 40
     `;
     const relatedCityResult = await client.query(relatedCityQuery, [categoryslug, countryslug, stateslug]);
 
     const response = {
-      hotels: result.rows.slice(0, -1),
+      hotels,
       relatedstate: relatedCityResult.rows,
       pagination: { page, totalPages, totalHotels },
     };
