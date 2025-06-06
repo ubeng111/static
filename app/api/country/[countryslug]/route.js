@@ -28,20 +28,24 @@ export async function GET(req, { params }) {
     });
   }
 
+  // Ambil parameter 'page' dari URL, default ke 1 jika tidak ada
   const url = new URL(req.url);
   let page = parseInt(url.searchParams.get('page') || '1', 10);
 
+  // Validasi nomor halaman
   if (page && page < 1) {
     return new Response(JSON.stringify({ message: 'Halaman harus berupa angka positif' }), {
       status: 400,
     });
   }
 
+  // Hitung keyset berdasarkan halaman yang diminta (gunakan id terakhir pada halaman sebelumnya)
   const lastId = url.searchParams.get('lastId') || 0;
 
   const client = await getClient();
 
   try {
+    // Query untuk mendapatkan data hotel berdasarkan countryslug dengan pagination menggunakan keyset
     const query = `
       SELECT * FROM public.hotels
       WHERE countryslug = $1 AND id > $2
@@ -56,22 +60,24 @@ export async function GET(req, { params }) {
       });
     }
 
+    // Query untuk menghitung total hotel berdasarkan countryslug (untuk info pagination)
     const countQuery = `
-      SELECT COUNT(*)
-      FROM public.hotels
+      SELECT COUNT(*) 
+      FROM public.hotels 
       WHERE countryslug = $1
     `;
     const countResult = await client.query(countQuery, [countryslug]);
     const totalHotels = parseInt(countResult.rows[0].count, 10);
 
+    // Hitung total halaman
     const totalPages = Math.ceil(totalHotels / LIMIT);
 
+    // Query untuk mendapatkan related states berdasarkan country yang sama
     const relatedStateQuery = `
       SELECT state, countryslug, country
-      FROM public.hotels
+      FROM public.hotels 
       WHERE countryslug = $1
-        AND state IS NOT NULL
-        AND state != ''
+        AND state != '' 
       GROUP BY state, countryslug, country
       LIMIT 40
     `;
@@ -80,7 +86,7 @@ export async function GET(req, { params }) {
     return new Response(
       JSON.stringify({
         hotels: result.rows,
-        relatedStates: relatedStateResult.rows, // Pastikan ini 'relatedStates'
+        relatedcountry: relatedStateResult.rows, 
         pagination: {
           page: page || 1,
           totalPages,
