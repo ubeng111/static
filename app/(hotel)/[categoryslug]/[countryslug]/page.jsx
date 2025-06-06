@@ -38,7 +38,7 @@ async function getCountryData(categoryslug, countryslug) {
 const ClientPage = dynamic(() => import('./ClientPage'));
 
 export async function generateMetadata({ params }) {
-  const { categoryslug, countryslug } = params;
+  const { categoryslug, countryslug } =  params;
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
 

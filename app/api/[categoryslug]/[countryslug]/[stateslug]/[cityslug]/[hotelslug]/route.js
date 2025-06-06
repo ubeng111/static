@@ -40,7 +40,7 @@ function setCache(key, data) {
 
 export async function GET(request, { params }) {
   try {
-    const { categoryslug, countryslug, stateslug, cityslug, hotelslug } = params;
+    const { categoryslug, countryslug, stateslug, cityslug, hotelslug } = await params;
     const url = new URL(request.url);
     const reset = url.searchParams.get('reset') === 'true';
 

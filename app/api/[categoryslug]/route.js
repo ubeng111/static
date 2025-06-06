@@ -26,7 +26,7 @@ function setCache(key, data) {
 const LIMIT = 13;
 
 export async function GET(req, { params }) {
-  const { categoryslug } = params;
+  const { categoryslug } = await params;
   if (!categoryslug) {
     return new Response(JSON.stringify({ message: 'Category slug is required' }), { status: 400 });
   }
