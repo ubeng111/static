@@ -73,7 +73,7 @@ const GalleryTwo = ({ hotel }) => {
 
         {/* Overview Section */}
         {hotel?.overview && (
-          <div className="pt-20 sm:pt-30 md:pt-40 px-0">
+            <div className="pt-20 sm:pt-30 md:pt-40 px-0 mt-20 sm:mt-40">
             <h2 className="text-20 sm:text-22 fw-500 border-top-light mb-10 sm:mb-20">
               Overview {hotel?.title}
             </h2>
