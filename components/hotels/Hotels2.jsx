@@ -197,7 +197,7 @@ const Hotels2 = ({ relatedHotels, itemsToShow = 4 }) => {
                           width={300}
                           height={300}
                           className="rounded-4 col-12 js-lazy"
-  src={(hotel.img?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
+  src={(item.img?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
                           alt={`Hotel image for ${item?.title || "Untitled Hotel"}`}
                           loading={i < effectiveItemsToShow ? "eager" : "lazy"}
                         />

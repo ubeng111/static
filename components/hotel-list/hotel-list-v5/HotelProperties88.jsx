@@ -25,13 +25,14 @@ export default function HotelProperties88({ hotels }) {
                   <div className="cardImage ratio ratio-1:1">
                     <div className="cardImage__content">
                       <img
-                        width={300}
-                        height={300}
-                        className="rounded-4 col-12"
-  src={(hotel.img?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
-                        alt={item.title || "Hotel image"}
-                        loading="lazy"
-                      />
+  width={300}
+  height={300}
+  className="rounded-4 col-12"
+  src={(item.img?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
+  alt={item.title || "Hotel image"}
+  loading="lazy"
+/>
+
                     </div>
                   </div>
                 )}
