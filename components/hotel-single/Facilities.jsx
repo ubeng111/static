@@ -104,7 +104,7 @@ const Facilities = () => {
                     <i className={`${facility.icon} text-20 mr-10`} />
                     {facility.title}
                   </div>
-                  <ul className="text-15 pt-10">
+                  <ul className="text-14 pt-10">
                     {facility?.facilities?.map((val, i) => (
                       <li className="d-flex items-center" key={i}>
                         <i className="icon-check text-10 mr-20" />

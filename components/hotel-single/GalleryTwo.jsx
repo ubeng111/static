@@ -1,12 +1,15 @@
 'use client';
 
 const GalleryTwo = ({ hotel }) => {
-  // Combine location and city without duplicating city name
   const address = (() => {
-    if (hotel?.location && hotel?.city && hotel.location.toLowerCase() !== hotel.city.toLowerCase()) {
+    if (
+      hotel?.location &&
+      hotel?.city &&
+      hotel.location.toLowerCase() !== hotel.city.toLowerCase()
+    ) {
       return `${hotel.location}`;
     }
-    return hotel?.location || "Location not available";
+    return hotel?.location || 'Location not available';
   })();
 
   return (
@@ -17,7 +20,9 @@ const GalleryTwo = ({ hotel }) => {
           <div className="col-auto">
             <div className="row x-gap-10 sm:x-gap-20 items-center">
               <div className="col-auto">
-                <h1 className="text-24 sm:text-28 md:text-30 fw-600">{hotel?.title?.slice(0, 30)}</h1>
+                <h1 className="text-24 sm:text-28 md:text-30 fw-600 line-clamp-1">
+                  {hotel?.title}
+                </h1>
               </div>
               <div className="col-auto">
                 {[...Array(5)].map((_, i) => (
@@ -57,8 +62,8 @@ const GalleryTwo = ({ hotel }) => {
                 width={450}
                 height={375}
                 src={(image?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
-                alt={`${hotel?.title || "Hotel"} - Gallery image ${index + 1}`}
-                title={`${hotel?.title || "Hotel"} - View ${index + 1}`}
+                alt={`${hotel?.title || 'Hotel'} - Gallery image ${index + 1}`}
+                title={`${hotel?.title || 'Hotel'} - View ${index + 1}`}
                 className="rounded-4"
                 loading="lazy"
               />
@@ -70,14 +75,14 @@ const GalleryTwo = ({ hotel }) => {
         {hotel?.overview && (
           <div className="pt-20 sm:pt-30 md:pt-40 px-0">
             <h2 className="text-20 sm:text-22 fw-500 border-top-light mb-10 sm:mb-20">
-              Overview {hotel?.title?.slice(0, 30)}
+              Overview {hotel?.title}
             </h2>
             {(() => {
-              const sentences = hotel.overview.split(".").filter(Boolean);
+              const sentences = hotel.overview.split('.').filter(Boolean);
               const partLength = Math.ceil(sentences.length / 3);
-              const part1 = sentences.slice(0, partLength).join(". ") + ".";
-              const part2 = sentences.slice(partLength, partLength * 2).join(". ") + ".";
-              const part3 = sentences.slice(partLength * 2).join(". ") + ".";
+              const part1 = sentences.slice(0, partLength).join('. ') + '.';
+              const part2 = sentences.slice(partLength, partLength * 2).join('. ') + '.';
+              const part3 = sentences.slice(partLength * 2).join('. ') + '.';
               return (
                 <div className="y-gap-10 sm:y-gap-20">
                   <p className="text-15 sm:text-17 text-light-1 leading-6 sm:leading-7">{part1}</p>
