@@ -8,9 +8,12 @@ export default function HotelProperties88({ hotels }) {
     return <div>No hotels found.</div>;
   }
 
+  // Define how many items to eager load. For example, the first 4.
+  const effectiveItemsToShow = 4; 
+
   return (
     <>
-      {hotels.map((item, index) => (
+      {hotels.map((item, index) => ( // Use 'index' from the map function
         <div
           className="col-lg-3 col-md-4 col-12 mb-30"
           key={item?.id || index}
@@ -25,15 +28,13 @@ export default function HotelProperties88({ hotels }) {
                   <div className="cardImage ratio ratio-1:1">
                     <div className="cardImage__content">
                       <img
-  width={300}
-  height={300}
-  className="rounded-4 col-12 js-lazy"
-  src={(item.img?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
-alt={`Image of ${item?.title || "Untitled Hotel"} - A ${item?.category || "hotel"} in ${item?.city || "Unknown Location"}`}
-  loading={i < effectiveItemsToShow ? "eager" : "lazy"}
-/>
-
-
+                        width={300}
+                        height={300}
+                        className="rounded-4 col-12 js-lazy"
+                        src={(item.img?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
+                        alt={`Image of ${item?.title || "Untitled Hotel"} - A ${item?.category || "hotel"} in ${item?.city || "Unknown Location"}`}
+                        loading={index < effectiveItemsToShow ? "eager" : "lazy"} // Use 'index' here
+                      />
                     </div>
                   </div>
                 )}
