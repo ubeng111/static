@@ -15,5 +15,4 @@ Sitemap: https://hoteloza.com/sitemap_index10.xml
 Sitemap: https://hoteloza.com/sitemap_index11.xml
 Sitemap: https://hoteloza.com/sitemap_index12.xml
 Sitemap: https://hoteloza.com/sitemap_index13.xml
-Sitemap: https://hoteloza.com/sitemap_index14.xml
-Sitemap: https://hoteloza.com/sitemap_index15.xml
+

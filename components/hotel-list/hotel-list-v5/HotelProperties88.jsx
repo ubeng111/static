@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 // Utility function for category matching (assumed server-compatible)
@@ -24,13 +25,14 @@ export default function HotelProperties88({ hotels }) {
                 {item?.img && (
                   <div className="cardImage ratio ratio-1:1">
                     <div className="cardImage__content">
-                      <img
+                      <Image
                         width={300}
                         height={300}
                         className="rounded-4 col-12"
-                        src={item.img || "/images/placeholder.jpg"}
+                        src={item.img}
                         alt={item.title || "Hotel image"}
-                        loading="lazy"
+                        loading="eager"
+                        fetchPriority="high"
                       />
                     </div>
                   </div>
@@ -71,9 +73,9 @@ export default function HotelProperties88({ hotels }) {
               </div>
             </div>
             <div className="hotelsCard__content mt-10">
-              <h2 className="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">
+              <h4 className="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">
                 <span>{item?.title || "Untitled Hotel"}</span>
-              </h2>
+              </h4>
               <p className="text-light-1 lh-14 text-14 mt-5">{item?.location || "Unknown Location"}</p>
               <div className="d-flex align-items-center mt-20">
                 <div className="flex-center bg-blue-1 rounded-4 size-30 text-12 fw-600 text-white">

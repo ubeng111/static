@@ -1,4 +1,3 @@
-// page.jsx
 import { notFound } from 'next/navigation';
 import BookNow from '@/components/hotel-single/BookNow';
 import ClientPage from './ClientPage';
@@ -55,10 +54,10 @@ export async function generateStaticParams() {
   return [
     {
       categoryslug: 'hotel',
-      countryslug: 'usa',
-      stateslug: 'california',
-      cityslug: 'los-angeles',
-      hotelslug: 'the-ritz-carlton-los-angeles',
+      countryslug: 'indonesia',
+      stateslug: 'west-java',
+      cityslug: 'bogor',
+      hotelslug: 'hotel-santika-bogor',
     },
   ];
 }
@@ -177,25 +176,25 @@ export default async function HotelDetailPage({ params }) {
           '@type': 'ListItem',
           position: 2,
           name: formatSlug(resolvedParams.categoryslug),
-          item: `https://hoteloza.com/${resolvedParams.categoryslug}`,
+          item: `https://hoteloza.com/category/${resolvedParams.categoryslug}`,
         },
         {
           '@type': 'ListItem',
           position: 3,
           name: formatSlug(resolvedParams.countryslug),
-          item: `https://hoteloza.com/${resolvedParams.categoryslug}/${resolvedParams.countryslug}`,
+          item: `https://hoteloza.com/country/${resolvedParams.countryslug}`,
         },
         {
           '@type': 'ListItem',
           position: 4,
           name: formatSlug(resolvedParams.stateslug),
-          item: `https://hoteloza.com/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}`,
+          item: `https://hoteloza.com/state/${resolvedParams.stateslug}`,
         },
         {
           '@type': 'ListItem',
           position: 5,
           name: formatSlug(resolvedParams.cityslug),
-          item: `https://hoteloza.com/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}`,
+          item: `https://hoteloza.com/city/${resolvedParams.cityslug}`,
         },
         {
           '@type': 'ListItem',

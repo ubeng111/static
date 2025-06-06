@@ -1,0 +1,172 @@
+'use client';
+
+import { useCallback, useMemo } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import dynamic from 'next/dynamic';
+import useSWR from 'swr';
+import ReactPaginate from 'react-paginate';
+import RelatedCountry88 from '@/components/hotel-single/RelatedCountry88'; // Pastikan import nama file yang benar
+import HotelProperties88 from '@/components/hotel-list/hotel-list-v5/HotelProperties88';
+
+const CallToActions = dynamic(() => import('@/components/common/CallToActions'), { ssr: false });
+const Header11 = dynamic(() => import('@/components/header/header-11'), { ssr: false });
+const DefaultFooter = dynamic(() => import('@/components/footer/default'), { ssr: false });
+const Faqcountry = dynamic(() => import('@/components/faq/Faqcountry'), { ssr: false });
+const MainFilterSearchBox = dynamic(() => import('@/components/hotel-list/common/MainFilterSearchBox'), { ssr: false });
+const TopBreadCrumbCountry = dynamic(() => import('@/components/hotel-list/hotel-list-v5/TopBreadCrumbCountry'), { ssr: false });
+
+// Helper function to format slugs
+const formatSlug = (slug) =>
+  slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : 'Country';
+
+export default function ClientPage({ countryslug }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const page = parseInt(searchParams.get('page')) || 1;
+
+  // Anda perlu menentukan categoryslug. Asumsi di sini adalah 'hotels'
+  // Jika categoryslug datang dari URL params, Anda perlu menangkapnya di props ClientPage.
+  const categoryslug = 'hotels'; // Sesuaikan jika categoryslug datang dari URL, misalnya params.categoryslug
+
+  const fetcher = useCallback(async (url) => {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Failed to fetch data');
+    return response.json();
+  }, []);
+
+  const { data, error, isLoading } = useSWR(`/api/country/${countryslug}?page=${page}`, fetcher, {
+    revalidateOnFocus: false,
+    keepPreviousData: true,
+  });
+
+  const hotels = useMemo(() => data?.hotels || [], [data]);
+  // Perbaikan: Mengambil data dengan kunci 'relatedStates'
+  const relatedStates = useMemo(() => data?.relatedStates || [], [data]);
+  const pagination = useMemo(() => data?.pagination || { page: 1, totalPages: 1, totalHotels: 0 }, [data]);
+  const formattedCountry = useMemo(() => formatSlug(countryslug), [countryslug]);
+  const displayCountry = useMemo(
+    () => (hotels[0]?.country ? formatSlug(hotels[0].country) : formattedCountry),
+    [hotels, formattedCountry]
+  );
+
+  const handlePageClick = useCallback(
+    (event) => {
+      const newPage = event.selected + 1;
+      if (newPage === pagination.page) return;
+      router.push(`/country/${countryslug}?page=${newPage}`, { shallow: true });
+      window.scrollTo(0, 0);
+    },
+    [countryslug, pagination.page, router]
+  );
+
+  if (isLoading) {
+    return (
+      <div className="preloader">
+        <div className="preloader__wrap">
+          <div className="preloader__icon"></div>
+        </div>
+        <div className="preloader__title">Hoteloza..</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>Error loading data. Please try again later.</div>;
+  }
+
+  if (!hotels.length) {
+    return <div>No hotels found for this country.</div>;
+  }
+
+  return (
+    <>
+      <div className="header-margin"></div>
+      <Header11 />
+      <section className="section-bg pt-40 pb-40 relative z-5">
+        <div className="section-bg__item col-12">
+          <img
+            src="/img/misc/bg-1.webp"
+            srcSet="/img/misc/bg-1.webp 480w, /img/misc/bg-1.webp 768w, /img/misc/bg-1.webp 1200w"
+            alt="Luxury background image"
+            loading="lazy"
+            className="w-full h-full object-cover"
+            width={1200}
+            height={800}
+          />
+        </div>
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <div className="text-center">
+                <h1 className="text-30 fw-600 text-white">Best Affordable Hotels in {displayCountry}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <TopBreadCrumbCountry countryslug={countryslug} />
+
+      <section className="layout-pt-md">
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <MainFilterSearchBox />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="layout-pt-md layout-pb-lg">
+        <div className="container">
+          <div className="row">
+            <HotelProperties88 hotels={hotels} />
+          </div>
+        </div>
+      </section>
+
+      <div style={{ display: 'flex', justifyContent: 'center', transform: 'translateY(-90px)', marginTop: '7%' }}>
+        <ReactPaginate
+          pageCount={pagination.totalPages}
+          onPageChange={handlePageClick}
+          containerClassName="pagination"
+          activeClassName="active"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousLabel={null}
+          nextLabel={null}
+          forcePage={pagination.page - 1}
+        />
+      </div>
+
+      <div className="pt-40 sm:pt-20 item_gap-x30">
+        {/* Perbaikan: Meneruskan prop 'relatedStates' dan 'categoryslug' */}
+        {relatedStates.length > 0 ? (
+          <RelatedCountry88 relatedStates={relatedStates} countryslug={countryslug} categoryslug={categoryslug} />
+        ) : (
+          <p>No related states found for this country.</p>
+        )}
+      </div>
+
+      <section id="faq" className="pt-40 layout-pb-md">
+        <div className="container">
+          <div className="pt-40 border-top-light">
+            <div className="row y-gap-20">
+              <div className="col-12 text-center">
+                <h2 className="text-22 fw-500">FAQs about {displayCountry} hotels</h2>
+              </div>
+              <div className="col-lg-8 offset-lg-2">
+                <div className="accordion -simple row y-gap-20 js-accordion">
+                  <Faqcountry country={displayCountry} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <CallToActions />
+      <DefaultFooter />
+    </>
+  );
+}

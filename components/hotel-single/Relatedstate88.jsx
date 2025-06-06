@@ -46,11 +46,11 @@ const Relatedstate88 = React.memo(({ relatedstate, stateslug, countryslug, categ
             <div key={`${cityData.city}-${index}`} className="col-6 col-md-4 col-lg-3">
               <div className="p-2 border rounded bg-white shadow-sm transition-all hover:shadow-md hover:bg-light">
                 <a
-                  href={`/${categoryslug}/${countryslug}/${stateslug}/${citySlug}`}
+                  href={`/city/${citySlug}`}
                   className="fw-medium text-dark d-block text-start text-decoration-none"
                   style={{ fontSize: '14px' }}
                 >
-                  {`${formattedCategory} In ${capitalizedCity}`}
+                  {` ${capitalizedCity}`}
                 </a>
               </div>
             </div>

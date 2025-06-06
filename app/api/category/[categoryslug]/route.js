@@ -1,110 +1,145 @@
 import { Pool } from 'pg';
 import fs from 'fs';
 import path from 'path';
+import 'dotenv/config';
 
-// Setup koneksi pool ke database
+// Validate environment variable at startup
+if (!process.env.DATABASE_URL_SUBTLE_CUSCUS) {
+  throw new Error('DATABASE_URL_SUBTLE_CUSCUS is not defined');
+}
+
 const pool = new Pool({
-  connectionString: 'postgresql://iwan:bUq8DFcXvg1yRFU9iLGhww@messy-coyote-10965.j77.aws-ap-southeast-1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full',
+  connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
   ssl: {
     ca: fs.readFileSync(path.resolve('certs', 'root.crt')),
   },
 });
 
-// Fungsi untuk mendapatkan koneksi pool
-const getClient = async () => {
-  const client = await pool.connect();
-  return client;
-};
+const cache = {};
+const cacheTTL = 60 * 60 * 1000; // 1 hour
 
-// Batasan pagination
-const LIMIT = 12;
+function getCache(key) {
+  const cachedData = cache[key];
+  if (cachedData && Date.now() - cachedData.timestamp < cacheTTL) {
+    return cachedData.data;
+  }
+  return null;
+}
+
+function setCache(key, data) {
+  cache[key] = { data, timestamp: Date.now() };
+}
+
+const LIMIT = 13;
 
 export async function GET(req, { params }) {
   const { categoryslug } = params;
-
   if (!categoryslug) {
-    return new Response(JSON.stringify({ message: 'category slug is required' }), {
+    return new Response(JSON.stringify({ message: 'Category slug is required' }), {
       status: 400,
+      headers: { 'Content-Type': 'application/json' },
     });
   }
 
-  // Ambil parameter 'page' dari URL, default ke 1 jika tidak ada
   const url = new URL(req.url);
-  let page = parseInt(url.searchParams.get('page') || '1', 10);
-
-  // Validasi nomor halaman
-  if (page && page < 1) {
-    return new Response(JSON.stringify({ message: 'Halaman harus berupa angka positif' }), {
+  const page = parseInt(url.searchParams.get('page') || '1', 10);
+  if (page < 1 || isNaN(page)) {
+    return new Response(JSON.stringify({ message: 'Page must be a positive number' }), {
       status: 400,
+      headers: { 'Content-Type': 'application/json' },
     });
   }
 
-  // Hitung keyset berdasarkan halaman yang diminta (gunakan id terakhir pada halaman sebelumnya)
-  const lastId = url.searchParams.get('lastId') || 0;
+  const cacheKey = `category_${categoryslug}_page_${page}`;
+  const cachedData = getCache(cacheKey);
+  if (cachedData) {
+    return new Response(JSON.stringify(cachedData), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
 
-  const client = await getClient();
+  const offset = (page - 1) * LIMIT;
+  const client = await pool.connect();
 
   try {
-    // Query untuk mendapatkan data hotel berdasarkan categoryslug dengan pagination menggunakan keyset
     const query = `
-      SELECT * FROM public.hotels
-      WHERE categoryslug = $1 AND id > $2
-      ORDER BY id ASC
-      LIMIT $3
+      WITH hotel_data AS (
+        SELECT id, title, city, state, country, category, categoryslug, countryslug, stateslug, cityslug, hotelslug, 
+               img, location, ratings, numberOfReviews, numberrooms, overview, city_id, latitude, longitude
+        FROM public.hotels
+        WHERE categoryslug = $1
+        ORDER BY id ASC
+        LIMIT $2 OFFSET $3
+      ),
+      hotel_count AS (
+        SELECT COUNT(*) AS total
+        FROM public.hotels
+        WHERE categoryslug = $1
+      )
+      SELECT hotel_data.*, hotel_count.total AS total_count
+      FROM hotel_data, hotel_count;
     `;
-    const result = await client.query(query, [categoryslug, lastId, LIMIT]);
+    const result = await client.query(query, [categoryslug, LIMIT, offset]);
 
     if (result.rows.length === 0) {
-      return new Response(JSON.stringify({ message: 'Tidak ada hotel ditemukan untuk categoryslug ini' }), {
+      return new Response(JSON.stringify({ message: 'No hotels found for this category' }), {
         status: 404,
+        headers: { 'Content-Type': 'application/json' },
       });
     }
 
-    // Query untuk menghitung total hotel berdasarkan categoryslug (untuk info pagination)
-    const countQuery = `
-      SELECT COUNT(*) 
-      FROM public.hotels 
-      WHERE categoryslug = $1
-    `;
-    const countResult = await client.query(countQuery, [categoryslug]);
-    const totalHotels = parseInt(countResult.rows[0].count, 10);
-
-    // Hitung total halaman
+    const totalHotels = parseInt(result.rows[0].total_count, 10);
     const totalPages = Math.ceil(totalHotels / LIMIT);
 
-    // Query untuk mendapatkan related countrys berdasarkan category yang sama
-    const relatedcountryQuery = `
-      SELECT country, categoryslug, category
-      FROM public.hotels 
-      WHERE categoryslug = $1
-        AND country != '' 
-      GROUP BY country, categoryslug, category
-      LIMIT 100
+    const relatedCountryQuery = `
+      SELECT DISTINCT country, countryslug
+      FROM public.hotels
+      WHERE categoryslug = $1 AND country != '' AND countryslug != ''
+      GROUP BY country, countryslug
+      HAVING COUNT(id) > 0
+      LIMIT 40;
     `;
-    const relatedcountryResult = await client.query(relatedcountryQuery, [categoryslug]);
+    const relatedCountryResult = await client.query(relatedCountryQuery, [categoryslug]);
 
-    return new Response(
-      JSON.stringify({
-        hotels: result.rows,
-        relatedcategory: relatedcountryResult.rows, 
-        pagination: {
-          page: page || 1,
-          totalPages,
-          totalHotels,
-        },
-        nextPage: result.rows.length === LIMIT ? result.rows[result.rows.length - 1].id : null,
-      }),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    const response = {
+      hotels: result.rows.map(row => ({
+        id: row.id,
+        title: row.title,
+        city: row.city,
+        state: row.state,
+        country: row.country,
+        category: row.category,
+        categoryslug: row.categoryslug,
+        countryslug: row.countryslug,
+        stateslug: row.stateslug,
+        cityslug: row.cityslug,
+        hotelslug: row.hotelslug,
+        img: row.img,
+        location: row.location,
+        ratings: row.ratings,
+        numberOfReviews: row.numberOfReviews,
+        numberrooms: row.numberrooms,
+        overview: row.overview,
+        city_id: row.city_id,
+        latitude: row.latitude,
+        longitude: row.longitude,
+      })),
+      relatedcategory: relatedCountryResult.rows,
+      pagination: { page, totalPages, totalHotels },
+    };
+
+    setCache(cacheKey, response);
+
+    return new Response(JSON.stringify(response), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (error) {
-    console.error('Terjadi error saat menjalankan query', error.stack);
+    console.error('Error executing query:', error.stack);
     return new Response(JSON.stringify({ message: 'Server error' }), {
       status: 500,
+      headers: { 'Content-Type': 'application/json' },
     });
   } finally {
     client.release();

@@ -1,13 +1,9 @@
 import React from "react";
 
-const Relatedcity88 = React.memo(({ relatedcity, stateslug, countryslug, categoryslug }) => {
+const Relatedcity88 = React.memo(({ relatedcity, stateslug, countryslug }) => {
   const formattedState = stateslug
     ? stateslug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
     : 'Unknown State';
-
-  const formattedCategory = categoryslug
-    ? categoryslug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
-    : 'Unknown Category';
 
   if (!Array.isArray(relatedcity) || relatedcity.length === 0) {
     return (
@@ -47,11 +43,11 @@ const Relatedcity88 = React.memo(({ relatedcity, stateslug, countryslug, categor
             <div key={`${citySlug}-${index}`} className="col-6 col-md-4 col-lg-3">
               <div className="p-2 border rounded bg-white shadow-sm transition-all hover:shadow-md hover:bg-light">
                 <a
-                  href={`/${categoryslug}/${countryslug}/${stateslug}/${citySlug}`}
+                  href={`/city/${citySlug}`}
                   className="fw-medium text-dark d-block text-start text-decoration-none"
                   style={{ fontSize: '14px' }}
                 >
-                  {`${formattedCategory} In ${capitalizedCity}`}
+                  {` ${capitalizedCity}`}
                 </a>
               </div>
             </div>

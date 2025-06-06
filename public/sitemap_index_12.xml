@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
-    <loc>https://hoteloza.com/sitemaps/sitemap_category_country.xml.gz</loc>
-    <lastmod>2025-06-02T17:27:34+07:00</lastmod>
+    <loc>https://hoteloza.com/sitemaps/sitemap_country_only.xml.gz</loc>
+    <lastmod>2025-06-06T08:50:27+07:00</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://hoteloza.com/sitemaps/sitemap_category_country_state.xml.gz</loc>
-    <lastmod>2025-06-02T17:27:34+07:00</lastmod>
+    <loc>https://hoteloza.com/sitemaps/sitemap_state_only.xml.gz</loc>
+    <lastmod>2025-06-06T08:50:27+07:00</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://hoteloza.com/sitemaps/sitemap_category_country_state_2.xml.gz</loc>
-    <lastmod>2025-06-02T17:27:34+07:00</lastmod>
+    <loc>https://hoteloza.com/sitemaps/sitemap_state_only_2.xml.gz</loc>
+    <lastmod>2025-06-06T08:50:27+07:00</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://hoteloza.com/sitemaps/sitemap_category_country_state_3.xml.gz</loc>
-    <lastmod>2025-06-02T17:27:34+07:00</lastmod>
+    <loc>https://hoteloza.com/sitemaps/sitemap_state_only_3.xml.gz</loc>
+    <lastmod>2025-06-06T08:50:27+07:00</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://hoteloza.com/sitemaps/sitemap_category_country_state_4.xml.gz</loc>
-    <lastmod>2025-06-02T17:27:34+07:00</lastmod>
+    <loc>https://hoteloza.com/sitemaps/sitemap_state_only_4.xml.gz</loc>
+    <lastmod>2025-06-06T08:50:27+07:00</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://hoteloza.com/sitemaps/sitemap_category_country_state_5.xml.gz</loc>
-    <lastmod>2025-06-02T17:27:34+07:00</lastmod>
+    <loc>https://hoteloza.com/sitemaps/sitemap_state_only_5.xml.gz</loc>
+    <lastmod>2025-06-06T08:50:27+07:00</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://hoteloza.com/sitemaps/sitemap_category_country_state_6.xml.gz</loc>
-    <lastmod>2025-06-02T17:27:34+07:00</lastmod>
+    <loc>https://hoteloza.com/sitemaps/sitemap_state_only_6.xml.gz</loc>
+    <lastmod>2025-06-06T08:50:27+07:00</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://hoteloza.com/sitemaps/sitemap_category_country_state_7.xml.gz</loc>
-    <lastmod>2025-06-02T17:27:34+07:00</lastmod>
+    <loc>https://hoteloza.com/sitemaps/sitemap_city_only.xml.gz</loc>
+    <lastmod>2025-06-06T08:50:27+07:00</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://hoteloza.com/sitemaps/sitemap_category_country_state_8.xml.gz</loc>
-    <lastmod>2025-06-02T17:27:34+07:00</lastmod>
+    <loc>https://hoteloza.com/sitemaps/sitemap_city_only_2.xml.gz</loc>
+    <lastmod>2025-06-06T08:50:27+07:00</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://hoteloza.com/sitemaps/sitemap_category_country_state_9.xml.gz</loc>
-    <lastmod>2025-06-02T17:27:34+07:00</lastmod>
+    <loc>https://hoteloza.com/sitemaps/sitemap_city_only_3.xml.gz</loc>
+    <lastmod>2025-06-06T08:50:27+07:00</lastmod>
   </sitemap>
 </sitemapindex>
