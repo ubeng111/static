@@ -21,134 +21,96 @@ const LIMIT = 12;
 
 export async function GET(req, { params }) {
   const { categoryslug } = params;
-  let client;
+
+  if (!categoryslug) {
+    return new Response(JSON.stringify({ message: 'category slug is required' }), {
+      status: 400,
+    });
+  }
+
+  // Ambil parameter 'page' dari URL, default ke 1 jika tidak ada
+  const url = new URL(req.url);
+  let page = parseInt(url.searchParams.get('page') || '1', 10);
+
+  // Validasi nomor halaman
+  if (page && page < 1) {
+    return new Response(JSON.stringify({ message: 'Halaman harus berupa angka positif' }), {
+      status: 400,
+    });
+  }
+
+  // Hitung keyset berdasarkan halaman yang diminta (gunakan id terakhir pada halaman sebelumnya)
+  const lastId = url.searchParams.get('lastId') || 0;
+
+  const client = await getClient();
 
   try {
-    // 1. Validasi awal categoryslug: Jika categoryslug tidak ada di URL, itu adalah permintaan yang buruk.
-    if (!categoryslug) {
-      return new Response(JSON.stringify({ message: 'category slug is required' }), {
-        status: 400, // Bad Request
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    // Query untuk mendapatkan data hotel berdasarkan categoryslug dengan pagination menggunakan keyset
+    const query = `
+      SELECT * FROM public.hotels
+      WHERE categoryslug = $1 AND id > $2
+      ORDER BY id ASC
+      LIMIT $3
+    `;
+    const result = await client.query(query, [categoryslug, lastId, LIMIT]);
+
+    if (result.rows.length === 0) {
+      return new Response(JSON.stringify({ message: 'Tidak ada hotel ditemukan untuk categoryslug ini' }), {
+        status: 404,
       });
     }
 
-    const url = new URL(req.url);
-    let page = parseInt(url.searchParams.get('page') || '1', 10);
-
-    // 2. Validasi nomor halaman: Jika page bukan angka atau kurang dari 1, itu adalah permintaan yang buruk.
-    if (isNaN(page) || page < 1) {
-      return new Response(JSON.stringify({ message: 'Invalid page number. Page must be a positive integer.' }), {
-        status: 400, // Bad Request
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    }
-
-    const offset = (page - 1) * LIMIT;
-    client = await getClient();
-
-    // 3. Query untuk mendapatkan total jumlah hotel terlebih dahulu.
-    // Ini adalah langkah kritis untuk menentukan apakah categoryslug itu "ada" atau "tidak ada".
+    // Query untuk menghitung total hotel berdasarkan categoryslug (untuk info pagination)
     const countQuery = `
-      SELECT COUNT(*)
-      FROM public.hotels
+      SELECT COUNT(*) 
+      FROM public.hotels 
       WHERE categoryslug = $1
     `;
     const countResult = await client.query(countQuery, [categoryslug]);
     const totalHotels = parseInt(countResult.rows[0].count, 10);
 
-    // 4. **Kondisi Kunci untuk 404:** Jika TIDAK ADA hotel sama sekali untuk categoryslug ini.
-    // Ini berarti categoryslug yang diminta itu "tidak valid" dalam konteks data yang tersedia.
-    if (totalHotels === 0) {
-      return new Response(
-        JSON.stringify({ message: `No hotels found for category: ${categoryslug}. This category slug might be invalid or empty.` }),
-        {
-          status: 404, // Not Found: Category slug yang diberikan tidak memiliki data
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-    }
-
-    // 5. Jika ada hotel (totalHotels > 0), lanjutkan untuk mengambil data per halaman.
-    // Ini adalah kondisi untuk halaman yang seharusnya 200 OK.
-    const query = `
-      SELECT id, name, address, addresslocality, addressregion, addresscountry, description, url, category, categoryslug, image, lowest_price
-      FROM public.hotels
-      WHERE categoryslug = $1
-      ORDER BY id
-      OFFSET $2
-      LIMIT $3
-    `;
-    const queryParams = [categoryslug, offset, LIMIT];
-    const result = await client.query(query, queryParams);
-
-    // Hitung total halaman (ini akan selalu > 0 jika kita sampai sini)
+    // Hitung total halaman
     const totalPages = Math.ceil(totalHotels / LIMIT);
 
-    // 6. Opsional: Tangani kasus jika 'page' yang diminta melebihi totalPages yang tersedia.
-    // Ini juga bisa dianggap 404, karena halaman tersebut tidak akan memiliki konten.
-    if (page > totalPages) {
-        return new Response(
-            JSON.stringify({ message: `Page ${page} for category ${categoryslug} does not exist.` }),
-            {
-                status: 404, // Not Found: Nomor halaman di luar jangkauan
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        );
-    }
-
-
-    // Query untuk mendapatkan related categorys
-    const relatedCategoryQuery = `
-      SELECT category, categoryslug
-      FROM public.hotels
-      WHERE categoryslug != $1
-      GROUP BY category, categoryslug
-      LIMIT 10;
+    // Query untuk mendapatkan related countrys berdasarkan category yang sama
+    const relatedcountryQuery = `
+      SELECT country, categoryslug, category
+      FROM public.hotels 
+      WHERE categoryslug = $1
+        AND country != '' 
+      GROUP BY country, categoryslug, category
+      LIMIT 100
     `;
-    const relatedCategoryResult = await client.query(relatedCategoryQuery, [categoryslug]);
-
+    const relatedcountryResult = await client.query(relatedcountryQuery, [categoryslug]);
 
     return new Response(
       JSON.stringify({
         hotels: result.rows,
-        relatedcategory: relatedCategoryResult.rows,
+        relatedcategory: relatedcountryResult.rows, 
         pagination: {
-          page: page,
+          page: page || 1,
           totalPages,
           totalHotels,
         },
-        nextPage: page < totalPages ? page + 1 : null,
+        nextPage: result.rows.length === LIMIT ? result.rows[result.rows.length - 1].id : null,
       }),
       {
-        status: 200, // OK: Data berhasil ditemukan dan dikembalikan
+        status: 200,
         headers: {
           'Content-Type': 'application/json',
         },
       }
     );
-
   } catch (error) {
-    console.error('Terjadi error saat menjalankan query:', error.stack);
-    return new Response(
-      JSON.stringify({ message: 'Internal Server Error', error: error.message }),
-      {
-        status: 500, // Internal Server Error
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    console.error('Terjadi error saat menjalankan query', error.stack);
+    return new Response(JSON.stringify({ message: 'Server error' }), {
+      status: 500,
+    });
   } finally {
-    if (client) {
-      client.release();
-    }
+    client.release();
   }
+}
+
+export async function closeDb() {
+  await pool.end();
 }
