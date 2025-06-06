@@ -10,10 +10,17 @@ const pool = new Pool({
   },
 });
 
-// Fungsi untuk mendapatkan koneksi pool
-const getClient = async () => {
-  const client = await pool.connect();
-  return client;
+// Fungsi untuk mendapatkan koneksi pool dengan retry
+const getClient = async (retries = 3, delay = 1000) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const client = await pool.connect();
+      return client;
+    } catch (error) {
+      if (i === retries - 1) throw error;
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
 };
 
 // Batasan pagination
@@ -23,29 +30,27 @@ export async function GET(req, { params }) {
   const { categoryslug } = params;
 
   if (!categoryslug) {
-    return new Response(JSON.stringify({ message: 'category slug is required' }), {
+    return new Response(JSON.stringify({ message: 'Category slug is required' }), {
       status: 400,
     });
   }
 
-  // Ambil parameter 'page' dari URL, default ke 1 jika tidak ada
+  // Ambil parameter 'page' dan 'lastId' dari URL
   const url = new URL(req.url);
   let page = parseInt(url.searchParams.get('page') || '1', 10);
+  const lastId = url.searchParams.get('lastId') || 0;
 
   // Validasi nomor halaman
-  if (page && page < 1) {
+  if (page < 1) {
     return new Response(JSON.stringify({ message: 'Halaman harus berupa angka positif' }), {
       status: 400,
     });
   }
 
-  // Hitung keyset berdasarkan halaman yang diminta (gunakan id terakhir pada halaman sebelumnya)
-  const lastId = url.searchParams.get('lastId') || 0;
-
   const client = await getClient();
 
   try {
-    // Query untuk mendapatkan data hotel berdasarkan categoryslug dengan pagination menggunakan keyset
+    // Query untuk mendapatkan data hotel
     const query = `
       SELECT * FROM public.hotels
       WHERE categoryslug = $1 AND id > $2
@@ -54,13 +59,7 @@ export async function GET(req, { params }) {
     `;
     const result = await client.query(query, [categoryslug, lastId, LIMIT]);
 
-    if (result.rows.length === 0) {
-      return new Response(JSON.stringify({ message: 'Tidak ada hotel ditemukan untuk categoryslug ini' }), {
-        status: 404,
-      });
-    }
-
-    // Query untuk menghitung total hotel berdasarkan categoryslug (untuk info pagination)
+    // Query untuk menghitung total hotel
     const countQuery = `
       SELECT COUNT(*) 
       FROM public.hotels 
@@ -72,7 +71,7 @@ export async function GET(req, { params }) {
     // Hitung total halaman
     const totalPages = Math.ceil(totalHotels / LIMIT);
 
-    // Query untuk mendapatkan related countrys berdasarkan category yang sama
+    // Query untuk mendapatkan related countries
     const relatedcountryQuery = `
       SELECT country, categoryslug, category
       FROM public.hotels 
@@ -83,10 +82,11 @@ export async function GET(req, { params }) {
     `;
     const relatedcountryResult = await client.query(relatedcountryQuery, [categoryslug]);
 
+    // Selalu kembalikan status 200, bahkan jika tidak ada data
     return new Response(
       JSON.stringify({
         hotels: result.rows,
-        relatedcategory: relatedcountryResult.rows, 
+        relatedcategory: relatedcountryResult.rows,
         pagination: {
           page: page || 1,
           totalPages,
@@ -102,10 +102,19 @@ export async function GET(req, { params }) {
       }
     );
   } catch (error) {
-    console.error('Terjadi error saat menjalankan query', error.stack);
-    return new Response(JSON.stringify({ message: 'Server error' }), {
-      status: 500,
-    });
+    console.error('Terjadi error saat menjalankan query:', error.stack);
+    return new Response(
+      JSON.stringify({
+        hotels: [],
+        relatedcategory: [],
+        pagination: { page: 1, totalPages: 0, totalHotels: 0 },
+        nextPage: null,
+      }),
+      {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
   } finally {
     client.release();
   }

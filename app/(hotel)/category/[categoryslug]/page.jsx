@@ -1,5 +1,5 @@
+// page.jsx
 import dynamic from 'next/dynamic';
-import { notFound } from 'next/navigation';
 import Script from 'next/script';
 
 // Helper function to sanitize slugs
@@ -7,7 +7,7 @@ const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
 
 // Helper function to format slugs
 const formatSlug = (slug) =>
-  slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
+  slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : 'Category';
 
 // Function to fetch category data
 async function getCategoryData(categoryslug) {
@@ -38,31 +38,16 @@ const ClientPage = dynamic(() => import('./ClientPage'));
 export async function generateMetadata({ params }) {
   const { categoryslug } = params;
   const sanitizedCategory = sanitizeSlug(categoryslug);
-
-  if (!sanitizedCategory) {
-    return {
-      title: 'Page Not Found | Hoteloza',
-      description: 'The requested category was not found on Hoteloza.',
-    };
-  }
-
-  const data = await getCategoryData(categoryslug);
-  if (!data || !data.hotels || data.hotels.length === 0) {
-    return {
-      title: 'Page Not Found | Hoteloza',
-      description: 'The requested category was not found on Hoteloza.',
-    };
-  }
-
   const formattedCategory = formatSlug(sanitizedCategory);
   const currentYear = new Date().getFullYear();
 
+  const data = await getCategoryData(categoryslug);
   return {
     title: `${currentYear}’s Hottest ${formattedCategory} Deals | Hoteloza`,
-    description: `Discover top ${formattedCategory.toLowerCase()} deals for ${currentYear} on Hoteloza.`,
+    description: `Explore top ${formattedCategory.toLowerCase()} deals for ${currentYear} on Hoteloza. Find the best accommodations for your next trip.`,
     openGraph: {
       title: `Top ${formattedCategory} Deals ${currentYear} | Hoteloza`,
-      description: `Discover top ${formattedCategory.toLowerCase()} deals for ${currentYear} on Hoteloza.`,
+      description: `Explore top ${formattedCategory.toLowerCase()} deals for ${currentYear} on Hoteloza.`,
       url: `https://hoteloza.com/category/${sanitizedCategory}`,
       type: 'website',
     },
@@ -72,22 +57,16 @@ export async function generateMetadata({ params }) {
 export default async function Page({ params }) {
   const { categoryslug } = params;
   const sanitizedCategory = sanitizeSlug(categoryslug);
-
-  if (!sanitizedCategory) {
-    notFound();
-  }
-
-  const data = await getCategoryData(categoryslug);
-  if (!data || !data.hotels || data.hotels.length === 0) {
-    notFound();
-  }
-
   const formattedCategory = formatSlug(sanitizedCategory);
   const currentYear = new Date().getFullYear();
   const baseUrl = 'https://hoteloza.com';
   const currentUrl = `${baseUrl}/category/${sanitizedCategory}`;
 
-  const hotelItems = data.hotels.map((hotel, index) => ({
+  const data = await getCategoryData(categoryslug);
+  const hotels = data?.hotels || [];
+  const relatedcategory = data?.relatedcategory || [];
+
+  const hotelItems = hotels.length > 0 ? hotels.map((hotel, index) => ({
     '@type': 'ListItem',
     position: index + 1,
     item: {
@@ -103,7 +82,7 @@ export default async function Page({ params }) {
       },
       description: hotel.overview || `A ${formattedCategory.toLowerCase()} in ${hotel.city || 'unknown location'}.`,
     },
-  }));
+  })) : [];
 
   const schemaMarkup = {
     '@context': 'https://schema.org',
@@ -112,7 +91,7 @@ export default async function Page({ params }) {
         '@type': 'WebPage',
         url: currentUrl,
         name: `Top ${formattedCategory} Deals ${currentYear}`,
-        description: `Discover top ${formattedCategory.toLowerCase()} deals for ${currentYear} on Hoteloza.`,
+        description: `Explore top ${formattedCategory.toLowerCase()} deals for ${currentYear} on Hoteloza.`,
         publisher: {
           '@type': 'Organization',
           name: 'Hoteloza',
@@ -142,7 +121,7 @@ export default async function Page({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
       />
-      <ClientPage categoryslug={sanitizedCategory} />
+      <ClientPage categoryslug={sanitizedCategory} initialData={{ hotels, relatedcategory }} />
     </>
   );
 }
