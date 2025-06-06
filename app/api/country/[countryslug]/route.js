@@ -4,7 +4,7 @@ import path from 'path';
 
 // Setup koneksi pool ke database
 const pool = new Pool({
-  connectionString: 'postgresql://iwan:MgPytsc9syLB4eE3Ub1u_w@tart-rhino-11897.j77.aws-us-east-1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full',
+  connectionString: 'postgresql://iwan:bUq8DFcXvg1yRFU9iLGhww@messy-coyote-10965.j77.aws-ap-southeast-1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full',
   ssl: {
     ca: fs.readFileSync(path.resolve('certs', 'root.crt')),
   },

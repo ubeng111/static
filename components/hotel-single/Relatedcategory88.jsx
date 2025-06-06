@@ -30,7 +30,7 @@ const Relatedcategory88 = React.memo(({ relatedcategory, categoryslug }) => {
             <div key={`${countryData.country}-${index}`} className="col-6 col-md-4 col-lg-3">
               <div className="p-2 border rounded bg-white shadow-sm transition-all hover:shadow-md hover:bg-light">
                 <a
-                  href={`/country/${countrySlug}`}
+                  href={`/${categoryslug}/${countrySlug}`}
                   className="fw-medium text-dark d-block text-start text-decoration-none"
                   style={{ fontSize: '14px' }}
                 >

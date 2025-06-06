@@ -1,14 +1,25 @@
-import React from 'react';
-import Link from 'next/link';
+import React from "react";
 
-const createSlug = (name) => {
-  return name
-    ? name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '').replace(/-+/g, '-').trim()
+const createSlug = (state) => {
+  return state
+    ? state.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '')
     : 'unknown-state';
 };
 
-const RelatedCountry88 = React.memo(({ relatedStates }) => {
-  if (!Array.isArray(relatedStates) || relatedStates.length === 0) {
+const Relatedcountry88 = React.memo(({ relatedcountry, countryslug, categoryslug }) => {
+  const formattedCountry = countryslug
+    ? countryslug
+        .replace(/-/g, ' ')
+        .replace(/\b\w/g, (char) => char.toUpperCase())
+    : 'Unknown Country';
+
+  const formattedCategory = categoryslug
+    ? categoryslug
+        .replace(/-/g, ' ')
+        .replace(/\b\w/g, (char) => char.toUpperCase())
+    : 'Unknown Category';
+
+  if (!Array.isArray(relatedcountry) || relatedcountry.length === 0) {
     return (
       <div className="container">
         <h2 className="text-center fw-bold mb-3 text-dark">
@@ -21,10 +32,11 @@ const RelatedCountry88 = React.memo(({ relatedStates }) => {
   return (
     <div className="container">
       <h2 className="text-center fw-bold mb-3 text-dark">
-        🗺️ Related States
+        🏨 States in {formattedCountry}
       </h2>
+      
       <div className="row g-2">
-        {relatedStates.map((stateData, index) => {
+        {relatedcountry.map((stateData, index) => {
           const stateSlug = stateData.stateslug || createSlug(stateData.state);
           const capitalizedState = stateData.state
             ? stateData.state.charAt(0).toUpperCase() + stateData.state.slice(1)
@@ -33,13 +45,13 @@ const RelatedCountry88 = React.memo(({ relatedStates }) => {
           return (
             <div key={`${stateData.state}-${index}`} className="col-6 col-md-4 col-lg-3">
               <div className="p-2 border rounded bg-white shadow-sm transition-all hover:shadow-md hover:bg-light">
-                <Link
-                  href={`/state/${stateSlug}`}
+                <a
+                  href={`/${categoryslug}/${countryslug}/${stateSlug}`}
                   className="fw-medium text-dark d-block text-start text-decoration-none"
                   style={{ fontSize: '14px' }}
                 >
-                  {capitalizedState}
-                </Link>
+                  {`${formattedCategory} In ${capitalizedState}`}
+                </a>
               </div>
             </div>
           );
@@ -49,4 +61,4 @@ const RelatedCountry88 = React.memo(({ relatedStates }) => {
   );
 });
 
-export default RelatedCountry88;
+export default Relatedcountry88;

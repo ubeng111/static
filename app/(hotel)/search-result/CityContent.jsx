@@ -47,7 +47,7 @@ export default function CityContent({ initialCityId, initialPage }) {
 
   // SWR hook for data fetching, menggunakan state lokal
   const { data, error, isLoading } = useSWR(
-    currentCityId ? `/api/search?city_id=${encodeURIComponent(currentCityId)}&page=${currentPage}` : null,
+    currentCityId ? `/api/city?city_id=${encodeURIComponent(currentCityId)}&page=${currentPage}` : null,
     fetcher,
     {
       revalidateOnFocus: false,

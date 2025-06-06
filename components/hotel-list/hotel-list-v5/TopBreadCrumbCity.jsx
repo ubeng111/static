@@ -1,24 +1,24 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 const capitalizeFirstLetter = (str) => {
-  if (!str) return 'Unknown';
+  if (!str) return "";
   return str
-    .replace(/-/g, ' ')
-    .split(' ')
+    .replace(/-/g, " ")
+    .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .join(" ");
 };
 
-const TopBreadCrumbCity = ({ breadcrumbData, cityslug }) => {
-  // Destructure directly from breadcrumbData, which is now guaranteed by the backend
-  const { country, state, countryslug, stateslug } = breadcrumbData || {};
-  const city = capitalizeFirstLetter(cityslug) || 'Unknown'; // City name from cityslug
-
-  // Only return a fallback message if essential data is missing, which should be rare now
-  if (!country || !state || !countryslug || !stateslug) {
-    console.warn("Breadcrumb data incomplete:", breadcrumbData);
-    return <div>Breadcrumb data not fully available.</div>;
+const TopBreadCrumbCity = ({ hotel, categoryslug, countryslug, stateslug, cityslug }) => {
+  if (!hotel && (!categoryslug || !countryslug || !stateslug || !cityslug)) {
+    return <div>No breadcrumb data available.</div>;
   }
+
+  const category = hotel?.category || categoryslug || "unknown";
+  const country = hotel?.country || countryslug || "unknown";
+  const state = hotel?.state || stateslug || "unknown";
+  const city = hotel?.city || cityslug || "unknown";
+  const baseUrl = `/${category}/${country}/${state}/${city}`;
 
   return (
     <section className="py-10 d-flex items-center bg-white">
@@ -33,22 +33,37 @@ const TopBreadCrumbCity = ({ breadcrumbData, cityslug }) => {
               </div>
               <div className="col-auto">&gt;</div>
               <div className="col-auto">
-                <Link href={`/country/${countryslug}`} className="text-blue-1">
+                <Link href={`/${category}`} className="text-blue-1">
+                  {capitalizeFirstLetter(category)}
+                </Link>
+              </div>
+              <div className="col-auto">&gt;</div>
+              <div className="col-auto">
+                <Link href={`/${category}/${country}`} className="text-blue-1">
                   {capitalizeFirstLetter(country)}
                 </Link>
               </div>
               <div className="col-auto">&gt;</div>
               <div className="col-auto">
-                <Link href={`/state/${stateslug}`} className="text-blue-1">
+                <Link href={`/${category}/${country}/${state}`} className="text-blue-1">
                   {capitalizeFirstLetter(state)}
                 </Link>
               </div>
-              <div className="col-auto">&gt;</div>
               <div className="col-auto">
                 {capitalizeFirstLetter(city)}
               </div>
             </div>
           </div>
+
+          {/* This is the div that contains the "All [Category] in [City]" link. It has been removed. */}
+          {/*
+          <div className="col-auto">
+            <Link href={baseUrl} className="text-14 text-blue-1 underline">
+              All {capitalizeFirstLetter(category) || "Hotels"} in{" "}
+              {capitalizeFirstLetter(city)}
+            </Link>
+          </div>
+          */}
         </div>
       </div>
     </section>

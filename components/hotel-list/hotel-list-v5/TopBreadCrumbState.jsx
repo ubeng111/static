@@ -1,28 +1,15 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 const capitalizeFirstLetter = (str) => {
-  if (!str) return 'Unknown';
+  if (!str) return "";
   return str
-    .replace(/-/g, ' ')
-    .split(' ')
+    .replace(/-/g, " ")
+    .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .join(" ");
 };
 
-const TopBreadCrumbState = ({ breadcrumbData, stateslug, countryslug }) => {
-  // Destructure with fallback values
-  const {
-    country = countryslug ? capitalizeFirstLetter(countryslug) : 'Unknown',
-    state = capitalizeFirstLetter(stateslug),
-    countryslug: breadcrumbCountrySlug = countryslug || 'unknown',
-    stateslug: breadcrumbStateSlug = stateslug,
-  } = breadcrumbData || {};
-
-  // Log warning for debugging
-  if (!breadcrumbData?.country || !breadcrumbData?.state || !breadcrumbData?.countryslug || !breadcrumbData?.stateslug) {
-    console.warn('Breadcrumb data incomplete, using fallbacks:', { country, state, breadcrumbCountrySlug, breadcrumbStateSlug });
-  }
-
+const TopBreadCrumbState = ({ categoryslug, countryslug, stateslug }) => {
   return (
     <section className="py-10 d-flex items-center bg-white">
       <div className="container">
@@ -36,16 +23,35 @@ const TopBreadCrumbState = ({ breadcrumbData, stateslug, countryslug }) => {
               </div>
               <div className="col-auto">&gt;</div>
               <div className="col-auto">
-                <Link href={`/country/${breadcrumbCountrySlug}`} className="text-blue-1">
-                  {country}
+                <Link href={`/${categoryslug}`} className="text-blue-1">
+                  {capitalizeFirstLetter(categoryslug) || "Unknown Category"}
                 </Link>
               </div>
               <div className="col-auto">&gt;</div>
               <div className="col-auto">
-                {state}
+                <Link href={`/${categoryslug}/${countryslug}`} className="text-blue-1">
+                  {capitalizeFirstLetter(countryslug) || "Unknown Country"}
+                </Link>
+              </div>
+              <div className="col-auto">&gt;</div>
+              <div className="col-auto">
+                {capitalizeFirstLetter(stateslug) || "Unknown State"}
               </div>
             </div>
           </div>
+
+          {/* The following div containing the "All [Category] in [State]" link has been removed. */}
+          {/*
+          <div className="col-auto">
+            <Link
+              href={`/${categoryslug}/${countryslug}/${stateslug}`}
+              className="text-14 text-blue-1 underline"
+            >
+              All {capitalizeFirstLetter(categoryslug) || "Hotels"} in{" "}
+              {capitalizeFirstLetter(stateslug) || "Unknown State"}
+            </Link>
+          </div>
+          */}
         </div>
       </div>
     </section>

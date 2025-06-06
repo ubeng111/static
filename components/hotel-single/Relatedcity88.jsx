@@ -1,9 +1,23 @@
 import React from "react";
 
-const Relatedcity88 = React.memo(({ relatedcity, stateslug, countryslug }) => {
+const createSlug = (city) => {
+  return city
+    ? city.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '')
+    : 'unknown-city';
+};
+
+const Relatedcity88 = React.memo(({ relatedcity, stateslug, countryslug, categoryslug }) => {
   const formattedState = stateslug
-    ? stateslug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
+    ? stateslug
+        .replace(/-/g, ' ')
+        .replace(/\b\w/g, (char) => char.toUpperCase())
     : 'Unknown State';
+
+  const formattedCategory = categoryslug
+    ? categoryslug
+        .replace(/-/g, ' ')
+        .replace(/\b\w/g, (char) => char.toUpperCase())
+    : 'Unknown Category';
 
   if (!Array.isArray(relatedcity) || relatedcity.length === 0) {
     return (
@@ -19,15 +33,7 @@ const Relatedcity88 = React.memo(({ relatedcity, stateslug, countryslug }) => {
     new Map(relatedcity.map((city) => [city.cityslug, city])).values()
   );
 
-  const displayedCities = uniqueCities
-    .filter(city =>
-      city &&
-      typeof city.cityslug === 'string' &&
-      /^[a-z0-9-]+$/.test(city.cityslug) &&  // ✅ pastikan slug aman
-      typeof city.city === 'string' &&
-      city.city.trim() !== ''
-    )
-    .slice(0, 40);
+  const displayedCities = uniqueCities.slice(0, 40);
 
   return (
     <div className="container">
@@ -36,18 +42,20 @@ const Relatedcity88 = React.memo(({ relatedcity, stateslug, countryslug }) => {
       </h2>
       <div className="row g-2">
         {displayedCities.map((city, index) => {
-          const citySlug = city.cityslug;
-          const capitalizedCity = city.city.charAt(0).toUpperCase() + city.city.slice(1);
+          const citySlug = city.cityslug || createSlug(city.city);
+          const capitalizedCity = city.city
+            ? city.city.charAt(0).toUpperCase() + city.city.slice(1)
+            : 'Unknown City';
 
           return (
-            <div key={`${citySlug}-${index}`} className="col-6 col-md-4 col-lg-3">
+            <div key={`${city.cityslug}-${index}`} className="col-6 col-md-4 col-lg-3">
               <div className="p-2 border rounded bg-white shadow-sm transition-all hover:shadow-md hover:bg-light">
                 <a
-                  href={`/city/${citySlug}`}
+                  href={`/${categoryslug}/${countryslug}/${stateslug}/${citySlug}`}
                   className="fw-medium text-dark d-block text-start text-decoration-none"
                   style={{ fontSize: '14px' }}
                 >
-                  {` ${capitalizedCity}`}
+                  {`${formattedCategory} In ${capitalizedCity}`}
                 </a>
               </div>
             </div>

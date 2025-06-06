@@ -9,7 +9,7 @@ const capitalizeFirstLetter = (str) => {
     .join(" ");
 };
 
-const TopBreadCrumbCountry = ({ countryslug }) => { // categoryslug removed from props
+const TopBreadCrumbCountry = ({ categoryslug, countryslug }) => {
   return (
     <section className="py-10 d-flex items-center bg-white">
       <div className="container">
@@ -21,13 +21,31 @@ const TopBreadCrumbCountry = ({ countryslug }) => { // categoryslug removed from
                   Home
                 </Link>
               </div>
-          
+              <div className="col-auto">&gt;</div>
+              <div className="col-auto">
+                <Link href={`/${categoryslug}`} className="text-blue-1">
+                  {capitalizeFirstLetter(categoryslug) || "Unknown Category"}
+                </Link>
+              </div>
               <div className="col-auto">&gt;</div>
               <div className="col-auto">
                 {capitalizeFirstLetter(countryslug) || "Unknown Country"}
               </div>
             </div>
           </div>
+
+          {/* The following div containing the "All [Category] in [Country]" link has been removed. */}
+          {/*
+          <div className="col-auto">
+            <Link
+              href={`/${categoryslug}/${countryslug}`}
+              className="text-14 text-blue-1 underline"
+            >
+              All {capitalizeFirstLetter(categoryslug) || "Hotels"} in{" "}
+              {capitalizeFirstLetter(countryslug) || "Unknown Country"}
+            </Link>
+          </div>
+          */}
         </div>
       </div>
     </section>

@@ -1,3 +1,4 @@
+// HeaderSearch.jsx
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -10,13 +11,11 @@ const HeaderSearch = () => {
   const router = useRouter();
   const dropdownRef = useRef(null);
 
-  // Fetch city suggestions from the API
   const fetchCities = async (searchTerm) => {
     if (!searchTerm.trim()) {
       setSuggestions([]);
       return;
     }
-
     try {
       const response = await fetch(`/api/city-id?city=${encodeURIComponent(searchTerm)}`);
       if (!response.ok) {
@@ -32,30 +31,21 @@ const HeaderSearch = () => {
     }
   };
 
-  // Handle input change and fetch suggestions
   const handleInputChange = (e) => {
     const value = e.target.value;
     setQuery(value);
     fetchCities(value);
   };
 
-  // Handle form submission
   const handleSearch = (e) => {
     e.preventDefault();
-    if (suggestions.length === 1) {
-      // If only one city is found, navigate directly
-      router.push(`/search-result?city_id=${encodeURIComponent(suggestions[0].city_id)}`);
-      setQuery('');
-      setSuggestions([]);
-    } else if (suggestions.length > 0) {
-      // If multiple cities, select the first one (or keep dropdown open)
+    if (suggestions.length >= 1) {
       router.push(`/search-result?city_id=${encodeURIComponent(suggestions[0].city_id)}`);
       setQuery('');
       setSuggestions([]);
     }
   };
 
-  // Handle suggestion click
   const handleSuggestionClick = (cityId) => {
     router.push(`/search-result?city_id=${encodeURIComponent(cityId)}`);
     setQuery('');
@@ -63,7 +53,6 @@ const HeaderSearch = () => {
     setIsFocused(false);
   };
 
-  // Handle clicks outside to close dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -76,7 +65,13 @@ const HeaderSearch = () => {
   }, []);
 
   return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: '120px', flexShrink: 1, marginRight: '8px' }}>
+    <div style={{
+        position: 'relative',
+        flex: '1 1 auto', /* Allow it to grow and shrink */
+        minWidth: '70px',  /* Minimal width for search bar (e.g. for "Search...") */
+        maxWidth: '220px', /* Maximum width for search bar on larger screens */
+        boxSizing: 'border-box'
+      }}>
       <form onSubmit={handleSearch}>
         <input
           type="text"
@@ -85,14 +80,15 @@ const HeaderSearch = () => {
           onChange={handleInputChange}
           onFocus={() => setIsFocused(true)}
           style={{
-            width: '70%',
-            height: '30px',
+            width: '80%',
+            height: '32px', /* Consistent height */
             fontSize: '13px',
             padding: '3px 6px',
             border: '1px solid #ccc',
             borderRadius: '4px',
             backgroundColor: '#fff',
             color: '#000',
+            boxSizing: 'border-box'
           }}
         />
       </form>
@@ -112,7 +108,7 @@ const HeaderSearch = () => {
             listStyle: 'none',
             padding: 0,
             margin: 0,
-            maxHeight: '200px',
+            maxHeight: '150px',
             overflowY: 'auto',
           }}
         >
@@ -134,6 +130,16 @@ const HeaderSearch = () => {
           ))}
         </ul>
       )}
+      <style jsx>{`
+        /* Responsive styles for HeaderSearch input */
+        @media (max-width: 479px) {
+          input {
+            height: 32px !important; /* Make it smaller on very small screens */
+            font-size: 11px !important;
+            padding: 2px 4px !important;
+          }
+        }
+      `}</style>
     </div>
   );
 };
