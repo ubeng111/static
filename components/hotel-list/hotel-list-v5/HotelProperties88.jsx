@@ -27,11 +27,12 @@ export default function HotelProperties88({ hotels }) {
                       <img
   width={300}
   height={300}
-  className="rounded-4 col-12"
+  className="rounded-4 col-12 js-lazy"
   src={(item.img?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
-  alt={item.title || "Hotel image"}
-  loading="lazy"
+alt={`Image of ${item?.title || "Untitled Hotel"} - A ${item?.category || "hotel"} in ${item?.city || "Unknown Location"}`}
+  loading={i < effectiveItemsToShow ? "eager" : "lazy"}
 />
+
 
                     </div>
                   </div>

@@ -54,13 +54,14 @@ const GalleryTwo = ({ hotel }) => {
           {hotel?.slideimg?.slice(0, 4).map((image, index) => (
             <div className="galleryGrid__item" key={index}>
               <img
-                width={450}
-                height={375}
-      src={(image?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
-                alt={`Slide Image ${index + 1}`}
-                className="rounded-4"
-                loading="lazy"
-              />
+  width={450}
+  height={375}
+  src={(image?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
+  alt={`${hotel?.title || "Hotel"} - Gallery image ${index + 1}`}
+  title={`${hotel?.title || "Hotel"} - View ${index + 1}`}
+  className="rounded-4"
+  loading="lazy"
+/>
             </div>
           ))}
         </div>
