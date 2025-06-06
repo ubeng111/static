@@ -43,7 +43,7 @@ const GalleryTwo = ({ hotel }) => {
               <img
                 width={600}
                 height={500}
-                src={hotel.img || '/images/placeholder.jpg'}
+  src={(hotel.img?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
                 alt={`Hotel Image ${hotel?.title || 'Unknown'}`}
                 className="rounded-4"
                 loading="lazy"
@@ -56,7 +56,7 @@ const GalleryTwo = ({ hotel }) => {
               <img
                 width={450}
                 height={375}
-                src={image || '/images/placeholder.jpg'}
+      src={(image?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
                 alt={`Slide Image ${index + 1}`}
                 className="rounded-4"
                 loading="lazy"

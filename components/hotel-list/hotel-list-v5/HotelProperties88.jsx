@@ -28,7 +28,7 @@ export default function HotelProperties88({ hotels }) {
                         width={300}
                         height={300}
                         className="rounded-4 col-12"
-                        src={item.img || "/images/placeholder.jpg"}
+  src={(hotel.img?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
                         alt={item.title || "Hotel image"}
                         loading="lazy"
                       />
