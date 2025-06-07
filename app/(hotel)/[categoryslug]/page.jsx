@@ -88,20 +88,20 @@ export default async function Page({ params }) {
   const baseUrl = 'https://hoteloza.com';
   const currentUrl = `${baseUrl}/${sanitizedCategory}`;
 
-  // Calculate AggregateRating for all hotels
+  // Calculate AggregateRating for all hotels in the ItemList
   let totalRatingSum = 0;
   let totalReviewCount = 0;
   data.hotels.forEach((hotel) => {
     const ratingValue = parseFloat(hotel.ratings || 0);
     const reviewCount = parseInt(hotel.numberOfReviews || 0, 10);
-    if (ratingValue > 0 && reviewCount > 0) {
+    if (ratingValue > 0 && ratingValue <= 10 && reviewCount > 0) { // Validate ratingValue within 0-10
       totalRatingSum += ratingValue * reviewCount;
       totalReviewCount += reviewCount;
     }
   });
   const overallRatingValue = totalReviewCount > 0 ? (totalRatingSum / totalReviewCount).toFixed(1) : null;
 
-  // Define FAQ content (example, adjust based on actual FAQ content on the page)
+  // Define FAQ content (ensure this matches visible content on the page)
   const faqContent = [
     {
       question: `How can I find cheap ${formattedCategory.toLowerCase()} on Hoteloza?`,
@@ -125,15 +125,6 @@ export default async function Page({ params }) {
         name: 'Hoteloza',
         logo: { '@type': 'ImageObject', url: `${baseUrl}/logo.png` },
       },
-      ...(overallRatingValue && {
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: String(overallRatingValue),
-          reviewCount: String(totalReviewCount),
-          bestRating: '10', // Adjusted for 0-10 scale
-          worstRating: '0',
-        },
-      }),
     },
     {
       '@context': 'https://schema.org',
@@ -148,6 +139,15 @@ export default async function Page({ params }) {
       '@type': 'ItemList',
       name: `Top ${formattedCategory} in ${currentYear}`,
       description: `A list of top ${formattedCategory.toLowerCase()} for ${currentYear} on Hoteloza.`,
+      ...(overallRatingValue && {
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: String(overallRatingValue),
+          reviewCount: String(totalReviewCount),
+          bestRating: '10',
+          worstRating: '0',
+        },
+      }),
       itemListElement: data.hotels.map((hotel, index) => ({
         '@type': 'ListItem',
         position: index + 1,
@@ -166,19 +166,18 @@ export default async function Page({ params }) {
             addressCountry: hotel.country ? formatSlug(hotel.country) : 'Unknown Country',
           },
           description: hotel.description || hotel.overview || `A ${formattedCategory.toLowerCase()} in ${hotel.kota ? formatSlug(hotel.kota) : 'unknown location'}.`,
-          ...(hotel.ratings && hotel.numberOfReviews && {
+          ...(hotel.ratings && hotel.numberOfReviews && parseFloat(hotel.ratings) > 0 && parseFloat(hotel.ratings) <= 10 && parseInt(hotel.numberOfReviews, 10) > 0 && {
             aggregateRating: {
               '@type': 'AggregateRating',
               ratingValue: String(hotel.ratings),
               reviewCount: String(hotel.numberOfReviews),
-              bestRating: '10', // Adjusted for 0-10 scale
+              bestRating: '10',
               worstRating: '0',
             },
           }),
         },
       })),
     },
-    // Add FAQPage schema if FAQ content is visible on the page
     ...(faqContent.length > 0
       ? [
           {
