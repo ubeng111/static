@@ -88,29 +88,10 @@ export default async function Page({ params }) {
   const baseUrl = 'https://hoteloza.com';
   const currentUrl = `${baseUrl}/${sanitizedCategory}`;
 
-  // Log hotels with missing ratings or numberOfReviews for debugging
-  data.hotels.forEach((hotel) => {
-    if (!hotel.ratings || !hotel.numberOfReviews) {
-      console.warn(`Missing ratings or numberOfReviews for hotel: ${hotel.title || hotel.name || 'Unnamed Hotel'}`);
-    }
-  });
-
-  // Define FAQ content (ensure this matches visible content in ClientPage or HotelProperties88.jsx)
-  const faqContent = [
-    {
-      question: `How can I find cheap ${formattedCategory.toLowerCase()} on Hoteloza?`,
-      answer: `Use Hoteloza’s search filters to sort by price, amenities, or location to find the best ${formattedCategory.toLowerCase()} deals for ${currentYear}.`,
-    },
-    {
-      question: `What amenities are typically included in ${formattedCategory.toLowerCase()}?`,
-      answer: `Most ${formattedCategory.toLowerCase()} on Hoteloza offer amenities like free Wi-Fi, breakfast, and parking. Check specific listings for details.`,
-    },
-  ];
-
   const schemas = [
     {
       '@context': 'https://schema.org',
-      '@type': ['WebPage', 'CollectionPage'],
+      '@type': 'WebPage',
       name: `Top ${formattedCategory} Deals in ${currentYear}`,
       description: `Explore top ${formattedCategory.toLowerCase()} for ${currentYear} on Hoteloza with exclusive deals and premium amenities.`,
       url: currentUrl,
@@ -133,56 +114,27 @@ export default async function Page({ params }) {
       '@type': 'ItemList',
       name: `Top ${formattedCategory} in ${currentYear}`,
       description: `A list of top ${formattedCategory.toLowerCase()} for ${currentYear} on Hoteloza.`,
-      itemListElement: data.hotels.map((hotel, index) => {
-        const ratingValue = parseFloat(hotel.ratings || 0);
-        const reviewCount = parseInt(hotel.numberOfReviews || 0, 10);
-        return {
-          '@type': 'ListItem',
-          position: index + 1,
-          item: {
-            '@type': 'Hotel',
-            name: hotel.title || hotel.name || 'Unnamed Hotel',
-            url: hotel.hotelslug && hotel.countryslug && hotel.stateslug && hotel.cityslug
-              ? `${baseUrl}/${sanitizedCategory}/${hotel.countryslug}/${hotel.stateslug}/${hotel.cityslug}/${hotel.hotelslug}`
-              : `${currentUrl}/${hotel.id || index + 1}`,
-            image: hotel.img || hotel.slideimg || '',
-            address: {
-              '@type': 'PostalAddress',
-              streetAddress: hotel.lokasi || 'Unknown Address',
-              addressLocality: hotel.kota ? formatSlug(hotel.kota) : 'Unknown City',
-              addressRegion: hotel['negara bagian'] ? formatSlug(hotel['negara bagian']) : 'Unknown Region',
-              addressCountry: hotel.country ? formatSlug(hotel.country) : 'Unknown Country',
-            },
-            description: hotel.description || hotel.overview || `A ${formattedCategory.toLowerCase()} in ${hotel.kota ? formatSlug(hotel.kota) : 'unknown location'}.`,
-            ...(ratingValue > 0 && ratingValue <= 10 && reviewCount > 0 && {
-              aggregateRating: {
-                '@type': 'AggregateRating',
-                ratingValue: String(ratingValue.toFixed(1)), // Ensure consistent decimal formatting
-                reviewCount: String(reviewCount),
-                bestRating: '10',
-                worstRating: '0',
-              },
-            }),
+      itemListElement: data.hotels.map((hotel, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'Hotel',
+          name: hotel.title || hotel.name || 'Unnamed Hotel',
+          url: hotel.hotelslug && hotel.countryslug && hotel.stateslug && hotel.cityslug
+            ? `${baseUrl}/${sanitizedCategory}/${hotel.countryslug}/${hotel.stateslug}/${hotel.cityslug}/${hotel.hotelslug}`
+            : `${currentUrl}/${hotel.id || index + 1}`,
+          image: hotel.img || hotel.slideimg || '',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: hotel.lokasi || 'Unknown Address',
+            addressLocality: hotel.kota ? formatSlug(hotel.kota) : 'Unknown City',
+            addressRegion: hotel['negara bagian'] ? formatSlug(hotel['negara bagian']) : 'Unknown Region',
+            addressCountry: hotel.country ? formatSlug(hotel.country) : 'Unknown Country',
           },
-        };
-      }),
+          description: hotel.description || hotel.overview || `A ${formattedCategory.toLowerCase()} in ${hotel.kota ? formatSlug(hotel.kota) : 'unknown location'}.`,
+        },
+      })),
     },
-    ...(faqContent.length > 0
-      ? [
-          {
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: faqContent.map((faq) => ({
-              '@type': 'Question',
-              name: faq.question,
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: faq.answer,
-              },
-            })),
-          },
-        ]
-      : []),
   ];
 
   return (
