@@ -88,10 +88,35 @@ export default async function Page({ params }) {
   const baseUrl = 'https://hoteloza.com';
   const currentUrl = `${baseUrl}/${sanitizedCategory}`;
 
+  // Calculate AggregateRating for all hotels
+  let totalRatingSum = 0;
+  let totalReviewCount = 0;
+  data.hotels.forEach((hotel) => {
+    const ratingValue = parseFloat(hotel.ratings || 0);
+    const reviewCount = parseInt(hotel.numberOfReviews || 0, 10);
+    if (ratingValue > 0 && reviewCount > 0) {
+      totalRatingSum += ratingValue * reviewCount;
+      totalReviewCount += reviewCount;
+    }
+  });
+  const overallRatingValue = totalReviewCount > 0 ? (totalRatingSum / totalReviewCount).toFixed(1) : null;
+
+  // Define FAQ content (example, adjust based on actual FAQ content on the page)
+  const faqContent = [
+    {
+      question: `How can I find cheap ${formattedCategory.toLowerCase()} on Hoteloza?`,
+      answer: `Use Hoteloza’s search filters to sort by price, amenities, or location to find the best ${formattedCategory.toLowerCase()} deals for ${currentYear}.`,
+    },
+    {
+      question: `What amenities are typically included in ${formattedCategory.toLowerCase()}?`,
+      answer: `Most ${formattedCategory.toLowerCase()} on Hoteloza offer amenities like free Wi-Fi, breakfast, and parking. Check specific listings for details.`,
+    },
+  ];
+
   const schemas = [
     {
       '@context': 'https://schema.org',
-      '@type': 'WebPage',
+      '@type': ['WebPage', 'CollectionPage'],
       name: `Top ${formattedCategory} Deals in ${currentYear}`,
       description: `Explore top ${formattedCategory.toLowerCase()} for ${currentYear} on Hoteloza with exclusive deals and premium amenities.`,
       url: currentUrl,
@@ -100,6 +125,15 @@ export default async function Page({ params }) {
         name: 'Hoteloza',
         logo: { '@type': 'ImageObject', url: `${baseUrl}/logo.png` },
       },
+      ...(overallRatingValue && {
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: String(overallRatingValue),
+          reviewCount: String(totalReviewCount),
+          bestRating: '10', // Adjusted for 0-10 scale
+          worstRating: '0',
+        },
+      }),
     },
     {
       '@context': 'https://schema.org',
@@ -132,9 +166,35 @@ export default async function Page({ params }) {
             addressCountry: hotel.country ? formatSlug(hotel.country) : 'Unknown Country',
           },
           description: hotel.description || hotel.overview || `A ${formattedCategory.toLowerCase()} in ${hotel.kota ? formatSlug(hotel.kota) : 'unknown location'}.`,
+          ...(hotel.ratings && hotel.numberOfReviews && {
+            aggregateRating: {
+              '@type': 'AggregateRating',
+              ratingValue: String(hotel.ratings),
+              reviewCount: String(hotel.numberOfReviews),
+              bestRating: '10', // Adjusted for 0-10 scale
+              worstRating: '0',
+            },
+          }),
         },
       })),
     },
+    // Add FAQPage schema if FAQ content is visible on the page
+    ...(faqContent.length > 0
+      ? [
+          {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faqContent.map((faq) => ({
+              '@type': 'Question',
+              name: faq.question,
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: faq.answer,
+              },
+            })),
+          },
+        ]
+      : []),
   ];
 
   return (
