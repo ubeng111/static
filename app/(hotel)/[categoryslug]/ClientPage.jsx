@@ -152,8 +152,10 @@ export default function ClientPage({ categoryslug }) {
         </div>
       </section>
 
-      <CallToActions />
-      <DefaultFooter />
+  <CallToActions />
+
+<DefaultFooter  />
+
     </>
   );
 }
