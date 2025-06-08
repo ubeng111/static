@@ -1,4 +1,6 @@
-import Image from "next/image";
+// components/about/Block1.jsx
+
+// import Image from "next/image"; // REMOVED: No longer needed as we're using <img>
 
 const Block1 = () => {
   return (
@@ -21,12 +23,14 @@ const Block1 = () => {
       {/* End .col */}
 
       <div className="col-lg-6">
-        <Image
+        {/* Changed from <Image> to <img> */}
+        <img
           width={400}
           height={400}
           src="/img/app/1.png"
           alt="Hoteloza about page image"
           className="rounded-4 w-100"
+          // Note: 'priority' prop is specific to Next.js Image component and is not used here.
         />
       </div>
       {/* End .col */}
