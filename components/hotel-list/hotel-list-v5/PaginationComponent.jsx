@@ -110,19 +110,19 @@ const StyledPagination = styled(Pagination)(({ theme }) => ({
 
   [theme.breakpoints.down('sm')]: {
     '& .MuiPaginationItem-root': {
-      minWidth: '32px',
-      height: '32px',
+      minWidth: '36',
+      height: '36',
       fontSize: '0.8rem',
       padding: '0',
       margin: 0,
     },
     '& .MuiPaginationItem-previousNext': {
-      minWidth: '32px',
-      height: '32px',
+      minWidth: '36',
+      height: '36',
     },
     '& .MuiPaginationItem-ellipsis': {
-      minWidth: '32px',
-      height: '32px',
+      minWidth: '36',
+      height: '36',
     },
     '& .MuiPagination-ul': {
       gap: 0,
