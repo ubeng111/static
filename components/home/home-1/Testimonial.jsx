@@ -32,7 +32,7 @@ const Testimonial = () => {
                 />
               </div>
               <div className="col-auto">
-                <h4 className="text-16 fw-500">{item.name}</h4>
+                <h2 className="text-16 fw-500">{item.name}</h2>
                 <div className="text-15 text-light-1 lh-15">
                   {item.designation}
                 </div>
