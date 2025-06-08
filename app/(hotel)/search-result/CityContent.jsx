@@ -2,14 +2,12 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import dynamic from "next/dynamic";
 import useSWR from "swr";
+import PaginationComponent from '@/components/hotel-list/hotel-list-v5/PaginationComponent';
 import HotelProperties88 from "@/components/hotel-list/hotel-list-v5/HotelProperties88";
 import Faqcity from "@/components/faq/Faqcity";
 import { useEffect, useState } from "react"; // Import useEffect and useState
 
-// Dynamically import non-critical components
-const ReactPaginate = dynamic(() => import("react-paginate"), { ssr: false });
 
 // SWR fetcher function
 const fetcher = async (url) => {
@@ -107,19 +105,19 @@ export default function CityContent({ initialCityId, initialPage }) {
       </section>
 
       {pagination.totalPages > 1 && (
-        <div style={{ display: "flex", justifyContent: "center", transform: "translateY(-90px)", marginTop: "7%" }}>
-          <ReactPaginate
-            pageCount={pagination.totalPages}
-            onPageChange={handlePageClick}
-            containerClassName={"pagination flex space-x-2"}
-            activeClassName={"active bg-blue-500 text-white"}
-            pageClassName={"page-item"}
-            pageLinkClassName={"page-link px-3 py-2 border rounded-sm"}
-            previousLabel={null}
-            nextLabel={null}
-            forcePage={pagination.page - 1}
-          />
-        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', transform: 'translateY(-60px)', marginTop: '5%' }}>
+        <PaginationComponent
+          pageCount={pagination.totalPages}
+          onPageChange={handlePageClick}
+          containerClassName="pagination"
+          activeClassName="active"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousLabel={null}
+          nextLabel={null}
+          forcePage={pagination.page - 1}
+        />
+      </div>
       )}
 
       <section id="faq" className="pt-40 layout-pb-md">

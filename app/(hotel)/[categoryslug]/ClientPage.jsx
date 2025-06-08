@@ -115,7 +115,7 @@ export default function ClientPage({ categoryslug }) {
         </div>
       </section>
 
-   <div style={{ display: 'flex', justifyContent: 'center', transform: 'translateY(-90px)', marginTop: '2%' }}>
+   <div style={{ display: 'flex', justifyContent: 'center', transform: 'translateY(-60px)', marginTop: '5%' }}>
         <PaginationComponent
           pageCount={pagination.totalPages}
           onPageChange={handlePageClick}

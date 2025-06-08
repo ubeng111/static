@@ -117,8 +117,8 @@ const StyledPagination = styled(Pagination)(({ theme }) => ({
       padding: '0',
     },
     '& .MuiPaginationItem-previousNext': {
-      minWidth: '34px',
-      height: '34px',
+      minWidth: '28px',
+      height: '28px',
     },
     '& .MuiPaginationItem-ellipsis': {
       minWidth: '28px',
