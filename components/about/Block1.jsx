@@ -24,7 +24,7 @@ const Block1 = () => {
         <Image
           width={400}
           height={400}
-          src="/img/video/1.png"
+          src="/img/app/1.png"
           alt="Hoteloza about page image"
           className="rounded-4 w-100"
         />
