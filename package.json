@@ -12,6 +12,8 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@faker-js/faker": "^8.1.0",
+    "@mui/icons-material": "^7.1.1",
+    "@mui/material": "^7.1.1",
     "@popperjs/core": "2.11.8",
     "@reduxjs/toolkit": "^1.9.6",
     "aos": "^2.3.4",

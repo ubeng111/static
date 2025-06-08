@@ -8,7 +8,7 @@ import useSWR from 'swr';
 import ReactPaginate from 'react-paginate';
 import Relatedcategory88 from '@/components/hotel-single/Relatedcategory88';
 import HotelProperties88 from '@/components/hotel-list/hotel-list-v5/HotelProperties88';
-
+import PaginationComponent from '@/components/hotel-list/hotel-list-v5/PaginationComponent';
 const CallToActions = dynamic(() => import('@/components/common/CallToActions'), { ssr: false });
 const Header11 = dynamic(() => import('@/components/header/header-11'), { ssr: false });
 const DefaultFooter = dynamic(() => import('@/components/footer/default'), { ssr: false });
@@ -115,8 +115,8 @@ export default function ClientPage({ categoryslug }) {
         </div>
       </section>
 
-      <div style={{ display: 'flex', justifyContent: 'center', transform: 'translateY(-90px)', marginTop: '7%' }}>
-        <ReactPaginate
+   <div style={{ display: 'flex', justifyContent: 'center', transform: 'translateY(-90px)', marginTop: '7%' }}>
+        <PaginationComponent
           pageCount={pagination.totalPages}
           onPageChange={handlePageClick}
           containerClassName="pagination"
