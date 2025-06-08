@@ -39,7 +39,7 @@ const DateSearch = ({ onDateChange }) => {
     <div className="searchMenu-date search-field">
       {/* Label yang terhubung secara programatis dan disembunyikan secara visual */}
       {/* Tetapkan ID unik untuk label dan gunakan sr-only untuk menyembunyikan secara visual */}
-      <label id={labelId} htmlFor={`${labelId}-input`} className="sr-only">Check-in - Check-out</label>
+      <label id={labelId} htmlFor={`${labelId}-input`}>Check-in - Check-out</label>
       <DatePicker
         value={dates}
         onChange={handleDateChange}

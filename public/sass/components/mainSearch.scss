@@ -1,3 +1,4 @@
+/* mainSearch.scss */
 .mainSearch {
   position: relative;
   z-index: 10;
@@ -30,9 +31,18 @@
     position: relative;
     flex: 1;
 
-    /* Hide the label */
+    /* Apply visual-hidden styles directly to the label */
     label {
-      display: none; /* This will hide the label */
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+      display: block; /* Ensure it's not display: none */
     }
 
     input,
