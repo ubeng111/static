@@ -38,6 +38,11 @@ const DateSearch = ({ onDateChange }) => {
   return (
     <div className="searchMenu-date search-field">
       {/* Label yang terhubung secara programatis dan disembunyikan secara visual */}
+      {/*
+        The label is still good practice for semantic meaning,
+        even if the ARIA attribute on the input is the primary fix for the warning.
+        Keep it with sr-only for visual hiding.
+      */}
       <label htmlFor={inputId} className="sr-only">Check-in - Check-out</label>
       <DatePicker
         value={dates}
@@ -49,8 +54,12 @@ const DateSearch = ({ onDateChange }) => {
         inputClass="w-full h-32 px-6 py-2"
         containerStyle={{ width: '100%' }}
         calendarPosition="bottom-left"
-        // Teruskan ID ke input yang dirender oleh DatePicker
-        inputProps={{ id: inputId, placeholder: "Check-in ~ Check-out" }}
+        // Teruskan ID dan aria-label ke input yang dirender oleh DatePicker
+        inputProps={{
+          id: inputId,
+          placeholder: "Check-in ~ Check-out",
+          'aria-label': "Check-in and Check-out Dates" // Ini akan menyelesaikan peringatan
+        }}
       />
     </div>
   );
