@@ -1,11 +1,11 @@
 // app/(others)/contact/Client.jsx
 "use client"; // Mark this as a Client Component
 
-import Image from "next/image"; // Image dari next/image biasanya aman untuk SSR
 import dynamic from "next/dynamic"; // Import dynamic untuk komponen yang hanya dirender di klien
+// Remove this line if you're not using the Next.js Image component
+// import Image from "next/image"; 
 
 // Dynamically import components that are likely to cause SSR/prerendering issues.
-// Ini adalah langkah paling aman untuk mengatasi prerendering issues.
 const Header1 = dynamic(() => import("@/components/header/header-11"), { ssr: false });
 const DefaultFooter = dynamic(() => import("@/components/footer/default"), { ssr: false });
 const CallToActions = dynamic(() => import("@/components/common/CallToActions"), { ssr: false });
@@ -19,12 +19,13 @@ const Client = () => {
 
       <section className="section-bg layout-pt-lg layout-pb-lg">
         <div className="section-bg__item col-12">
-          <Image
+          {/* Use standard <img> and remove the 'priority' attribute */}
+          <img
             width={1920}
             height={400}
-            src="/img/pages/contact/map.png" // 
+            src="/img/pages/contact/map.png"
             alt="Contact Us"
-            priority
+            // priority // THIS LINE MUST BE REMOVED or commented out for standard <img>
           />
         </div>
 

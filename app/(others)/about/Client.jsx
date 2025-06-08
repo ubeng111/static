@@ -1,8 +1,8 @@
 // Client.jsx
 "use client"; // Mark this as a Client Component
 
-import Image from "next/image"; // next/image biasanya aman, tidak perlu dynamic import
 import dynamic from "next/dynamic"; // Import dynamic untuk komponen yang hanya dirender di klien
+// import Image from "next/image"; // Removed the import for Next.js Image component
 
 // Dynamically import ALL potentially problematic components with ssr: false.
 // Ini adalah langkah paling aman untuk mengatasi prerendering issues.
@@ -24,12 +24,16 @@ const Client = () => {
 
       <section className="section-bg layout-pt-lg layout-pb-lg">
         <div className="section-bg__item col-12">
-          <Image
+          {/* Changed Next.js <Image /> component back to standard <img> */}
+          <img
             width={1920}
             height={400}
             src="/img/pages/about/1.png"
             alt="image"
-            priority
+            // The 'priority' attribute is not standard HTML for <img> tags.
+            // It's typically used with Next.js's Image component for optimization.
+            // Removing it here to avoid potential issues with standard <img>.
+            // priority // This line is commented out or removed for standard <img>
           />
         </div>
 
