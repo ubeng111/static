@@ -23,7 +23,7 @@ const Client = () => {
           <img
             width={1920}
             height={400}
-            src="/img/pages/contact/map.png"
+            src="/img/pages/about/1.png"
             alt="Contact Us"
             // priority // THIS LINE MUST BE REMOVED or commented out for standard <img>
           />
