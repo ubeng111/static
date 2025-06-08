@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState, useEffect, useId } from 'react';
+import React, { useState, useEffect, useId } from 'react'; // Import useId hook
 import DatePicker, { DateObject } from 'react-multi-date-picker';
 
 const DateSearch = ({ onDateChange }) => {
-  const labelId = useId(); // Generate a unique ID for the label
+  const inputId = useId(); // Generate a unique ID for the input
 
   const [dates, setDates] = useState([
     new DateObject(),
@@ -27,7 +27,7 @@ const DateSearch = ({ onDateChange }) => {
       const timer = setTimeout(() => onDateChange(dates), 100); // Debounce
       return () => clearTimeout(timer);
     }
-  }, [dates, onDateChange]);
+  }, [dates, onDateChange]); // Dependency array to prevent infinite loops
 
   const handleDateChange = (newDates) => {
     if (newDates && newDates.length === 2) {
@@ -38,33 +38,20 @@ const DateSearch = ({ onDateChange }) => {
   return (
     <div className="searchMenu-date search-field">
       {/* Label yang terhubung secara programatis dan disembunyikan secara visual */}
-      <label id={labelId} htmlFor={`${labelId}-input`} className="sr-only">
-        Check-in - Check-out
-      </label>
-      <div className="relative">
-        <input
-          id={`${labelId}-input`}
-          type="text"
-          className="w-full h-32 px-6 py-2"
-          value={dates.length === 2 ? `${dates[0].format('MMM DD')} ~ ${dates[1].format('MMM DD')}` : ''}
-          readOnly
-          aria-labelledby={labelId}
-          placeholder="Check-in ~ Check-out"
-          onClick={(e) => e.target.nextSibling.querySelector('input').focus()} // Fokus ke input DatePicker
-        />
-        <div style={{ display: 'none' }}>
-          <DatePicker
-            value={dates}
-            onChange={handleDateChange}
-            numberOfMonths={numberOfMonths}
-            range
-            format="MMM DD"
-            minDate={new Date()}
-            containerStyle={{ width: '100%' }}
-            calendarPosition="bottom-left"
-          />
-        </div>
-      </div>
+      <label htmlFor={inputId} className="sr-only">Check-in - Check-out</label>
+      <DatePicker
+        value={dates}
+        onChange={handleDateChange}
+        numberOfMonths={numberOfMonths}
+        range
+        format="MMM DD"
+        minDate={new Date()}
+        inputClass="w-full h-32 px-6 py-2"
+        containerStyle={{ width: '100%' }}
+        calendarPosition="bottom-left"
+        // Teruskan ID ke input yang dirender oleh DatePicker
+        inputProps={{ id: inputId, placeholder: "Check-in ~ Check-out" }}
+      />
     </div>
   );
 };
