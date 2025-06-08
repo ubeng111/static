@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState, useEffect, useId } from 'react'; // Import useId hook
+import React, { useState, useEffect, useId } from 'react';
 import DatePicker, { DateObject } from 'react-multi-date-picker';
 
 const DateSearch = ({ onDateChange }) => {
-  const inputId = useId(); // Generate a unique ID for the input
+  const labelId = useId(); // Generate a unique ID for the label
 
   const [dates, setDates] = useState([
     new DateObject(),
@@ -22,12 +22,11 @@ const DateSearch = ({ onDateChange }) => {
   }, []);
 
   useEffect(() => {
-    // Call onDateChange only if the callback exists and dates are valid
     if (onDateChange && dates.length === 2) {
-      const timer = setTimeout(() => onDateChange(dates), 100); // Debounce
+      const timer = setTimeout(() => onDateChange(dates), 100);
       return () => clearTimeout(timer);
     }
-  }, [dates, onDateChange]); // Dependency array to prevent infinite loops
+  }, [dates, onDateChange]);
 
   const handleDateChange = (newDates) => {
     if (newDates && newDates.length === 2) {
@@ -38,12 +37,8 @@ const DateSearch = ({ onDateChange }) => {
   return (
     <div className="searchMenu-date search-field">
       {/* Label yang terhubung secara programatis dan disembunyikan secara visual */}
-      {/*
-        The label is still good practice for semantic meaning,
-        even if the ARIA attribute on the input is the primary fix for the warning.
-        Keep it with sr-only for visual hiding.
-      */}
-      <label htmlFor={inputId} className="sr-only">Check-in - Check-out</label>
+      {/* Tetapkan ID unik untuk label */}
+      <label id={labelId} htmlFor={`${labelId}-input`} className="sr-only">Check-in - Check-out</label>
       <DatePicker
         value={dates}
         onChange={handleDateChange}
@@ -54,11 +49,11 @@ const DateSearch = ({ onDateChange }) => {
         inputClass="w-full h-32 px-6 py-2"
         containerStyle={{ width: '100%' }}
         calendarPosition="bottom-left"
-        // Teruskan ID dan aria-label ke input yang dirender oleh DatePicker
+        // Teruskan ID dan aria-labelledby ke input yang dirender oleh DatePicker
         inputProps={{
-          id: inputId,
+          id: `${labelId}-input`, // Gunakan ID yang unik untuk input
           placeholder: "Check-in ~ Check-out",
-          'aria-label': "Check-in and Check-out Dates" // Ini akan menyelesaikan peringatan
+          'aria-labelledby': labelId // Ini akan mengaitkan input dengan label tersembunyi
         }}
       />
     </div>
