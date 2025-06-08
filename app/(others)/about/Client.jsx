@@ -2,10 +2,8 @@
 "use client"; // Mark this as a Client Component
 
 import dynamic from "next/dynamic"; // Import dynamic untuk komponen yang hanya dirender di klien
-// import Image from "next/image"; // Removed the import for Next.js Image component
 
-// Dynamically import ALL potentially problematic components with ssr: false.
-// Ini adalah langkah paling aman untuk mengatasi prerendering issues.
+
 const Header1 = dynamic(() => import("@/components/header/header-11"), { ssr: false });
 const DefaultFooter = dynamic(() => import("@/components/footer/default"), { ssr: false });
 const WhyChoose = dynamic(() => import("@/components/block/BlockGuide"), { ssr: false });
