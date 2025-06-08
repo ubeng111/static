@@ -12,6 +12,32 @@ const GalleryTwo = ({ hotel }) => {
     return hotel?.location || 'Location not available';
   })();
 
+  const renderOverview = () => {
+    if (!hotel?.overview) {
+      // Render skeleton/placeholder if overview is not available
+      return (
+        <div className="y-gap-10 sm:y-gap-20 animate-pulse">
+          <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+          <div className="h-4 bg-gray-200 rounded w-5/6 mb-2"></div>
+          <div className="h-4 bg-gray-200 rounded w-full"></div>
+        </div>
+      );
+    }
+
+    const sentences = hotel.overview.split('.').filter(Boolean);
+    const partLength = Math.ceil(sentences.length / 3);
+    const part1 = sentences.slice(0, partLength).join('. ') + '.';
+    const part2 = sentences.slice(partLength, partLength * 2).join('. ') + '.';
+    const part3 = sentences.slice(partLength * 2).join('. ') + '.';
+    return (
+      <div className="y-gap-10 sm:y-gap-20">
+        <p className="text-15 sm:text-17 text-light-1 leading-6 sm:leading-7">{part1}</p>
+        <p className="text-15 sm:text-17 text-light-1 leading-6 sm:leading-7">{part2}</p>
+        <p className="text-15 sm:text-17 text-light-1 leading-6 sm:leading-7">{part3}</p>
+      </div>
+    );
+  };
+
   return (
     <section className="pt-10 sm:pt-20 md:pt-40">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -72,27 +98,12 @@ const GalleryTwo = ({ hotel }) => {
         </div>
 
         {/* Overview Section */}
-        {hotel?.overview && (
-            <div className="pt-20 sm:pt-30 md:pt-40 px-0 mt-20 sm:mt-40">
-            <h2 className="text-20 sm:text-22 fw-500 border-top-light mb-10 sm:mb-20">
-              Overview {hotel?.title}
-            </h2>
-            {(() => {
-              const sentences = hotel.overview.split('.').filter(Boolean);
-              const partLength = Math.ceil(sentences.length / 3);
-              const part1 = sentences.slice(0, partLength).join('. ') + '.';
-              const part2 = sentences.slice(partLength, partLength * 2).join('. ') + '.';
-              const part3 = sentences.slice(partLength * 2).join('. ') + '.';
-              return (
-                <div className="y-gap-10 sm:y-gap-20">
-                  <p className="text-15 sm:text-17 text-light-1 leading-6 sm:leading-7">{part1}</p>
-                  <p className="text-15 sm:text-17 text-light-1 leading-6 sm:leading-7">{part2}</p>
-                  <p className="text-15 sm:text-17 text-light-1 leading-6 sm:leading-7">{part3}</p>
-                </div>
-              );
-            })()}
-          </div>
-        )}
+        <div className="pt-20 sm:pt-30 md:pt-40 px-0 mt-20 sm:mt-40">
+          <h2 className="text-20 sm:text-22 fw-500 border-top-light mb-10 sm:mb-20">
+            Overview {hotel?.title}
+          </h2>
+          {renderOverview()}
+        </div>
       </div>
     </section>
   );
