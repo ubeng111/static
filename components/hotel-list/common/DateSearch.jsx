@@ -22,8 +22,9 @@ const DateSearch = ({ onDateChange }) => {
   }, []);
 
   useEffect(() => {
+    // Call onDateChange only if the callback exists and dates are valid
     if (onDateChange && dates.length === 2) {
-      const timer = setTimeout(() => onDateChange(dates), 100);
+      const timer = setTimeout(() => onDateChange(dates), 100); // Debounce
       return () => clearTimeout(timer);
     }
   }, [dates, onDateChange]);
@@ -37,7 +38,7 @@ const DateSearch = ({ onDateChange }) => {
   return (
     <div className="searchMenu-date search-field">
       {/* Label yang terhubung secara programatis dan disembunyikan secara visual */}
-      {/* Tetapkan ID unik untuk label */}
+      {/* Tetapkan ID unik untuk label dan gunakan sr-only untuk menyembunyikan secara visual */}
       <label id={labelId} htmlFor={`${labelId}-input`} className="sr-only">Check-in - Check-out</label>
       <DatePicker
         value={dates}
@@ -49,10 +50,10 @@ const DateSearch = ({ onDateChange }) => {
         inputClass="w-full h-32 px-6 py-2"
         containerStyle={{ width: '100%' }}
         calendarPosition="bottom-left"
-        // Teruskan ID dan aria-labelledby ke input yang dirender oleh DatePicker
+        // Gunakan 'aria-labelledby' untuk mengaitkan input dengan label tersembunyi
         inputProps={{
-          id: `${labelId}-input`, // Gunakan ID yang unik untuk input
-          placeholder: "Check-in ~ Check-out",
+          id: `${labelId}-input`, // Berikan ID yang unik untuk input yang dirender
+          placeholder: "Check-in ~ Jun 09", // Sesuaikan placeholder jika perlu
           'aria-labelledby': labelId // Ini akan mengaitkan input dengan label tersembunyi
         }}
       />
