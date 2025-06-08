@@ -5,7 +5,7 @@ import { useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import useSWR from 'swr';
-import ReactPaginate from 'react-paginate';
+import PaginationComponent from '@/components/hotel-list/hotel-list-v5/PaginationComponent';
 import Relatedcity88 from '@/components/hotel-single/Relatedcity88';
 import HotelProperties88 from '@/components/hotel-list/hotel-list-v5/HotelProperties88';
 
@@ -127,7 +127,7 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, citys
       </section>
 
       <div style={{ display: 'flex', justifyContent: 'center', transform: 'translateY(-90px)', marginTop: '7%' }}>
-        <ReactPaginate
+        <PaginationComponent
           pageCount={pagination.totalPages}
           onPageChange={handlePageClick}
           containerClassName="pagination"
