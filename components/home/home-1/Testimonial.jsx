@@ -1,7 +1,6 @@
-
 'use client'
 
-import Image from "next/image";
+// import Image from "next/image"; // REMOVED: No longer needed
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -22,12 +21,14 @@ const Testimonial = () => {
           <SwiperSlide key={item.id}>
             <div className="row items-center x-gap-15 y-gap-20">
               <div className="col-auto">
-                <Image
+                {/* Changed from <Image> to <img> */}
+                <img
                   width={80}
                   height={80}
                   src={item.avatar}
                   alt="image"
                   className="js-lazy rounded-circle"
+                  // Note: 'priority' prop is specific to Next.js Image component and is not used here.
                 />
               </div>
               <div className="col-auto">
