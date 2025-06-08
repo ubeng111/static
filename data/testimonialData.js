@@ -1,7 +1,7 @@
 export const testimonial1 = [
   {
     id: 1,
-    avatar: "/img/avatars/testimonials/1.png",
+    avatar: "/img/avatars/testimonials/1.jpg",
     name: "Sarah M.",
     designation: "Travel Enthusiast",
     text: `Hoteloza is a game-changer! I've found the best hotel deals

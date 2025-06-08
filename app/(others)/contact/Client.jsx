@@ -22,7 +22,7 @@ const Client = () => {
           <Image
             width={1920}
             height={400}
-            src="/img/pages/contact/contact_hero.jpg" // Ganti dengan gambar hero untuk kontak Anda
+            src="/img/pages/contact/map.png" // 
             alt="Contact Us"
             priority
           />
@@ -53,7 +53,6 @@ const Client = () => {
               </p>
               <div className="text-dark-1">
                 <p><strong>Address:</strong> 123 Travel Avenue, Tourism City, TX 78901</p>
-                <p><strong>Phone:</strong> +1 234 567 890</p>
                 <p><strong>Email:</strong> support@hoteloza.com</p>
                 <p><strong>Working Hours:</strong> Mon - Fri, 9 AM - 5 PM</p>
               </div>
