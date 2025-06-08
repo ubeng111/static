@@ -39,11 +39,15 @@ const Footer = () => {
           {Object.entries(categories).map(([title, links], index) => (
             <div className="col-6 col-md-3 mb-4" key={index}>
               <h3
-                className="fw-bold mb-3 text-white"
-                style={{ borderBottom: "2px solid white", paddingBottom: "0.3rem" }}
-              >
-                {title}
-              </h3>
+  className="fw-bold mb-3 text-white"
+  style={{
+    borderBottom: "2px solid white",
+    paddingBottom: "0.3rem",
+    fontSize: "16px",
+  }}
+>
+  {title}
+</h3>
               <ul className="list-unstyled">
                 {links.map((link, i) => (
                   <li key={i}>
