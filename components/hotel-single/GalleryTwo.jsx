@@ -1,7 +1,6 @@
 'use client';
 
-import Image from 'next/image'; // Import next/image
-// import { useEffect } from 'react'; // Hanya jika ada useEffect yang relevan
+// import Image from 'next/image'; // Hapus import next/image
 
 const GalleryTwo = ({ hotel }) => {
   const address = (() => {
@@ -79,34 +78,28 @@ const GalleryTwo = ({ hotel }) => {
         <div className="galleryGrid -type-1 pt-20 sm:pt-30 px-0">
           {mainImageUrl && (
             <div className="galleryGrid__item">
-              <Image
+              <img // Menggunakan tag <img> standar
                 src={mainImageUrl}
                 alt={`Hotel Image ${hotel?.title || 'Unknown'}`}
-                width={600} // Width asli gambar
-                height={500} // Height asli gambar
+                width={600} // Tetapkan width
+                height={500} // Tetapkan height
                 className="rounded-4"
-                priority // Tandai sebagai gambar LCP
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Sesuaikan ukuran responsif
+                loading="eager" // Gunakan eager loading untuk gambar LCP
+                fetchpriority="high" // Memberi tahu browser untuk memprioritaskan pengambilan
               />
             </div>
           )}
 
           {slideImages.map((imageSrc, index) => (
             <div className="galleryGrid__item" key={index}>
-              {/* Ini contoh penyederhanaan nesting:
-                  Jika `galleryGrid__item` hanya sebagai pembungkus untuk `img`,
-                  maka struktur DOMnya sudah cukup datar.
-                  Jika ada `div` lain di dalamnya yang tidak perlu, hapus.
-              */}
-              <Image
+              <img // Menggunakan tag <img> standar
                 src={imageSrc}
                 alt={`${hotel?.title || 'Hotel'} - Gallery image ${index + 1}`}
                 title={`${hotel?.title || 'Hotel'} - View ${index + 1}`}
-                width={450} // Width asli gambar
-                height={375} // Height asli gambar
+                width={450} // Tetapkan width
+                height={375} // Tetapkan height
                 className="rounded-4"
-                loading="lazy" // Default lazy loading untuk gambar non-LCP
-                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw" // Sesuaikan ukuran responsif
+                loading="lazy" // Tetap lazy loading untuk gambar non-LCP
               />
             </div>
           ))}
