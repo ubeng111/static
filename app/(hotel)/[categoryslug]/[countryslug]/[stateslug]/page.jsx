@@ -65,8 +65,8 @@ export async function generateMetadata({ params }) {
   const currentYear = new Date().getFullYear();
 
   return {
-    title: `Steal These ${formattedCategory} in ${formattedState}, ${formattedCountry} ${currentYear} - Hoteloza Exclusive`,
-    description: `Grab the best ${formattedCategory.toLowerCase()} in ${formattedState}, ${formattedCountry} for ${currentYear} on Hoteloza. Act fast for exclusive offers and dream stays!`,
+    title: `Top ${formattedCategory} in ${formattedState}, ${formattedCountry} ${currentYear} - Hoteloza Exclusive`,
+    description: `Find top ${formattedCategory.toLowerCase()} in ${formattedState}, ${formattedCountry} for ${currentYear} on Hoteloza. Book now for exclusive deals and unforgettable stays!`,
     openGraph: {
       title: `Best ${formattedCategory} in ${formattedState}, ${formattedCountry} ${currentYear} - Hoteloza`,
       description: `Discover the best ${formattedCategory.toLowerCase()} in ${formattedState}, ${formattedCountry} for ${currentYear} on Hoteloza. Book your perfect stay with top amenities and exclusive offers.`,

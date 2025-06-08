@@ -59,8 +59,8 @@ export async function generateMetadata({ params }) {
   const currentYear = new Date().getFullYear();
 
   return {
-    title: `Unbelievable ${formattedCategory} Deals for ${currentYear} - Save Big on Hoteloza!`,
-    description: `Snag jaw-dropping ${formattedCategory.toLowerCase()} deals for ${currentYear} on Hoteloza! Book now for exclusive discounts and luxury amenities you’ll love.`,
+    title: `Best ${formattedCategory} Deals for ${currentYear} - Save Big on Hoteloza!`,
+    description: `Find the best ${formattedCategory.toLowerCase()} in ${currentYear} with Hoteloza. Enjoy exclusive discounts, great prices, and premium amenities. Book now for an unforgettable stay!.`,
     openGraph: {
       title: `Top ${formattedCategory} Deals in ${currentYear} | Hoteloza`,
       description: `Explore top ${formattedCategory.toLowerCase()} for ${currentYear} on Hoteloza. Book now for exclusive deals and premium amenities!`,

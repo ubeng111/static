@@ -63,7 +63,7 @@ export async function generateMetadata({ params }) {
 
   return {
     title: `Cheap ${formattedCategory} in ${formattedCountry} ${currentYear} - Don’t Miss Out! | Hoteloza`,
-    description: `Score the hottest ${formattedCategory.toLowerCase()} in ${formattedCountry} for ${currentYear} on Hoteloza. Limited deals await—book today for unbeatable prices!`,
+    description: `Score the best ${formattedCategory.toLowerCase()} in ${formattedCountry} for ${currentYear} on Hoteloza. Get exclusive deals, low prices, and top amenities. Limited offers—book your stay today!`,
     openGraph: {
       title: `Best ${formattedCategory} in ${formattedCountry} ${currentYear} | Hoteloza`,
       description: `Find the best ${formattedCategory.toLowerCase()} in ${formattedCountry} for ${currentYear} on Hoteloza. Book now for top hotels and exclusive deals!`,
