@@ -38,23 +38,33 @@ const DateSearch = ({ onDateChange }) => {
   return (
     <div className="searchMenu-date search-field">
       {/* Label yang terhubung secara programatis dan disembunyikan secara visual */}
-      <label id={labelId} className="sr-only">Check-in - Check-out</label>
-      <DatePicker
-        value={dates}
-        onChange={handleDateChange}
-        numberOfMonths={numberOfMonths}
-        range
-        format="MMM DD"
-        minDate={new Date()}
-        inputClass="w-full h-32 px-6 py-2"
-        containerStyle={{ width: '100%' }}
-        calendarPosition="bottom-left"
-        inputProps={{
-          id: `${labelId}-input`,
-          placeholder: "Check-in ~ Check-out",
-          'aria-label': 'Check-in and Check-out dates', // Fallback jika aria-labelledby tidak bekerja
-        }}
-      />
+      <label id={labelId} htmlFor={`${labelId}-input`} className="sr-only">
+        Check-in - Check-out
+      </label>
+      <div className="relative">
+        <input
+          id={`${labelId}-input`}
+          type="text"
+          className="w-full h-32 px-6 py-2"
+          value={dates.length === 2 ? `${dates[0].format('MMM DD')} ~ ${dates[1].format('MMM DD')}` : ''}
+          readOnly
+          aria-labelledby={labelId}
+          placeholder="Check-in ~ Check-out"
+          onClick={(e) => e.target.nextSibling.querySelector('input').focus()} // Fokus ke input DatePicker
+        />
+        <div style={{ display: 'none' }}>
+          <DatePicker
+            value={dates}
+            onChange={handleDateChange}
+            numberOfMonths={numberOfMonths}
+            range
+            format="MMM DD"
+            minDate={new Date()}
+            containerStyle={{ width: '100%' }}
+            calendarPosition="bottom-left"
+          />
+        </div>
+      </div>
     </div>
   );
 };
