@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 
 const StyledPagination = styled(Pagination)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
-  padding: theme.spacing(2, 0),
+  padding: theme.spacing(0.5, 0),
+  backgroundColor: 'transparent', // Biar container luar kelihatan background-nya
 
   '& .MuiPagination-ul': {
     display: 'flex',
@@ -26,13 +27,15 @@ const StyledPagination = styled(Pagination)(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
     fontSize: '1rem',
     fontWeight: theme.typography.fontWeightMedium,
-    backgroundColor: theme.palette.mode === 'dark'
-      ? theme.palette.primary[800]
-      : theme.palette.primary[50],
-    color: theme.palette.mode === 'dark'
-      ? theme.palette.primary[100]
-      : theme.palette.primary[900],
-    border: `1px solid ${theme.palette.mode === 'dark' ? '#000000' : '#000000'}`,
+    backgroundColor:
+      theme.palette.mode === 'dark'
+        ? theme.palette.primary[800]
+        : '#fff', // PASTIKAN background putih biar tidak transparan
+    color:
+      theme.palette.mode === 'dark'
+        ? theme.palette.primary[100]
+        : theme.palette.primary[900],
+    border: `1px solid ${theme.palette.mode === 'dark' ? '#000' : '#ccc'}`, // border abu muda
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
     transition: 'all 0.2s ease-in-out',
     padding: '0 12px',
@@ -79,10 +82,10 @@ const StyledPagination = styled(Pagination)(({ theme }) => ({
   '& .MuiPaginationItem-previousNext': {
     minWidth: '36px',
     height: '36px',
-    backgroundColor: '#ffffff',  // DIUBAH: background putih tanpa abu-abu
+    backgroundColor: '#fff', // Pastikan tombol prev/next putih
     color: theme.palette.primary.main,
     border: `1px solid ${theme.palette.primary.main}`,
-    padding: '0',
+    padding: 0,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -127,15 +130,17 @@ const StyledPagination = styled(Pagination)(({ theme }) => ({
   },
 }));
 
-function PaginationComponent({
-  pageCount,
-  onPageChange,
-  forcePage,
-}) {
-  const [page, setPage] = useState(forcePage !== undefined && forcePage >= 0 ? forcePage + 1 : 1);
+function PaginationComponent({ pageCount, onPageChange, forcePage }) {
+  const [page, setPage] = useState(
+    forcePage !== undefined && forcePage >= 0 ? forcePage + 1 : 1
+  );
 
   useEffect(() => {
-    if (forcePage !== undefined && forcePage >= 0 && (forcePage + 1) !== page) {
+    if (
+      forcePage !== undefined &&
+      forcePage >= 0 &&
+      forcePage + 1 !== page
+    ) {
       setPage(forcePage + 1);
     }
   }, [forcePage, page]);
@@ -148,31 +153,45 @@ function PaginationComponent({
   };
 
   return (
-    <StyledPagination
-      count={pageCount}
-      page={page}
-      onChange={handleChange}
-      renderItem={(item) => (
-        <PaginationItem
-          {...item}
-          components={{
-            previous: ArrowBackIosNewRoundedIcon,
-            next: ArrowForwardIosRoundedIcon,
-          }}
-          aria-label={
-            item.type === 'previous' ? 'Previous page' :
-            item.type === 'next' ? 'Next page' :
-            item.type === 'page' ? `Page ${item.page}` :
-            item.type === 'start-ellipsis' || item.type === 'end-ellipsis' ? 'More pages' :
-            undefined
-          }
-        />
-      )}
-      siblingCount={1}
-      boundaryCount={1}
-      showFirstButton={false}
-      showLastButton={false}
-    />
+    <div
+      style={{
+        border: '1px solid #ddd',
+        backgroundColor: '#f9f9f9',
+        borderRadius: 4,
+        padding: 4,
+        display: 'inline-block',
+      }}
+    >
+      <StyledPagination
+        count={pageCount}
+        page={page}
+        onChange={handleChange}
+        renderItem={(item) => (
+          <PaginationItem
+            {...item}
+            components={{
+              previous: ArrowBackIosNewRoundedIcon,
+              next: ArrowForwardIosRoundedIcon,
+            }}
+            aria-label={
+              item.type === 'previous'
+                ? 'Previous page'
+                : item.type === 'next'
+                ? 'Next page'
+                : item.type === 'page'
+                ? `Page ${item.page}`
+                : item.type === 'start-ellipsis' || item.type === 'end-ellipsis'
+                ? 'More pages'
+                : undefined
+            }
+          />
+        )}
+        siblingCount={1}
+        boundaryCount={1}
+        showFirstButton={false}
+        showLastButton={false}
+      />
+    </div>
   );
 }
 
