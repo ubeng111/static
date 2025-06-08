@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import MainMenu from '../MainMenu';
-import CurrencyMenu from '../CurrencyMenu';
-import HeaderSearch from '../HeaderSearch';
+import MainMenu from '../MainMenu'; // Pastikan path ini benar
+import CurrencyMenu from '../CurrencyMenu'; // Pastikan path ini benar
+import HeaderSearch from '../HeaderSearch'; // Pastikan path ini benar
 import Head from 'next/head'; // Import Head for preloading fonts
 
 const Header1 = () => {
@@ -29,10 +29,18 @@ const Header1 = () => {
     <>
       <Head>
         {/* Preload Poppins font to prevent FOUT/FOIT and associated layout shifts */}
-        {/* Adjust the href if your font file path is different (e.g., /fonts/Poppins-Bold.woff2) */}
+        {/* Pastikan path font ini benar dan Anda memiliki file .woff2 */}
         <link rel="preload" href="/fonts/Poppins-Regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/Poppins-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        {/* Add more preloads if you use other weights/styles of Poppins */}
+        {/* Preload Icomoon font (ganti dengan path dan tipe font yang benar jika berbeda) */}
+        <link rel="preload" href="/media/icomoon.178677f7.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
+        {/* Preload Slick font (ganti dengan path dan tipe font yang benar jika berbeda) */}
+        <link rel="preload" href="/media/slick.653a4cbb.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+
+        {/* Preconnect to external image domain for LCP image */}
+        {/* Penting jika gambar LCP dari domain pihak ketiga (misalnya Agoda) */}
+        <link rel="preconnect" href="https://pix3.agoda.net" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://pix3.agoda.net" />
       </Head>
       <header
         className={`header bg-dark-3 ${navbar ? 'is-sticky' : ''}`}
@@ -89,6 +97,7 @@ const Header1 = () => {
             height: 60px; /* Fixed height for stability */
             padding: 0 40px;
             box-sizing: border-box;
+            transition: height 0.3s ease; /* Optional: smooth transition for height changes if any */
           }
 
           .main-header-row {
@@ -122,15 +131,15 @@ const Header1 = () => {
           .logo-text {
             font-family: 'Poppins', sans-serif;
             font-size: 26px;
-            font-weight: 700; /* Bold text */
+            font-weight: 700;
             color: #FFFFFF;
             text-decoration: none;
             transition: color 0.3s ease;
-            border: 2px solid #FFFFFF; /* White border around text */
-            border-radius: 4px; /* Slight rounding for aesthetics */
-            padding: 2px 6px; /* Padding to ensure text fits well within border */
-            /* Add font-display: swap to your global CSS or font import */
-            /* Example for global CSS: @font-face { font-family: 'Poppins'; font-display: swap; src: url(...); } */
+            border: 2px solid #FFFFFF;
+            border-radius: 4px;
+            padding: 2px 6px;
+            /* Pastikan font-display: swap ditambahkan di deklarasi @font-face global */
+            /* Ini penting untuk "Pastikan teks tetap terlihat selama pemuatan font web" */
           }
 
           .header-logo:hover .logo-icon,
@@ -168,8 +177,8 @@ const Header1 = () => {
             }
             .logo-text {
               font-size: 24px;
-              font-weight: 700; /* Maintain bold */
-              border: 2px solid #FFFFFF; /* Maintain white border */
+              font-weight: 700;
+              border: 2px solid #FFFFFF;
               border-radius: 4px;
               padding: 2px 5px;
             }
@@ -191,8 +200,8 @@ const Header1 = () => {
             }
             .logo-text {
               font-size: 22px;
-              font-weight: 700; /* Maintain bold */
-              border: 2px solid #FFFFFF; /* Maintain white border */
+              font-weight: 700;
+              border: 2px solid #FFFFFF;
               border-radius: 4px;
               padding: 2px 5px;
             }
@@ -212,8 +221,8 @@ const Header1 = () => {
             }
             .logo-text {
               font-size: 18px;
-              font-weight: 700; /* Maintain bold */
-              border: 2px solid #FFFFFF; /* Maintain white border */
+              font-weight: 700;
+              border: 2px solid #FFFFFF;
               border-radius: 4px;
               padding: 2px 4px;
             }

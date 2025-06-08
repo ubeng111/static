@@ -67,13 +67,16 @@ const HeaderSearch = () => {
   return (
     <div style={{
         position: 'relative',
-        flex: '1 1 auto', /* Allow it to grow and shrink */
-        minWidth: '70px',  /* Minimal width for search bar (e.g. for "Search...") */
-        maxWidth: '220px', /* Maximum width for search bar on larger screens */
+        flex: '1 1 auto',
+        minWidth: '70px',
+        maxWidth: '220px',
         boxSizing: 'border-box'
       }}>
       <form onSubmit={handleSearch}>
+        {/* Tambahkan label untuk aksesibilitas */}
+        <label htmlFor="hotel-search-input" className="sr-only">Search for hotels or destinations</label>
         <input
+          id="hotel-search-input" // Tambahkan ID yang unik
           type="text"
           placeholder="Search..."
           value={query}
@@ -81,7 +84,7 @@ const HeaderSearch = () => {
           onFocus={() => setIsFocused(true)}
           style={{
             width: '80%',
-            height: '32px', /* Consistent height */
+            height: '32px',
             fontSize: '13px',
             padding: '3px 6px',
             border: '1px solid #ccc',
@@ -131,10 +134,23 @@ const HeaderSearch = () => {
         </ul>
       )}
       <style jsx>{`
+        /* sr-only for visually hidden label */
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border-width: 0;
+        }
+
         /* Responsive styles for HeaderSearch input */
         @media (max-width: 479px) {
           input {
-            height: 32px !important; /* Make it smaller on very small screens */
+            height: 32px !important;
             font-size: 11px !important;
             padding: 2px 4px !important;
           }

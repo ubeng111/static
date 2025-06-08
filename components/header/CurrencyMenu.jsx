@@ -110,39 +110,35 @@ const CurrencyMenu = ({ textClass }) => {
       </select>
       <style jsx>{`
         .currency-menu-container {
-          /* Updated width to better accommodate abbreviations + padding */
           width: 80px; /* Adjust this value as needed based on testing */
-          overflow: hidden; /* Penting agar tidak ada konten yang melebihi batas */
-          min-width: 60px; /* Minimal width untuk mobile */
-          max-width: 80px; /* Maksimal width */
-          flex-shrink: 0; /* KRITIS: Jangan biarkan menyusut kecuali ruang sangat sempit */
-          flex-grow: 0; /* Tidak tumbuh */
+          overflow: hidden;
+          min-width: 60px;
+          max-width: 80px;
+          flex-shrink: 0;
+          flex-grow: 0;
           box-sizing: border-box;
         }
         select {
-          /* Pertahankan appearance: none jika Anda tidak ingin panah default browser */
           -webkit-appearance: none;
           -moz-appearance: none;
           appearance: none;
-          width: 100%; /* Agar mengisi lebar container */
+          width: 100%;
           height: 25px; /* Seragamkan tinggi */
           padding: 0 8px;
-          text-overflow: ellipsis; /* Memotong teks dengan elipsis jika terlalu panjang */
-          white-space: nowrap; /* Mencegah teks melompat ke baris baru */
-          overflow: hidden; /* Menyembunyikan bagian teks yang terpotong */
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
           font-size: 12px;
-          box-sizing: border-box; /* Pastikan padding dihitung dalam lebar total */
-          border: none; /* Hilangkan border jika container sudah ada border */
+          box-sizing: border-box;
+          border: none;
         }
         option {
-          /* These styles are often ignored by browsers for native select dropdowns */
-          /* but keep them for consistency and potential browser variations */
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
           font-size: 12px;
-          padding: 4px 8px; /* Padding konsisten untuk opsi */
-          max-width: 80px; /* Match container width, still might be ignored in dropdown */
+          padding: 4px 8px;
+          max-width: 80px;
           box-sizing: border-box;
         }
         /* Scrollbar styles (tetap sama) */

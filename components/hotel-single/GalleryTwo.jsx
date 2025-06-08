@@ -1,5 +1,8 @@
 'use client';
 
+import Image from 'next/image'; // Import next/image
+// import { useEffect } from 'react'; // Hanya jika ada useEffect yang relevan
+
 const GalleryTwo = ({ hotel }) => {
   const address = (() => {
     if (
@@ -17,9 +20,11 @@ const GalleryTwo = ({ hotel }) => {
       // Render skeleton/placeholder if overview is not available
       return (
         <div className="y-gap-10 sm:y-gap-20 animate-pulse">
-          <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
-          <div className="h-4 bg-gray-200 rounded w-5/6 mb-2"></div>
-          <div className="h-4 bg-gray-200 rounded w-full"></div>
+          {/* Placeholder untuk 3 paragraf, simulasikan tinggi rata-rata */}
+          <div className="h-4 bg-gray-200 rounded w-full mb-2" style={{height: '1em', lineHeight: '1em'}}></div>
+          <div className="h-4 bg-gray-200 rounded w-5/6 mb-2" style={{height: '1em', lineHeight: '1em'}}></div>
+          <div className="h-4 bg-gray-200 rounded w-full mb-2" style={{height: '1em', lineHeight: '1em'}}></div>
+          <div className="h-4 bg-gray-200 rounded w-3/4" style={{height: '1em', lineHeight: '1em'}}></div> {/* Mungkin baris keempat */}
         </div>
       );
     }
@@ -37,6 +42,9 @@ const GalleryTwo = ({ hotel }) => {
       </div>
     );
   };
+
+  const mainImageUrl = (hotel.img?.replace('http://', 'https://')) || '/images/placeholder.jpg';
+  const slideImages = hotel?.slideimg?.slice(0, 4).map(img => (img?.replace('http://', 'https://')) || '/images/placeholder.jpg') || [];
 
   return (
     <section className="pt-10 sm:pt-20 md:pt-40">
@@ -69,29 +77,36 @@ const GalleryTwo = ({ hotel }) => {
 
         {/* Gallery Grid */}
         <div className="galleryGrid -type-1 pt-20 sm:pt-30 px-0">
-          {hotel?.img && (
+          {mainImageUrl && (
             <div className="galleryGrid__item">
-              <img
-                width={600}
-                height={500}
-                src={(hotel.img?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
+              <Image
+                src={mainImageUrl}
                 alt={`Hotel Image ${hotel?.title || 'Unknown'}`}
+                width={600} // Width asli gambar
+                height={500} // Height asli gambar
                 className="rounded-4"
-                loading="lazy"
+                priority // Tandai sebagai gambar LCP
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Sesuaikan ukuran responsif
               />
             </div>
           )}
 
-          {hotel?.slideimg?.slice(0, 4).map((image, index) => (
+          {slideImages.map((imageSrc, index) => (
             <div className="galleryGrid__item" key={index}>
-              <img
-                width={450}
-                height={375}
-                src={(image?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
+              {/* Ini contoh penyederhanaan nesting:
+                  Jika `galleryGrid__item` hanya sebagai pembungkus untuk `img`,
+                  maka struktur DOMnya sudah cukup datar.
+                  Jika ada `div` lain di dalamnya yang tidak perlu, hapus.
+              */}
+              <Image
+                src={imageSrc}
                 alt={`${hotel?.title || 'Hotel'} - Gallery image ${index + 1}`}
                 title={`${hotel?.title || 'Hotel'} - View ${index + 1}`}
+                width={450} // Width asli gambar
+                height={375} // Height asli gambar
                 className="rounded-4"
-                loading="lazy"
+                loading="lazy" // Default lazy loading untuk gambar non-LCP
+                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw" // Sesuaikan ukuran responsif
               />
             </div>
           ))}
