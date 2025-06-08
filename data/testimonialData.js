@@ -10,7 +10,7 @@ export const testimonial1 = [
   },
   {
     id: 2,
-    avatar: "/img/avatars/testimonials/2.png",
+    avatar: "/img/avatars/testimonials/1.jpg",
     name: "David L.",
     designation: "Frequent Traveler",
     text: `No more endless searching! Hoteloza aggregates the best options
@@ -19,7 +19,7 @@ export const testimonial1 = [
   },
   {
     id: 3,
-    avatar: "/img/avatars/testimonials/3.png",
+    avatar: "/img/avatars/testimonials/1.jpg",
     name: "Emily R.",
     designation: "Budget Traveler",
     text: `Thanks to Hoteloza, I've saved so much on accommodations.
@@ -28,7 +28,7 @@ export const testimonial1 = [
   },
   {
     id: 4,
-    avatar: "/img/avatars/testimonials/1.png",
+    avatar: "/img/avatars/testimonials/1.jpg",
     name: "Michael B.",
     designation: "Business Traveler",
     text: `Hoteloza simplifies my business trips. I quickly find the best hotels
@@ -41,7 +41,7 @@ export const testimonial2 = [
   {
     id: 1,
     meta: "Luxury Resort Bali",
-    avatar: "/img/avatars/testimonials/1.png",
+    avatar: "/img/avatars/testimonials/1.jpg",
     name: "Jessica P.",
     designation: "Adventure Seeker",
     text: `"Finding amazing deals on Hoteloza for my Bali trip was a breeze.
@@ -51,7 +51,7 @@ export const testimonial2 = [
   {
     id: 2,
     meta: "City Hotel London",
-    avatar: "/img/avatars/testimonials/2.png",
+    avatar: "/img/avatars/testimonials/1.jpg",
     name: "Tom W.",
     designation: "Urban Explorer",
     text: `"Hoteloza made booking my London hotel so simple and affordable.
@@ -61,7 +61,7 @@ export const testimonial2 = [
   {
     id: 3,
     meta: "Mountain Retreat Alps",
-    avatar: "/img/avatars/testimonials/3.png",
+    avatar: "/img/avatars/testimonials/1.jpg",
     name: "Olivia K.",
     designation: "Nature Lover",
     text: `"The perfect mountain retreat was just a few clicks away on Hoteloza.
@@ -71,7 +71,7 @@ export const testimonial2 = [
   {
     id: 4,
     meta: "Beachfront Villa Maldives",
-    avatar: "/img/avatars/testimonials/4.png",
+    avatar: "/img/avatars/testimonials/1.jpg",
     name: "Daniel H.",
     designation: "Honeymooner",
     text: `"Our dream honeymoon villa in the Maldives was found through Hoteloza.
