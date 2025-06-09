@@ -1,12 +1,11 @@
 import { Pool } from 'pg';
 import fs from 'fs';
 import path from 'path';
+import 'dotenv/config'; // Impor dotenv untuk memuat .env
 
 const pool = new Pool({
-  connectionString: 'postgresql://iwan:4Pqahaa5tZKsYgUeYO7Raw@subtle-cuscus-11598.j77.aws-ap-southeast-1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full',
-  ssl: {
-    ca: fs.readFileSync(path.resolve('certs', 'root.crt')),
-  },
+  connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
+  ssl: { ca: fs.readFileSync(path.resolve('certs', 'root.crt')) },
 });
 
 const cache = {};
@@ -27,7 +26,7 @@ function setCache(key, data) {
 const LIMIT = 13;
 
 export async function GET(req, { params }) {
-  const { categoryslug } = params;
+  const { categoryslug } = await params;
   if (!categoryslug) {
     return new Response(JSON.stringify({ message: 'Category slug is required' }), { status: 400 });
   }
@@ -75,7 +74,7 @@ export async function GET(req, { params }) {
       SELECT DISTINCT country, countryslug
       FROM public.hotels
       WHERE categoryslug = $1 AND country != ''
-      LIMIT 40
+      LIMIT 120
     `;
     const relatedCountryResult = await client.query(relatedCountryQuery, [categoryslug]);
 

@@ -85,7 +85,7 @@ const GalleryTwo = ({ hotel }) => {
                 height={500} // Tetapkan height
                 className="rounded-4"
                 loading="eager" // Gunakan eager loading untuk gambar LCP
-                fetchpriority="high" // Memberi tahu browser untuk memprioritaskan pengambilan
+                fetchPriority="high" // Memberi tahu browser untuk memprioritaskan pengambilan
               />
             </div>
           )}
