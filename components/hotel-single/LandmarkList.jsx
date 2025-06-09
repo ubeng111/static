@@ -1,4 +1,7 @@
+// components/hotel-single/LandmarkList.jsx
 import React, { memo, useEffect, useState } from "react";
+import Link from "next/link";
+// Hapus import pg, fs, path, dotenv karena tidak diperlukan di sisi client
 
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6371; // Radius of Earth in kilometers
@@ -16,8 +19,8 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 
 const LandmarkList = ({ latitude, longitude }) => {
   const [landmarks, setLandmarks] = useState([]);
-  const OVERPASS_RADIUS_KM = 50; // Radius tetap 50 km untuk pencarian
-  const RESULTS_LIMIT = 15; // Batasan jumlah hasil yang ditampilkan
+  const OVERPASS_RADIUS_KM = 10;
+  const RESULTS_LIMIT = 15;
 
   useEffect(() => {
     if (!latitude || !longitude) {
@@ -28,41 +31,26 @@ const LandmarkList = ({ latitude, longitude }) => {
     const fetchLandmarks = async () => {
       try {
         const overpassUrl = "https://overpass-api.de/api/interpreter";
-        const radiusInMeters = OVERPASS_RADIUS_KM * 1000; // Konversi ke meter
+        const radiusInMeters = OVERPASS_RADIUS_KM * 1000;
 
-        // Overpass Query tetap sama, fokus pada kategori yang diminta dan mengecualikan 'place'
         const overpassQuery = `
           [out:json];
           (
-            // Rumah Sakit (kita akan filter lebih lanjut di klien)
             node(around:${radiusInMeters},${latitude},${longitude})[amenity=hospital][!"place"];
             way(around:${radiusInMeters},${latitude},${longitude})[amenity=hospital][!"place"];
-
-            // Bandara
             node(around:${radiusInMeters},${latitude},${longitude})[aeroway=aerodrome][!"place"];
             way(around:${radiusInMeters},${latitude},${longitude})[aeroway=aerodrome][!"place"];
-
-            // Stasiun Kereta Api
             node(around:${radiusInMeters},${latitude},${longitude})[railway=station][!"place"];
             way(around:${radiusInMeters},${latitude},${longitude})[railway=station][!"place"];
-
-            // Tempat Wisata Umum
             node(around:${radiusInMeters},${latitude},${longitude})[tourism~"^(attraction|museum|theme_park|zoo|monument|artwork|memorial|viewpoint|castle|ruins)$"][!"place"];
             way(around:${radiusInMeters},${latitude},${longitude})[tourism~"^(attraction|museum|theme_park|zoo|monument|artwork|memorial|viewpoint|castle|ruins)$"][!"place"];
             rel(around:${radiusInMeters},${latitude},${longitude})[tourism~"^(attraction|museum|theme_park|zoo|monument|artwork|memorial|viewpoint|castle|ruins)$"][!"place"];
-
-            // Universitas
             node(around:${radiusInMeters},${latitude},${longitude})[amenity=university][!"place"];
             way(around:${radiusInMeters},${latitude},${longitude})[amenity=university][!"place"];
-
-            // Terminal Bus
             node(around:${radiusInMeters},${latitude},${longitude})[amenity=bus_station][!"place"];
             way(around:${radiusInMeters},${latitude},${longitude})[amenity=bus_station][!"place"];
-
-            // Mall / Pusat Perbelanjaan
             node(around:${radiusInMeters},${latitude},${longitude})[shop=mall][!"place"];
             way(around:${radiusInMeters},${latitude},${longitude})[shop=mall][!"place"];
-
           );
           out center;
         `;
@@ -81,62 +69,94 @@ const LandmarkList = ({ latitude, longitude }) => {
         const data = await response.json();
 
         if (data.elements) {
-          const fetchedList = data.elements
-            .filter(el => el.tags && el.tags.name) // Pastikan ada nama
-            .filter(el => !el.tags.place) // Memastikan bukan nama tempat administratif
+          // Filter elemen yang valid dari Overpass API dan kumpulkan namanya
+          const relevantLandmarks = data.elements
+            .filter(el => el.tags && el.tags.name)
+            .filter(el => !el.tags.place)
             .filter(el => {
               const name = el.tags.name.trim();
-              return name.includes(' ') && name.split(' ').length > 1; // Pastikan nama lebih dari satu kata
+              return name.includes(' ') && name.split(' ').length > 1;
             })
-            // --- FILTER BARU UNTUK RUMAH SAKIT: Hindari puskesmas/klinik kecil ---
             .filter(el => {
-                // Jika amenity adalah hospital, cek tag healthcare
-                if (el.tags.amenity === 'hospital') {
-                    // Kecualikan jika secara eksplisit ditandai sebagai clinic atau community_healthcare
-                    if (el.tags.healthcare === 'clinic' || el.tags.healthcare === 'community_healthcare') {
-                        return false; // Ini adalah puskesmas/klinik, buang
-                    }
-                    // Jika tidak ada tag healthcare atau tagnya adalah hospital, anggap ini rumah sakit besar
-                    // atau tidak ada informasi yang cukup untuk menolaknya sebagai RS besar
-                    return true; 
+              if (el.tags.amenity === 'hospital') {
+                if (el.tags.healthcare === 'clinic' || el.tags.healthcare === 'community_healthcare') {
+                  return false;
                 }
-                // Untuk semua kategori lain, tidak ada perubahan filter
                 return true;
-            })
-            .map((el) => {
-              const lat = el.lat || (el.center ? el.center.lat : null);
-              const lon = el.lon || (el.center ? el.center.lon : null);
-
-              if (lat === null || lon === null) {
-                console.warn("Element has no valid coordinates or center:", el);
-                return null;
               }
+              return true;
+            });
 
-              return {
-                name: el.tags.name,
-                distance: calculateDistance(
-                  latitude,
-                  longitude,
-                  parseFloat(lat),
-                  parseFloat(lon)
-                ),
-                type: el.type,
-                // Untuk debugging, bisa lihat tag lengkapnya
-                // tags: el.tags,
-              };
-            })
+          const landmarkNames = relevantLandmarks.map(el => el.tags.name);
+
+          let slugMap = new Map();
+          if (landmarkNames.length > 0) { // Hanya panggil API jika ada nama landmark
+            // Lakukan SATU panggilan API untuk mendapatkan semua slug yang relevan
+            const slugResponse = await fetch('/api/resolve-landmark-slug', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ names: landmarkNames }), // Kirim array nama
+            });
+
+            if (slugResponse.ok) {
+              const slugData = await slugResponse.json();
+              if (slugData.slugs) {
+                slugData.slugs.forEach(item => {
+                  if (item.slug) {
+                    slugMap.set(item.name, item.slug);
+                  }
+                });
+              }
+            } else {
+              console.warn(`Could not fetch slugs from API, status: ${slugResponse.status}`);
+            }
+          }
+
+
+          const processedLandmarks = relevantLandmarks.map(el => {
+            const lat = el.lat || (el.center ? el.center.lat : null);
+            const lon = el.lon || (el.center ? el.center.lon : null);
+
+            if (lat === null || lon === null) {
+              console.warn("Element has no valid coordinates or center:", el);
+              return null;
+            }
+
+            const slug = slugMap.get(el.tags.name); // Ambil slug dari map
+
+            // Jika tidak ada slug, skip landmark ini
+            if (!slug) {
+              return null;
+            }
+
+            return {
+              name: el.tags.name,
+              distance: calculateDistance(
+                latitude,
+                longitude,
+                parseFloat(lat),
+                parseFloat(lon)
+              ),
+              type: el.type,
+              slug: slug,
+            };
+          });
+
+          const filteredList = processedLandmarks
             .filter(landmark => landmark !== null)
             .filter(landmark => landmark.distance <= OVERPASS_RADIUS_KM)
             .sort((a, b) => a.distance - b.distance)
             .slice(0, RESULTS_LIMIT);
 
-          setLandmarks(fetchedList);
+          setLandmarks(filteredList);
         } else {
           setLandmarks([]);
           console.warn("No 'elements' array found in the Overpass response or data is empty:", data);
         }
       } catch (error) {
-        console.error("Error fetching landmarks from Overpass API:", error);
+        console.error("Error fetching landmarks:", error);
       }
     };
 
@@ -160,7 +180,7 @@ const LandmarkList = ({ latitude, longitude }) => {
         {landmarks.length === 0 ? (
           <div className="col-12 text-center">
             <div className="text-14 fw-500">
-              Tidak ada tempat penting terdekat yang ditemukan dalam radius {OVERPASS_RADIUS_KM} km.
+              No nearby places of interest were found within radius {OVERPASS_RADIUS_KM} km.
             </div>
           </div>
         ) : (
@@ -177,9 +197,13 @@ const LandmarkList = ({ latitude, longitude }) => {
               >
                 <div className="d-flex align-items-center text-14 fw-500 text-dark flex-grow-1">
                   <i className="icon-landmark text-20 me-2" />
-                  <span style={{ maxWidth: "200px" }} className="text-truncate">
+                  <Link
+                    href={`/landmark/${landmark.slug}`}
+                    style={{ maxWidth: "200px" }}
+                    className="text-truncate text-dark"
+                  >
                     {landmark.name}
-                  </span>
+                  </Link>
                 </div>
                 <span
                   className="badge bg-primary rounded-pill ms-1"
