@@ -73,7 +73,7 @@ export async function generateMetadata({ params }) {
   const landmarkData = await fetchLandmarkData(slug);
   if (landmarkData) {
     const { landmarkName, cityName, category } = landmarkData;
-    title = `${category} near ${landmarkName}, ${cityName}`;
+    title = `${category} Near ${landmarkName}, ${cityName}`;
     description = `Find the best ${category.toLowerCase()} near ${landmarkName}, ${cityName}. Explore great deals on top accommodations with free WiFi and excellent amenities.`;
   } else {
     // Fallback description
