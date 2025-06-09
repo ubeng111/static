@@ -19,7 +19,8 @@ const pool = new Pool({
 export async function generateMetadata({ params }) {
   const { slug } = params;
   let title = 'Hotels near Landmark';
-  let description = 'Find top hotels near landmarks with great deals and reviews.';
+  // Deskripsi default yang lebih umum
+  let description = 'Find top hotels near popular landmarks with great deals and reviews.';
   let landmarkName = '';
   let cityName = '';
   let category = '';
@@ -43,7 +44,8 @@ export async function generateMetadata({ params }) {
         category = data.category;
 
         title = `${category} near ${landmarkName}, ${cityName}`;
-        description = `Book top ${category.toLowerCase()}s like Corner Stone House - Apartment 2 near ${landmarkName}, ${cityName}. Rated 8.6/10 from 56 reviews. Free WiFi!`;
+        // Deskripsi yang diperbarui dengan {category} dinamis
+        description = `Find the best ${category} near ${landmarkName}, ${cityName}. Explore great deals on top accommodations with free WiFi and excellent amenities.`;
       }
     } finally {
       client.release();
@@ -56,7 +58,7 @@ export async function generateMetadata({ params }) {
   const schema = [
     {
       "@context": "https://schema.org",
-      "@type": "CollectionPage", // Lebih spesifik untuk halaman yang mengumpulkan daftar
+      "@type": "CollectionPage",
       "name": title,
       "description": description,
       "url": `https://hoteloza.com/landmark/${slug}`, // Ganti dengan domain Anda
@@ -64,7 +66,7 @@ export async function generateMetadata({ params }) {
         "@context": "https://schema.org",
         "@type": "Place",
         "name": landmarkName,
-        "description": `A significant ${category.toLowerCase()} located in ${cityName}.`,
+        "description": description, // Menggunakan deskripsi yang sama untuk skema Place
         "address": {
           "@type": "PostalAddress",
           "addressLocality": cityName,
