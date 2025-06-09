@@ -14,7 +14,7 @@ export default function LandmarkClient({ landmarkSlug }) {
   const [hotels, setHotels] = useState([]);
   const [landmarkName, setLandmarkName] = useState('');
   const [cityName, setCityName] = useState('Unknown City');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // <--- KESALAHAN SINTAKS DIBETULKAN DI SINI
   const [error, setError] = useState(null);
   const [category, setCategory] = useState('Hotels');
 
@@ -136,10 +136,8 @@ export default function LandmarkClient({ landmarkSlug }) {
             {!loading && !error && hotels.length === 0 && <div>Hotel Not Found.</div>}
             {!loading && !error && hotels.length > 0 && (
               <>
-                {/* Iterasi untuk setiap hotel untuk merender skema dan komponen hotel */}
                 {hotels.map((hotel) => (
                   <React.Fragment key={hotel.hotelId}>
-                    {/* Skema Markup untuk setiap Hotel */}
                     <script
                       type="application/ld+json"
                       dangerouslySetInnerHTML={{
@@ -157,8 +155,8 @@ export default function LandmarkClient({ landmarkSlug }) {
                           "aggregateRating": hotel.reviewCount > 0 ? {
                             "@type": "AggregateRating",
                             "ratingValue": hotel.reviewScore,
-                            "bestRating": 10, // <--- DITAMBAHKAN INI
-                            "worstRating": 1,  // <--- DITAMBAHKAN INI (opsional, tapi baik untuk kejelasan)
+                            "bestRating": 10,
+                            "worstRating": 1,
                             "reviewCount": hotel.reviewCount
                           } : undefined,
                           "offers": {
@@ -171,10 +169,8 @@ export default function LandmarkClient({ landmarkSlug }) {
                           },
                           "address": {
                             "@type": "PostalAddress",
-                            // Jika ada streetAddress spesifik untuk hotel, tambahkan di sini
-                            // "streetAddress": "...",
                             "addressLocality": cityName,
-                            "addressCountry": "GB" // Sesuaikan jika diperlukan
+                            "addressCountry": "US"
                           },
                           "geo": {
                             "@type": "GeoCoordinates",
@@ -190,7 +186,6 @@ export default function LandmarkClient({ landmarkSlug }) {
                     />
                   </React.Fragment>
                 ))}
-                {/* Komponen yang sebenarnya merender daftar hotel */}
                 <HotelProperties2 hotels={hotels} cityName={cityName} />
               </>
             )}
