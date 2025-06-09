@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { useCurrency } from '@/components/CurrencyContext';
 import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox";
 import HotelProperties2 from "@/components/hotel-list/hotel-list-v5/HotelProperties2";
-import React from 'react'; // <--- ADD THIS LINE
+import React from 'react';
 
 export default function LandmarkClient({ landmarkSlug }) {
   const searchParams = useSearchParams();
@@ -154,16 +154,11 @@ export default function LandmarkClient({ landmarkSlug }) {
                             "ratingValue": hotel.starRating,
                             "bestRating": 5
                           },
-                          "address": {
-                            "@type": "PostalAddress",
-                            // Jika ada streetAddress spesifik untuk hotel, tambahkan di sini
-                            // "streetAddress": "...",
-                            "addressLocality": cityName, // Menggunakan cityName yang diambil dari API
-                            "addressCountry": "GB" // Berdasarkan mata uang (GBP), sesuaikan jika diperlukan
-                          },
                           "aggregateRating": hotel.reviewCount > 0 ? {
                             "@type": "AggregateRating",
                             "ratingValue": hotel.reviewScore,
+                            "bestRating": 10, // <--- DITAMBAHKAN INI
+                            "worstRating": 1,  // <--- DITAMBAHKAN INI (opsional, tapi baik untuk kejelasan)
                             "reviewCount": hotel.reviewCount
                           } : undefined,
                           "offers": {
@@ -172,7 +167,14 @@ export default function LandmarkClient({ landmarkSlug }) {
                             "price": hotel.dailyRate,
                             "url": hotel.landingURL,
                             "availability": "https://schema.org/InStock",
-                            "validFrom": new Date().toISOString().split('T')[0] // Tanggal saat ini sebagai validFrom
+                            "validFrom": new Date().toISOString().split('T')[0]
+                          },
+                          "address": {
+                            "@type": "PostalAddress",
+                            // Jika ada streetAddress spesifik untuk hotel, tambahkan di sini
+                            // "streetAddress": "...",
+                            "addressLocality": cityName,
+                            "addressCountry": "GB" // Sesuaikan jika diperlukan
                           },
                           "geo": {
                             "@type": "GeoCoordinates",
