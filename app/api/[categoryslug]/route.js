@@ -23,7 +23,7 @@ function setCache(key, data) {
   cache[key] = { data, timestamp: Date.now() };
 }
 
-const LIMIT = 13;
+const LIMIT = 12;
 
 export async function GET(req, { params }) {
   const { categoryslug } = await params;
