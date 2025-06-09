@@ -19,7 +19,6 @@ const pool = new Pool({
 export async function generateMetadata({ params }) {
   const { slug } = params;
   let title = 'Hotels near Landmark';
-  // Deskripsi default yang lebih umum
   let description = 'Find top hotels near popular landmarks with great deals and reviews.';
   let landmarkName = '';
   let cityName = '';
@@ -44,7 +43,6 @@ export async function generateMetadata({ params }) {
         category = data.category;
 
         title = `${category} near ${landmarkName}, ${cityName}`;
-        // Deskripsi yang diperbarui dengan {category} dinamis
         description = `Find the best ${category} near ${landmarkName}, ${cityName}. Explore great deals on top accommodations with free WiFi and excellent amenities.`;
       }
     } finally {
@@ -54,26 +52,23 @@ export async function generateMetadata({ params }) {
     console.error('SERVER ERROR [page.jsx]: Failed to fetch landmark for metadata:', error);
   }
 
-  // Schema Markup untuk halaman keseluruhan (WebPage/CollectionPage) dan Landmark (Place)
   const schema = [
     {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       "name": title,
       "description": description,
-      "url": `https://hoteloza.com/landmark/${slug}`, // Ganti dengan domain Anda
+      "url": `https://hoteloza.com/landmark/${slug}`,
       "mainEntity": landmarkName ? {
         "@context": "https://schema.org",
         "@type": "Place",
         "name": landmarkName,
-        "description": description, // Menggunakan deskripsi yang sama untuk skema Place
+        "description": description,
         "address": {
           "@type": "PostalAddress",
           "addressLocality": cityName,
-          "addressCountry": "GB" // Sesuaikan dengan negara yang relevan
+          "addressCountry": "US" // <--- Diubah dari "GB" ke "US"
         },
-        // Jika Anda memiliki URL resmi atau Wikipedia untuk landmark, tambahkan:
-        // "sameAs": "URL_WIKIPEDIA_ATAU_SITUS_RESMI_LANDMARK"
       } : undefined
     }
   ];
