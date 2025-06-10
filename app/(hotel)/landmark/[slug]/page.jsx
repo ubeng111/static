@@ -67,6 +67,10 @@ export async function generateMetadata({ params }) {
         type: 'website',
         url: landmarkUrl,
       },
+      // Add canonical for invalid slug as well
+      alternates: {
+        canonical: `https://hoteloza.com/`, // Or a generic error page if one exists
+      },
     };
   }
 
@@ -89,6 +93,9 @@ export async function generateMetadata({ params }) {
       type: 'website',
       url: landmarkUrl,
     },
+    alternates: {
+      canonical: landmarkUrl,
+    },
   };
 }
 
@@ -102,7 +109,7 @@ export default async function LandmarkSlugPage({ params }) {
   const cityName = landmarkData?.cityName || 'Unknown City';
   const category = landmarkData?.category || 'Hotels';
 
-  // Define schema
+  // Define schema (without breadcrumb)
   const schema = [
     {
       "@context": "https://schema.org",
@@ -133,7 +140,7 @@ export default async function LandmarkSlugPage({ params }) {
       />
       <div className="header-margin"></div>
       <Header11 />
-      <Suspense fallback={<div>Memuat hasil pencarian landmark...</div>}>
+<Suspense fallback={<div>Loading {landmarkName} search results...</div>}>
         <LandmarkClient landmarkSlug={slug} />
       </Suspense>
       <CallToActions />
