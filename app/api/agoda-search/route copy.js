@@ -1,15 +1,16 @@
 import { Pool } from 'pg';
 import fs from 'fs';
 import path from 'path';
+import 'dotenv/config'; // Impor dotenv untuk memuat .env
 
 const pool = new Pool({
-  connectionString: 'postgresql://iwan:bUq8DFcXvg1yRFU9iLGhww@messy-coyote-10965.j77.aws-ap-southeast-1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full',
+  connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
   ssl: { ca: fs.readFileSync(path.resolve('certs', 'root.crt')) },
 });
 
-const AGODA_API_URL = 'http://affiliateapi7643.agoda.com/affiliateservice/lt_v1';
-const SITE_ID = '1935361';  // Ganti dengan Site ID Agoda Anda
-const API_KEY = 'e0cde9f0-8ac7-4881-89a0-f7e6431fb47f';  // Ganti dengan API Key Agoda Anda
+const AGODA_API_URL = process.env.AGODA_API_URL 
+const SITE_ID = process.env.AGODA_SITE_ID 
+const API_KEY = process.env.AGODA_API_KEY 
 
 export async function POST(req) {
   try {
@@ -25,7 +26,6 @@ export async function POST(req) {
       language = 'en-us',
     } = body;
 
-    // Validasi parameter yang diterima
     if (!city_id || !checkInDate || !checkOutDate) {
       return new Response(
         JSON.stringify({ message: 'City ID, tanggal check-in, dan check-out diperlukan' }),
@@ -33,34 +33,31 @@ export async function POST(req) {
       );
     }
 
-    // Mendapatkan nama kota berdasarkan city_id
     const client = await pool.connect();
-    let cityName = 'Lokasi Tidak Diketahui';
+    let cityName = 'Not found';
     try {
       const cityQuery = 'SELECT city FROM public.hotels WHERE city_id = $1 LIMIT 1';
       const cityResult = await client.query(cityQuery, [city_id]);
-      cityName = cityResult.rows[0]?.city || cityName;  // Jika tidak ditemukan, gunakan 'Lokasi Tidak Diketahui'
+      cityName = cityResult.rows[0]?.city || cityName;
     } finally {
       client.release();
     }
 
-    // Mempersiapkan payload untuk API Agoda
     const payload = {
       criteria: {
         additional: {
           currency,
           language,
-          maxResult: 100,  // Menetapkan jumlah hasil maksimal (dapat disesuaikan)
+          maxResult: 100,
           occupancy: { numberOfAdult: numberOfAdults, numberOfChildren: numberOfChildren },
-          sortBy: 'Recommended',  // Mengurutkan berdasarkan harga
+          sortBy: 'Recommended',
         },
         checkInDate,
         checkOutDate,
-        cityId: parseInt(city_id, 10),  // Menggunakan cityId untuk API Agoda
+        cityId: parseInt(city_id, 10),
       },
     };
 
-    // Mengirim permintaan ke API Agoda
     const response = await fetch(AGODA_API_URL, {
       method: 'POST',
       headers: {
@@ -71,7 +68,6 @@ export async function POST(req) {
       body: JSON.stringify(payload),
     });
 
-    // Mengambil respons dari API Agoda dan memeriksa adanya error
     const data = await response.json();
     if (!response.ok || data.error) {
       return new Response(
@@ -80,7 +76,6 @@ export async function POST(req) {
       );
     }
 
-    // Mengolah hasil pencarian hotel dari API Agoda
     const hotels = (data.results || []).map((hotel) => ({
       hotelId: hotel.hotelId,
       hotelName: hotel.hotelName,
@@ -90,10 +85,11 @@ export async function POST(req) {
       starRating: hotel.starRating,
       landingURL: hotel.landingURL,
       dailyRate: hotel.dailyRate,
-      cityName,  // Menambahkan nama kota pada hasil pencarian
+      discountPercentage: hotel.discountPercentage,
+      freeWifi: hotel.freeWifi,
+      cityName,
     }));
 
-    // Mengembalikan hasil pencarian hotel beserta nama kota
     return new Response(JSON.stringify({ hotels, cityName }), { status: 200 });
   } catch (error) {
     console.error('Error:', error);

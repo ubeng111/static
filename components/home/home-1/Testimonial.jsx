@@ -2,10 +2,10 @@
 
 // import Image from "next/image"; // REMOVED: No longer needed
 
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Scrollbar } from "swiper";
 import { testimonial1 } from "../../../data/testimonialData";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Scrollbar } from "swiper/modules"; // This is the most common fix for Swiper v8+import { testimonial1 } from "../../../data/testimonialData";
 
 const Testimonial = () => {
   return (

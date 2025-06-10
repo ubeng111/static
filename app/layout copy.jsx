@@ -1,4 +1,3 @@
-// app/layout.jsx
 "use client";
 
 import Aos from "aos";
@@ -32,6 +31,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        {/* Menambahkan favicon */}
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         {/* Google Site Verification Meta Tag */}
         <meta
           name="google-site-verification"

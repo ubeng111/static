@@ -1,16 +1,16 @@
 // CurrencyMenu.jsx
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation'; // Masih perlu ini untuk route.replace
 import { useCurrency } from '../CurrencyContext';
 
 const CurrencyMenu = ({ textClass }) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { currency, setCurrency } = useCurrency();
+  const searchParams = useSearchParams(); // Mungkin masih berguna untuk membaca param lain
+  const pathname = usePathname(); // Untuk mendapatkan path saat ini
+  const { currency, setCurrency } = useCurrency(); // Gunakan mata uang dari context
 
+  // Data mata uang dan bahasa Agoda yang didukung
   const currencyContent = [
     { id: 1, currency: 'USD', language: 'en-us', symbol: '$', name: 'US Dollar' },
     { id: 2, currency: 'EUR', language: 'de-de', symbol: '€', name: 'Euro' },
@@ -43,66 +43,34 @@ const CurrencyMenu = ({ textClass }) => {
     { id: 29, currency: 'CNY', language: 'zh-cn', symbol: '¥', name: 'Chinese Yuan' },
   ];
 
-  useEffect(() => {
-    if (!searchParams) return;
-    const urlCurrency = searchParams.get('currency');
-    if (urlCurrency && !currency.currency) {
-      const selectedCurrency = currencyContent.find((item) => item.currency === urlCurrency);
-      if (selectedCurrency) {
-        setCurrency(selectedCurrency);
-      }
-    }
-  }, [searchParams, setCurrency, currency.currency]);
-
   const handleItemClick = (item) => {
-    setCurrency(item); // Update the currency context
+    setCurrency(item); // Perbarui context currency
 
-    const currentParams = new URLSearchParams(searchParams.toString());
-    currentParams.set('currency', item.currency);
-    currentParams.set('language', item.language);
-
-    // If on homepage, only update currency and language in the URL
-    if (pathname === '/') {
-      const newHomeParams = new URLSearchParams();
-      newHomeParams.set('currency', item.currency);
-      newHomeParams.set('language', item.language);
-      router.replace(`/?${newHomeParams.toString()}`, { scroll: false });
-    } else {
-      // If not on homepage, preserve existing parameters and add defaults if missing
-      if (!currentParams.get('city')) currentParams.set('city', '');
-      if (!currentParams.get('city_id')) currentParams.set('city_id', '');
-      if (!currentParams.get('adults')) currentParams.set('adults', '2');
-      if (!currentParams.get('children')) currentParams.set('children', '0');
-      if (!currentParams.get('rooms')) currentParams.set('rooms', '1');
-      if (!currentParams.get('checkIn')) {
-        const today = new Date();
-        currentParams.set('checkIn', today.toISOString().split('T')[0]);
-      }
-      if (!currentParams.get('checkOut')) {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        currentParams.set('checkOut', tomorrow.toISOString().split('T')[0]);
-      }
-      // Replace the URL for the current path with updated parameters
-      router.replace(`${pathname}?${currentParams.toString()}`, { scroll: false });
-    }
+    // Sekarang, kita tidak perlu lagi mengubah URL parameter currency/language
+    // Kita hanya ingin memastikan URL tidak berubah (misalnya, jika ada parameter pencarian lain)
+    // Jika Anda ingin membersihkan parameter currency/language yang mungkin ada dari kunjungan sebelumnya (walaupun tidak direkomendasikan jika tidak ada di context):
+    // const currentParams = new URLSearchParams(searchParams.toString());
+    // currentParams.delete('currency');
+    // currentParams.delete('language');
+    // router.replace(`${pathname}?${currentParams.toString()}`, { scroll: false });
+    // Namun, jika Anda memang tidak menggunakan parameter ini, tidak perlu melakukan apa-apa di sini
+    // selain mengupdate context. Router.replace hanya jika ada param lain yang perlu dipertahankan.
+    // Jika tidak ada param lain, update context saja sudah cukup.
+    // Untuk kesederhanaan, kita bisa biarkan saja atau menghapus bagian router.replace
   };
 
   return (
     <div className="currency-menu-container relative flex-shrink-0 bg-white rounded-xl border border-gray-200 shadow-sm">
       <select
-        value={currency?.currency || 'USD'}
+        value={currency?.currency || 'USD'} // Gunakan currency dari context
         onChange={(e) => {
           const selectedItem = currencyContent.find((item) => item.currency === e.target.value);
           if (selectedItem) handleItemClick(selectedItem);
         }}
-        // Hapus `appearance-none` jika Anda ingin panah default browser
-        // Tambahkan lagi `appearance-none` jika Anda ingin tidak ada panah sama sekali
         className={`w-full h-8 px-2 py-0 text-12 xs:text-12 text-dark-1 bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-dark-3 cursor-pointer ${textClass}`}
         aria-label="Pilih mata uang"
       >
         {currencyContent.map((item) => (
-          // HANYA menampilkan singkatan mata uang di sini
           <option key={item.id} value={item.currency} className="text-dark-1 text-12">
             {item.currency}
           </option>
@@ -110,7 +78,7 @@ const CurrencyMenu = ({ textClass }) => {
       </select>
       <style jsx>{`
         .currency-menu-container {
-          width: 80px; /* Adjust this value as needed based on testing */
+          width: 80px;
           overflow: hidden;
           min-width: 60px;
           max-width: 80px;
@@ -123,7 +91,7 @@ const CurrencyMenu = ({ textClass }) => {
           -moz-appearance: none;
           appearance: none;
           width: 100%;
-          height: 25px; /* Seragamkan tinggi */
+          height: 25px;
           padding: 0 8px;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -154,7 +122,7 @@ const CurrencyMenu = ({ textClass }) => {
         }
 
         /* Responsive styles for CurrencyMenu */
-        @media (max-width: 767px) { /* Tablet Kecil & Mobile */
+        @media (max-width: 767px) {
           .currency-menu-container {
             width: 50px;
             min-width: 60px;
@@ -170,9 +138,9 @@ const CurrencyMenu = ({ textClass }) => {
           }
         }
 
-        @media (max-width: 479px) { /* Mobile Sangat Kecil */
+        @media (max-width: 479px) {
           .currency-menu-container {
-            width: 55px; /* Paling kecil untuk layar sempit */
+            width: 55px;
             min-width: 50px;
             max-width: 55px;
           }

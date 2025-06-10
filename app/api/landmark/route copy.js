@@ -2,6 +2,7 @@ import { Pool } from 'pg';
 import fs from 'fs';
 import path from 'path';
 import 'dotenv/config';
+import slugify from 'slugify';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
@@ -11,6 +12,15 @@ const pool = new Pool({
 const AGODA_API_URL = process.env.AGODA_API_URL || "http://affiliateapi7643.agoda.com/affiliateservice/lt_v1";
 const SITE_ID = process.env.AGODA_SITE_ID;
 const API_KEY = process.env.AGODA_API_KEY;
+
+function createSlug(name) {
+  if (!name) return '';
+  return slugify(name, {
+    lower: true,
+    strict: false,
+    locale: 'en'
+  });
+}
 
 function getTodayDate() {
   const today = new Date();
