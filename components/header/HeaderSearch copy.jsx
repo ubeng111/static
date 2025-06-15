@@ -1,22 +1,25 @@
+// components/hotel-list/common/HeaderSearch.jsx
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
-const HeaderSearch = () => {
+const HeaderSearch = ({ dictionary, currentLang }) => { // Menerima dictionary dan currentLang
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
   const router = useRouter();
   const dropdownRef = useRef(null);
 
-  // Fetch city suggestions from the API
+  // Akses dictionary untuk teks placeholder jika diperlukan
+  const searchDict = dictionary?.search || {}; // Asumsi ada bagian 'search' di dictionary
+  const commonDict = dictionary?.common || {}; // Asumsi ada bagian 'common' di dictionary
+
   const fetchCities = async (searchTerm) => {
     if (!searchTerm.trim()) {
       setSuggestions([]);
       return;
     }
-
     try {
       const response = await fetch(`/api/city-id?city=${encodeURIComponent(searchTerm)}`);
       if (!response.ok) {
@@ -32,38 +35,31 @@ const HeaderSearch = () => {
     }
   };
 
-  // Handle input change and fetch suggestions
   const handleInputChange = (e) => {
     const value = e.target.value;
     setQuery(value);
     fetchCities(value);
   };
 
-  // Handle form submission
   const handleSearch = (e) => {
     e.preventDefault();
-    if (suggestions.length === 1) {
-      // If only one city is found, navigate directly
-      router.push(`/search-result?city_id=${encodeURIComponent(suggestions[0].city_id)}`);
+    if (suggestions.length >= 1) {
+      const selectedCityId = suggestions[0].city_id;
+      const selectedCityName = suggestions[0].city; // Ambil nama kota dari saran pertama
+      router.push(`/${currentLang}/search-result?city_id=${encodeURIComponent(selectedCityId)}&city=${encodeURIComponent(selectedCityName)}`); // Tambahkan parameter city
       setQuery('');
       setSuggestions([]);
-    } else if (suggestions.length > 0) {
-      // If multiple cities, select the first one (or keep dropdown open)
-      router.push(`/search-result?city_id=${encodeURIComponent(suggestions[0].city_id)}`);
-      setQuery('');
-      setSuggestions([]);
+      setIsFocused(false); // Sembunyikan saran setelah pencarian
     }
   };
 
-  // Handle suggestion click
-  const handleSuggestionClick = (cityId) => {
-    router.push(`/search-result?city_id=${encodeURIComponent(cityId)}`);
+  const handleSuggestionClick = (city) => { // Menerima objek city lengkap
+    router.push(`/${currentLang}/search-result?city_id=${encodeURIComponent(city.city_id)}&city=${encodeURIComponent(city.city)}`); // Tambahkan parameter city
     setQuery('');
     setSuggestions([]);
-    setIsFocused(false);
+    setIsFocused(false); // Sembunyikan saran setelah klik
   };
 
-  // Handle clicks outside to close dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -76,23 +72,34 @@ const HeaderSearch = () => {
   }, []);
 
   return (
-    <div style={{ position: 'relative', width: '100%', maxWidth: '120px', flexShrink: 1, marginRight: '8px' }}>
+    <div style={{
+        position: 'relative',
+        flex: '1 1 auto',
+        minWidth: '70px',
+        maxWidth: '220px',
+        boxSizing: 'border-box'
+      }}>
       <form onSubmit={handleSearch}>
+        {/* Tambahkan label untuk aksesibilitas */}
+        <label htmlFor="hotel-search-input" className="sr-only">Search for hotels or destinations</label>
         <input
+          id="hotel-search-input" // Tambahkan ID yang unik
           type="text"
-          placeholder="Search..."
+          // Gunakan teks dari kamus jika tersedia, jika tidak gunakan placeholder default
+          placeholder={searchDict.destinationPlaceholder || "Search..."}
           value={query}
           onChange={handleInputChange}
           onFocus={() => setIsFocused(true)}
           style={{
-            width: '70%',
-            height: '30px',
+            width: '80%',
+            height: '32px',
             fontSize: '13px',
             padding: '3px 6px',
             border: '1px solid #ccc',
             borderRadius: '4px',
             backgroundColor: '#fff',
             color: '#000',
+            boxSizing: 'border-box'
           }}
         />
       </form>
@@ -112,14 +119,14 @@ const HeaderSearch = () => {
             listStyle: 'none',
             padding: 0,
             margin: 0,
-            maxHeight: '200px',
+            maxHeight: '150px',
             overflowY: 'auto',
           }}
         >
           {suggestions.map((city) => (
             <li
               key={city.city_id}
-              onClick={() => handleSuggestionClick(city.city_id)}
+              onClick={() => handleSuggestionClick(city)} // Teruskan objek city lengkap di sini
               style={{
                 padding: '8px 12px',
                 cursor: 'pointer',
@@ -134,6 +141,29 @@ const HeaderSearch = () => {
           ))}
         </ul>
       )}
+      <style jsx>{`
+        /* sr-only for visually hidden label */
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border-width: 0;
+        }
+
+        /* Responsive styles for HeaderSearch input */
+        @media (max-width: 479px) {
+          input {
+            height: 32px !important;
+            font-size: 11px !important;
+            padding: 2px 4px !important;
+          }
+        }
+      `}</style>
     </div>
   );
 };

@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import MainMenu from '../MainMenu';
 import CurrencyMenu from '../CurrencyMenu';
 import HeaderSearch from '../HeaderSearch';
-import Head from 'next/head';
+import Head from 'next/head'; 
 import LanguageMenu from '../LanguageMenu';
 
 const Header1 = ({ dictionary, currentLang }) => {
@@ -35,12 +35,19 @@ const Header1 = ({ dictionary, currentLang }) => {
   return (
     <>
       <Head>
+        {/* Existing preloads for fonts */}
         <link rel="preload" href="/fonts/Poppins-Regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/Poppins-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/media/icomoon.178677f7.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
         <link rel="preload" href="/media/slick.653a4cbb.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+        
+        {/* Existing preconnect for agoda.net */}
         <link rel="preconnect" href="https://pix3.agoda.net" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://pix3.agoda.net" />
+
+        {/* BARIS INI DITAMBAHKAN UNTUK FLAGCDN.COM */}
+        <link rel="preconnect" href="https://flagcdn.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://flagcdn.com" />
       </Head>
       <header
         className={`header bg-dark-3 ${navbar ? 'is-sticky' : ''}`}
@@ -248,6 +255,7 @@ const Header1 = ({ dictionary, currentLang }) => {
             .search-currency-wrapper {
               gap: 5px;
               flex-direction: row;
+              flex-wrap: nowrap;
             }
           }
         `}</style>

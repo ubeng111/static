@@ -19,6 +19,7 @@ const LanguageMenu = () => {
     return `https://flagcdn.com/${countryCode.toLowerCase()}.svg`;
   };
 
+  // Ambil locale aktif dari pathname (misalnya 'us', 'es', 'id')
   const currentLangSlug = pathname.split('/')[1];
 
   const currentLanguageItem = i18nConfig.find(
@@ -26,8 +27,8 @@ const LanguageMenu = () => {
   ) || i18nConfig.find(item => item.code === defaultLocale);
 
   const handleLanguageChange = (langItem) => {
-    const newLangSlugForPath = langItem.code;
-    const newLangCodeForApi = langItem.localeCode;
+    const newLangSlugForPath = langItem.code; // 'us', 'sa', 'cn', 'hk'
+    const newLangCodeForApi = langItem.localeCode; // 'en-us', 'ar-sa', 'zh-cn', 'zh-hk'
 
     setIsOpen(false);
 
@@ -40,7 +41,7 @@ const LanguageMenu = () => {
     }
 
     const currentSearchParams = new URLSearchParams(searchParams.toString());
-    currentSearchParams.set('language', newLangCodeForApi);
+    currentSearchParams.set('language', newLangCodeForApi); // Ini yang akan menjadi 'ar-sa' atau 'zh-cn'
 
     const newPath = `/${pathSegments.join('/')}?${currentSearchParams.toString()}`;
     router.push(newPath);
@@ -69,8 +70,8 @@ const LanguageMenu = () => {
           src={getFlagUrl(currentLanguageItem.code)}
           alt={currentLanguageItem.name}
           className="flag-icon"
-          width="36"
-          height="24"
+          width="36" // Menambahkan lebar default
+          height="24" // Menambahkan tinggi default (rasio aspek umum untuk bendera)
         />
         <i className={`arrow-icon ${isOpen ? 'up' : 'down'}`}>&#9660;</i>
       </div>
@@ -87,8 +88,8 @@ const LanguageMenu = () => {
                 src={getFlagUrl(lang.code)}
                 alt={lang.name}
                 className="flag-icon"
-                width="36"
-                height="24"
+                width="36" // Menambahkan lebar default
+                height="24" // Menambahkan tinggi default (rasio aspek umum untuk bendera)
               />
             </li>
           ))}
@@ -96,18 +97,18 @@ const LanguageMenu = () => {
       )}
 
       <style jsx>{`
+        /* Gaya dasar */
         .custom-language-menu {
           position: relative;
           display: inline-block;
           font-size: 14px;
-          min-width: 75px; /* Default desktop width */
-          max-width: 95px; /* Default desktop width */
+          min-width: 75px;
+          max-width: 95px;
           border: none;
           background-color: transparent;
           cursor: pointer;
           user-select: none;
           z-index: 1000;
-          flex-shrink: 0;
         }
 
         .selected-option {
@@ -118,7 +119,6 @@ const LanguageMenu = () => {
           height: 40px;
           overflow: hidden;
           background-color: transparent;
-          color: #FFFFFF; /* Ensure text color is white on dark background */
         }
 
         .flag-icon {
@@ -166,7 +166,6 @@ const LanguageMenu = () => {
           cursor: pointer;
           height: 40px;
           background-color: transparent;
-          color: #FFFFFF; /* Ensure text color is white for list items */
         }
 
         .options-list li .flag-icon {
@@ -183,60 +182,53 @@ const LanguageMenu = () => {
           .custom-language-menu {
             min-width: 60px;
             max-width: 70px;
-            height: 32px;
           }
           .selected-option {
-            height: 32px;
+            height: 36px;
             padding: 3px 6px;
           }
           .flag-icon {
-            width: 28px;
-            height: 19px;
-            margin-right: 5px;
+            width: 32px;
+            height: 21px; /* Disesuaikan dengan rasio aspek dan lebar baru */
           }
           .options-list {
-            width: 70px;
+            width: 80px;
           }
           .options-list li {
-            height: 32px;
+            height: 36px;
             padding: 3px 6px;
           }
           .options-list li .flag-icon {
-            width: 28px;
-            height: 19px;
+            width: 32px;
+            height: 21px; /* Disesuaikan dengan rasio aspek dan lebar baru */
           }
         }
 
-        @media (max-width: 479px) { /* iPhone SE specific overrides */
+        @media (max-width: 479px) {
           .custom-language-menu {
-            min-width: 48px; /* Target 48px touch target */
-            max-width: 52px; /* Slight buffer */
-            height: 28px; /* Consistent height with Currency & Search input */
-            border: 1px solid #777; /* Border for clarity */
-            border-radius: 4px;
+            min-width: 55px;
+            max-width: 65px;
           }
           .selected-option {
-            height: 28px;
-            padding: 0 4px; /* Minimal padding */
-            justify-content: center;
+            height: 32px;
+            padding: 2px 5px;
           }
           .flag-icon {
-            width: 24px; /* Smallest practical flag size */
-            height: 16px;
-            margin-right: 2px; /* Minimal margin */
-          }
-          .arrow-icon {
-            font-size: 8px; /* Very small arrow */
+            width: 28px;
+            height: 19px; /* Disesuaikan dengan rasio aspek dan lebar baru */
           }
           .options-list {
-            min-width: 100%; /* Make dropdown match parent width */
-            right: 0; /* Align dropdown to right edge of parent */
-            left: auto;
+            left: 0;
+            right: auto;
+            width: 50px;
           }
           .options-list li {
-            height: 28px;
-            padding: 0 6px;
-            font-size: 11px; /* Consistent with Currency */
+            height: 32px;
+            padding: 2px 5px;
+          }
+          .options-list li .flag-icon {
+            width: 28px;
+            height: 19px; /* Disesuaikan dengan rasio aspek dan lebar baru */
           }
         }
       `}</style>
