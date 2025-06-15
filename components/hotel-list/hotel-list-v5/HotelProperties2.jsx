@@ -3,8 +3,13 @@
 import Slider from "react-slick";
 import { useCurrency } from '@/components/CurrencyContext';
 
-const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui" }) => {
+// Menerima dictionary sebagai prop
+const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui", dictionary }) => {
   const { currency } = useCurrency();
+
+  // Akses dictionary yang relevan
+  const commonDict = dictionary?.common || {};
+  const hotelSinglePageDict = dictionary?.hotelSinglePage || {}; // Mengambil kamus untuk halaman detail hotel
 
   const itemSettings = {
     dots: true,
@@ -34,7 +39,7 @@ const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui" }) => {
   }
 
   if (!hotels || hotels.length === 0) {
-    return <div>Tidak ada hotel ditemukan untuk kota ini.</div>;
+    return <div>{commonDict.noHotelsFound || "Tidak ada hotel ditemukan untuk kota ini."}</div>;
   }
 
   return (
@@ -42,10 +47,10 @@ const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui" }) => {
       {hotels.map((item, index) => {
         const hotel = {
           id: item.hotelId,
-          title: item.hotelName || "Nama Hotel Tidak Tersedia",
+          title: item.hotelName || commonDict.unnamedHotel || "Nama Hotel Tidak Tersedia",
           img: item.imageURL || "/images/placeholder.jpg",
           slideimg: item.slideImages || [],
-          location: cityName,
+          location: cityName || commonDict.unknownLocation || "Lokasi Tidak Diketahui",
           ratings: item.reviewScore || 0,
           numberofreviews: item.reviewCount || 0,
           dailyRate: item.dailyRate || 0,
@@ -135,12 +140,12 @@ const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui" }) => {
                     {hotel.ratings}
                   </div>
                   <div className="text-14 text-dark-1 fw-bold ml-10">
-                    {hotel.numberofreviews} reviews
+                    {item.numberofreviews || 0} {hotelSinglePageDict.reviews || commonDict.reviews || 'reviews'} {/* Menggunakan hotelSinglePageDict.reviews */}
                   </div>
                 </div>
                 <div className="mt-10">
                   <span className="text-16 fw-600 text-blue-1">
-                    {currency.symbol} {hotel.dailyRate.toFixed(0)} / Night
+                    {currency.symbol} {hotel.dailyRate.toFixed(0)} / {commonDict.night || 'Night'}
                   </span>
                 </div>
               </div>

@@ -4,19 +4,24 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { destinations1 } from '../../../data/desinations.js';
 
-const Destinations = () => {
-  const [filterOption, setFilterOption] = useState('africa'); // Default to 'africa' since 'all' is removed
-  const [filteredItems, setFilteredItems] = useState([]);
+// Menerima prop 'locale' dan 'dictionary'
+const Destinations = ({ locale, dictionary }) => {
+  const [filterOption, setFilterOption] = useState('africa');
+  const [filteredItems, setFilteredItems] = useState([]); // ✅ Perbaikan di sini
+
+  // Pastikan dictionary dan bagian 'regions' ada
+  const regionsDict = dictionary?.regions || {};
+  const commonDict = dictionary?.common || {};
 
   const filterOptions = [
-    { label: 'Africa', value: 'africa' },
-    { label: 'Asia', value: 'asia' },
-    { label: 'Central America & Caribbean', value: 'central_america_and_caribbean' },
-    { label: 'Europe', value: 'europe' },
-    { label: 'Middle East', value: 'middle_east' },
-    { label: 'North America', value: 'north_america' },
-    { label: 'Australia & Pacific', value: 'pacific_ocean_and_australia' },
-    { label: 'South America', value: 'south_america' },
+    { label: regionsDict.africa || 'Africa', value: 'africa' },
+    { label: regionsDict.asia || 'Asia', value: 'asia' },
+    { label: regionsDict.centralAmericaAndCaribbean || 'Central America & Caribbean', value: 'central_america_and_caribbean' },
+    { label: regionsDict.europe || 'Europe', value: 'europe' },
+    { label: regionsDict.middleEast || 'Middle East', value: 'middle_east' },
+    { label: regionsDict.northAmerica || 'North America', value: 'north_america' },
+    { label: regionsDict.australiaAndPacific || 'Australia & Pacific', value: 'pacific_ocean_and_australia' },
+    { label: regionsDict.southAmerica || 'South America', value: 'south_america' },
   ];
 
   useEffect(() => {
@@ -52,18 +57,18 @@ const Destinations = () => {
               filteredItems.map((item) => (
                 <div className="w-1/5 lg:w-1/4 md:w-1/3 sm:w-1/2" key={item.id}>
                   <Link
-                    href={item.url || '#'}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href={`/${locale}${item.url && item.url.startsWith('/') ? item.url : `/${item.url || ''}`}`}
                     className="d-block"
                   >
                     <div className="text-15 fw-500">{item.city}</div>
-                    <div className="text-14 text-light-1">{item.properties} properties</div>
+                    <div className="text-14 text-light-1">
+                      {item.properties} {commonDict.properties || 'properties'}
+                    </div>
                   </Link>
                 </div>
               ))
             ) : (
-              <div>No destinations available for this region.</div>
+              <div>{commonDict.noDestinationsFound || 'No destinations available for this region.'}</div>
             )}
           </div>
         </div>

@@ -1,45 +1,75 @@
+// components/hotel-list/common/MainFilterSearchBox.jsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCurrency } from '../../CurrencyContext';
+import { useLanguage } from '../../header/LanguageContext'; // Path yang benar
 import DateSearch from './DateSearch';
 import GuestSearch from './GuestSearch';
 import LocationSearch from './LocationSearch';
 
-const MainFilterSearchBox = () => {
+const MainFilterSearchBox = ({ dictionary, currentLang: propCurrentLang }) => { // Ganti nama prop untuk menghindari konflik
   const router = useRouter();
   const searchParams = useSearchParams();
   const { currency } = useCurrency();
-  const [params, setParams] = useState({
-    city: searchParams.get('city') || null,
-    city_id: searchParams.get('city_id') || null,
-    checkInDate: searchParams.get('checkIn') || null,
-    checkOutDate: searchParams.get('checkOut') || null,
-    adults: parseInt(searchParams.get('adults') || '2', 10),
-    children: parseInt(searchParams.get('children') || '0', 10),
-    rooms: parseInt(searchParams.get('rooms') || '1', 10),
-    currency: currency.currency,
-    language: currency.language,
+  const { language } = useLanguage();
+
+  // State untuk bahasa yang aktif, dengan fallback 'us'
+  const [activeLang, setActiveLang] = useState(propCurrentLang || language || 'us');
+
+  const [params, setParams] = useState(() => {
+    const initialParams = {
+      city: searchParams.get('city') || null,
+      city_id: searchParams.get('city_id') || null,
+      checkInDate: searchParams.get('checkIn') || null,
+      checkOutDate: searchParams.get('checkOut') || null,
+      adults: parseInt(searchParams.get('adults') || '2', 10),
+      children: parseInt(searchParams.get('children') || '0', 10),
+      rooms: parseInt(searchParams.get('rooms') || '1', 10),
+      currency: searchParams.get('currency') || currency.currency,
+      language: searchParams.get('language') || language,
+    };
+    return initialParams;
   });
 
-  useEffect(() => {
-    setParams((prev) => ({
-      ...prev,
-      currency: currency.currency,
-      language: currency.language,
-    }));
-  }, [currency.currency, currency.language]);
+  // Akses dictionary
+  const searchDict = dictionary?.search || {};
+  const commonDict = dictionary?.common || {};
 
-  const updateCity = (cityData) => {
+  useEffect(() => {
+    // Update currency dan language dari searchParams atau context
+    setParams((prev) => {
+        const newCurrency = searchParams.get('currency') || currency.currency;
+        const newLanguage = searchParams.get('language') || language;
+        return {
+            ...prev,
+            currency: newCurrency,
+            language: newLanguage,
+        };
+    });
+
+    // Update activeLang jika propCurrentLang berubah
+    if (propCurrentLang) {
+      setActiveLang(propCurrentLang);
+    } else {
+      // Fallback jika propCurrentLang tidak tersedia (misal di halaman non-[lang] atau saat loading)
+      const pathLang = window.location.pathname.split('/')[1]; // Coba ambil dari path URL
+      setActiveLang(pathLang || language || 'us');
+    }
+
+    console.log('MainFilterSearchBox useEffect: currentLang prop:', propCurrentLang, 'Active Lang (state):', activeLang); // DEBUGGING
+  }, [searchParams, currency.currency, currency.language, language, propCurrentLang, activeLang]); // Tambahkan activeLang ke dep. array
+
+  const updateCity = useCallback((cityData) => {
     setParams((prev) => ({
       ...prev,
       city: cityData?.city || null,
       city_id: cityData?.city_id || null,
     }));
-  };
+  }, []);
 
-  const updateDates = (dates) => {
+  const updateDates = useCallback((dates) => {
     if (dates && dates.length === 2) {
       setParams((prev) => ({
         ...prev,
@@ -47,20 +77,20 @@ const MainFilterSearchBox = () => {
         checkOutDate: dates[1]?.format('YYYY-MM-DD'),
       }));
     }
-  };
+  }, []);
 
-  const updateGuests = (guestCounts) => {
+  const updateGuests = useCallback((guestCounts) => {
     setParams((prev) => ({
       ...prev,
       adults: guestCounts.Adults ?? 2,
       children: guestCounts.Children ?? 0,
       rooms: guestCounts.Rooms ?? 1,
     }));
-  };
+  }, []);
 
   const handleSearch = () => {
     if (!params.city_id || !params.checkInDate || !params.checkOutDate) {
-      alert('Please select city and dates.');
+      alert(searchDict.searchParametersIncomplete || 'Please select city and dates.');
       return;
     }
 
@@ -76,17 +106,25 @@ const MainFilterSearchBox = () => {
       language: params.language,
     }).toString();
 
-    router.push(`/search?${query}`);
+    // Pastikan activeLang selalu memiliki nilai yang valid
+    const finalLang = activeLang || 'us'; // Fallback final jika activeLang masih kosong
+
+    console.log('MainFilterSearchBox handleSearch: Final Language:', finalLang); // DEBUGGING
+    console.log('MainFilterSearchBox handleSearch: Query string:', query);     // DEBUGGING
+    console.log('MainFilterSearchBox handleSearch: Full URL to push:', `/${finalLang}/search?${query}`); // DEBUGGING
+
+    // Mengarahkan ke rute pencarian yang benar
+    router.push(`/${finalLang}/search?${query}`);
   };
 
   return (
     <div className="mainSearch">
       <div className="search-form">
-        <LocationSearch onCitySelect={updateCity} />
-        <DateSearch onDateChange={updateDates} />
-        <GuestSearch onGuestChange={updateGuests} />
+        <LocationSearch onCitySelect={updateCity} dictionary={dictionary} />
+        <DateSearch onDateChange={updateDates} dictionary={dictionary} />
+        <GuestSearch onGuestChange={updateGuests} dictionary={dictionary} />
         <button className="search-button" onClick={handleSearch}>
-          Search
+          {commonDict.search || 'Search'}
         </button>
       </div>
     </div>

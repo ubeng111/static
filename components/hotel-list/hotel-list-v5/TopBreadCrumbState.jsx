@@ -1,3 +1,4 @@
+// TopBreadCrumbState.jsx
 import Link from "next/link";
 
 const capitalizeFirstLetter = (str) => {
@@ -9,7 +10,7 @@ const capitalizeFirstLetter = (str) => {
     .join(" ");
 };
 
-const TopBreadCrumbState = ({ categoryslug, countryslug, stateslug }) => {
+const TopBreadCrumbState = ({ categoryslug, countryslug, stateslug, currentLang }) => { // Menerima currentLang
   return (
     <section className="py-10 d-flex items-center bg-white">
       <div className="container">
@@ -17,41 +18,29 @@ const TopBreadCrumbState = ({ categoryslug, countryslug, stateslug }) => {
           <div className="col-auto">
             <div className="row x-gap-10 y-gap-5 items-center text-14 text-light-1">
               <div className="col-auto">
-                <Link href="/" className="text-blue-1">
+                <Link href={`/${currentLang}`} className="text-blue-1"> {/* Gunakan currentLang */}
                   Home
                 </Link>
               </div>
               <div className="col-auto">&gt;</div>
               <div className="col-auto">
-                <Link href={`/${categoryslug}`} className="text-blue-1">
+                <Link href={`/${currentLang}/${categoryslug}`} className="text-blue-1"> {/* Gunakan currentLang */}
                   {capitalizeFirstLetter(categoryslug) || "Unknown Category"}
                 </Link>
               </div>
               <div className="col-auto">&gt;</div>
               <div className="col-auto">
-                <Link href={`/${categoryslug}/${countryslug}`} className="text-blue-1">
+                <Link href={`/${currentLang}/${categoryslug}/${countryslug}`} className="text-blue-1"> {/* Gunakan currentLang */}
                   {capitalizeFirstLetter(countryslug) || "Unknown Country"}
                 </Link>
               </div>
               <div className="col-auto">&gt;</div>
               <div className="col-auto">
+                {/* Ini adalah elemen teks akhir, tidak perlu Link */}
                 {capitalizeFirstLetter(stateslug) || "Unknown State"}
               </div>
             </div>
           </div>
-
-          {/* The following div containing the "All [Category] in [State]" link has been removed. */}
-          {/*
-          <div className="col-auto">
-            <Link
-              href={`/${categoryslug}/${countryslug}/${stateslug}`}
-              className="text-14 text-blue-1 underline"
-            >
-              All {capitalizeFirstLetter(categoryslug) || "Hotels"} in{" "}
-              {capitalizeFirstLetter(stateslug) || "Unknown State"}
-            </Link>
-          </div>
-          */}
         </div>
       </div>
     </section>

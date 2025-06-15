@@ -1,6 +1,9 @@
 import React, { memo } from 'react';
 
-const HelpfulFacts = ({ hotel }) => {
+const HelpfulFacts = ({ hotel, dictionary }) => { // Menerima dictionary
+  const helpfulFactsDict = dictionary?.helpfulFacts || {}; // Asumsi ada bagian helpfulFacts di dictionary
+  const commonDict = dictionary?.common || {}; // Untuk unknown values
+
   const checkInTime = hotel?.checkin ?? "14:00";
   const checkOutTime = hotel?.checkout ?? "12:00";
 
@@ -10,34 +13,44 @@ const HelpfulFacts = ({ hotel }) => {
         <div>
           <div className="d-flex items-center">
             <i className="icon-plans text-20 mr-10"></i>
-            <div className="text-16 fw-500">The property</div>
+            {/* Teks dari dictionary atau fallback */}
+            <div className="text-16 fw-500">{helpfulFactsDict.thePropertyTitle || "The property"}</div>
           </div>
           <div className="row x-gap-20 y-gap-10 pt-10">
             <div className="col-12">
-              <div className="text-15">Non-smoking rooms/floors: Yes</div>
+              <div className="text-15">{helpfulFactsDict.nonSmokingRooms || "Non-smoking rooms/floors: Yes"}</div>
             </div>
             <div className="col-12">
-              <div className="text-15">Number of bars/lounges: 1</div>
+              <div className="text-15">
+                {helpfulFactsDict.numberOfBars || "Number of bars/lounges:"} {hotel?.numberofbars || 1}
+              </div>
             </div>
             <div className="col-12">
-              <div className="text-15">Number of floors: {hotel?.numberfloors}</div>
+              <div className="text-15">
+                {helpfulFactsDict.numberOfFloors || "Number of floors:"} {hotel?.numberfloors || 0}
+              </div>
             </div>
             <div className="col-12">
-              <div className="text-15">Number of restaurants: 1</div>
+              <div className="text-15">
+                {helpfulFactsDict.numberOfRestaurants || "Number of restaurants:"} {hotel?.numberofrestaurants || 1}
+              </div>
             </div>
             <div className="col-12">
-              <div className="text-15">Number of rooms: {hotel?.numberrooms}</div>
+              <div className="text-15">
+                {helpfulFactsDict.numberOfRooms || "Number of rooms:"} {hotel?.numberrooms || 0}
+              </div>
             </div>
           </div>
         </div>
         <div className="mt-20">
           <div className="d-flex items-center">
             <i className="icon-parking text-20 mr-10"></i>
-            <div className="text-16 fw-500">Parking</div>
+            {/* Teks dari dictionary atau fallback */}
+            <div className="text-16 fw-500">{helpfulFactsDict.parkingTitle || "Parking"}</div>
           </div>
           <div className="row x-gap-20 y-gap-10 pt-10">
             <div className="col-12">
-              <div className="text-15">Daily parking fee: free</div>
+              <div className="text-15">{helpfulFactsDict.dailyParkingFee || "Daily parking fee: free"}</div>
             </div>
           </div>
         </div>
@@ -48,14 +61,15 @@ const HelpfulFacts = ({ hotel }) => {
             <div>
               <div className="d-flex items-center">
                 <i className="icon-ticket text-20 mr-10"></i>
-                <div className="text-16 fw-500">Extras</div>
+                {/* Teks dari dictionary atau fallback */}
+                <div className="text-16 fw-500">{helpfulFactsDict.extrasTitle || "Extras"}</div>
               </div>
               <div className="row x-gap-20 y-gap-15 pt-10">
                 <div className="col-12">
-                  <div className="text-15">Breakfast charge (unless included in room price)</div>
+                  <div className="text-15">{helpfulFactsDict.breakfastCharge || "Breakfast charge (unless included in room price)"}</div>
                 </div>
                 <div className="col-12">
-                  <div className="text-15">Daily Internet/Wi-Fi fee: free</div>
+                  <div className="text-15">{helpfulFactsDict.dailyInternetFee || "Daily Internet/Wi-Fi fee: free"}</div>
                 </div>
               </div>
             </div>
@@ -64,17 +78,18 @@ const HelpfulFacts = ({ hotel }) => {
             <div>
               <div className="d-flex items-center">
                 <i className="icon-calendar text-20 mr-10"></i>
-                <div className="text-16 fw-500">Check-in/Check-out</div>
+                {/* Teks dari dictionary atau fallback */}
+                <div className="text-16 fw-500">{helpfulFactsDict.checkInOutTitle || "Check-in/Check-out"}</div>
               </div>
               <div className="row x-gap-20 y-gap-10 pt-10">
                 <div className="col-12">
-                  <div className="text-15">Check-in from: {checkInTime}</div>
+                  <div className="text-15">{helpfulFactsDict.checkInFrom || "Check-in from:"} {checkInTime}</div>
                 </div>
                 <div className="col-12">
-                  <div className="text-15">Check-out until: {checkOutTime}</div>
+                  <div className="text-15">{helpfulFactsDict.checkOutUntil || "Check-out until:"} {checkOutTime}</div>
                 </div>
                 <div className="col-12">
-                  <div className="text-15">Reception open until: 00:00</div>
+                  <div className="text-15">{helpfulFactsDict.receptionOpenUntil || "Reception open until: 00:00"}</div>
                 </div>
               </div>
             </div>

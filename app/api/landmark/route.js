@@ -44,13 +44,14 @@ export async function POST(req) {
       numberOfChildren: clientChildren,
       numberOfRooms: clientRooms,
       currency: clientCurrency,
-      language: clientLanguage,
+      language: clientLanguage, // <-- Ini nilai 'language' yang datang dari frontend
       maxResult: clientMaxResult,
       sortBy: clientSortBy,
     } = body;
 
     console.log('SERVER DEBUG [route.js]: Destructured landmark_slug:', landmark_slug);
     console.log('SERVER DEBUG [route.js]: Destructured clientCurrency:', clientCurrency);
+    console.log('SERVER DEBUG [route.js]: Destructured clientLanguage:', clientLanguage); // Tambah log ini
 
     const checkInDate = clientCheckInDate || getTodayDate();
     const checkOutDate = clientCheckOutDate || getTomorrowDate();
@@ -58,11 +59,23 @@ export async function POST(req) {
     const numberOfChildren = clientChildren !== undefined ? clientChildren : 0;
     const numberOfRooms = clientRooms !== undefined ? clientRooms : 1;
     const currency = clientCurrency || 'USD';
-    const language = clientLanguage || 'en-us';
+    
+    // --- KOREKSI DI SINI ---
+    let language = clientLanguage || 'en-us'; // Default jika clientLanguage kosong
+
+    // Validasi tambahan untuk memastikan panjang language
+    if (typeof language !== 'string' || language.length < 5) {
+        console.warn(`SERVER WARN [route.js]: clientLanguage "${clientLanguage}" tidak valid atau terlalu pendek. Menggunakan default 'en-us'.`);
+        language = 'en-us'; // Pastikan selalu minimal 5 karakter
+    }
+    // --- AKHIR KOREKSI ---
+
     const maxResult = clientMaxResult || 100;
     const sortBy = clientSortBy || 'Recommended';
 
     console.log('SERVER DEBUG [route.js]: Final currency used for API:', currency);
+    console.log('SERVER DEBUG [route.js]: Final language used for API:', language); // Tambah log ini
+    console.log('SERVER DEBUG [route.js]: Final language length:', language.length); // Tambah log ini
 
     if (typeof landmark_slug !== 'string' || landmark_slug.trim() === '') {
       console.error('SERVER ERROR [route.js]: Validation failed - landmark_slug is missing or empty.');
@@ -118,7 +131,7 @@ export async function POST(req) {
       criteria: {
         additional: {
           currency,
-          language,
+          language, // <-- Ini yang akan dikirim ke Agoda
           maxResult,
           occupancy: {
             numberOfAdult: numberOfAdults,

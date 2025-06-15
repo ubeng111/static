@@ -1,7 +1,6 @@
 // components/hotel-single/LandmarkList.jsx
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-// Hapus import pg, fs, path, dotenv karena tidak diperlukan di sisi client
 
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6371; // Radius of Earth in kilometers
@@ -17,151 +16,151 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
   return R * c;
 };
 
-const LandmarkList = ({ latitude, longitude }) => {
+const LandmarkList = ({ latitude, longitude, dictionary, currentLang }) => { // Menerima currentLang sebagai prop
   const [landmarks, setLandmarks] = useState([]);
-  const OVERPASS_RADIUS_KM = 10;
+  const OVERPASS_RADIUS_KM = 5;
   const RESULTS_LIMIT = 15;
 
-  useEffect(() => {
+  // Akses dictionary yang relevan
+  const landmarkListDict = dictionary?.landmarkList || {};
+  const commonDict = dictionary?.common || {};
+
+  const fetchLandmarks = useCallback(async () => {
     if (!latitude || !longitude) {
       console.error("Latitude or Longitude is invalid.");
       return;
     }
 
-    const fetchLandmarks = async () => {
-      try {
-        const overpassUrl = "https://overpass-api.de/api/interpreter";
-        const radiusInMeters = OVERPASS_RADIUS_KM * 1000;
+    try {
+      const overpassUrl = "https://overpass-api.de/api/interpreter";
+      const radiusInMeters = OVERPASS_RADIUS_KM * 1000;
 
-        const overpassQuery = `
-          [out:json];
-          (
-            node(around:${radiusInMeters},${latitude},${longitude})[amenity=hospital][!"place"];
-            way(around:${radiusInMeters},${latitude},${longitude})[amenity=hospital][!"place"];
-            node(around:${radiusInMeters},${latitude},${longitude})[aeroway=aerodrome][!"place"];
-            way(around:${radiusInMeters},${latitude},${longitude})[aeroway=aerodrome][!"place"];
-            node(around:${radiusInMeters},${latitude},${longitude})[railway=station][!"place"];
-            way(around:${radiusInMeters},${latitude},${longitude})[railway=station][!"place"];
-            node(around:${radiusInMeters},${latitude},${longitude})[tourism~"^(attraction|museum|theme_park|zoo|monument|artwork|memorial|viewpoint|castle|ruins)$"][!"place"];
-            way(around:${radiusInMeters},${latitude},${longitude})[tourism~"^(attraction|museum|theme_park|zoo|monument|artwork|memorial|viewpoint|castle|ruins)$"][!"place"];
-            rel(around:${radiusInMeters},${latitude},${longitude})[tourism~"^(attraction|museum|theme_park|zoo|monument|artwork|memorial|viewpoint|castle|ruins)$"][!"place"];
-            node(around:${radiusInMeters},${latitude},${longitude})[amenity=university][!"place"];
-            way(around:${radiusInMeters},${latitude},${longitude})[amenity=university][!"place"];
-            node(around:${radiusInMeters},${latitude},${longitude})[amenity=bus_station][!"place"];
-            way(around:${radiusInMeters},${latitude},${longitude})[amenity=bus_station][!"place"];
-            node(around:${radiusInMeters},${latitude},${longitude})[shop=mall][!"place"];
-            way(around:${radiusInMeters},${latitude},${longitude})[shop=mall][!"place"];
-          );
-          out center;
-        `;
+      const overpassQuery = `
+        [out:json];
+        (
+          node(around:${radiusInMeters},${latitude},${longitude})[amenity=hospital][!"place"];
+          way(around:${radiusInMeters},${latitude},${longitude})[amenity=hospital][!"place"];
+          node(around:${radiusInMeters},${latitude},${longitude})[aeroway=aerodrome][!"place"];
+          way(around:${radiusInMeters},${latitude},${longitude})[aeroway=aerodrome][!"place"];
+          node(around:${radiusInMeters},${latitude},${longitude})[railway=station][!"place"];
+          way(around:${radiusInMeters},${latitude},${longitude})[railway=station][!"place"];
+          node(around:${radiusInMeters},${latitude},${longitude})[tourism~"^(attraction|museum|theme_park|zoo|monument|artwork|memorial|viewpoint|castle|ruins)$"][!"place"];
+          way(around:${radiusInMeters},${latitude},${longitude})[tourism~"^(attraction|museum|theme_park|zoo|monument|artwork|memorial|viewpoint|castle|ruins)$"][!"place"];
+          rel(around:${radiusInMeters},${latitude},${longitude})[tourism~"^(attraction|museum|theme_park|zoo|monument|artwork|memorial|viewpoint|castle|ruins)$"][!"place"];
+          node(around:${radiusInMeters},${latitude},${longitude})[amenity=university][!"place"];
+          way(around:${radiusInMeters},${latitude},${longitude})[amenity=university][!"place"];
+          node(around:${radiusInMeters},${latitude},${longitude})[amenity=bus_station][!"place"];
+          way(around:${radiusInMeters},${latitude},${longitude})[amenity=bus_station][!"place"];
+          node(around:${radiusInMeters},${latitude},${longitude})[shop=mall][!"place"];
+          way(around:${radiusInMeters},${latitude},${longitude})[shop=mall][!"place"];
+        );
+        out center;
+      `;
 
-        const response = await fetch(overpassUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: `data=${encodeURIComponent(overpassQuery)}`,
-        });
+      const response = await fetch(overpassUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `data=${encodeURIComponent(overpassQuery)}`,
+      });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
 
-        if (data.elements) {
-          // Filter elemen yang valid dari Overpass API dan kumpulkan namanya
-          const relevantLandmarks = data.elements
-            .filter(el => el.tags && el.tags.name)
-            .filter(el => !el.tags.place)
-            .filter(el => {
-              const name = el.tags.name.trim();
-              return name.includes(' ') && name.split(' ').length > 1;
-            })
-            .filter(el => {
-              if (el.tags.amenity === 'hospital') {
-                if (el.tags.healthcare === 'clinic' || el.tags.healthcare === 'community_healthcare') {
-                  return false;
-                }
-                return true;
+      if (data.elements) {
+        const relevantLandmarks = data.elements
+          .filter(el => el.tags && el.tags.name)
+          .filter(el => !el.tags.place)
+          .filter(el => {
+            const name = el.tags.name.trim();
+            return name.includes(' ') && name.split(' ').length > 1;
+          })
+          .filter(el => {
+            if (el.tags.amenity === 'hospital') {
+              if (el.tags.healthcare === 'clinic' || el.tags.healthcare === 'community_healthcare') {
+                return false;
               }
               return true;
-            });
-
-          const landmarkNames = relevantLandmarks.map(el => el.tags.name);
-
-          let slugMap = new Map();
-          if (landmarkNames.length > 0) { // Hanya panggil API jika ada nama landmark
-            // Lakukan SATU panggilan API untuk mendapatkan semua slug yang relevan
-            const slugResponse = await fetch('/api/resolve-landmark-slug', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ names: landmarkNames }), // Kirim array nama
-            });
-
-            if (slugResponse.ok) {
-              const slugData = await slugResponse.json();
-              if (slugData.slugs) {
-                slugData.slugs.forEach(item => {
-                  if (item.slug) {
-                    slugMap.set(item.name, item.slug);
-                  }
-                });
-              }
-            } else {
-              console.warn(`Could not fetch slugs from API, status: ${slugResponse.status}`);
             }
-          }
-
-
-          const processedLandmarks = relevantLandmarks.map(el => {
-            const lat = el.lat || (el.center ? el.center.lat : null);
-            const lon = el.lon || (el.center ? el.center.lon : null);
-
-            if (lat === null || lon === null) {
-              console.warn("Element has no valid coordinates or center:", el);
-              return null;
-            }
-
-            const slug = slugMap.get(el.tags.name); // Ambil slug dari map
-
-            // Jika tidak ada slug, skip landmark ini
-            if (!slug) {
-              return null;
-            }
-
-            return {
-              name: el.tags.name,
-              distance: calculateDistance(
-                latitude,
-                longitude,
-                parseFloat(lat),
-                parseFloat(lon)
-              ),
-              type: el.type,
-              slug: slug,
-            };
+            return true;
           });
 
-          const filteredList = processedLandmarks
-            .filter(landmark => landmark !== null)
-            .filter(landmark => landmark.distance <= OVERPASS_RADIUS_KM)
-            .sort((a, b) => a.distance - b.distance)
-            .slice(0, RESULTS_LIMIT);
+        const landmarkNames = relevantLandmarks.map(el => el.tags.name);
 
-          setLandmarks(filteredList);
-        } else {
-          setLandmarks([]);
-          console.warn("No 'elements' array found in the Overpass response or data is empty:", data);
+        let slugMap = new Map();
+        if (landmarkNames.length > 0) {
+          const slugResponse = await fetch('/api/resolve-landmark-slug', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ names: landmarkNames }),
+          });
+
+          if (slugResponse.ok) {
+            const slugData = await slugResponse.json();
+            if (slugData.slugs) {
+              slugData.slugs.forEach(item => {
+                if (item.slug) {
+                  slugMap.set(item.name, item.slug);
+                }
+              });
+            }
+          } else {
+            console.warn(`Could not fetch slugs from API, status: ${slugResponse.status}`);
+          }
         }
-      } catch (error) {
-        console.error("Error fetching landmarks:", error);
-      }
-    };
 
+        const processedLandmarks = relevantLandmarks.map(el => {
+          const lat = el.lat || (el.center ? el.center.lat : null);
+          const lon = el.lon || (el.center ? el.center.lon : null);
+
+          if (lat === null || lon === null) {
+            console.warn("Element has no valid coordinates or center:", el);
+            return null;
+          }
+
+          const slug = slugMap.get(el.tags.name);
+
+          if (!slug) {
+            return null;
+          }
+
+          return {
+            name: el.tags.name,
+            distance: calculateDistance(
+              latitude,
+              longitude,
+              parseFloat(lat),
+              parseFloat(lon)
+            ),
+            type: el.type,
+            slug: slug,
+          };
+        });
+
+        const filteredList = processedLandmarks
+          .filter(landmark => landmark !== null)
+          .filter(landmark => landmark.distance <= OVERPASS_RADIUS_KM)
+          .sort((a, b) => a.distance - b.distance)
+          .slice(0, RESULTS_LIMIT);
+
+        setLandmarks(filteredList);
+      } else {
+        setLandmarks([]);
+        console.warn("No 'elements' array found in the Overpass response or data is empty:", data);
+      }
+    } catch (error) {
+      console.error("Error fetching landmarks:", error);
+    }
+  }, [latitude, longitude]); // currentLang removed from dependency as it's not used in fetchLandmarks logic itself
+
+  useEffect(() => {
     fetchLandmarks();
-  }, [latitude, longitude]);
+  }, [fetchLandmarks]);
 
   return (
     <div className="container" style={{ maxWidth: "1200px" }}>
@@ -170,8 +169,8 @@ const LandmarkList = ({ latitude, longitude }) => {
           <h2
             className="text-center fw-bold mb-3 mt-3 text-dark text-md"
             style={{ fontSize: "24px" }}
-          >
-            🗺️ Nearby Essential & Tourist Spots
+          > 
+            {landmarkListDict.nearbyEssentialAndTouristSpots || "🗺️ Nearby Essential & Tourist Spots"}
           </h2>
         </div>
       </div>
@@ -180,7 +179,7 @@ const LandmarkList = ({ latitude, longitude }) => {
         {landmarks.length === 0 ? (
           <div className="col-12 text-center">
             <div className="text-14 fw-500">
-              No nearby places of interest were found within radius {OVERPASS_RADIUS_KM} km.
+              {landmarkListDict.noNearbyPlacesFound?.replace('{radius}', OVERPASS_RADIUS_KM) || `No nearby places of interest were found within radius ${OVERPASS_RADIUS_KM} km.`}
             </div>
           </div>
         ) : (
@@ -198,7 +197,7 @@ const LandmarkList = ({ latitude, longitude }) => {
                 <div className="d-flex align-items-center text-14 fw-500 text-dark flex-grow-1">
                   <i className="icon-landmark text-20 me-2" />
                   <Link
-                    href={`/landmark/${landmark.slug}`}
+                    href={`/${currentLang}/landmark/${landmark.slug}`} // Gunakan currentLang
                     style={{ maxWidth: "200px" }}
                     className="text-truncate text-dark"
                   >

@@ -41,13 +41,18 @@ const styles = {
   },
 };
 
-export default function RelatedHotels({ relatedHotels }) {
+export default function RelatedHotels({ relatedHotels, dictionary, currentLang }) { // Add dictionary and currentLang props
+  const commonDict = dictionary?.common || {};
+  const hotelSinglePageDict = dictionary?.hotelSinglePage || {};
+
   if (!Array.isArray(relatedHotels) || relatedHotels.length === 0) {
     return (
       <div style={styles.container}>
         <div className="row y-gap-10">
           <div className="col-12">
-            <div className="text-14 fw-500">No Related Accommodations Found</div>
+            <div className="text-14 fw-500">
+              {commonDict.noRelatedHotelsFound || "No Related Accommodations Found"}
+            </div>
           </div>
         </div>
       </div>
@@ -59,28 +64,35 @@ export default function RelatedHotels({ relatedHotels }) {
 
   const city = displayedHotels[0]?.city
     ? displayedHotels[0].city.charAt(0).toUpperCase() + displayedHotels[0].city.slice(1)
-    : 'Unknown City';
+    : commonDict.unknownCity || 'Unknown City';
   const category = displayedHotels[0]?.category
     ? displayedHotels[0].category.charAt(0).toUpperCase() + displayedHotels[0].category.slice(1)
-    : 'Unknown Category';
+    : commonDict.unknownCategory || 'Unknown Category';
   const categorySlug = displayedHotels[0]?.categoryslug || 'unknown';
   const countrySlug = displayedHotels[0]?.countryslug || 'unknown';
   const stateSlug = displayedHotels[0]?.stateslug || 'unknown';
   const citySlug = displayedHotels[0]?.cityslug || 'unknown';
+
+  // Use the dictionary for the title, dynamically replacing placeholders
+  const titleText = commonDict.topRecommendedHotelsTitle
+    ? commonDict.topRecommendedHotelsTitle
+        .replace('{category}', category)
+        .replace('{city}', city)
+    : `Top Recommended ${category} in ${city}`;
 
   return (
     <div style={styles.container}>
       <div className="row y-gap-10">
         <div className="col-12">
           <h2 style={styles.title}>
-            Top Recommended {category} in {city}
+            {titleText}
           </h2>
         </div>
       </div>
       <div className="row y-gap-10">
         {displayedHotels.map((hotel) => {
           const hotelSlug = hotel?.hotelslug || 'unknown';
-          const hotelTitle = hotel?.title || 'Untitled Accommodation';
+          const hotelTitle = hotel?.title || commonDict.unnamedHotel || 'Unnamed Accommodation';
           const ratings = hotel.ratings ? Number(hotel.ratings).toFixed(1) : 'N/A';
           const reviews = hotel.numberofreviews || 0;
 
@@ -89,7 +101,7 @@ export default function RelatedHotels({ relatedHotels }) {
               <div style={styles.hotelCard}>
                 <i className="icon-hotel text-20 me-2" />
                 <Link
-                  href={`/${categorySlug}/${countrySlug}/${stateSlug}/${citySlug}/${hotelSlug}`}
+                  href={`/${currentLang}/${categorySlug}/${countrySlug}/${stateSlug}/${citySlug}/${hotelSlug}`} // Use currentLang in the href
                   style={styles.hotelLink}
                   title={hotelTitle} // Full title on hover
                 >
@@ -99,7 +111,7 @@ export default function RelatedHotels({ relatedHotels }) {
                   className="badge bg-primary rounded-pill ms-1"
                   style={{ fontSize: '11px' }}
                 >
-                  {ratings} / {reviews} reviews
+                  {ratings} / {reviews} {reviews === 1 ? hotelSinglePageDict.review || commonDict.review || 'review' : hotelSinglePageDict.reviews || commonDict.reviews || 'reviews'}
                 </span>
               </div>
             </div>

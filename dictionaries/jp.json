@@ -1,0 +1,507 @@
+{
+  "common": {
+    "loadingSearchResults": "検索結果を読み込み中...",
+    "loadingCityContent": "都市コンテンツを読み込み中...",
+    "loadingHotel": "ホテル詳細を読み込み中...",
+    "hotelNotFound": "ホテルが見つかりませんでした。",
+    "errorServer": "サーバーエラーが発生しました",
+    "preloaderTitle": "Hoteloza..",
+    "failedToLoadHotelList": "ホテルリストの読み込みに失敗しました。もう一度お試しください。",
+    "cityIdRequired": "都市IDは必須です。",
+    "callToActionsDescription": "良いアイデアは長続きしません。今すぐHotelozaの旅を予約しましょう！",
+    "errorLoadingData": "データの読み込み中にエラーが発生しました。しばらくしてからもう一度お試しください。",
+    "noHotelsFound": "このカテゴリのホテルは見つかりませんでした。",
+    "noRelatedCategoriesFound": "関連するカテゴリは見つかりませんでした。",
+    "noRelatedCountriesFound": "関連する国は見つかりませんでした。",
+    "noRelatedStatesFound": "関連する都道府県は見つかりませんでした。",
+    "noRelatedCitiesFound": "関連する都市は見つかりませんでした。",
+    "noRelatedHotelsFound": "関連するホテルは見つかりませんでした。",
+    "unknownAddress": "不明な住所",
+    "unknownCity": "不明な都市",
+    "unknownRegion": "不明な地域",
+    "unknownCountry": "不明な国",
+    "unnamedHotel": "無名ホテル",
+    "reserveNow": "今すぐ予約",
+    "unknownCategory": "不明なカテゴリ",
+    "unknownState": "不明な都道府県",
+    "errorLandmarkNotFound": "エラー: URLにランドマークが見つかりません。読み込めません。",
+    "properties": "物件",
+    "noDestinationsFound": "この地域に利用可能な目的地はありません。",
+    "topRecommendedHotelsTitle": "{city} のトップおすすめ {category}",
+    "findTopRatedStays": "目的地近くで同様の特典を持つ高評価の滞在先を探す",
+    "unknownLocation": "不明な場所",
+    "failedToLoadHotelData": "ホテルデータの取得に失敗しました",
+    "errorWithMessage": "エラー: {error}",
+    "night": "泊"
+  },
+  "header": {
+    "luxuryBackgroundImageAlt": "豪華な背景画像"
+  },
+  "search": {
+    "searchResultAccommodationIn": "{cityName} の宿泊施設の検索結果",
+    "searchResultPropertiesIn": "見つかった物件",
+    "selectedCity": "選択された都市",
+    "unknownLocation": "不明な場所",
+    "searchParametersIncomplete": "検索パラメーターが不完全です。"
+  },
+  "categoryPage": {
+    "discoverLuxeStaysIn": "ラグジュアリーな滞在を探索する",
+    "faqsAboutHotels": "{formattedCategory} に関するよくある質問",
+    "categoryDefault": "カテゴリー",
+    "defaultItemListDescription": "Hotelozaにおける{currentYear}年のトップ{formattedCategory}のリストです。"
+  },
+  "countryPage": {
+    "discoverStaysIn": "{displayCountry} の滞在を探索する",
+    "faqsAboutCountryHotels": "{displayCountry} のホテルに関するよくある質問",
+    "countryDefault": "国",
+    "noHotelsFoundForCountry": "この国ではホテルが見つかりませんでした。"
+  },
+  "statePage": {
+    "discoverStaysInState": "{formattedState} の滞在を探索する",
+    "faqsAboutStateHotels": "{displayState} のホテルに関するよくある質問",
+    "stateDefault": "都道府県",
+    "noHotelsFoundForState": "この都道府県ではホテルが見つかりませんでした。"
+  },
+  "cityPage": {
+    "discoverStaysInCity": "{formattedCity} の滞在を探索する",
+    "faqsAboutCityHotels": "{displayCity} のホテルに関するよくある質問",
+    "cityDefault": "都市",
+    "noHotelsFoundForCity": "この都市ではホテルが見つかりませんでした。"
+  },
+  "hotelSinglePage": {
+    "aboutThisHotel": "このホテルについて",
+    "facilitiesAndServices": "設備とサービス",
+    "attractionsNearby": "周辺の観光スポット",
+    "reviews": "レビュー",
+    "faq": "よくある質問",
+    "locationMap": "位置図",
+    "frequentlyAskedQuestions": "よくある質問",
+    "toggleFrequentlyAskedQuestions": "よくある質問を切り替える",
+    "toggleLocationMap": "位置図を切り替える",
+    "relatedHotels": "同様の人気の物件",
+    "toggleFacilities": "設備を切り替える",
+    "toggleLandmarks": "近くのランドマークを切り替える",
+    "toggleRelatedHotels": "同様の人気の物件を切り替える",
+    "defaultSchemaDescription": "Hotelozaで{currentYear}年の{formattedCity}にあるラグジュアリーホテル{formattedHotel}を予約しましょう。",
+    "exceptionalReviewText": "素晴らしい"
+  },
+  "bookNow": {
+    "reserveNowButton": "今すぐ予約"
+  },
+  "facilities": {
+    "bathroom": "バスルーム",
+    "towels": "タオル",
+    "bathOrShower": "バスタブまたはシャワー",
+    "privateBathroom": "専用バスルーム",
+    "toilet": "トイレ",
+    "freeToiletries": "無料バスアメニティ",
+    "hairdryer": "ヘアドライヤー",
+    "bath": "バスタブ",
+    "bedroom": "ベッドルーム",
+    "linen": "リネン",
+    "wardrobeOrCloset": "ワードローブまたはクローゼット",
+    "receptionServices": "フロントサービス",
+    "invoiceProvided": "請求書発行",
+    "privateCheckInCheckOut": "プライベートチェックイン/チェックアウト",
+    "luggageStorage": "荷物預かり",
+    "twentyFourHourFrontDesk": "24時間対応フロントデスク",
+    "mediaTechnology": "メディア＆テクノロジー",
+    "flatScreenTV": "薄型テレビ",
+    "satelliteChannels": "衛星放送チャンネル",
+    "radio": "ラジオ",
+    "telephone": "電話",
+    "tv": "テレビ",
+    "foodDrink": "飲食",
+    "kidMeals": "キッズミール",
+    "specialDietMenusOnRequest": "特別食メニュー（リクエストに応じて）",
+    "breakfastInTheRoom": "ルームサービス朝食",
+    "cleaningServices": "清掃サービス",
+    "dailyHousekeeping": "毎日のハウスキーピング",
+    "dryCleaning": "ドライクリーニング",
+    "laundry": "ランドリー",
+    "safetySecurity": "安全＆セキュリティ",
+    "fireExtinguishers": "消火器",
+    "cctvInCommonAreas": "共用エリアにCCTV",
+    "smokeAlarms": "煙感知器",
+    "twentyFourHourSecurity": "24時間警備"
+  },
+  "landmarkList": {
+    "noNearbyPlacesFound": "{radius}km圏内に場所は見つかりませんでした。",
+    "nearbyEssentialAndTouristSpots": "🗺️ 近くの主要観光スポット"
+  },
+  "mapComponent": {
+    "mapTitle": "🗺️ 地図 {title}"
+  },
+  "relatedCategories": {
+    "countriesIn": "🏨 {formattedCategory} の国々"
+  },
+  "relatedCities": {
+    "noRelatedCitiesFound": "関連する都市は見つかりませんでした",
+    "bestRelatedCitiesIn": "🏨 {formattedState} で最も関連性の高い都市"
+  },
+  "relatedCountries": {
+    "noRelatedStatesFound": "関連する都道府県は見つかりませんでした",
+    "statesIn": "🏨 {formattedCountry} の都道府県"
+  },
+  "relatedStates": {
+    "noRelatedCitiesFound": "関連する都市は見つかりませんでした",
+    "citiesIn": "🏨 {formattedState} の都市"
+  },
+  "city": {
+    "city": "都市",
+    "faq": "よくある質問"
+  },
+  "mainFilterSearchBox": {
+    "destinationPlaceholder": "目的地はどこですか？",
+    "checkInPlaceholder": "チェックイン日",
+    "checkOutPlaceholder": "チェックアウト日",
+    "adultsLabel": "大人",
+    "childrenLabel": "子供",
+    "roomsLabel": "部屋",
+    "searchButton": "検索"
+  },
+  "footer": {
+    "popularStays": "人気の滞在",
+    "hotel": "ホテル",
+    "villa": "ヴィラ",
+    "resort": "リゾート",
+    "apartment": "アパートメント",
+    "guestHouse": "ゲストハウス",
+    "uniqueStays": "ユニークな滞在",
+    "capsuleHotel": "カプセルホテル",
+    "yurt": "ユルト",
+    "treehouse": "ツリーハウス",
+    "tent": "テント",
+    "domeHouse": "ドームハウス",
+    "traditionalStays": "伝統的な滞在",
+    "ryokan": "旅館",
+    "machiya": "町家",
+    "countryHouse": "カントリーハウス",
+    "haveli": "ハヴェリ",
+    "riad": "リアド",
+    "heritageHotel": "ヘリテージホテル",
+    "adventureStays": "アドベンチャー滞在",
+    "farmStay": "ファームステイ",
+    "cabin": "キャビン",
+    "chalet": "シャレー",
+    "boat": "ボート",
+    "houseboat": "ハウスボート",
+    "hotelozaFooterText": "Hotelozaは、簡単でシームレスなホテル予約のための主要プラットフォームです。快適なホテルから豪華なリゾートまで、多様な滞在オプションを提供することで、完璧な宿泊施設探しを簡素化します。予約の利便性、限定オファー、旅行のニーズに合わせたパーソナライズされたサービスをお楽しみください。Hotelozaで予約して、忘れられない旅を現実にしましょう。",
+    "hotelozaAllRightsReserved": "© {year} Hoteloza. 全著作権所有。"
+  },
+  "metadata": {
+    "homePageTitle": "Hoteloza - あなたの夢のホテルを見つけよう",
+    "homePageDescription": "次の旅行に最適なホテルと宿泊施設を見つけましょう。今すぐHotelozaで予約！",
+    "searchResultPageTitle": "{cityName} のホテル - Hoteloza 検索結果",
+    "searchResultPageDescription": "{cityName} のホテルを検索して予約しましょう。最高の滞在のために料金と設備を比較してください。",
+    "cityPageTitle": "{cityName} のホテル - Hoteloza で {cityName} を発見しよう",
+    "cityPageDescription": "{cityName} の最高のホテルを発見し、Hoteloza で忘れられない旅のための最高のオファーを見つけましょう。",
+    "categoryNotFoundTitle": "カテゴリが見つかりません | Hoteloza",
+    "categoryNotFoundDescription": "お探しのカテゴリはHotelozaで見つかりませんでした。",
+    "categoryPageTitleTemplate": "{currentYear} 年のベスト {formattedCategory} 割引 - Hoteloza でお得に！",
+    "categoryPageDescriptionTemplate": "Hoteloza で {currentYear} 年の最高の {formattedCategory} を発見しましょう。限定割引、お得な価格、一流の設備をお楽しみください。忘れられない滞在のために今すぐ予約！",
+    "categoryOgTitleTemplate": "トップ {formattedCategory} 特価 {currentYear} | Hoteloza",
+    "categoryOgDescriptionTemplate": "Hoteloza で {currentYear} 年のトップ {formattedCategory} を探索しましょう。限定セールやプレミアム設備のために今すぐ予約！",
+    "categoryWebPageNameTemplate": "トップ {formattedCategory} 特価 {currentYear}",
+    "categoryWebPageDescriptionTemplate": "Hoteloza で {currentYear} 年のトップ {formattedCategory} を探索し、限定セールやプレミアム設備をお楽しみください。",
+    "countryNotFoundTitle": "ページが見つかりません | Hoteloza",
+    "countryNotFoundDescription": "お探しのカテゴリ、国、または都道府県はHotelozaで見つかりませんでした。",
+    "countryPageTitleTemplate": "{currentYear} 年 {formattedCountry} の格安 {formattedCategory} - お見逃しなく！ | Hoteloza",
+    "countryPageDescriptionTemplate": "Hoteloza で {currentYear} 年の {formattedCountry} の最高の {formattedCategory} を手に入れましょう。限定オファー、手頃な価格、最高の設備をお楽しみください。期間・数量限定 – 今すぐ滞在を予約！",
+    "countryOgTitleTemplate": "{currentYear} 年 {formattedCountry} の最高の {formattedCategory} | Hoteloza",
+    "countryOgDescriptionTemplate": "Hoteloza で {currentYear} 年の {formattedCountry} の最高の {formattedCategory} を見つけましょう。一流ホテルと限定オファーのために今すぐ予約！",
+    "stateNotFoundTitle": "ページが見つかりません | Hoteloza",
+    "stateNotFoundDescription": "お探しのカテゴリ、国、または都道府県はHotelozaで見つかりませんでした。",
+    "statePageTitleTemplate": "{currentYear} 年 {formattedState}, {formattedCountry} の格安 {formattedCategory} - 今すぐ予約！ | Hoteloza",
+    "statePageDescriptionTemplate": "Hoteloza で {currentYear} 年の {formattedState}, {formattedCountry} の最高の {formattedCategory} を見つけましょう。限定オファー、素晴らしい価格、一流の設備。忘れられない滞在を予約！",
+    "stateOgTitleTemplate": "{currentYear} 年 {formattedState}, {formattedCountry} の最高の {formattedCategory} | Hoteloza",
+    "stateOgDescriptionTemplate": "Hoteloza で {currentYear} 年の {formattedState}, {formattedCountry} の最高の {formattedCategory} を発見しましょう。限定オファーとプレミアム設備のために今すぐ予約！",
+    "cityNotFoundTitle": "ページが見つかりません | Hoteloza",
+    "cityNotFoundDescription": "お探しのカテゴリ、国、都道府県、または都市はHotelozaで見つかりませんでした。",
+    "cityPageTitleTemplate": "{currentYear} 年 {formattedCity}, {formattedState}, {formattedCountry} の格安 {formattedCategory} - 大幅割引！ | Hoteloza",
+    "cityPageDescriptionTemplate": "Hoteloza で {currentYear} 年の {formattedCity}, {formattedState}, {formattedCountry} の最高の {formattedCategory} を見つけましょう。限定割引、一流の設備、そして比類のない価格。今すぐあなたの夢の滞在を予約！",
+    "cityOgTitleTemplate": "{currentYear} 年 {formattedCity}, {formattedState}, {formattedCountry} の最高の {formattedCategory} | Hoteloza",
+    "cityOgDescriptionTemplate": "Hoteloza で {currentYear} 年の {formattedCity}, {formattedState}, {formattedCountry} の最高の {formattedCategory} を発見しましょう。限定オファーとプレミアム設備のために今すぐ予約！",
+    "hotelNotFoundTitle": "ホテルが見つかりません | Hoteloza",
+    "hotelNotFoundDescription": "お探しのホテルは見つかりませんでした。",
+    "hotelPageTitleTemplate": "{hotelTitle} - 今すぐHotelozaで予約！",
+    "hotelPageDescriptionTemplate": "{city}, {state}, {country} にある {hotelTitle} での滞在を予約しましょう。Hoteloza で忘れられない体験のための最高のオファー、設備、レビューを見つけましょう。",
+    "hotelOgTitleTemplate": "{hotelTitle} | Hoteloza",
+    "hotelOgDescriptionTemplate": "Hoteloza で {hotelTitle} の最高のオファーを見つけましょう。"
+  },
+  "landmarkPage": {
+    "topHotelsNear": "{landmarkName} 近くの格安 {category}",
+    "landmarkPageTitleTemplate": "{landmarkName} 近くの格安 {category}",
+    "description": "{category} {landmarkName} は、{cityName} で最高の宿泊施設を提供しており、無料Wi-Fiなどの素晴らしいお得な情報やアメニティを備えています。",
+    "loadingHotel": "ホテルを読み込み中...",
+    "errorLoadingHotel": "エラー: {error}",
+    "hotelNotFound": "ホテルが見つかりませんでした。",
+    "serverErrorFetchingData": "ホテルデータの取得中にサーバーエラーが発生しました。"
+  },
+  "navigation": {
+    "home": "ホーム",
+    "about": "会社概要",
+    "contact": "お問い合わせ"
+  },
+  "homepage": {
+    "dreamDestinations": "夢の目的地",
+    "unforgettableSpots": "何度でも訪れたくなる忘れられない場所",
+    "whatOurGuestsTrulyLoveAboutUs": "お客様が私たちを本当に愛する理由",
+    "experienceTheMagic": "何百万人もの人々を何度も惹きつける魔法を体験してください。Hotelozaでは、簡単で丁寧、そして exceptional なサービスで、すべての滞在を忘れられないものにすることに専念しています。",
+    "hotelozaHeroTitle": "Hoteloza で見つけ、予約し、リラックスする",
+    "hotelozaHeroSubtitle": "Hoteloza で世界中の数千のホテルを探索する",
+    "delightedGuests": "喜ばれたお客様",
+    "guestSatisfactionScore": "お客様満足度スコア",
+    "happyPeople": "幸せな人々",
+    "overallRating": "全体評価"
+  },
+  "about": {
+    "lookingForJoy": "喜びをお探しですか？",
+    "trustedTripCompanion": "あなたの信頼できる旅の仲間",
+    "whyChooseUs": "私たちを選ぶ理由",
+    "popularDestinationsOffer": "これらの人気のある目的地は多くのものを提供します",
+    "overheardFromTravelers": "旅行者から聞いた話",
+    "aboutHotelozaTitle": "Hotelozaについて",
+    "aboutHotelozaSubtitle": "快適さと優雅さの世界を発見してください",
+    "aboutHotelozaParagraph1": "Hotelozaは、活気ある目的地の中心で比類のないおもてなしを提供する、お客様の贅沢な聖域です。当ホテルはモダンな優雅さと時代を超えた快適さを融合させ、すべての滞在が思い出に残る体験となることをお約束します。",
+    "aboutHotelozaParagraph2": "穏やかなスパから絶妙なダイニングまで、世界クラスの設備に浸り、すべての訪問を忘れられないものにする近くの観光スポットを探索してください。ビジネスでもレジャーでも、Hotelozaはあなたの第二の故郷です。"
+  },
+  "blockGuide": {
+    "bestPriceGuarantee": "ベストプライス保証",
+    "bestPriceGuaranteeText": "完璧な滞在を可能な限り最高の価格で見つけてください – 保証します。隠れた料金はなく、予約ごとに本当の節約ができます。",
+    "easyQuickBooking": "簡単＆クイック予約",
+    "easyQuickBookingText": "数クリックで夢のホテルを予約。素早く、シンプルで、手間いらず – 次の休暇はここから始まります。",
+    "customerSupport": "24時間年中無休カスタマーサポート",
+    "customerSupportText": "お困りですか？当社のサポートチームは24時間体制でお客様をサポートいたします – どこにいても、いつでも必要な時に。"
+  },
+  "contactPage": {
+    "heroTitle": "お問い合わせ",
+    "heroSubtitle": "ご質問やご不明な点がございましたら、お気軽にお問い合わせください。",
+    "getInTouchTitle": "お問い合わせ",
+    "getInTouchDescription": "ご質問やご不明な点がございましたら、お気軽にお問い合わせください。弊社のチームはいつでも喜んでお手伝いいたします。",
+    "addressLabel": "住所",
+    "addressValue": "Hoteloza 通り 123 番地、スイート 456、市、国",
+    "emailLabel": "Eメール",
+    "emailValue": "info@hoteloza.com",
+    "workingHoursLabel": "営業時間",
+    "workingHoursValue": "月曜日～金曜日：午前9:00～午後5:00（現地時間）"
+  },
+  "callToActions": {
+    "subscribeHere": "こちらで購読",
+    "yourEmail": "あなたのEメール",
+    "subscribeButton": "購読"
+  },
+  "testimonials": {
+    "sarahMQuote": "Hotelozaはゲームチェンジャーです！ここで常に最高のホテルのお得な情報を見つけました。これは本当に世界で最高のホテルアフィリエイトウェブサイトです。",
+    "sarahMName": "サラ・M。",
+    "sarahMDesignation": "旅行愛好家",
+    "data": [
+      {
+        "id": 1,
+        "avatar": "/img/avatars/testimonials/1.jpg",
+        "name": "サラ・ミラー",
+        "designation": "旅行ブロガー",
+        "text": "ここでの滞在は本当に素晴らしかったです！ロケーションは戦略的で、部屋は清潔で快適、スタッフのサービスは非常にフレンドリーでした。家族旅行に強くお勧めします。",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "ジョン・デイビス",
+        "designation": "起業家",
+        "text": "このホテルは私の出張に最適な選択でした。設備が充実しており、Wi-Fiも高速で、市内中心部に近いです。非常に効率的で快適でした。",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "エミリー・ホワイト",
+        "designation": "学生",
+        "text": "モダンでインスタ映えするインテリアデザインが気に入っています！友人とのステイケーションに最適です。価格もこの素晴らしい品質にしては手頃です。",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "デイビッド・リー",
+        "designation": "写真家",
+        "text": "部屋からの眺めは素晴らしかったです！素晴らしい写真をたくさん撮ることができました。スタッフも観光地の推薦にとても協力的でした。",
+        "dealyAnimation": "400"
+      }
+    ],
+    "data2": [
+      {
+        "id": 1,
+        "meta": "グランドインペリアルホテル",
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "オリビア・グレース",
+        "designation": "作家",
+        "text": "\"このホテルは安らぎと静けさを見つけるのに最適です。静かな雰囲気、静かな部屋、そして応答の速いスタッフのおかげで、中断することなく執筆に集中できました。強くお勧めします。\"",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "meta": "グランドインペリアルホテル",
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "ダニエル・キム",
+        "designation": "デジタルノマド",
+        "text": "\"安定したインターネット接続と快適な作業スペースはここでの大きなプラスです。仕事と休暇を同時に楽しむことができました。場所も多くのカフェに近いです。\"",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "meta": "グランドインペリアルホテル",
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "ソフィア・ブラウン",
+        "designation": "退職者",
+        "text": "\"フレンドリーなサービスと高齢者向けの設備のおかげで、私たちはとても快適に過ごせました。朝食も美味しくて種類豊富でした。また必ず来ます。\"",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "meta": "グランドインペリアルホテル",
+        "avatar": "/img/avatars/testimonials/4.png",
+        "name": "マイケル・チェン",
+        "designation": "シェフ",
+        "text": "\"シェフとして、このホテルのレストランの料理の質を本当に高く評価しています。料理は美味しく、メニューの選択肢も豊富です。本当に素晴らしい料理体験です！\"",
+        "dealyAnimation": "400"
+      },
+      {
+        "id": 5,
+        "meta": "グランドインペリアルホテル",
+        "avatar": "/img/avatars/testimonials/5.png",
+        "name": "クロエ・ウィルソン",
+        "designation": "グラフィックデザイナー",
+        "text": "\"ホテルの美しい内装デザインと良い照明が、私の創造性を本当に支えてくれました。興味深い写真スポットもたくさん！部屋もとても清潔でした。\"",
+        "dealyAnimation": "500"
+      }
+    ],
+    "data3": [
+      {
+        "id": 1,
+        "meta": "オーシャンビューリゾート",
+        "avatar": "/img/testimonials/2/1.png",
+        "name": "ジェームズ・テイラー",
+        "designation": "ビジネスマン",
+        "text": "\"このリゾートは壮大な海の景色を誇ります。日常からの休息に最適です。インフィニティプールも息をのむほど美しいです。\""
+      },
+      {
+        "id": 2,
+        "meta": "オーシャンビューリゾート",
+        "avatar": "/img/testimonials/2/2.png",
+        "name": "イザベラ・ロドリゲス",
+        "designation": "教師",
+        "text": "\"ここでの家族旅行はとても思い出深いものでした。子供向けのアクティビティがたくさんあり、スタッフもとても親切で助かりました。子供たちはプライベートビーチで遊ぶのが大好きでした。\""
+      },
+      {
+        "id": 3,
+        "meta": "オーシャンビューリゾート",
+        "avatar": "/img/testimonials/2/3.png",
+        "name": "リアム・ガルシア",
+        "designation": "医師",
+        "text": "\"この場所はリラックスのための完璧な逃避行です。癒しのスパサービスと穏やかな雰囲気で、完全にリフレッシュできました。\""
+      },
+      {
+        "id": 4,
+        "meta": "オーシャンビューリゾート",
+        "avatar": "/img/testimonials/2/4.png",
+        "name": "ミア・マルティネス",
+        "designation": "コンサルタント",
+        "text": "\"私は仕事で頻繁に旅行しますが、このリゾートはまるで自宅にいるかのような快適さを提供してくれます。ルームサービスも迅速かつプロフェッショナルです。間違いなく私の定番になるでしょう。\""
+      },
+      {
+        "id": 5,
+        "meta": "オーシャンビューリゾート",
+        "avatar": "/img/testimonials/2/5.png",
+        "name": "ノア・トンプソン",
+        "designation": "アーティスト",
+        "text": "\"インスピレーションはどこからでも湧いてきますが、このリゾートは息をのむような自然の美しさに満ちています。ここでたくさんの絵を描きました。アーティストやインスピレーションを求めるすべての人に強くお勧めします。\""
+      }
+    ]
+  },
+  "faqContent": {
+    "hotel": {
+      "facilitiesQuestion": "{title} にはどのような設備が含まれていますか？",
+      "facilitiesAnswer": "{title} の設備には、無料Wi-Fi、スイミングプール、駐車場などが含まれます。設備の完全なリストについては、宿泊施設にお問い合わせください。",
+      "breakfastQuestion": "{title} には朝食が含まれていますか？",
+      "breakfastAnswer": "はい、{title} でのご滞在には朝食が含まれています。",
+      "checkInCheckOutQuestion": "{title} のチェックインとチェックアウトの時間は何時ですか？",
+      "checkInCheckOutAnswer": "{title} のチェックインは午後2時から、チェックアウトは正午12時までです。",
+      "petsAllowedQuestion": "{title} ではペットの同伴が許可されていますか？",
+      "petsAllowedAnswer": "{title} ではペットの同伴は許可されていません。",
+      "parkingFacilityQuestion": "{title} には駐車場がありますか？",
+      "parkingFacilityAnswer": "はい、{title} ではゲスト用の駐車場をご利用いただけます。",
+      "smokingAllowedQuestion": "{title} では喫煙が許可されていますか？",
+      "smokingAllowedAnswer": "いいえ、{title} のすべてのエリアで喫煙は禁止されています。",
+      "airportTransportationQuestion": "{title} は空港送迎サービスを提供していますか？",
+      "airportTransportationAnswer": "はい、{title} では追加料金で空港送迎を手配できます。",
+      "cancellationPolicyQuestion": "{title} のキャンセルポリシーは何ですか？",
+      "cancellationPolicyAnswer": "キャンセルは、チェックインの24時間前まで無料で可能です。",
+      "meetingFacilitiesQuestion": "{title} には会議施設がありますか？",
+      "meetingFacilitiesAnswer": "はい、{title} には予約可能な設備が整った会議室があります。",
+      "attractionsNearQuestion": "{title} の近くにはどのような観光スポットがありますか？",
+      "attractionsNearAnswer": "{title} の近くの人気観光スポットには、[観光スポットのリスト] などがあります。"
+    },
+    "category": {
+      "offeringsQuestion": "{category} カテゴリにはどのような種類のオファーがありますか？",
+      "offeringsAnswer": "幅広いオプションを探索する準備はできていますか？私たちの {category} カテゴリには、排他的なプレミアム体験からスマートで予算に優しいソリューションまで、あらゆるものが含まれています。あなたの旅行の夢や特定のニーズを満たす完璧なマッチを見つけてください！",
+      "familyFriendlyQuestion": "私たちの {category} の選択肢には、家族向けの選択肢がありますか？",
+      "familyFriendlyAnswer": "もちろんです！お客様のニーズを理解しております。ご家族に強くお勧めする{category}の選択肢が多数あり、愛する人との時間をさらに思い出深く快適にするための設備やアクティビティが完備されています。",
+      "mainAttractionsQuestion": "これらの {category} オファーの近くにある主要な観光スポットや最も人気のある目的地は何ですか？",
+      "mainAttractionsAnswer": "私たちの {category} の選択は、製品/サービスだけではありません。場所も重要です！象徴的な観光スポット、エキサイティングなエンターテイメントハブ、そしてぜひ試してほしいグルメに簡単にアクセスできます。バンドン、西ジャワ、または選択した {category} があなたをどこへ導くかに関わらず、あなたの体験を最大限に活用してください！",
+      "luxuryAmenitiesQuestion": "一部の {category} オプションには、豪華な設備や特別な機能がありますか？",
+      "luxuryAmenitiesAnswer": "はい、もちろんです！快適さと贅沢に浸ってください。{category}の提供するサービスの多くは、プライベートインフィニティプール、ホリスティックなスパサービス、最新鋭のフィットネスセンターなど、5つ星の設備を備えています。忘れられない体験をお楽しみください！",
+      "topRatedQuestion": "顧客レビューが最も良い、トップ評価の {category} オプションは何ですか？",
+      "topRatedAnswer": "最高をお探しですか？コミュニティに愛されている、厳選された {category} の選択肢のリストです。本物のユーザーの声に裏付けられた品質と満足度を保証します！"
+    },
+    "city": {
+      "typesOfHotelsQuestion": "{city} にはどのような種類のホテルがありますか？",
+      "typesOfHotelsAnswer": "{city} のホテルは、高級ホテルからリーズナブルな価格のホテルまで、様々です。",
+      "familyFriendlyHotelsQuestion": "{city} には家族向けのホテルがありますか？",
+      "familyFriendlyHotelsAnswer": "はい、{city} には家族向けのホテルがたくさんあります。",
+      "attractionsNearHotelsQuestion": "{city} のホテルの近くにはどのような観光スポットがありますか？",
+      "attractionsNearHotelsAnswer": "{city} のホテルは、様々な人気の観光スポットに近接しています。",
+      "hotelsWithPoolsQuestion": "{city} にはプール付きのホテルがありますか？",
+      "hotelsWithPoolsAnswer": "はい、{city} の多くのホテルにはプールやその他の設備があります。",
+      "bestRatedHotelsQuestion": "{city} で最も評価の高いホテルはどこですか？",
+      "bestRatedHotelsAnswer": "以下は {city} で最も評価の高いホテルです："
+    },
+    "country": {
+      "typesOfHotelsQuestion": "{country} にはどのような種類のホテルがありますか？",
+      "typesOfHotelsAnswer": "{country} のホテルは、高級ホテルからリーズナブルな価格のホテルまで、様々です。",
+      "familyFriendlyHotelsQuestion": "{country} には家族向けのホテルがありますか？",
+      "familyFriendlyHotelsAnswer": "はい、{country} には家族向けのホテルがたくさんあります。",
+      "attractionsNearHotelsQuestion": "{country} のホテルの近くにはどのような観光スポットがありますか？",
+      "attractionsNearHotelsAnswer": "{country} のホテルは、様々な人気の観光スポットに近接しています。",
+      "hotelsWithPoolsQuestion": "{country} にはプール付きのホテルがありますか？",
+      "hotelsWithPoolsAnswer": "はい、{country} の多くのホテルにはプールやその他の設備があります。",
+      "bestRatedHotelsQuestion": "{country} で最も評価の高いホテルはどこですか？",
+      "bestRatedHotelsAnswer": "以下は {country} で最も評価の高いホテルです："
+    },
+    "landmark": {
+      "typesOfHotelsQuestion": "{landmark} の近くにはどのような種類のホテルがありますか？",
+      "typesOfHotelsAnswer": "{landmark} の近くには、豪華なブティックホテルから快適で手頃な価格の宿泊施設まで、幅広い選択肢があります。短期滞在でも長期滞在でも、あらゆる好みに合った完璧なホテルが見つかります。",
+      "familyFriendlyHotelsQuestion": "{landmark} の近くには家族向けのホテルがありますか？",
+      "familyFriendlyHotelsAnswer": "はい、もちろんです！ {landmark} の近くの多くのホテルは家族向けに設備が充実しており、広々としたファミリー ルーム、キッズ クラブ、スイミング プールなどのアメニティを備えています。愛する人と一緒にランドマークとその周辺を探索するための快適な拠点となります。",
+      "attractionsNearHotelsQuestion": "{landmark} に近いホテルの近くにはどのような観光スポットがありますか？",
+      "attractionsNearHotelsAnswer": "{landmark} 近くのホテルは、ランドマーク自体を訪れるのに比類のない利便性を提供します。さらに、他の人気観光スポット、博物館、飲食店、エンターテイメント施設に戦略的に近接していることが多く、探索が楽になります。",
+      "hotelsWithPoolsQuestion": "{landmark} の近くにはプール付きのホテルがありますか？",
+      "hotelsWithPoolsAnswer": "はい、{landmark} の近くにある多くのホテルには、観光の後にリラックスするのに最適な爽やかなプールがあります。中には、ランドマークや街のスカイラインの素晴らしい景色を望む屋上プールを誇るホテルもあります。",
+      "bestRatedHotelsQuestion": "{landmark} の近くで最も評価の高いホテルはどこですか？",
+      "bestRatedHotelsAnswerDefault": "現在、{landmark} のすぐ近くのホテルに関する特定の最高評価データはありません。ただし、より広いエリアで様々な高評価の選択肢を閲覧できます。",
+      "bestRatedHotelsAnswerWithData": "ゲストレビューに基づくと、{landmark} の近くで最も評価の高いホテルには以下が含まれます。"
+    },
+    "state": {
+      "typesOfHotelsQuestion": "{state} にはどのような種類のホテルがありますか？",
+      "typesOfHotelsAnswer": "{state} のホテルは、高級ホテルからリーズナブルな価格のホテルまで、様々です。",
+      "familyFriendlyHotelsQuestion": "{state} には家族向けのホテルがありますか？",
+      "familyFriendlyHotelsAnswer": "はい、{state} には家族向けのホテルがたくさんあります。",
+      "attractionsNearHotelsQuestion": "{state} のホテルの近くにはどのような観光スポットがありますか？",
+      "attractionsNearHotelsAnswer": "{state} のホテルは、様々な人気の観光スポットに近接しています。",
+      "hotelsWithPoolsQuestion": "{state} にはプール付きのホテルがありますか？",
+      "hotelsWithPoolsAnswer": "はい、{state} の多くのホテルにはプールやその他の設備があります。",
+      "bestRatedHotelsQuestion": "{state} で最も評価の高いホテルはどこですか？",
+      "bestRatedHotelsAnswer": "以下は {state} で最も評価の高いホテルです："
+    }
+  }
+}

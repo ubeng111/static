@@ -1,0 +1,507 @@
+{
+  "common": {
+    "loadingSearchResults": "Indlæser søgeresultater...",
+    "loadingCityContent": "Indlæser byindhold...",
+    "loadingHotel": "Indlæser hoteloplysninger...",
+    "hotelNotFound": "Hotel ikke fundet.",
+    "errorServer": "Der opstod en serverfejl",
+    "preloaderTitle": "Hoteloza..",
+    "failedToLoadHotelList": "Kunne ikke indlæse hotelliste. Prøv venligst igen.",
+    "cityIdRequired": "By-ID er påkrævet.",
+    "callToActionsDescription": "Gode ideer varer ikke længe. Book din Hoteloza-rejse i dag!",
+    "errorLoadingData": "Der opstod en fejl under indlæsning af data. Prøv venligst igen senere.",
+    "noHotelsFound": "Ingen hoteller fundet for denne kategori.",
+    "noRelatedCategoriesFound": "Ingen relaterede kategorier fundet.",
+    "noRelatedCountriesFound": "Ingen relaterede lande fundet.",
+    "noRelatedStatesFound": "Ingen relaterede provinser fundet.",
+    "noRelatedCitiesFound": "Ingen relaterede byer fundet.",
+    "noRelatedHotelsFound": "Ingen relaterede hoteller fundet.",
+    "unknownAddress": "Ukendt adresse",
+    "unknownCity": "Ukendt by",
+    "unknownRegion": "Ukendt region",
+    "unknownCountry": "Ukendt land",
+    "unnamedHotel": "Unavngivet hotel",
+    "reserveNow": "Reserver nu",
+    "unknownCategory": "Ukendt kategori",
+    "unknownState": "Ukendt provins",
+    "errorLandmarkNotFound": "Fejl: Landemærke ikke fundet i URL. Kan ikke indlæse.",
+    "properties": "ejendomme",
+    "noDestinationsFound": "Ingen destinationer tilgængelige for denne region.",
+    "topRecommendedHotelsTitle": "Topanbefalede {category} i {city}",
+    "findTopRatedStays": "Find topbedømte ophold med lignende fordele nær din destination",
+    "unknownLocation": "Ukendt placering",
+    "failedToLoadHotelData": "Kunne ikke hente hoteldata",
+    "errorWithMessage": "Fejl: {error}",
+    "night": "Nat"
+  },
+  "header": {
+    "luxuryBackgroundImageAlt": "Luksus baggrundsbillede"
+  },
+  "search": {
+    "searchResultAccommodationIn": "Søgeresultat for indkvartering i {cityName}",
+    "searchResultPropertiesIn": "Ejendomme fundet i",
+    "selectedCity": "Valgt by",
+    "unknownLocation": "Ukendt placering",
+    "searchParametersIncomplete": "Søgeparametre ufuldstændige."
+  },
+  "categoryPage": {
+    "discoverLuxeStaysIn": "Oplev luksusophold i",
+    "faqsAboutHotels": "Ofte stillede spørgsmål {formattedCategory}",
+    "categoryDefault": "Kategori",
+    "defaultItemListDescription": "En liste over top {formattedCategory} for {currentYear} på Hoteloza."
+  },
+  "countryPage": {
+    "discoverStaysIn": "Oplev ophold i {displayCountry}",
+    "faqsAboutCountryHotels": "Ofte stillede spørgsmål Hoteller i {displayCountry}",
+    "countryDefault": "Land",
+    "noHotelsFoundForCountry": "Ingen hoteller fundet for dette land."
+  },
+  "statePage": {
+    "discoverStaysInState": "Oplev ophold i {formattedState}",
+    "faqsAboutStateHotels": "Ofte stillede spørgsmål Hoteller i {displayState}",
+    "stateDefault": "Provins",
+    "noHotelsFoundForState": "Ingen hoteller fundet for denne provins."
+  },
+  "cityPage": {
+    "discoverStaysInCity": "Oplev ophold i {formattedCity}",
+    "faqsAboutCityHotels": "Ofte stillede spørgsmål Hoteller i {displayCity}",
+    "cityDefault": "By",
+    "noHotelsFoundForCity": "Ingen hoteller fundet for denne by."
+  },
+  "hotelSinglePage": {
+    "aboutThisHotel": "Om dette hotel",
+    "facilitiesAndServices": "Faciliteter og tjenester",
+    "attractionsNearby": "Attraktioner i nærheden",
+    "reviews": "Anmeldelser",
+    "faq": "Ofte stillede spørgsmål",
+    "locationMap": "Lokationskort",
+    "frequentlyAskedQuestions": "Ofte stillede spørgsmål",
+    "toggleFrequentlyAskedQuestions": "Skift ofte stillede spørgsmål",
+    "toggleLocationMap": "Skift lokationskort",
+    "relatedHotels": "Populære ejendomme lignende",
+    "toggleFacilities": "Skift faciliteter",
+    "toggleLandmarks": "Skift nærliggende landemærker",
+    "toggleRelatedHotels": "Skift populære ejendomme lignende",
+    "defaultSchemaDescription": "Book {formattedHotel}, et luksushotel i {formattedCity} for {currentYear} på Hoteloza.",
+    "exceptionalReviewText": "Enestående"
+  },
+  "bookNow": {
+    "reserveNowButton": "Reserver nu"
+  },
+  "facilities": {
+    "bathroom": "Badeværelse",
+    "towels": "Håndklæder",
+    "bathOrShower": "Badekar eller bruser",
+    "privateBathroom": "Privat badeværelse",
+    "toilet": "Toilet",
+    "freeToiletries": "Gratis toiletartikler",
+    "hairdryer": "Hårtørrer",
+    "bath": "Badekar",
+    "bedroom": "Soveværelse",
+    "linen": "Linned",
+    "wardrobeOrCloset": "Garderobe eller skab",
+    "receptionServices": "Receptionstjenester",
+    "invoiceProvided": "Faktura udleveret",
+    "privateCheckInCheckOut": "Privat check-in/check-ud",
+    "luggageStorage": "Bagageopbevaring",
+    "twentyFourHourFrontDesk": "24-timers reception",
+    "mediaTechnology": "Medier & Teknologi",
+    "flatScreenTV": "Fladskærms-tv",
+    "satelliteChannels": "Satellitkanaler",
+    "radio": "Radio",
+    "telephone": "Telefon",
+    "tv": "Tv",
+    "foodDrink": "Mad & Drikke",
+    "kidMeals": "Børnemenuer",
+    "specialDietMenusOnRequest": "Særlige diætmenuer (efter anmodning)",
+    "breakfastInTheRoom": "Morgenmad på værelset",
+    "cleaningServices": "Rengøringsservice",
+    "dailyHousekeeping": "Daglig rengøring",
+    "dryCleaning": "Renseri",
+    "laundry": "Vaskeri",
+    "safetySecurity": "Sikkerhed & Tryghed",
+    "fireExtinguishers": "Brandslukkere",
+    "cctvInCommonAreas": "CCTV i fællesområder",
+    "smokeAlarms": "Røgalarmer",
+    "twentyFourHourSecurity": "24-timers sikkerhed"
+  },
+  "landmarkList": {
+    "noNearbyPlacesFound": "Ingen nærliggende steder fundet inden for {radius} km.",
+    "nearbyEssentialAndTouristSpots": "🗺️ Nærliggende essentielle og turistmæssige steder"
+  },
+  "mapComponent": {
+    "mapTitle": "🗺️ Kort {title}"
+  },
+  "relatedCategories": {
+    "countriesIn": "🏨 Lande i {formattedCategory}"
+  },
+  "relatedCities": {
+    "noRelatedCitiesFound": "Ingen relaterede byer fundet",
+    "bestRelatedCitiesIn": "🏨 Bedste relaterede byer i {formattedState}"
+  },
+  "relatedCountries": {
+    "noRelatedStatesFound": "Ingen relaterede provinser fundet",
+    "statesIn": "🏨 Provinser i {formattedCountry}"
+  },
+  "relatedStates": {
+    "noRelatedCitiesFound": "Ingen relaterede byer fundet",
+    "citiesIn": "🏨 Byer i {formattedState}"
+  },
+  "city": {
+    "city": "By",
+    "faq": "Ofte stillede spørgsmål"
+  },
+  "mainFilterSearchBox": {
+    "destinationPlaceholder": "Hvad er din destination?",
+    "checkInPlaceholder": "Check-in dato",
+    "checkOutPlaceholder": "Check-ud dato",
+    "adultsLabel": "Voksne",
+    "childrenLabel": "Børn",
+    "roomsLabel": "Værelser",
+    "searchButton": "Søg"
+  },
+  "footer": {
+    "popularStays": "Populære ophold",
+    "hotel": "Hotel",
+    "villa": "Villa",
+    "resort": "Resort",
+    "apartment": "Lejlighed",
+    "guestHouse": "Gæstehus",
+    "uniqueStays": "Unikke ophold",
+    "capsuleHotel": "Kapselhotel",
+    "yurt": "Jurte",
+    "treehouse": "Træhytte",
+    "tent": "Telt",
+    "domeHouse": "Kuppelhus",
+    "traditionalStays": "Traditionelle ophold",
+    "ryokan": "Ryokan",
+    "machiya": "Machiya",
+    "countryHouse": "Landhus",
+    "haveli": "Haveli",
+    "riad": "Riad",
+    "heritageHotel": "Arvshotel",
+    "adventureStays": "Eventyrlige ophold",
+    "farmStay": "Gårdbesøg",
+    "cabin": "Hytte",
+    "chalet": "Chalet",
+    "boat": "Båd",
+    "houseboat": "Husvogn",
+    "hotelozaFooterText": "Hoteloza er en førende platform for nemme og problemfrie hotelbookinger. Vi forenkler din søgning efter den perfekte indkvartering og tilbyder et bredt udvalg af ophold, fra hyggelige hoteller til luksuriøse resorts. Nyd bekvemmeligheden ved booking, eksklusive tilbud og personaliserede tjenester, der er skræddersyet til dine rejsebehov. Book med Hoteloza og gør uforglemmelige rejser til virkelighed.",
+    "hotelozaAllRightsReserved": "© {year} Hoteloza. Alle rettigheder forbeholdes."
+  },
+  "metadata": {
+    "homePageTitle": "Hoteloza - Find dit drømmehotel",
+    "homePageDescription": "Find de bedste hoteller og indkvartering til din næste rejse. Book nu med Hoteloza!",
+    "searchResultPageTitle": "Hoteller i {cityName} - Hoteloza Søgeresultater",
+    "searchResultPageDescription": "Søg og book hoteller i {cityName}. Sammenlign priser og faciliteter for dit bedste ophold.",
+    "cityPageTitle": "Hoteller i {cityName} - Oplev {cityName} med Hoteloza",
+    "cityPageDescription": "Oplev de bedste hoteller i {cityName} og find de bedste tilbud til din uforglemmelige rejse med Hoteloza.",
+    "categoryNotFoundTitle": "Kategori ikke fundet | Hoteloza",
+    "categoryNotFoundDescription": "Kategorien du leder efter, blev ikke fundet på Hoteloza.",
+    "categoryPageTitleTemplate": "Bedste {formattedCategory} Rabatter {currentYear} - Spar stort hos Hoteloza!",
+    "categoryPageDescriptionTemplate": "Oplev de bedste {formattedCategory} i {currentYear} med Hoteloza. Nyd eksklusive rabatter, gode priser og topfaciliteter. Book nu for et uforglemmeligt ophold!",
+    "categoryOgTitleTemplate": "Top {formattedCategory} Tilbud {currentYear} | Hoteloza",
+    "categoryOgDescriptionTemplate": "Udforsk top {formattedCategory} for {currentYear} på Hoteloza. Book nu for eksklusive tilbud og premium faciliteter!",
+    "categoryWebPageNameTemplate": "Top {formattedCategory} Tilbud {currentYear}",
+    "categoryWebPageDescriptionTemplate": "Oplev top {formattedCategory} for {currentYear} på Hoteloza med eksklusive tilbud og premium faciliteter.",
+    "countryNotFoundTitle": "Side ikke fundet | Hoteloza",
+    "countryNotFoundDescription": "Kategorien, landet eller provinsen du leder efter, blev ikke fundet på Hoteloza.",
+    "countryPageTitleTemplate": "Billige {formattedCategory} i {formattedCountry} {currentYear} - Gå ikke glip af! | Hoteloza",
+    "countryPageDescriptionTemplate": "Få de bedste {formattedCategory} i {formattedCountry} for {currentYear} på Hoteloza. Nyd eksklusive tilbud, overkommelige priser og topfaciliteter. Begrænsede tilbud – book dit ophold i dag!",
+    "countryOgTitleTemplate": "Bedste {formattedCategory} i {formattedCountry} {currentYear} | Hoteloza",
+    "countryOgDescriptionTemplate": "Find de bedste {formattedCategory} i {formattedCountry} for {currentYear} på Hoteloza. Book nu for tophoteller og eksklusive tilbud!",
+    "stateNotFoundTitle": "Side ikke fundet | Hoteloza",
+    "stateNotFoundDescription": "Kategorien, landet eller provinsen du leder efter, blev ikke fundet på Hoteloza.",
+    "statePageTitleTemplate": "Billige {formattedCategory} i {formattedState}, {formattedCountry} {currentYear} - Book nu! | Hoteloza",
+    "statePageDescriptionTemplate": "Find de bedste {formattedCategory} i {formattedState}, {formattedCountry} for {currentYear} på Hoteloza. Eksklusive tilbud, gode priser og topfaciliteter. Book dit uforglemmelige ophold!",
+    "stateOgTitleTemplate": "Bedste {formattedCategory} i {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
+    "stateOgDescriptionTemplate": "Oplev top {formattedCategory} i {formattedState}, {formattedCountry} for {currentYear} på Hoteloza. Book nu for eksklusive tilbud og premium faciliteter!",
+    "cityNotFoundTitle": "Side ikke fundet | Hoteloza",
+    "cityNotFoundDescription": "Kategorien, landet, provinsen eller byen du leder efter, blev ikke fundet på Hoteloza.",
+    "cityPageTitleTemplate": "Billige {formattedCategory} i {formattedCity}, {formattedState}, {formattedCountry} {currentYear} - Store rabatter! | Hoteloza",
+    "cityPageDescriptionTemplate": "Find de bedste {formattedCategory} i {formattedCity}, {formattedState}, {formattedCountry} for {currentYear} på Hoteloza. Eksklusive rabatter, topfaciliteter og uovertrufne priser. Book dit drømmeophold nu!",
+    "cityOgTitleTemplate": "Bedste {formattedCategory} i {formattedCity}, {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
+    "cityOgDescriptionTemplate": "Oplev top {formattedCategory} i {formattedCity}, {formattedState}, {formattedCountry} for {currentYear} på Hoteloza. Book nu for eksklusive tilbud og premium faciliteter!",
+    "hotelNotFoundTitle": "Hotel ikke fundet | Hoteloza",
+    "hotelNotFoundDescription": "Hotellet du leder efter, kunne ikke findes.",
+    "hotelPageTitleTemplate": "{hotelTitle} - Book nu på Hoteloza!",
+    "hotelPageDescriptionTemplate": "Book dit ophold på {hotelTitle} i {city}, {state}, {country}. Find de bedste tilbud, faciliteter og anmeldelser for en uforglemmelig oplevelse med Hoteloza.",
+    "hotelOgTitleTemplate": "{hotelTitle} | Hoteloza",
+    "hotelOgDescriptionTemplate": "Find de bedste tilbud på {hotelTitle} med Hoteloza."
+  },
+  "landmarkPage": {
+    "topHotelsNear": "Billige {category} nær {landmarkName}",
+    "landmarkPageTitleTemplate": "Billige {category} nær {landmarkName}",
+    "description": "{category} {landmarkName} tilbyder den bedste indkvartering i {cityName}, med gode tilbud og faciliteter som gratis WiFi.",
+    "loadingHotel": "Indlæser hotel...",
+    "errorLoadingHotel": "Fejl: {error}",
+    "hotelNotFound": "Hotel ikke fundet.",
+    "serverErrorFetchingData": "Serverfejl ved hentning af hoteldata."
+  },
+  "navigation": {
+    "home": "Hjem",
+    "about": "Om os",
+    "contact": "Kontakt"
+  },
+  "homepage": {
+    "dreamDestinations": "Drømmedestinationer",
+    "unforgettableSpots": "Uforglemmelige steder du vil udforske igen og igen",
+    "whatOurGuestsTrulyLoveAboutUs": "Hvad vores gæster virkelig elsker ved os",
+    "experienceTheMagic": "Oplev magien der får millioner til at vende tilbage. Hos Hoteloza er vi dedikerede til at gøre hvert ophold uforglemmeligt, med lethed, omhu og enestående service.",
+    "hotelozaHeroTitle": "Find, Book og Slap af med Hoteloza",
+    "hotelozaHeroSubtitle": "Udforsk tusindvis af hoteller verden over med Hoteloza",
+    "delightedGuests": "Begejstrede gæster",
+    "guestSatisfactionScore": "Gæstetilfredshedsscore",
+    "happyPeople": "Glade mennesker",
+    "overallRating": "Samlet bedømmelse"
+  },
+  "about": {
+    "lookingForJoy": "Leder du efter glæde?",
+    "trustedTripCompanion": "Din betroede rejsekammerat",
+    "whyChooseUs": "Hvorfor vælge os",
+    "popularDestinationsOffer": "Disse populære destinationer har meget at byde på",
+    "overheardFromTravelers": "Overhørt fra rejsende",
+    "aboutHotelozaTitle": "Om Hoteloza",
+    "aboutHotelozaSubtitle": "Oplev en verden af komfort og elegance",
+    "aboutHotelozaParagraph1": "Hoteloza er dit luksuriøse fristed, der tilbyder uovertruffen gæstfrihed i hjertet af pulserende destinationer. Vores hoteller kombinerer moderne elegance med tidløs komfort og sikrer, at hvert ophold er en mindeværdig oplevelse.",
+    "aboutHotelozaParagraph2": "Fordyb dig i vores verdensklasse faciliteter, fra fredfyldte spa'er til udsøgt spisning, og udforsk nærliggende attraktioner, der gør hvert besøg uforglemmeligt. Uanset om det er for forretning eller fritid, er Hoteloza dit hjem væk fra hjemmet."
+  },
+  "blockGuide": {
+    "bestPriceGuarantee": "Bedste Pris Garanti",
+    "bestPriceGuaranteeText": "Find dit perfekte ophold til den bedst mulige pris – garanteret. Ingen skjulte gebyrer, bare reelle besparelser hver gang du booker.",
+    "easyQuickBooking": "Nem & Hurtig Booking",
+    "easyQuickBookingText": "Book dit drømmehotel med blot et par klik. Hurtigt, enkelt og problemfrit – din næste getaway starter her.",
+    "customerSupport": "24/7 Kundesupport",
+    "customerSupportText": "Har du brug for hjælp? Vores supportteam er tilgængeligt døgnet rundt for at hjælpe dig – hvor og hvornår du har brug for det."
+  },
+  "contactPage": {
+    "heroTitle": "Kontakt os",
+    "heroSubtitle": "Vi er her for at hjælpe og besvare eventuelle spørgsmål, du måtte have.",
+    "getInTouchTitle": "Kom i kontakt",
+    "getInTouchDescription": "Du er velkommen til at kontakte os med eventuelle spørgsmål eller bekymringer. Vores team er altid klar til at hjælpe dig.",
+    "addressLabel": "Adresse",
+    "addressValue": "123 Hoteloza Street, Suite 456, City, Country",
+    "emailLabel": "E-mail",
+    "emailValue": "info@hoteloza.com",
+    "workingHoursLabel": "Arbejdstider",
+    "workingHoursValue": "Mandag - Fredag: 9:00 - 17:00 (Lokal tid)"
+  },
+  "callToActions": {
+    "subscribeHere": "Tilmeld dig her",
+    "yourEmail": "Din e-mail",
+    "subscribeButton": "Tilmeld"
+  },
+  "testimonials": {
+    "sarahMQuote": "Hoteloza er en game-changer! Jeg har konsekvent fundet de bedste hoteltilbud her. Det er virkelig den bedste hotel-affiliate-hjemmeside globalt.",
+    "sarahMName": "Sarah M.",
+    "sarahMDesignation": "Rejseentusiast",
+    "data": [
+      {
+        "id": 1,
+        "avatar": "/img/avatars/testimonials/1.jpg",
+        "name": "Sarah Miller",
+        "designation": "Rejseblogger",
+        "text": "Vores ophold her var helt utroligt! Beliggenheden er strategisk, værelset var rent og behageligt, og personalets service var usædvanligt venlig. Kan varmt anbefales til en familieferie.",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "John Davis",
+        "designation": "Iværksætter",
+        "text": "Dette hotel var det perfekte valg til min forretningsrejse. Komplette faciliteter, hurtig Wi-Fi og tæt på byens centrum. Meget effektivt og behageligt.",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "Emily White",
+        "designation": "Studerende",
+        "text": "Jeg elsker det moderne og Instagrammable indretning! Det er perfekt til en staycation med venner. Prisen er også overkommelig for så god kvalitet.",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "David Lee",
+        "designation": "Fotograf",
+        "text": "Udsigten fra værelset var fantastisk! Jeg fik taget så mange gode billeder. Personalet var også meget hjælpsomt med at anbefale turistattraktioner.",
+        "dealyAnimation": "400"
+      }
+    ],
+    "data2": [
+      {
+        "id": 1,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "Olivia Grace",
+        "designation": "Forfatter",
+        "text": "\"Dette hotel er perfekt til at finde ro og fred. Den rolige atmosfære, de lydløse værelser og det lydhøre personale gjorde det muligt for mig at fokusere på at skrive uden afbrydelser. Kan varmt anbefales.\"",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "Daniel Kim",
+        "designation": "Digital nomade",
+        "text": "\"Stabil internetforbindelse og et behageligt arbejdsområde er et kæmpe plus her. Jeg kunne arbejde og holde ferie på samme tid. Beliggenheden er også tæt på mange caféer.\"",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "Sophia Brown",
+        "designation": "Pensionist",
+        "text": "\"Den venlige service og seniorvenlige faciliteter fik os til at føle os meget veltilpas. Morgenmaden var også lækker og varieret. Vi kommer helt sikkert tilbage.\"",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/4.png",
+        "name": "Michael Chen",
+        "designation": "Kok",
+        "text": "\"Som kok sætter jeg virkelig pris på kvaliteten af maden på dette hotels restaurant. Retterne er lækre og menumulighederne er varierede. En virkelig fantastisk kulinarisk oplevelse!\"",
+        "dealyAnimation": "400"
+      },
+      {
+        "id": 5,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/5.png",
+        "name": "Chloe Wilson",
+        "designation": "Grafisk designer",
+        "text": "\"Hotellets æstetiske indretning og gode belysning støttede virkelig min kreativitet. Mange interessante fotosteder! Værelset var også meget rent.\"",
+        "dealyAnimation": "500"
+      }
+    ],
+    "data3": [
+      {
+        "id": 1,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/1.png",
+        "name": "James Taylor",
+        "designation": "Forretningsmand",
+        "text": "\"Dette resort har en spektakulær havudsigt. Det er perfekt til at slappe af fra rutinen. Infinity-poolen er også betagende.\""
+      },
+      {
+        "id": 2,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/2.png",
+        "name": "Isabella Rodriguez",
+        "designation": "Lærer",
+        "text": "\"Vores familieferie her var meget mindeværdig. Der var masser af børneaktiviteter, og personalet var meget venligt og hjælpsomt. Børnene elskede at lege på den private strand.\""
+      },
+      {
+        "id": 3,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/3.png",
+        "name": "Liam Garcia",
+        "designation": "Doktor",
+        "text": "\"Dette sted er den perfekte flugt til afslapning. De beroligende spa-behandlinger og den fredelige atmosfære fik mig til at føle mig fuldstændig forfrisket.\""
+      },
+      {
+        "id": 4,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/4.png",
+        "name": "Mia Martinez",
+        "designation": "Konsulent",
+        "text": "\"Jeg rejser ofte i forbindelse med arbejde, og dette resort giver følelsen af at være hjemme. Roomservice er hurtig og professionel. Det vil helt sikkert være mit faste valg.\""
+      },
+      {
+        "id": 5,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/5.png",
+        "name": "Noah Thompson",
+        "designation": "Kunstner",
+        "text": "\"Inspiration kommer fra alle steder, og dette resort er fyldt med fantastisk naturlig skønhed. Jeg malede meget her. Kan varmt anbefales til kunstnere eller enhver, der søger inspiration.\""
+      }
+    ]
+  },
+  "faqContent": {
+    "hotel": {
+      "facilitiesQuestion": "Hvilke faciliteter er inkluderet på {title}?",
+      "facilitiesAnswer": "Faciliteter på {title} inkluderer gratis Wi-Fi, swimmingpool, parkering og mere. Kontakt ejendommen for en komplet liste over faciliteter.",
+      "breakfastQuestion": "Er morgenmad inkluderet på {title}?",
+      "breakfastAnswer": "Ja, morgenmad er inkluderet i dit ophold på {title}.",
+      "checkInCheckOutQuestion": "Hvad er check-in og check-ud tiderne på {title}?",
+      "checkInCheckOutAnswer": "Check-in er fra kl. 14.00, og check-ud er senest kl. 12.00 på {title}.",
+      "petsAllowedQuestion": "Er kæledyr tilladt på {title}?",
+      "petsAllowedAnswer": "Kæledyr er ikke tilladt på {title}.",
+      "parkingFacilityQuestion": "Er der parkeringsmuligheder på {title}?",
+      "parkingFacilityAnswer": "Ja, parkering er tilgængelig for gæster på {title}.",
+      "smokingAllowedQuestion": "Er rygning tilladt på {title}?",
+      "smokingAllowedAnswer": "Nej, rygning er forbudt i alle områder af {title}.",
+      "airportTransportationQuestion": "Tilbyder {title} lufthavnstransport?",
+      "airportTransportationAnswer": "Ja, lufthavnstransport kan arrangeres på {title} mod et ekstra gebyr.",
+      "cancellationPolicyQuestion": "Hvad er afbestillingspolitikken på {title}?",
+      "cancellationPolicyAnswer": "Afbestillinger kan foretages op til 24 timer før check-in uden gebyr.",
+      "meetingFacilitiesQuestion": "Har {title} mødefaciliteter?",
+      "meetingFacilitiesAnswer": "Ja, {title} har fuldt udstyrede mødelokaler til rådighed for booking.",
+      "attractionsNearQuestion": "Hvilke attraktioner er der i nærheden af {title}?",
+      "attractionsNearAnswer": "Populære attraktioner nær {title} inkluderer [liste over attraktioner]."
+    },
+    "category": {
+      "offeringsQuestion": "Hvilke typer tilbud er tilgængelige inden for {category} kategorien?",
+      "offeringsAnswer": "Klar til at udforske et bredt udvalg af muligheder? Vores {category} kategori byder på alt fra eksklusive premium-oplevelser til smarte, budgetvenlige løsninger. Find det perfekte match til at opfylde dine rejsedrømme eller specifikke behov!",
+      "familyFriendlyQuestion": "Er der familievenlige valgmuligheder tilgængelige i vores {category}-udvalg?",
+      "familyFriendlyAnswer": "Absolut! Vi forstår dine behov. Oplev talrige {category}-muligheder, der varmt anbefales til familier, komplet med faciliteter og aktiviteter designet til at gøre dine øjeblikke med dine kære endnu mere mindeværdige og behagelige.",
+      "mainAttractionsQuestion": "Hvad er de vigtigste attraktioner eller mest populære destinationer nær disse {category}-tilbud?",
+      "mainAttractionsAnswer": "Vores {category}-udvalg handler ikke kun om produktet/servicen; det handler også om beliggenheden! Nyd nem adgang til ikoniske turistattraktioner, spændende underholdningscentre og kulinariske lækkerier, du skal prøve. Maksimer din oplevelse i Bandung, Vestjava, eller hvor end din valgte {category} fører dig hen!",
+      "luxuryAmenitiesQuestion": "Tilbyder nogle {category}-muligheder luksusfaciliteter eller særlige funktioner?",
+      "luxuryAmenitiesAnswer": "Ja, bestemt! Fordyb dig i komfort og luksus. Mange af vores {category}-tilbud er udstyret med femstjernede faciliteter som private infinity-pools, holistiske spa-tjenester, topmoderne fitnesscentre og meget mere. Forkæl dig selv med en uforglemmelig oplevelse!",
+      "topRatedQuestion": "Hvilke {category}-muligheder er de højest vurderede med de bedste kundeanmeldelser?",
+      "topRatedAnswer": "Leder du efter det allerbedste? Her er en liste over vores topvalgte {category}-muligheder, elsket af vores fællesskab. Sikr kvalitet og tilfredshed, bakket op af autentiske brugerudtalelser!"
+    },
+    "city": {
+      "typesOfHotelsQuestion": "Hvilke typer hoteller er tilgængelige i {city}?",
+      "typesOfHotelsAnswer": "Udforsk et udvalg af hoteller i {city}, lige fra luksushoteller til budgetmuligheder.",
+      "familyFriendlyHotelsQuestion": "Er der hoteller, der er egnede til familier i {city}?",
+      "familyFriendlyHotelsAnswer": "Ja, der er masser af familievenlige hoteller i {city}.",
+      "attractionsNearHotelsQuestion": "Hvilke attraktioner er der i nærheden af hoteller i {city}?",
+      "attractionsNearHotelsAnswer": "Hoteller i {city} ligger tæt på forskellige populære attraktioner.",
+      "hotelsWithPoolsQuestion": "Er der hoteller med pools i {city}?",
+      "hotelsWithPoolsAnswer": "Ja, mange hoteller i {city} har pools og andre faciliteter.",
+      "bestRatedHotelsQuestion": "Hvad er de bedst bedømte hoteller i {city}?",
+      "bestRatedHotelsAnswer": "Her er nogle af de bedst bedømte hoteller i {city}:"
+    },
+    "country": {
+      "typesOfHotelsQuestion": "Hvilke typer hoteller er tilgængelige i {country}?",
+      "typesOfHotelsAnswer": "Udforsk et udvalg af hoteller i {country}, lige fra luksushoteller til budgetmuligheder.",
+      "familyFriendlyHotelsQuestion": "Er der hoteller, der er egnede til familier i {country}?",
+      "familyFriendlyHotelsAnswer": "Ja, der er masser af familievenlige hoteller i {country}.",
+      "attractionsNearHotelsQuestion": "Hvilke attraktioner er der i nærheden af hoteller i {country}?",
+      "attractionsNearHotelsAnswer": "Hoteller i {country} ligger tæt på forskellige populære attraktioner.",
+      "hotelsWithPoolsQuestion": "Er der hoteller med pools i {country}?",
+      "hotelsWithPoolsAnswer": "Ja, mange hoteller i {country} har pools og andre faciliteter.",
+      "bestRatedHotelsQuestion": "Hvad er de bedst bedømte hoteller i {country}?",
+      "bestRatedHotelsAnswer": "Her er nogle af de bedst bedømte hoteller i {country}:"
+    },
+    "landmark": {
+      "typesOfHotelsQuestion": "Hvilke typer hoteller er tilgængelige nær {landmark}?",
+      "typesOfHotelsAnswer": "Nær {landmark} finder du et bredt udvalg af indkvarteringsmuligheder, fra luksuriøse boutiquehoteller til komfortable og prisvenlige ophold. Uanset om du leder efter et hurtigt besøg eller en længere udforskning, er der et perfekt hotel til enhver præference.",
+      "familyFriendlyHotelsQuestion": "Er der hoteller, der er egnede til familier nær {landmark}?",
+      "familyFriendlyHotelsAnswer": "Absolut! Mange hoteller nær {landmark} er veludstyrede til familier og tilbyder faciliteter som rummelige familieværelser, børneklubber og swimmingpools. De giver en behagelig base for at udforske landemærket og dets omgivelser med dine kære.",
+      "attractionsNearHotelsQuestion": "Hvilke attraktioner er der i nærheden af hoteller tæt på {landmark}?",
+      "attractionsNearHotelsAnswer": "Hoteller nær {landmark} tilbyder uovertruffen bekvemmelighed for at besøge selve landemærket. Desuden er de ofte strategisk placeret tæt på andre populære attraktioner, museer, spisesteder og underholdningssteder, hvilket gør din udforskning ubesværet.",
+      "hotelsWithPoolsQuestion": "Er der hoteller med pools nær {landmark}?",
+      "hotelsWithPoolsAnswer": "Ja, mange hoteller beliggende nær {landmark} har forfriskende swimmingpools, perfekte til afslapning efter en dag med sightseeing. Nogle kan endda prale af tagterrasser med swimmingpools med fantastisk udsigt over landemærket eller byens skyline.",
+      "bestRatedHotelsQuestion": "Hvad er de bedst bedømte hoteller nær {landmark}?",
+      "bestRatedHotelsAnswerDefault": "I øjeblikket har vi ingen specifikke bedst bedømte data tilgængelige for hoteller lige i nærheden af {landmark}. Du kan dog gennemse en række højt bedømte muligheder i det bredere område.",
+      "bestRatedHotelsAnswerWithData": "Baseret på gæsteanmeldelser omfatter nogle af de bedst bedømte hoteller nær {landmark}:"
+    },
+    "state": {
+      "typesOfHotelsQuestion": "Hvilke typer hoteller er tilgængelige i {state}?",
+      "typesOfHotelsAnswer": "Udforsk et udvalg af hoteller i {state}, lige fra luksushoteller til budgetmuligheder.",
+      "familyFriendlyHotelsQuestion": "Er der hoteller, der er egnede til familier i {state}?",
+      "familyFriendlyHotelsAnswer": "Ja, der er masser af familievenlige hoteller i {state}.",
+      "attractionsNearHotelsQuestion": "Hvilke attraktioner er der i nærheden af hoteller i {state}?",
+      "attractionsNearHotelsAnswer": "Hoteller i {state} ligger tæt på forskellige populære attraktioner.",
+      "hotelsWithPoolsQuestion": "Er der hoteller med pools i {state}?",
+      "hotelsWithPoolsAnswer": "Ja, mange hoteller i {state} har pools og andre faciliteter.",
+      "bestRatedHotelsQuestion": "Hvad er de bedst bedømte hoteller i {state}?",
+      "bestRatedHotelsAnswer": "Her er nogle af de bedst bedømte hoteller i {state}:"
+    }
+  }
+}

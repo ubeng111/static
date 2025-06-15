@@ -1,64 +1,79 @@
-const Faq = ({ title = "this property" }) => {
+"use client"; // Marks this as a Client Component
+
+const Faq = ({ title = "this property", dictionary }) => {
+  // Pastikan dictionary dan sub-path tersedia
+  const faqHotelContent = dictionary?.faqContent?.hotel || {};
+
+  const getLocalizedText = (key, interpolations = {}) => {
+    let text = faqHotelContent[key];
+    if (!text) return `Missing translation for ${key}`; // Fallback if translation is missing
+
+    for (const [placeholder, value] of Object.entries(interpolations)) {
+      text = text.replace(new RegExp(`{${placeholder}}`, 'g'), value);
+    }
+    return text;
+  };
+
   const faqContent = [
     {
       id: 1,
       collapseTarget: "One",
-      title: `What facilities are included at ${title}?`,
-      content: `Facilities at ${title} include free Wi-Fi, a swimming pool, parking, and more. Contact the property for a full list of amenities.`,
+      title: getLocalizedText('facilitiesQuestion', { title }),
+      content: getLocalizedText('facilitiesAnswer', { title }),
     },
     {
       id: 2,
       collapseTarget: "Two",
-      title: `Is breakfast included at ${title}?`,
-      content: `Yes, breakfast is included with your stay at ${title}.`,
+      title: getLocalizedText('breakfastQuestion', { title }),
+      content: getLocalizedText('breakfastAnswer', { title }),
     },
     {
       id: 3,
       collapseTarget: "Three",
-      title: `What are the check-in and check-out times at ${title}?`,
-      content: `Check-in time is from 2 PM, and check-out is by 12 PM at ${title}.`,
+      title: getLocalizedText('checkInCheckOutQuestion', { title }),
+      content: getLocalizedText('checkInCheckOutAnswer', { title }),
     },
     {
       id: 4,
       collapseTarget: "Four",
-      title: `Are pets allowed at ${title}?`,
-      content: `Pets are not allowed at ${title}.`,
+      title: getLocalizedText('petsAllowedQuestion', { title }),
+      content: getLocalizedText('petsAllowedAnswer', { title }),
     },
     {
       id: 5,
       collapseTarget: "Five",
-      title: `Is there a parking facility at ${title}?`,
-      content: `Yes, parking is available for guests at ${title}.`,
+      title: getLocalizedText('parkingFacilityQuestion', { title }),
+      content: getLocalizedText('parkingFacilityAnswer', { title }),
     },
     {
       id: 6,
       collapseTarget: "Six",
-      title: `Is smoking allowed at ${title}?`,
-      content: `No, smoking is prohibited in all areas of ${title}.`,
+      title: getLocalizedText('smokingAllowedQuestion', { title }),
+      content: getLocalizedText('smokingAllowedAnswer', { title }),
     },
     {
       id: 7,
       collapseTarget: "Seven",
-      title: `Does ${title} offer airport transportation?`,
-      content: `Yes, airport transportation can be arranged at ${title} for an additional fee.`,
+      title: getLocalizedText('airportTransportationQuestion', { title }),
+      content: getLocalizedText('airportTransportationAnswer', { title }),
     },
     {
       id: 8,
       collapseTarget: "Eight",
-      title: `What is the cancellation policy at ${title}?`,
-      content: `Cancellations can be made up to 24 hours before check-in without a charge.`,
+      title: getLocalizedText('cancellationPolicyQuestion', { title }),
+      content: getLocalizedText('cancellationPolicyAnswer', { title }),
     },
     {
       id: 9,
       collapseTarget: "Nine",
-      title: `Does ${title} have meeting facilities?`,
-      content: `Yes, ${title} has fully equipped meeting rooms available for booking.`,
+      title: getLocalizedText('meetingFacilitiesQuestion', { title }),
+      content: getLocalizedText('meetingFacilitiesAnswer', { title }),
     },
     {
       id: 10,
       collapseTarget: "Ten",
-      title: `What attractions are near ${title}?`,
-      content: `Popular attractions near ${title} include [list of attractions].`,
+      title: getLocalizedText('attractionsNearQuestion', { title }),
+      content: getLocalizedText('attractionsNearAnswer', { title }),
     },
   ];
 

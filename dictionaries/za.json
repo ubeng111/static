@@ -1,0 +1,507 @@
+{
+  "common": {
+    "loadingSearchResults": "Iyalayisha imiphumela yosesho...",
+    "loadingCityContent": "Iyalayisha okuqukethwe yidolobha...",
+    "loadingHotel": "Iyalayisha imininingwane yehhotela...",
+    "hotelNotFound": "Ihhotela alitholakali.",
+    "errorServer": "Kube nephutha kuseva",
+    "preloaderTitle": "Hoteloza..",
+    "failedToLoadHotelList": "Yehlulekile ukulayisha uhlu lwamahhotela. Ngicela uzame futhi.",
+    "cityIdRequired": "I-ID Yedolobha iyadingeka.",
+    "callToActionsDescription": "Imibono emihle ayihlali isikhathi eside. Bhukha uhambo lwakho lweHoteloza namuhla!",
+    "errorLoadingData": "Kube nephutha ngesikhathi kulayishwa idatha. Ngicela uzame futhi ngokuhamba kwesikhathi.",
+    "noHotelsFound": "Awekho amahhotela atholakale kulesi sigaba.",
+    "noRelatedCategoriesFound": "Azikho izigaba ezihlobene ezitholakele.",
+    "noRelatedCountriesFound": "Awekho amazwe ahlobene atholakele.",
+    "noRelatedStatesFound": "Azikho izifundazwe ezihlobene ezitholakele.",
+    "noRelatedCitiesFound": "Awekho amadolobha ahlobene atholakele.",
+    "noRelatedHotelsFound": "Awekho amahhotela ahlobene atholakele.",
+    "unknownAddress": "Ikheli elingaziwa",
+    "unknownCity": "Idolobha elingaziwa",
+    "unknownRegion": "Isifunda esingaziwa",
+    "unknownCountry": "Izwe elingaziwa",
+    "unnamedHotel": "Ihhotela Elingaqanjwanga Igama",
+    "reserveNow": "Bhukha Manje",
+    "unknownCategory": "Isigaba Esingaziwa",
+    "unknownState": "Isifundazwe Esingaziwa",
+    "errorLandmarkNotFound": "Iphutha: Indawo yomlando ayitholakali ku-URL. Ayikwazi ukulayisha.",
+    "properties": "izakhiwo",
+    "noDestinationsFound": "Azikho izindawo ezitholakalayo kulesi sifunda.",
+    "topRecommendedHotelsTitle": "Amahhotela aphambili anconyiwe {category} e {city}",
+    "findTopRatedStays": "Thola izindawo zokuhlala ezilinganiselwe kakhulu ezinezintandokazi ezifanayo eduze nendawo oya kuyo",
+    "unknownLocation": "Indawo Engaziwa",
+    "failedToLoadHotelData": "Yehlulekile ukuthola idatha yehhotela",
+    "errorWithMessage": "Iphutha: {error}",
+    "night": "Ubusuku"
+  },
+  "header": {
+    "luxuryBackgroundImageAlt": "Isithombe sangemuva sokunethezeka"
+  },
+  "search": {
+    "searchResultAccommodationIn": "Umphumela wosesho wendawo yokuhlala e {cityName}",
+    "searchResultPropertiesIn": "Izakhiwo ezitholakele ku",
+    "selectedCity": "Idolobha Elikhethiwe",
+    "unknownLocation": "Indawo Engaziwa",
+    "searchParametersIncomplete": "Amapharamitha osesho awaphelele."
+  },
+  "categoryPage": {
+    "discoverLuxeStaysIn": "Thola Izindawo Zokuhlala Zobunethezeka ku",
+    "faqsAboutHotels": "Imibuzo Evame Ukubuzwa {formattedCategory}",
+    "categoryDefault": "Isigaba",
+    "defaultItemListDescription": "Uhlu lwezigaba {formattedCategory} eziphezulu zonyaka {currentYear} kuHoteloza."
+  },
+  "countryPage": {
+    "discoverStaysIn": "Thola Izindawo Zokuhlala ku {displayCountry}",
+    "faqsAboutCountryHotels": "Imibuzo Evame Ukubuzwa Amahhotela e {displayCountry}",
+    "countryDefault": "Izwe",
+    "noHotelsFoundForCountry": "Awekho amahhotela atholakale kuleli zwe."
+  },
+  "statePage": {
+    "discoverStaysInState": "Thola Izindawo Zokuhlala ku {formattedState}",
+    "faqsAboutStateHotels": "Imibuzo Evame Ukubuzwa Amahhotela e {displayState}",
+    "stateDefault": "Isifundazwe",
+    "noHotelsFoundForState": "Awekho amahhotela atholakale kulesi sifundazwe."
+  },
+  "cityPage": {
+    "discoverStaysInCity": "Thola Izindawo Zokuhlala ku {formattedCity}",
+    "faqsAboutCityHotels": "Imibuzo Evame Ukubuzwa Amahhotela e {displayCity}",
+    "cityDefault": "Idolobha",
+    "noHotelsFoundForCity": "Awekho amahhotela atholakale kuleli dolobha."
+  },
+  "hotelSinglePage": {
+    "aboutThisHotel": "Mayelana Nalehhotela",
+    "facilitiesAndServices": "Izinsiza Namasevisi",
+    "attractionsNearby": "Izindawo Ezikhangayo Eziseduze",
+    "reviews": "Ukubuyekeza",
+    "faq": "Imibuzo Evame Ukubuzwa",
+    "locationMap": "Imephu Yendawo",
+    "frequentlyAskedQuestions": "Imibuzo Evame Ukubuzwa",
+    "toggleFrequentlyAskedQuestions": "Shintsha Imibuzo Evame Ukubuzwa",
+    "toggleLocationMap": "Shintsha Imephu Yendawo",
+    "relatedHotels": "Izakhiwo ezidumile ezifana ne",
+    "toggleFacilities": "Shintsha Izinsiza",
+    "toggleLandmarks": "Shintsha Izindawo Zomlando Eziseduze",
+    "toggleRelatedHotels": "Shintsha izakhiwo ezidumile ezifana ne",
+    "defaultSchemaDescription": "Bhukha {formattedHotel}, ihhotela lokunethezeka e {formattedCity} lonyaka {currentYear} kuHoteloza.",
+    "exceptionalReviewText": "Okungavamile"
+  },
+  "bookNow": {
+    "reserveNowButton": "Bhukha Manje"
+  },
+  "facilities": {
+    "bathroom": "Indlu yangasese",
+    "towels": "Amathawula",
+    "bathOrShower": "Ibhavu noma ishawula",
+    "privateBathroom": "Indlu yangasese yangasese",
+    "toilet": "Ithoyilethi",
+    "freeToiletries": "Izinto zokugeza zamahhala",
+    "hairdryer": "Isomisi sezinwele",
+    "bath": "Ibhavu",
+    "bedroom": "Igumbi lokulala",
+    "linen": "Ilineni",
+    "wardrobeOrCloset": "Iwadirobe noma ikhabethe",
+    "receptionServices": "Izinsiza Zokwamukela",
+    "invoiceProvided": "I-invoyisi Inikezwe",
+    "privateCheckInCheckOut": "Ukungena/ukuphuma ngasese",
+    "luggageStorage": "Indawo yokugcina imithwalo",
+    "twentyFourHourFrontDesk": "Ideski elingaphambili lamahora angu-24",
+    "mediaTechnology": "Imidiya Nobuchwepheshe",
+    "flatScreenTV": "I-TV eyisicaba",
+    "satelliteChannels": "Iziteshi zesathelayithi",
+    "radio": "Umsakazo",
+    "telephone": "Ucingo",
+    "tv": "I-TV",
+    "foodDrink": "Ukudla Neziphuzo",
+    "kidMeals": "Ukudla kwabantwana",
+    "specialDietMenusOnRequest": "Amamenyu okudla akhethekile (ngesicelo)",
+    "breakfastInTheRoom": "Ibhulakufesi egumbini",
+    "cleaningServices": "Izinsiza Zokuhlanza",
+    "dailyHousekeeping": "Ukuhlanza indlu nsuku zonke",
+    "dryCleaning": "Ukuhlanza okomile",
+    "laundry": "Ukuhlanzwa kwezingubo",
+    "safetySecurity": "Ukuphepha Nokuvikela",
+    "fireExtinguishers": "Izicishamlilo",
+    "cctvInCommonAreas": "I-CCTV ezindaweni ezivamile",
+    "smokeAlarms": "Ama-alamu entuthu",
+    "twentyFourHourSecurity": "Ezokuphepha zamahora angu-24"
+  },
+  "landmarkList": {
+    "noNearbyPlacesFound": "Azikho izindawo eziseduze ezitholakale ngaphakathi kwe {radius} km.",
+    "nearbyEssentialAndTouristSpots": "🗺️ Izindawo Ezibalulekile Nezokuvakasha Eziseduze"
+  },
+  "mapComponent": {
+    "mapTitle": "🗺️ Imephu {title}"
+  },
+  "relatedCategories": {
+    "countriesIn": "🏨 Amazwe e {formattedCategory}"
+  },
+  "relatedCities": {
+    "noRelatedCitiesFound": "Awekho amadolobha ahlobene atholakele",
+    "bestRelatedCitiesIn": "🏨 Amadolobha Ahlobene Angcono Kakhulu e {formattedState}"
+  },
+  "relatedCountries": {
+    "noRelatedStatesFound": "Azikho izifundazwe ezihlobene ezitholakele",
+    "statesIn": "🏨 Izifundazwe e {formattedCountry}"
+  },
+  "relatedStates": {
+    "noRelatedCitiesFound": "Awekho amadolobha ahlobene atholakele",
+    "citiesIn": "🏨 Amadolobha e {formattedState}"
+  },
+  "city": {
+    "city": "Idolobha",
+    "faq": "Imibuzo Evame Ukubuzwa"
+  },
+  "mainFilterSearchBox": {
+    "destinationPlaceholder": "Ikuphi indawo oya kuyo?",
+    "checkInPlaceholder": "Usuku Lokungena",
+    "checkOutPlaceholder": "Usuku Lokuphuma",
+    "adultsLabel": "Abadala",
+    "childrenLabel": "Izingane",
+    "roomsLabel": "Amagumbi",
+    "searchButton": "Sesha"
+  },
+  "footer": {
+    "popularStays": "Izindawo Zokuhlala Ezidumile",
+    "hotel": "Ihhotela",
+    "villa": "I-Villa",
+    "resort": "Indawo yokuphumula",
+    "apartment": "Ifulethi",
+    "guestHouse": "Indlu yezihambeli",
+    "uniqueStays": "Izindawo Zokuhlala Ezihlukile",
+    "capsuleHotel": "Ihhotela lekapsule",
+    "yurt": "I-Yurt",
+    "treehouse": "Indlu yesihlahla",
+    "tent": "Ithende",
+    "domeHouse": "Indlu yedome",
+    "traditionalStays": "Izindawo Zokuhlala Zesiko",
+    "ryokan": "I-Ryokan",
+    "machiya": "IMachiya",
+    "countryHouse": "Indlu yezwe",
+    "haveli": "IHaveli",
+    "riad": "I-Riad",
+    "heritageHotel": "Ihhotela lamagugu",
+    "adventureStays": "Izindawo Zokuhlala Ezijabulisayo",
+    "farmStay": "Ukuhlala epulazini",
+    "cabin": "Ikhabethe",
+    "chalet": "I-Chalet",
+    "boat": "Isikebhe",
+    "houseboat": "Indlu esesikebheni",
+    "hotelozaFooterText": "I-Hoteloza iyipulatifomu ehamba phambili yokubhukha amahhotela kalula nangaphandle kwezinkinga. Senza lula ukusesha kwakho indawo yokuhlala ephelele, sinikeza ukukhetha okuhlukahlukene kwezindawo zokuhlala, kusukela kumahhotela akhululekile kuya ezindaweni zokungcebeleka zikanokusho. Jabulela kalula ukubhukha, amadili akhethekile, namasevisi aqondene nezidingo zakho zokuhamba. Bhukha ngeHoteloza futhi wenze uhambo olungasoze lwalibaleka lube ngokoqobo.",
+    "hotelozaAllRightsReserved": "© {year} Hoteloza. Wonke amalungelo agodliwe."
+  },
+  "metadata": {
+    "homePageTitle": "Hoteloza - Thola Ihhotela Lakho Lamaphupho",
+    "homePageDescription": "Thola amahhotela angcono kakhulu nendawo yokuhlala ohambweni lwakho olulandelayo. Bhukha manje ngeHoteloza!",
+    "searchResultPageTitle": "Amahhotela e {cityName} - Imiphumela Yosesho LweHoteloza",
+    "searchResultPageDescription": "Sesha futhi ubhukhe amahhotela e {cityName}. Qhathanisa izintengo nezinsiza zokuhlala kwakho okuhamba phambili.",
+    "cityPageTitle": "Amahhotela e {cityName} - Thola i {cityName} ngeHoteloza",
+    "cityPageDescription": "Thola amahhotela angcono kakhulu e {cityName} futhi uthole amadili angcono kakhulu ohambweni lwakho olungasoze lwalibaleka ngeHoteloza.",
+    "categoryNotFoundTitle": "Isigaba Esingatholakali | Hoteloza",
+    "categoryNotFoundDescription": "Isigaba osiseshayo asitholakalanga kuHoteloza.",
+    "categoryPageTitleTemplate": "Izaphulelo {formattedCategory} Ezihamba Phambili {currentYear} - Yonga Kakhulu eHoteloza!",
+    "categoryPageDescriptionTemplate": "Thola {formattedCategory} ehamba phambili ku {currentYear} ngeHoteloza. Jabulela izaphulelo ezikhethekile, amanani amahle, nezinsiza ezisezingeni eliphezulu. Bhukha manje ukuze uthole ukuhlala okungasoze kwalibaleka!",
+    "categoryOgTitleTemplate": "Amadili aphezulu {formattedCategory} {currentYear} | Hoteloza",
+    "categoryOgDescriptionTemplate": "Hlola {formattedCategory} aphezulu onyaka {currentYear} kuHoteloza. Bhukha manje ukuze uthole amadili akhethekile nezinsiza eziphezulu!",
+    "categoryWebPageNameTemplate": "Amadili aphezulu {formattedCategory} {currentYear}",
+    "categoryWebPageDescriptionTemplate": "Thola {formattedCategory} aphezulu onyaka {currentYear} kuHoteloza ngamadili akhethekile nezinsiza eziphezulu.",
+    "countryNotFoundTitle": "Ikhasi Alitholakali | Hoteloza",
+    "countryNotFoundDescription": "Isigaba, izwe, noma isifundazwe osiseshayo asitholakalanga kuHoteloza.",
+    "countryPageTitleTemplate": "Amahhotela {formattedCategory} Ashibhile e {formattedCountry} {currentYear} - Ungaphuthelwa! | Hoteloza",
+    "countryPageDescriptionTemplate": "Thola {formattedCategory} ehamba phambili e {formattedCountry} lonyaka {currentYear} kuHoteloza. Jabulela amadili akhethekile, amanani athengekayo, nezinsiza ezisezingeni eliphezulu. Amadili anqunyelwe – bhukha indawo yakho yokuhlala namuhla!",
+    "countryOgTitleTemplate": "Amalanda {formattedCategory} Ahamba Phambili e {formattedCountry} {currentYear} | Hoteloza",
+    "countryOgDescriptionTemplate": "Thola ama {formattedCategory} angcono kakhulu e {formattedCountry} lonyaka {currentYear} kuHoteloza. Bhukha manje ukuze uthole amahhotela aphezulu namadili akhethekile!",
+    "stateNotFoundTitle": "Ikhasi Alitholakali | Hoteloza",
+    "stateNotFoundDescription": "Isigaba, izwe, noma isifundazwe osiseshayo asitholakalanga kuHoteloza.",
+    "statePageTitleTemplate": "Amahhotela {formattedCategory} Ashibhile e {formattedState}, {formattedCountry} {currentYear} - Bhukha Manje! | Hoteloza",
+    "statePageDescriptionTemplate": "Thola {formattedCategory} ehamba phambili e {formattedState}, {formattedCountry} lonyaka {currentYear} kuHoteloza. Amadili akhethekile, amanani amahle, nezinsiza ezisezingeni eliphezulu. Bhukha indawo yakho yokuhlala engasoze yalibaleka!",
+    "stateOgTitleTemplate": "Amalanda {formattedCategory} Ahamba Phambili e {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
+    "stateOgDescriptionTemplate": "Thola {formattedCategory} aphezulu e {formattedState}, {formattedCountry} lonyaka {currentYear} kuHoteloza. Bhukha manje ukuze uthole amadili akhethekile nezinsiza eziphezulu!",
+    "cityNotFoundTitle": "Ikhasi Alitholakali | Hoteloza",
+    "cityNotFoundDescription": "Isigaba, izwe, isifundazwe, noma idolobha osiseshayo asitholakalanga kuHoteloza.",
+    "cityPageTitleTemplate": "Amahhotela {formattedCategory} Ashibhile e {formattedCity}, {formattedState}, {formattedCountry} {currentYear} - Izaphulelo Ezinkulu! | Hoteloza",
+    "cityPageDescriptionTemplate": "Thola {formattedCategory} ehamba phambili e {formattedCity}, {formattedState}, {formattedCountry} lonyaka {currentYear} kuHoteloza. Izaphulelo ezikhethekile, izinsiza eziphezulu, namanani angenakuqhathaniswa. Bhukha indawo yakho yokuhlala yamaphupho manje!",
+    "cityOgTitleTemplate": "Amalanda {formattedCategory} Ahamba Phambili e {formattedCity}, {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
+    "cityOgDescriptionTemplate": "Thola {formattedCategory} aphezulu e {formattedCity}, {formattedState}, {formattedCountry} lonyaka {currentYear} kuHoteloza. Bhukha manje ukuze uthole amadili akhethekile nezinsiza eziphezulu!",
+    "hotelNotFoundTitle": "Ihhotela Alitholakali | Hoteloza",
+    "hotelNotFoundDescription": "Ihhotela oliseshayo alitholakali.",
+    "hotelPageTitleTemplate": "{hotelTitle} - Bhukha Manje kuHoteloza!",
+    "hotelPageDescriptionTemplate": "Bhukha indawo yakho yokuhlala e {hotelTitle} e {city}, {state}, {country}. Thola amadili angcono kakhulu, izinsiza, nezibuyekezo ukuze uthole okuhlangenwe nakho okungasoze kwalibaleka ngeHoteloza.",
+    "hotelOgTitleTemplate": "{hotelTitle} | Hoteloza",
+    "hotelOgDescriptionTemplate": "Thola amadili angcono kakhulu e {hotelTitle} ngeHoteloza."
+  },
+  "landmarkPage": {
+    "topHotelsNear": "Amahhotela {category} Ashibhile Eduze ne {landmarkName}",
+    "landmarkPageTitleTemplate": "Amahhotela {category} Ashibhile Eduze ne {landmarkName}",
+    "description": "{category} {landmarkName} inikeza indawo yokuhlala ehamba phambili e {cityName}, ngamadili amahle nezinsiza ezifana ne-WiFi yamahhala.",
+    "loadingHotel": "Iyalayisha ihhotela...",
+    "errorLoadingHotel": "Iphutha: {error}",
+    "hotelNotFound": "Ihhotela alitholakali.",
+    "serverErrorFetchingData": "Iphutha leseva ngesikhathi kuthathwa idatha yehhotela."
+  },
+  "navigation": {
+    "home": "Ikhaya",
+    "about": "Mayelana Nathi",
+    "contact": "Xhumana Nathi"
+  },
+  "homepage": {
+    "dreamDestinations": "Izindawo Zokuhamba Zamaphupho",
+    "unforgettableSpots": "Izindawo ezingasoze zalibaleka ozofuna ukuzihlolela futhi",
+    "whatOurGuestsTrulyLoveAboutUs": "Lokho Izivakashi Zethu Ezikuthanda Ngathi Ngempela",
+    "experienceTheMagic": "Izwa umlingo oqhubeka uletha izigidi zabantu emuva. KuHoteloza, sizibophezele ekwenzeni konke ukuhlala kungasoze kwalibaleka, kalula, ngokucophelela, nangokusebenzisa okukhethekile.",
+    "hotelozaHeroTitle": "Thola, Bhukha, Futhi Ukhululeke NgeHoteloza",
+    "hotelozaHeroSubtitle": "Hlola izinkulungwane zamahhotela emhlabeni jikelele ngeHoteloza",
+    "delightedGuests": "Izivakashi Ezijabule",
+    "guestSatisfactionScore": "Isikolo Sokwaneliseka Kwezivakashi",
+    "happyPeople": "Abantu Abajabule",
+    "overallRating": "Ukulinganisa Okuphelele"
+  },
+  "about": {
+    "lookingForJoy": "Ufuna Injabulo?",
+    "trustedTripCompanion": "Umngane Wakho Othembekile Wokuhamba",
+    "whyChooseUs": "Kungani Usikhetha",
+    "popularDestinationsOffer": "Lezi zindawo ezidumile zokuhamba ziningi ezikunikezayo",
+    "overheardFromTravelers": "Okuzwakale Kubahambi",
+    "aboutHotelozaTitle": "Mayelana NeHoteloza",
+    "aboutHotelozaSubtitle": "Thola umhlaba wokunethezeka nobuhle",
+    "aboutHotelozaParagraph1": "I-Hoteloza iyindawo yakho yokunethezeka, enikeza ukwamukela okungenakuqhathaniswa enhliziyweni yezindawo ezimnandi. Amahhotela ethu ahlanganisa ubuhle besimanje nokunethezeka okungapheli, aqinisekisa ukuthi konke ukuhlala kuyinto engasoze yalibaleka.",
+    "aboutHotelozaParagraph2": "Gxila ezinsizakalweni zethu ezisezingeni lomhlaba, kusukela kuma-spas azolile kuya ekudleni okumnandi, bese uhlola izindawo ezikhangayo eziseduze ezenza konke ukuvakasha kungasoze kwalibaleka. Kungakhathaliseki ukuthi kungenxa yebhizinisi noma ukuzijabulisa, iHoteloza iyikhaya lakho kude nekhaya."
+  },
+  "blockGuide": {
+    "bestPriceGuarantee": "Isiqinisekiso Sentengo Engcono Kakhulu",
+    "bestPriceGuaranteeText": "Thola indawo yakho yokuhlala ephelele ngentengo engcono kakhulu – okuqinisekisiwe. Azikho izimali ezifihliwe, ukonga kwangempela kuphela isikhathi ngasinye lapho ubhukha khona.",
+    "easyQuickBooking": "Ukubhukha Okulula Nokuvamile",
+    "easyQuickBookingText": "Bhukha ihhotela lakho lamaphupho ngokuchofoza okumbalwa nje. Okusheshayo, okulula, nokungenazinkinga – ukuhamba kwakho okulandelayo kuqala lapha.",
+    "customerSupport": "Ukwesekwa Kwamakhasimende 24/7",
+    "customerSupportText": "Udinga usizo? Ithimba lethu labasekeli liyatholakala ubusuku nemini ukuze likusize – noma kuphi nanoma nini lapho uludinga khona."
+  },
+  "contactPage": {
+    "heroTitle": "Xhumana Nathi",
+    "heroSubtitle": "Silapha ukuze sikusize futhi siphendule noma imiphi imibuzo ongaba nayo.",
+    "getInTouchTitle": "Xhumana Nathi",
+    "getInTouchDescription": "Zizwe ukhululekile ukuxhumana nathi nganoma yimiphi imibuzo noma ukukhathazeka. Ithimba lethu lihlala likulungele ukukusiza.",
+    "addressLabel": "Ikheli",
+    "addressValue": "123 Hoteloza Street, Suite 456, Idolobha, Izwe",
+    "emailLabel": "I-imeyili",
+    "emailValue": "info@hoteloza.com",
+    "workingHoursLabel": "Amahora Omsebenzi",
+    "workingHoursValue": "UMsombuluko - ULwesihlanu: 9:00 AM - 5:00 PM (Isikhathi Sendabuko)"
+  },
+  "callToActions": {
+    "subscribeHere": "Bhalisa Lapha",
+    "yourEmail": "I-imeyili Yakho",
+    "subscribeButton": "Bhalisa"
+  },
+  "testimonials": {
+    "sarahMQuote": "I-Hoteloza iyishintshi yomdlalo! Ngithole amadili amahhotela angcono kakhulu lapha njalo. Ngempela iyona webhusayithi ehamba phambili emhlabeni jikelele yokukhangisa amahhotela.",
+    "sarahMName": "USarah M.",
+    "sarahMDesignation": "Uthanda Ukuhamba",
+    "data": [
+      {
+        "id": 1,
+        "avatar": "/img/avatars/testimonials/1.jpg",
+        "name": "USarah Miller",
+        "designation": "Ubhulogi Wezokuvakasha",
+        "text": "Ukuhlala kwethu lapha bekukuhle kakhulu! Indawo ihlelekile, igumbi belihlanzekile futhi likhululekile, futhi inkonzo yabasebenzi ibinobungane kakhulu. Kunconywa kakhulu iholide lomndeni.",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "UJohn Davis",
+        "designation": "Usomabhizinisi",
+        "text": "Leli hhotela beliyisinqumo esihle kakhulu sohambo lwami lwebhizinisi. Izinsiza eziphelele, i-Wi-Fi esheshayo, futhi eduze nendawo ephakathi nedolobha. Lilungele kahle futhi likhululekile.",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "UEmily White",
+        "designation": "Umfundi",
+        "text": "Ngithanda umklamo wangaphakathi wesimanje futhi omuhle we-Instagram! Ulungele ukuhlala nabangani. Intengo nayo iyakwazi ukuthengeka ngekhwalithi enhle kangaka.",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "UDavid Lee",
+        "designation": "Umtwebuli",
+        "text": "Ukubuka kusuka egumbini bekukuhle kakhulu! Ngikwazile ukuthola izithombe eziningi ezinhle. Abasebenzi nabo bebehluleka ukuncoma izindawo zokuvakasha.",
+        "dealyAnimation": "400"
+      }
+    ],
+    "data2": [
+      {
+        "id": 1,
+        "meta": "Ihotela iGrand Imperial",
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "U-Olivia Grace",
+        "designation": "Umbhali",
+        "text": "\"Leli hhotela lilungele ukuthola ukuthula nokuzola. Umoya ozolile, amagumbi athulile, nabasebenzi abaphendulayo bangivumelile ukuba ngigxile ekubhaleni ngaphandle kokuphazamiseka. Kunconywa kakhulu.\"",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "meta": "Ihotela iGrand Imperial",
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "UDaniel Kim",
+        "designation": "Umthandi Wedijithali",
+        "text": "\"Ukuxhumana okuqinile kwe-inthanethi nendawo yokusebenza ekhululekile kuyinto enkulu lapha. Ngikwazile ukusebenza nokuhamba ngesikhathi esifanayo. Indawo nayo iseduze namakhefi amaningi.\"",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "meta": "Ihotela iGrand Imperial",
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "USophia Brown",
+        "designation": "Othatha Umhlalaphansi",
+        "text": "\"Inkonzo enobungane nezinsiza ezilungile zabantu abadala zasenza sazizwa sikhululekile kakhulu. Ibhulakufesi nalo belimnandi futhi lihluka. Sizobuya nakanjani.\"",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "meta": "Ihotela iGrand Imperial",
+        "avatar": "/img/avatars/testimonials/4.png",
+        "name": "UMichael Chen",
+        "designation": "Umpheki",
+        "text": "\"Njengompheki, ngikwazisa ngempela ikhwalithi yokudla kule ndawo yokudlela yehhotela. Izitsha zimnandi futhi izinketho zemenyu ziningi. Okuhlangenwe nakho okumangalisayo kakhulu kokupheka!\"",
+        "dealyAnimation": "400"
+      },
+      {
+        "id": 5,
+        "meta": "Ihotela iGrand Imperial",
+        "avatar": "/img/avatars/testimonials/5.png",
+        "name": "UChloe Wilson",
+        "designation": "Umklami Wezithombe",
+        "text": "\"Umklamo wangaphakathi wehhotela omuhle nokukhanya okuhle kwasekele ngempela ubuhlakani bami. Izindawo eziningi ezithakazelisayo zokuthwebula izithombe! Igumbi nalo belihlanzekile kakhulu.\"",
+        "dealyAnimation": "500"
+      }
+    ],
+    "data3": [
+      {
+        "id": 1,
+        "meta": "I-Ocean View Resort",
+        "avatar": "/img/testimonials/2/1.png",
+        "name": "UJames Taylor",
+        "designation": "Usomabhizinisi",
+        "text": "\"Le ndawo yokuphumula inokubukeka okuhle kakhulu kolwandle. Ilungele ukuphumula emkhubeni. Izinsiza zechibi lokubhukuda elingapheli nazo ziyamangalisa.\""
+      },
+      {
+        "id": 2,
+        "meta": "I-Ocean View Resort",
+        "avatar": "/img/testimonials/2/2.png",
+        "name": "U-Isabella Rodriguez",
+        "designation": "Uthisha",
+        "text": "\"Iholide lethu lomndeni lapha belingasoze lalibaleka. Kwakukhona imisebenzi eminingi yezingane, futhi abasebenzi babe nobungane kakhulu futhi belulekile. Izingane zazithanda ukudlala olwandle oluyimfihlo.\""
+      },
+      {
+        "id": 3,
+        "meta": "I-Ocean View Resort",
+        "avatar": "/img/testimonials/2/3.png",
+        "name": "ULiam Garcia",
+        "designation": "Udokotela",
+        "text": "\"Le ndawo iyindawo yokubalekela ekahle ukuze uphumule. Izinsiza ze-spa eziduduzayo nomoya onokuthula zangenza ngazizwa ngivuseleleke ngokuphelele.\""
+      },
+      {
+        "id": 4,
+        "meta": "I-Ocean View Resort",
+        "avatar": "/img/avatars/testimonials/2/4.png",
+        "name": "UMia Martinez",
+        "designation": "Umeluleki",
+        "text": "\"Ngihamba njalo ngomsebenzi, futhi le ndawo yokuphumula inikeza ukunethezeka kokuba sekhaya. Isevisi yasegumbini iyashesha futhi inobungcweti. Izoba yisinqumo sami esivamile.\""
+      },
+      {
+        "id": 5,
+        "meta": "I-Ocean View Resort",
+        "avatar": "/img/avatars/testimonials/2/5.png",
+        "name": "UNoah Thompson",
+        "designation": "Umcwaningi",
+        "text": "\"Ukugqugquzela kuvela yonke indawo, futhi le ndawo yokuphumula igcwele ubuhle bemvelo obumangalisayo. Ngipende kakhulu lapha. Kunconywa kakhulu kubaculi noma kunoma ubani ofuna ukugqugquzela.\""
+      }
+    ]
+  },
+  "faqContent": {
+    "hotel": {
+      "facilitiesQuestion": "Izinsiza zifakiwe ini ku {title}?",
+      "facilitiesAnswer": "Izinsiza ku {title} zifaka i-Wi-Fi yamahhala, ichibi lokubhukuda, indawo yokupaka, nokuningi. Xhumana nendawo ukuze uthole uhlu oluphelele lwezinsiza.",
+      "breakfastQuestion": "Ibhulakufesi lifakiwe yini ku {title}?",
+      "breakfastAnswer": "Yebo, ibhulakufesi lifakiwe ekuhlaleni kwakho ku {title}.",
+      "checkInCheckOutQuestion": "Yiziphi izikhathi zokungena nokuhamba ku {title}?",
+      "checkInCheckOutAnswer": "Isikhathi sokungena kusuka ku-2 PM, kanti ukuphuma kungu-12 PM ku {title}.",
+      "petsAllowedQuestion": "Ingabe izilwane ezifuywayo zivunyelwe ku {title}?",
+      "petsAllowedAnswer": "Izilwane ezifuywayo azivunyelwe ku {title}.",
+      "parkingFacilityQuestion": "Ingabe ikhona indawo yokupaka ku {title}?",
+      "parkingFacilityAnswer": "Yebo, indawo yokupaka iyatholakala ezivakashini ku {title}.",
+      "smokingAllowedQuestion": "Ingabe ukuqhumisa kuvunyelwe ku {title}?",
+      "smokingAllowedAnswer": "Cha, ukuqhumisa akuvunyelwe kuzo zonke izindawo ze {title}.",
+      "airportTransportationQuestion": "Ingabe {title} unikeza ezokuthutha esikhumulweni sezindiza?",
+      "airportTransportationAnswer": "Yebo, ezokuthutha esikhumulweni sezindiza zingahlelwa ku {title} ngemali eyengeziwe.",
+      "cancellationPolicyQuestion": "Iyiphi inqubomgomo yokukhansela ku {title}?",
+      "cancellationPolicyAnswer": "Ukukhansela kungenziwa kufika emahoreni angama-24 ngaphambi kokungena ngaphandle kwenkokhiso.",
+      "meetingFacilitiesQuestion": "Ingabe {title} unazo izindawo zomhlangano?",
+      "meetingFacilitiesAnswer": "Yebo, {title} unamakamelo okuhlangana ahlome ngokuphelele atholakalayo ukuze ubhukhe.",
+      "attractionsNearQuestion": "Yiziphi izindawo ezikhangayo eziseduze ne {title}?",
+      "attractionsNearAnswer": "Izindawo ezikhangayo eziseduze ne {title} zifaka [uhlu lwezindawo ezikhangayo]."
+    },
+    "category": {
+      "offeringsQuestion": "Yiziphi izinhlobo zamandla atholakalayo ngaphakathi kwesigaba {category}?",
+      "offeringsAnswer": "Ulungele ukuhlola izinhlobonhlobo zezinketho? Isigaba sethu {category} sifaka yonke into kusukela kokuhlangenwe nakho okukhethekile kwe-premium kuya ezixazululweni ezihlakaniphile, ezonga isabelomali. Thola okufanelekile ukuze ufeze amaphupho akho okuhamba noma izidingo ezithile!",
+      "familyFriendlyQuestion": "Ingabe zikhona izinketho ezilungele umndeni ezitholakala kunketho yethu {category}?",
+      "familyFriendlyAnswer": "Nakanjani! Siyaziqonda izidingo zakho. Thola izinketho eziningi {category} ezinconywe kakhulu imindeni, ziphelele ngezinsiza nemisebenzi eyakhelwe ukwenza izikhathi zakho nabathandekayo bakho zikhumbuleke futhi zikhululeke kakhulu!",
+      "mainAttractionsQuestion": "Yiziphi izindawo ezikhangayo eziyinhloko noma izindawo ezidumile kakhulu eduze kwalezi zindawo {category}?",
+      "mainAttractionsAnswer": "Izinketho zethu {category} azikho nje ngomkhiqizo/isevisi; zimalana nendawo! Jabulela ukufinyelela okulula ezindaweni ezidumile zezivakashi, izikhungo zokuzijabulisa ezijabulisayo, kanye nezindlela zokupheka okufanele uzizame. Khulisa ulwazi lwakho eBandung, West Java, noma kuphi lapho isigaba sakho {category} esikhethiwe sikuyisa khona!",
+      "luxuryAmenitiesQuestion": "Ingabe ezinye izinketho {category} zinikeza izinsiza zikanokusho noma izici ezikhethekile?",
+      "luxuryAmenitiesAnswer": "Ngempela! Gxila ekunethezekeni nasekunethezekeni. Eziningi zezinketho zethu {category} ziza nezinsiza zezinkanyezi ezinhlanu njengezindawo zokubhukuda ezizimele ezingapheli, amasevisi e-spa aphelele, izikhungo zokuqina zesimanjemanje, nokuningi. Zitholele ulwazi olungasoze lwalibaleka!",
+      "topRatedQuestion": "Yiziphi izinketho {category} ezilinganiselwe kakhulu ezinezibuyekezo zamakhasimende ezinhle kakhulu?",
+      "topRatedAnswer": "Ufuna okuhamba phambili? Nalu uhlu lwezinketho zethu {category} ezikhethwe phezulu, ezithandwa umphakathi wethu. Qinisekisa ikhwalithi nokwaneliseka, kusekelwe ubufakazi bangempela babasebenzisi!"
+    },
+    "city": {
+      "typesOfHotelsQuestion": "Yiziphi izinhlobo zamahhotela atholakalayo e {city}?",
+      "typesOfHotelsAnswer": "Hlola izinhlobonhlobo zamahhotela e {city}, kusukela kumahhotela okunethezeka kuya ezinkethweni ezonga isabelomali.",
+      "familyFriendlyHotelsQuestion": "Ingabe kukhona amahhotela alungele imindeni e {city}?",
+      "familyFriendlyHotelsAnswer": "Yebo, kunamahhotela amaningi alungele imindeni e {city}.",
+      "attractionsNearHotelsQuestion": "Yiziphi izindawo ezikhangayo eziseduze namahhotela e {city}?",
+      "attractionsNearHotelsAnswer": "Amahhotela e {city} aseduze nezindawo eziningi ezidumile ezikhangayo.",
+      "hotelsWithPoolsQuestion": "Ingabe kukhona amahhotela anechibi lokubhukuda e {city}?",
+      "hotelsWithPoolsAnswer": "Yebo, amahhotela amaningi e {city} afaka amachibi nokunye okutholakala.",
+      "bestRatedHotelsQuestion": "Yiziphi amahhotela alinganiselwe kahle kakhulu e {city}?",
+      "bestRatedHotelsAnswer": "Nawa amanye amahhotela alinganiselwe phezulu e {city}:"
+    },
+    "country": {
+      "typesOfHotelsQuestion": "Yiziphi izinhlobo zamahhotela atholakalayo e {country}?",
+      "typesOfHotelsAnswer": "Hlola izinhlobonhlobo zamahhotela e {country}, kusukela kumahhotela okunethezeka kuya ezinkethweni ezonga isabelomali.",
+      "familyFriendlyHotelsQuestion": "Ingabe kukhona amahhotela alungele imindeni e {country}?",
+      "familyFriendlyHotelsAnswer": "Yebo, kunamahhotela amaningi alungele imindeni e {country}.",
+      "attractionsNearHotelsQuestion": "Yiziphi izindawo ezikhangayo eziseduze namahhotela e {country}?",
+      "attractionsNearHotelsAnswer": "Amahhotela e {country} aseduze nezindawo eziningi ezidumile ezikhangayo.",
+      "hotelsWithPoolsQuestion": "Ingabe kukhona amahhotela anechibi lokubhukuda e {country}?",
+      "hotelsWithPoolsAnswer": "Yebo, amahhotela amaningi e {country} afaka amachibi nokunye okutholakala.",
+      "bestRatedHotelsQuestion": "Yiziphi amahhotela alinganiselwe kahle kakhulu e {country}?",
+      "bestRatedHotelsAnswer": "Nawa amanye amahhotela alinganiselwe phezulu e {country}:"
+    },
+    "landmark": {
+      "typesOfHotelsQuestion": "Yiziphi izinhlobo zamahhotela atholakalayo eduze kwe {landmark}?",
+      "typesOfHotelsAnswer": "Eduze kwe {landmark}, uzothola izinhlobonhlobo zezinketho zokuhlala, kusukela kumahhotela okunethezeka kakhulu kuya ezindaweni zokuhlala ezikhululekile nezithengekayo. Kungakhathaliseki ukuthi ufuna ukuvakasha okusheshayo noma ukuhlola okude, kunehhotela elihle kakhulu lalo lonke uhlobo.",
+      "familyFriendlyHotelsQuestion": "Ingabe kukhona amahhotela alungele imindeni eduze kwe {landmark}?",
+      "familyFriendlyHotelsAnswer": "Nakanjani! Amahhotela amaningi eduze kwe {landmark} ahlome kahle imindeni, anikeza izinsiza ezifana namagumbi omndeni avulekile, amaklabhu ezingane, namachibi okubhukuda. Anikeza isisekelo esikhululekile sokuhlola indawo yomlando nezindawo ezizungezile nabathandekayo bakho.",
+      "attractionsNearHotelsQuestion": "Yiziphi izindawo ezikhangayo eziseduze namahhotela eduze kwe {landmark}?",
+      "attractionsNearHotelsAnswer": "Amahhotela eduze kwe {landmark} anikeza lula okungenakuqhathaniswa kokuvakashela indawo yomlando ngokwayo. Ngaphandle kwalokho, avame ukubekwa ngokuqondile eduze nezinye izindawo ezidumile ezikhangayo, iminyuziyamu, izindawo zokudlela, nezindawo zokuzijabulisa, okwenza ukuhlola kwakho kube lula.",
+      "hotelsWithPoolsQuestion": "Ingabe kukhona amahhotela anechibi lokubhukuda eduze kwe {landmark}?",
+      "hotelsWithPoolsAnswer": "Yebo, amahhotela amaningi atholakala eduze kwe {landmark} afaka amachibi okubhukuda aqabulayo, alungele ukuphumula ngemuva kosuku lokuvakasha. Amanye anenamachibi ophahla anokubukeka okumangalisayo kwendawo yomlando noma umbono wedolobha.",
+      "bestRatedHotelsQuestion": "Yiziphi amahhotela alinganiselwe kahle kakhulu eduze kwe {landmark}?",
+      "bestRatedHotelsAnswerDefault": "Okwamanje, asinakho idatha ethile elinganiselwe kakhulu etholakalayo yamahhotela eduze kwe {landmark}. Kodwa-ke, ungabheka izinhlobonhlobo zezinketho ezilinganiselwe kakhulu endaweni ebanzi.",
+      "bestRatedHotelsAnswerWithData": "Ngokusekelwe ezibuyekezweni zezivakashi, amanye amahhotela alinganiselwe kakhulu eduze kwe {landmark} afaka:"
+    },
+    "state": {
+      "typesOfHotelsQuestion": "Yiziphi izinhlobo zamahhotela atholakalayo e {state}?",
+      "typesOfHotelsAnswer": "Hlola izinhlobonhlobo zamahhotela e {state}, kusukela kumahhotela okunethezeka kuya ezinkethweni ezonga isabelomali.",
+      "familyFriendlyHotelsQuestion": "Ingabe kukhona amahhotela alungele imindeni e {state}?",
+      "familyFriendlyHotelsAnswer": "Yebo, kunamahhotela amaningi alungele imindeni e {state}.",
+      "attractionsNearHotelsQuestion": "Yiziphi izindawo ezikhangayo eziseduze namahhotela e {state}?",
+      "attractionsNearHotelsAnswer": "Amahhotela e {state} aseduze nezindawo eziningi ezidumile ezikhangayo.",
+      "hotelsWithPoolsQuestion": "Ingabe kukhona amahhotela anechibi lokubhukuda e {state}?",
+      "hotelsWithPoolsAnswer": "Yebo, amahhotela amaningi e {state} afaka amachibi nokunye okutholakala.",
+      "bestRatedHotelsQuestion": "Yiziphi amahhotela alinganiselwe kahle kakhulu e {state}?",
+      "bestRatedHotelsAnswer": "Nawa amanye amahhotela alinganiselwe phezulu e {state}:"
+    }
+  }
+}

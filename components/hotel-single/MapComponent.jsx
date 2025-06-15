@@ -11,8 +11,9 @@ const customIcon = new L.Icon({
   popupAnchor: [0, -57], // Adjusted: popup appears above the marker
 });
 
-const MapComponent = ({ latitude, longitude, title }) => {
+const MapComponent = ({ latitude, longitude, title, dictionary }) => { // Menerima dictionary
   const markerRef = useRef(null);
+  const mapComponentDict = dictionary?.mapComponent || {}; // Akses dictionary
 
   useEffect(() => {
     if (markerRef.current) {
@@ -22,8 +23,9 @@ const MapComponent = ({ latitude, longitude, title }) => {
 
   return (
     <div className="container">
+      {/* Teks dari dictionary dengan penggantian placeholder */}
       <h2 className="text-center fw-bold mb-3 text-dark" style={{ fontSize: "24px" }}>
-        🗺️ Map {title?.toLowerCase()}
+        {mapComponentDict.mapTitle?.replace('{title}', title?.toLowerCase()) || `🗺️ Map ${title?.toLowerCase()}`}
       </h2>
       <div className="row g-2">
         <MapContainer

@@ -1,0 +1,507 @@
+{
+  "common": {
+    "loadingSearchResults": "Suchresultate werde gloade...",
+    "loadingCityContent": "Stadsinhalt wird gloade...",
+    "loadingHotel": "Hotel-Details werde gloade...",
+    "hotelNotFound": "Hotel nöd gfunde.",
+    "errorServer": "Es isch en Serverfähler ufträte.",
+    "preloaderTitle": "Hoteloza..",
+    "failedToLoadHotelList": "Hotellischte ned gloade. Bitte versuechs nomal.",
+    "cityIdRequired": "Stadt-ID isch erforderlich.",
+    "callToActionsDescription": "Gueti Idee halte nöd lang. Buech din Hoteloza Usflug hüt!",
+    "errorLoadingData": "Bi de Date-Ussuetig isch en Fehler ufträte. Bitte versuechs spöter nomal.",
+    "noHotelsFound": "Keng Hotels für die Kategorie gfunde.",
+    "noRelatedCategoriesFound": "Keng verchbunde Kategorie gfunde.",
+    "noRelatedCountriesFound": "Keng verchbunde Länder gfunde.",
+    "noRelatedStatesFound": "Keng verchbunde Kantön gfunde.",
+    "noRelatedCitiesFound": "Keng verchbunde Städt gfunde.",
+    "noRelatedHotelsFound": "Keng verchbunde Hotels gfunde.",
+    "unknownAddress": "Unbekannti Adrässe",
+    "unknownCity": "Unbekannti Stadt",
+    "unknownRegion": "Unbekannti Region",
+    "unknownCountry": "Unbekannts Land",
+    "unnamedHotel": "Unbenannts Hotel",
+    "reserveNow": "Jetzt reserviere",
+    "unknownCategory": "Unbekannti Kategorie",
+    "unknownState": "Unbekannte Provinz",
+    "errorLandmarkNotFound": "Fähler: Landmark nöd in URL gfunde. Cha nöd gloade werde.",
+    "properties": "Objekt",
+    "noDestinationsFound": "Keng Destinatione für die Region verfögbar.",
+    "topRecommendedHotelsTitle": "Top empfohleni {category} in {city}",
+    "findTopRatedStays": "Find top-bewerteti Ufenthalt mit ähnliche Vortei nöch Dim Reiseziil",
+    "unknownLocation": "Unbekannte Ort",
+    "failedToLoadHotelData": "Hoteldate ned abgruefe",
+    "errorWithMessage": "Fähler: {error}",
+    "night": "Nacht"
+  },
+  "header": {
+    "luxuryBackgroundImageAlt": "Luxus Hintergrundbild"
+  },
+  "search": {
+    "searchResultAccommodationIn": "Suechresultat für Ufenthalt in {cityName}",
+    "searchResultPropertiesIn": "Gfundeni Objekt in",
+    "selectedCity": "Usgwählti Stadt",
+    "unknownLocation": "Unbekannte Ort",
+    "searchParametersIncomplete": "Suechparameter unvollständig."
+  },
+  "categoryPage": {
+    "discoverLuxeStaysIn": "Entdeck Luxus Ufenthalt in",
+    "faqsAboutHotels": "Häufigi Gstellti Frage zu {formattedCategory}",
+    "categoryDefault": "Kategorie",
+    "defaultItemListDescription": "E Lischte vo de Top {formattedCategory} für {currentYear} uf Hoteloza."
+  },
+  "countryPage": {
+    "discoverStaysIn": "Entdeck Ufenthalt in {displayCountry}",
+    "faqsAboutCountryHotels": "Häufigi Gstellti Frage Hotels in {displayCountry}",
+    "countryDefault": "Land",
+    "noHotelsFoundForCountry": "Keng Hotels für das Land gfunde."
+  },
+  "statePage": {
+    "discoverStaysInState": "Entdeck Ufenthalt in {formattedState}",
+    "faqsAboutStateHotels": "Häufigi Gstellti Frage Hotels in {displayState}",
+    "stateDefault": "Kanton",
+    "noHotelsFoundForState": "Keng Hotels für de Kanton gfunde."
+  },
+  "cityPage": {
+    "discoverStaysInCity": "Entdeck Ufenthalt in {formattedCity}",
+    "faqsAboutCityHotels": "Häufigi Gstellti Frage Hotels in {displayCity}",
+    "cityDefault": "Stadt",
+    "noHotelsFoundForCity": "Keng Hotels für die Stadt gfunde."
+  },
+  "hotelSinglePage": {
+    "aboutThisHotel": "Übers Hotel",
+    "facilitiesAndServices": "Irichtige & Service",
+    "attractionsNearby": "Attraktione i de Nöchi",
+    "reviews": "Bewerte",
+    "faq": "FAQ",
+    "locationMap": "Lageplan",
+    "frequentlyAskedQuestions": "Häufigi Gstellti Frage",
+    "toggleFrequentlyAskedQuestions": "Häufigi Gstellti Frage ih-/usblende",
+    "toggleLocationMap": "Lageplan ih-/usblende",
+    "relatedHotels": "Beliebti Objekt ähnlich wie",
+    "toggleFacilities": "Irichtige ih-/usblende",
+    "toggleLandmarks": "Wichtegi Ort i de Nöchi ih-/usblende",
+    "toggleRelatedHotels": "Beliebti Objekt ähnlich wie ih-/usblende",
+    "defaultSchemaDescription": "Buech {formattedHotel}, es Luxushotel in {formattedCity} für {currentYear} uf Hoteloza.",
+    "exceptionalReviewText": "Ussergwöhnlich"
+  },
+  "bookNow": {
+    "reserveNowButton": "Jetzt reserviere"
+  },
+  "facilities": {
+    "bathroom": "Badezimmer",
+    "towels": "Tüecher",
+    "bathOrShower": "Bad oder Duschi",
+    "privateBathroom": "Privats Badezimmer",
+    "toilet": "WC",
+    "freeToiletries": "Gratis Plegeprodukt",
+    "hairdryer": "Föhn",
+    "bath": "Bad",
+    "bedroom": "Schlafzimmer",
+    "linen": "Bettwäsch",
+    "wardrobeOrCloset": "Chleiderschrank oder Garderobe",
+    "receptionServices": "Rezeptions-Service",
+    "invoiceProvided": "Rechnig wird zverfüegt",
+    "privateCheckInCheckOut": "Privats Check-in/Check-out",
+    "luggageStorage": "Gepäckufbewahrig",
+    "twentyFourHourFrontDesk": "24-Stunde Rezeption",
+    "mediaTechnology": "Medie & Technologie",
+    "flatScreenTV": "Flachbild-TV",
+    "satelliteChannels": "Satellitekänääl",
+    "radio": "Radio",
+    "telephone": "Telefon",
+    "tv": "TV",
+    "foodDrink": "Essen & Trinke",
+    "kidMeals": "Chinderässe",
+    "specialDietMenusOnRequest": "Spezialdiät-Menüs (uf Ahfrog)",
+    "breakfastInTheRoom": "Frühstück im Zimmer",
+    "cleaningServices": "Reinigungs-Service",
+    "dailyHousekeeping": "Tägliche Zimmerreinigug",
+    "dryCleaning": "Chemisch Reinigug",
+    "laundry": "Wäschservice",
+    "safetySecurity": "Sicherheit",
+    "fireExtinguishers": "Füürlöscher",
+    "cctvInCommonAreas": "Videoüberwachig i de allgemeine Beriich",
+    "smokeAlarms": "Rauchmelder",
+    "twentyFourHourSecurity": "24-Stunde Sicherheit"
+  },
+  "landmarkList": {
+    "noNearbyPlacesFound": "Keng Ort i de Nöchi innerhalbs vo {radius} km gfunde.",
+    "nearbyEssentialAndTouristSpots": "🗺️ Wichtegi & touristischi Ort i de Nöchi"
+  },
+  "mapComponent": {
+    "mapTitle": "🗺️ Charte {title}"
+  },
+  "relatedCategories": {
+    "countriesIn": "🏨 Länder in {formattedCategory}"
+  },
+  "relatedCities": {
+    "noRelatedCitiesFound": "Keng verchbunde Städt gfunde",
+    "bestRelatedCitiesIn": "🏨 Beschti verchbunde Städt in {formattedState}"
+  },
+  "relatedCountries": {
+    "noRelatedStatesFound": "Keng verchbunde Kantön gfunde",
+    "statesIn": "🏨 Kantön in {formattedCountry}"
+  },
+  "relatedStates": {
+    "noRelatedCitiesFound": "Keng verchbunde Städt gfunde",
+    "citiesIn": "🏨 Städt in {formattedState}"
+  },
+  "city": {
+    "city": "Stadt",
+    "faq": "FAQ"
+  },
+  "mainFilterSearchBox": {
+    "destinationPlaceholder": "Was isch dis Reiseziil?",
+    "checkInPlaceholder": "Check-in Datum",
+    "checkOutPlaceholder": "Check-out Datum",
+    "adultsLabel": "Erwachseni",
+    "childrenLabel": "Chind",
+    "roomsLabel": "Zimmer",
+    "searchButton": "Sueche"
+  },
+  "footer": {
+    "popularStays": "Beliebti Ufenthalt",
+    "hotel": "Hotel",
+    "villa": "Villa",
+    "resort": "Resort",
+    "apartment": "Apartment",
+    "guestHouse": "Gäschthuus",
+    "uniqueStays": "Eimaligi Ufenthalt",
+    "capsuleHotel": "Kapselhotel",
+    "yurt": "Jurte",
+    "treehouse": "Baumhuus",
+    "tent": "Zält",
+    "domeHouse": "Kuppelhuus",
+    "traditionalStays": "Traditionelli Ufenthalt",
+    "ryokan": "Ryokan",
+    "machiya": "Machiya",
+    "countryHouse": "Landhuus",
+    "haveli": "Haveli",
+    "riad": "Riad",
+    "heritageHotel": "Heritage Hotel",
+    "adventureStays": "Abentüür-Ufenthalt",
+    "farmStay": "Buurehof-Ufenthalt",
+    "cabin": "Chabine",
+    "chalet": "Chalet",
+    "boat": "Boot",
+    "houseboat": "Huusboot",
+    "hotelozaFooterText": "Hoteloza isch e führendi Plattform für eifachi und nahtlosi Hotelbuechige. Mir vereifache Dini Suechi nach de perfekte Unterkunf, indem mir e vielfältigi Uswahl a Ufenthält aabüte, vo gmüetliche Hotels bis zu luxuriöse Resorts. Gnüss de Komfort bim Bueche, exklusive Aalbot und personalierti Service, wo uf Dini Reisibedürfniss zuegschnitte sind. Buech mit Hoteloza und mach unvergässlichi Reise zu Realität.",
+    "hotelozaAllRightsReserved": "© {year} Hoteloza. Alli Rächt vorbehalte."
+  },
+  "metadata": {
+    "homePageTitle": "Hoteloza - Find Dis Traumhotel",
+    "homePageDescription": "Find die beschte Hotels und Unterkünf für Dini nächschti Reis. Jetzt bueche mit Hoteloza!",
+    "searchResultPageTitle": "Hotels in {cityName} - Hoteloza Suechresultat",
+    "searchResultPageDescription": "Suech und buech Hotels in {cityName}. Vergliich Priise und Irichtige für Dine beschte Ufenthalt.",
+    "cityPageTitle": "Hotels in {cityName} - Entdeck {cityName} mit Hoteloza",
+    "cityPageDescription": "Entdeck die beschte Hotels in {cityName} und find die beschte Aalbot für Dini unvergässlichi Reis mit Hoteloza.",
+    "categoryNotFoundTitle": "Kategorie nöd gfunde | Hoteloza",
+    "categoryNotFoundDescription": "Die Kategorie, wo Du sueche, isch uf Hoteloza nöd gfunde worde.",
+    "categoryPageTitleTemplate": "Beschti {formattedCategory} Rabatt {currentYear} - Spar Gross bi Hoteloza!",
+    "categoryPageDescriptionTemplate": "Entdeck die beschte {formattedCategory} im {currentYear} mit Hoteloza. Gnüss exklusivi Rabatt, tolli Priise und erstklassigi Irichtige. Jetzt bueche für en unvergässliche Ufenthalt!",
+    "categoryOgTitleTemplate": "Top {formattedCategory} Aalbot {currentYear} | Hoteloza",
+    "categoryOgDescriptionTemplate": "Erforsch Top {formattedCategory} für {currentYear} uf Hoteloza. Jetzt bueche für exklusivi Aalbot und erstklassigi Irichtige!",
+    "categoryWebPageNameTemplate": "Top {formattedCategory} Aalbot {currentYear}",
+    "categoryWebPageDescriptionTemplate": "Entdeck Top {formattedCategory} für {currentYear} uf Hoteloza mit exklusive Aalbot und erstklassige Irichtige.",
+    "countryNotFoundTitle": "Site nöd gfunde | Hoteloza",
+    "countryNotFoundDescription": "Die Kategorie, Land oder Provinz, wo Du sueche, isch uf Hoteloza nöd gfunde worde.",
+    "countryPageTitleTemplate": "Günstigi {formattedCategory} in {formattedCountry} {currentYear} - Nöd verpasse! | Hoteloza",
+    "countryPageDescriptionTemplate": "Hol Dir die beschte {formattedCategory} in {formattedCountry} für {currentYear} uf Hoteloza. Gnüss exklusivi Aalbot, erschwinglichi Priise und Top-Irichtige. Limitiert Aalbot – buech Dine Ufenthalt hüt!",
+    "countryOgTitleTemplate": "Beschti {formattedCategory} in {formattedCountry} {currentYear} | Hoteloza",
+    "countryOgDescriptionTemplate": "Find die beschte {formattedCategory} in {formattedCountry} für {currentYear} uf Hoteloza. Jetzt bueche für Top-Hotels und exklusivi Aalbot!",
+    "stateNotFoundTitle": "Site nöd gfunde | Hoteloza",
+    "stateNotFoundDescription": "Die Kategorie, Land oder Provinz, wo Du sueche, isch uf Hoteloza nöd gfunde worde.",
+    "statePageTitleTemplate": "Günstigi {formattedCategory} in {formattedState}, {formattedCountry} {currentYear} - Jetzt bueche! | Hoteloza",
+    "statePageDescriptionTemplate": "Find die beschte {formattedCategory} in {formattedState}, {formattedCountry} für {currentYear} uf Hoteloza. Exklusivi Aalbot, tolli Priise und erstklassigi Irichtige. Buech Dine unvergässliche Ufenthalt!",
+    "stateOgTitleTemplate": "Beschti {formattedCategory} in {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
+    "stateOgDescriptionTemplate": "Entdeck Top {formattedCategory} in {formattedState}, {formattedCountry} für {currentYear} uf Hoteloza. Jetzt bueche für exklusivi Aalbot und erstklassigi Irichtige!",
+    "cityNotFoundTitle": "Site nöd gfunde | Hoteloza",
+    "cityNotFoundDescription": "Die Kategorie, Land, Provinz oder Stadt, wo Du sueche, isch uf Hoteloza nöd gfunde worde.",
+    "cityPageTitleTemplate": "Günstigi {formattedCategory} in {formattedCity}, {formattedState}, {formattedCountry} {currentYear} - Grossi Rabatt! | Hoteloza",
+    "cityPageDescriptionTemplate": "Find die beschte {formattedCategory} in {formattedCity}, {formattedState}, {formattedCountry} für {currentYear} uf Hoteloza. Exklusivi Rabatt, Top-Irichtige und unschlagbari Priise. Buech Dis Traumhotel jetzt!",
+    "cityOgTitleTemplate": "Beschti {formattedCategory} in {formattedCity}, {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
+    "cityOgDescriptionTemplate": "Entdeck Top {formattedCategory} in {formattedCity}, {formattedState}, {formattedCountry} für {currentYear} uf Hoteloza. Jetzt bueche für exklusivi Aalbot und erstklassigi Irichtige!",
+    "hotelNotFoundTitle": "Hotel nöd gfunde | Hoteloza",
+    "hotelNotFoundDescription": "S Hotel, wo Du sueche, isch nöd gfunde worde.",
+    "hotelPageTitleTemplate": "{hotelTitle} - Jetzt bueche uf Hoteloza!",
+    "hotelPageDescriptionTemplate": "Buech Dine Ufenthalt im {hotelTitle} in {city}, {state}, {country}. Find die beschte Aalbot, Irichtige und Bewerte für es unvergässlichs Erläbnis mit Hoteloza.",
+    "hotelOgTitleTemplate": "{hotelTitle} | Hoteloza",
+    "hotelOgDescriptionTemplate": "Find die beschte Aalbot im {hotelTitle} mit Hoteloza."
+  },
+  "landmarkPage": {
+    "topHotelsNear": "Günstigi {category} nöch {landmarkName}",
+    "landmarkPageTitleTemplate": "Günstigi {category} nöch {landmarkName}",
+    "description": "{category} {landmarkName} bietet die beschti Unterkunf in {cityName}, mit tolle Aalbot und Irichtige wie gratis WLAN.",
+    "loadingHotel": "Hotel wird gloade...",
+    "errorLoadingHotel": "Fähler: {error}",
+    "hotelNotFound": "Hotel nöd gfunde.",
+    "serverErrorFetchingData": "Serverfäher bim Abrufe vo Hoteldate."
+  },
+  "navigation": {
+    "home": "Heim",
+    "about": "Über eus",
+    "contact": "Kontakt"
+  },
+  "homepage": {
+    "dreamDestinations": "Traum-Destinatione",
+    "unforgettableSpots": "Unvergässlichi Ort, wo Du immer wider wotsch erkunde",
+    "whatOurGuestsTrulyLoveAboutUs": "Was üseri Gäscht würklich a eus liebe",
+    "experienceTheMagic": "Erlebe de Zauber, wo Millione Gäscht immer wider zruggbringt. Bi Hoteloza setze mir eus drfür ii, jede Ufenthalt unvergässlich z mache, mit Liichtigkeit, Sorgfalt und ussergwöhnlichem Service.",
+    "hotelozaHeroTitle": "Find, Buech und Entspann Dich mit Hoteloza",
+    "hotelozaHeroSubtitle": "Entdeck tusigi Hotels weltwiit mit Hoteloza",
+    "delightedGuests": "Begeischterti Gäscht",
+    "guestSatisfactionScore": "Gäschtzufriedeheits-Score",
+    "happyPeople": "Glücklechi Lüt",
+    "overallRating": "Gsamtwärtig"
+  },
+  "about": {
+    "lookingForJoy": "Suechsch Freud?",
+    "trustedTripCompanion": "Dii vertraute Reisibegleiter",
+    "whyChooseUs": "Warum Du eus sötsch wähle",
+    "popularDestinationsOffer": "Die beliebte Destinatione händ viel z biete",
+    "overheardFromTravelers": "Vo Reisende ghört",
+    "aboutHotelozaTitle": "Über Hoteloza",
+    "aboutHotelozaSubtitle": "Entdeck e Welt voll Komfort und Eleganz",
+    "aboutHotelozaParagraph1": "Hoteloza isch Dis Heiligtum des Luxus, wo unverglichlichi Gaschtfründlichkeit im Herz vo läbändige Destinatione bietet. Üseri Hotels verbunde moderni Eleganz mit ziitlosem Komfort und sorge drfür, dass jede Ufenthalt es unvergässlichs Erläbnis isch.",
+    "aboutHotelozaParagraph2": "Taucht i üseri erstklassigi Irichtige ii, vo beruhigende Spas bis zu exqusite Esse, und erkundet Attraktione i de Nöchi, wo jede Bsuech unvergässlich mache. Egal ob Gschäfts- oder Freiziitreis, Hoteloza isch Dis Heimet weg vom Heimet."
+  },
+  "blockGuide": {
+    "bestPriceGuarantee": "Beschti Priisgarantie",
+    "bestPriceGuaranteeText": "Find Di perfekte Ufenthalt zum beschte möglischi Priis – garantiert. Keng versteckti Gebühre, nume echti Isparige bi jede Buechig.",
+    "easyQuickBooking": "Eifachi & schnälli Buechig",
+    "easyQuickBookingText": "Buech Dis Traumhotel mit nume wenige Klick. Schnäll, eifach und stressfrei – Di nächsti Reis fangt do aa.",
+    "customerSupport": "24/7 Chundesupport",
+    "customerSupportText": "Bruuchsch Hilf? Üses Support-Team isch rund um d'Uhr verfügbar, zum Dir z helfe – überall und jederziit, wo Du’s bruuchsch."
+  },
+  "contactPage": {
+    "heroTitle": "Kontaktier eus",
+    "heroSubtitle": "Mir sind do, um Dir z helfe und alli Frog z beantworte, wo Du hesch.",
+    "getInTouchTitle": "Nimm Kontakt uf",
+    "getInTouchDescription": "Zöger ned, eus bi Frog oder Ahliege z kontaktiere. Üses Team isch immer bereit, Dir z helfe.",
+    "addressLabel": "Adrässe",
+    "addressValue": "123 Hoteloza Stross, Suite 456, Stadt, Land",
+    "emailLabel": "E-Mail",
+    "emailValue": "info@hoteloza.com",
+    "workingHoursLabel": "Arbiitsziite",
+    "workingHoursValue": "Mäntig - Fritig: 9:00 Uhr - 17:00 Uhr (Ortsziit)"
+  },
+  "callToActions": {
+    "subscribeHere": "Abonniere do",
+    "yourEmail": "Dini E-Mail",
+    "subscribeButton": "Abonniere"
+  },
+  "testimonials": {
+    "sarahMQuote": "Hoteloza isch e Game-Changer! Ich ha do konstant die beschte Hotel-Deals gfunde. Es isch würklich die beschti Hotel-Affiliate-Website wäitwiit.",
+    "sarahMName": "Sarah M.",
+    "sarahMDesignation": "Reis-Enthusiastin",
+    "data": [
+      {
+        "id": 1,
+        "avatar": "/img/avatars/testimonials/1.jpg",
+        "name": "Sarah Miller",
+        "designation": "Reisebloggerin",
+        "text": "Üse Ufenthalt do isch absolut ungloublich gsi! D'Lag isch strategisch, s'Zimmer isch suuber und gmüetlich gsi, und de Service vom Personal isch ussergwöhnlich fründlich gsi. Höchscht empfehlenswert für e Familiei-Ferieu.",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "John Davis",
+        "designation": "Unternehmer",
+        "text": "Das Hotel isch die perfekt Wahl gsi für mini Gschäftsreis. Kompletti Irichtige, schnälls WLAN und nöch am Stadtzentrum. Sehr effizient und gmüetlich.",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "Emily White",
+        "designation": "Studentin",
+        "text": "Ich liebe s'moderni und Instagramm-fähige Innendesign! Es isch perfekt für e Staycation mit Fründe. De Priis isch au erschwinglich für so e tolli Qualitet.",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "David Lee",
+        "designation": "Fotograf",
+        "text": "D'Ussicht vom Zimmer isch atemberaubend gsi! Ich ha so vieli tolli Fotos chöne mache. S'Personal isch au sehr hilfsbereit gsi bim Empfehle vo touristische Attraktione.",
+        "dealyAnimation": "400"
+      }
+    ],
+    "data2": [
+      {
+        "id": 1,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "Olivia Grace",
+        "designation": "Autorin",
+        "text": "\"Das Hotel isch perfekt, um Rueh und Stilli z finde. D'ruhig Atmosphäri, die stille Zimmer und s'responsivi Personal händs mir erlaubt, mich ohni Underbruechig uf mis Schriibe z konzentriere. Höchscht empfehlenswert.\"",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "Daniel Kim",
+        "designation": "Digitaler Nomade",
+        "text": "\"Stabili Internetverbindig und en gmüetliche Arbiitsplatz sind do e riise Plus. Ich ha chöne schaffe und gliichziitig Ferie mache. D'Lag isch au nöch bi viele Cafés.\"",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "Sophia Brown",
+        "designation": "Pensionierti",
+        "text": "\"De fründlich Service und die altersfründliche Irichtige händ eus sehr gmüetlich gfühlt. S'Frühstück isch au köstlich und vielsietig gsi. Mir chömme definitiv wider.\"",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/4.png",
+        "name": "Michael Chen",
+        "designation": "Chuchi-Chef",
+        "text": "\"Als Chuchi-Chef schätz ich d'Qualitet vom Esse im Hotelrestaurant sehr. D'Gricht sind köstlich und d'Menü-Uswahl isch vielfältig. Es würklich erstaunlichs kulinarischs Erläbnis!\"",
+        "dealyAnimation": "400"
+      },
+      {
+        "id": 5,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/5.png",
+        "name": "Chloe Wilson",
+        "designation": "Grafikdesignerin",
+        "text": "\"S'ästhetisch Innendesign vom Hotel und die gueti Belüchtig händ mini Kreativität würklich understützt. Vieli intressanti Foto-Spots! S'Zimmer isch au sehr suuber gsi.\"",
+        "dealyAnimation": "500"
+      }
+    ],
+    "data3": [
+      {
+        "id": 1,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/1.png",
+        "name": "James Taylor",
+        "designation": "Gschäftsmann",
+        "text": "\"Das Resort het e spektakuläri Ozean-Ussicht. Es isch perfekt zum sich vo de Routine z erhole. D'Infinity-Pool-Irichtige sind au atemberaubend.\""
+      },
+      {
+        "id": 2,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/2.png",
+        "name": "Isabella Rodriguez",
+        "designation": "Lehrerin",
+        "text": "\"Üsi Familiei-Ferieu do sind sehr unvergässlich gsi. Es het viel Aktivitäte für Chind gäbe, und s'Personal isch sehr fründlich und hilfsbereit gsi. D'Chind händs gliebt, am privat Strand z spiele.\""
+      },
+      {
+        "id": 3,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/3.png",
+        "name": "Liam Garcia",
+        "designation": "Dokter",
+        "text": "\"De Ort isch die perfekt Flucht zum Entspanne. D'beruhigende Spa-Service und die friedlich Atmosphäri händ mich komplett erfrischt gfühlt.\""
+      },
+      {
+        "id": 4,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/4.png",
+        "name": "Mia Martinez",
+        "designation": "Beraterin",
+        "text": "\"Ich reise häufig für d'Arbeit, und das Resort bietet de Komfort vom Daheim sii. De Zimmerservice isch schnäll und professionell. Es wird definitiv mini regelmässigi Wahl sii.\""
+      },
+      {
+        "id": 5,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/5.png",
+        "name": "Noah Thompson",
+        "designation": "Künstler",
+        "text": "\"Inspiration chunnt vo überall, und das Resort isch voll mit atemberaubender Naturschönheit. Ich ha viel gmalt do. Höchscht empfehlenswert für Chünstler oder jede, wo Inspiration sueche.\""
+      }
+    ]
+  },
+  "faqContent": {
+    "hotel": {
+      "facilitiesQuestion": "Welchi Irichtige sind im {title} inbegriffe?",
+      "facilitiesAnswer": "D'Irichtige im {title} umfasse gratis Wi-Fi, e Schwimmbad, Parkplätz und meh. Kontaktiere d'Unterkunf für e vollständigi Lischte vo de Irichtige.",
+      "breakfastQuestion": "Isch Frühstück im {title} inbegriffe?",
+      "breakfastAnswer": "Jo, Frühstück isch in Dim Ufenthalt im {title} inbegriffe.",
+      "checkInCheckOutQuestion": "Was sind d'Check-in- und Check-out-Ziite im {title}?",
+      "checkInCheckOutAnswer": "D'Check-in-Ziit isch ab 14 Uhr, und de Check-out isch bis 12 Uhr im {title}.",
+      "petsAllowedQuestion": "Sind Huustier im {title} erlaubt?",
+      "petsAllowedAnswer": "Huustier sind im {title} nöd erlaubt.",
+      "parkingFacilityQuestion": "Gibt's e Parkmöglikeit im {title}?",
+      "parkingFacilityAnswer": "Jo, Parkplätz sind für Gäscht im {title} verfögbar.",
+      "smokingAllowedQuestion": "Isch Räuche im {title} erlaubt?",
+      "smokingAllowedAnswer": "Nei, Räuche isch in alle Beriich vom {title} verbote.",
+      "airportTransportationQuestion": "Bietet s' {title} Flughafetransport aa?",
+      "airportTransportationAnswer": "Jo, Flughafetransport cha im {title} gege e zuesätzliche Priis organisiert werde.",
+      "cancellationPolicyQuestion": "Was isch d'Stornierigsrichtlinie vom {title}?",
+      "cancellationPolicyAnswer": "Stornierige chönne bis 24 Stunde vor em Check-in ohni Gebühr gmacht werde.",
+      "meetingFacilitiesQuestion": "Het s' {title} Tagungsräum?",
+      "meetingFacilitiesAnswer": "Jo, s' {title} het voll usgrüschti Tagungsräum, wo buechbar sind.",
+      "attractionsNearQuestion": "Welchi Attraktione sind nöch am {title}?",
+      "attractionsNearAnswer": "Beliebti Attraktione nöch am {title} umfasse [Lischte vo Attraktione]."
+    },
+    "category": {
+      "offeringsQuestion": "Welchi Aalbot-Artike sind innerhalb vo de Kategorie {category} verfögbar?",
+      "offeringsAnswer": "Bereit, e breiti Uswahl a Optionene z'entdecke? Üseri {category}-Kategorie umfasst alles vo exklusive Premium-Erlebnis bis zu smarte, budgetfründliche Lösige. Find die perfekt Passig, um Dini Reisitröim oder spezifischi Bedürfnis z'erfülle!",
+      "familyFriendlyQuestion": "Sind familiäfründlichi Usgwählte in üsere {category}-Uswahl verfögbar?",
+      "familyFriendlyAnswer": "Absolut! Mir verstöh Dini Bedürfnis. Entdeck zahlrichi {category}-Optionene, wo höchstens für Familie empfohle werde, komplett mit Irichtige und Aktivitäte, wo Dini Momänt mit dine Liebste no unvergässlicher und gmüetlicher mache!",
+      "mainAttractionsQuestion": "Was sind die Hauptattraktione oder beliebteste Destinatione nöch dene {category}-Aalbot?",
+      "mainAttractionsAnswer": "Üseri {category}-Uswähle gönd nöd nume um Produkt/Service; es gaht au um d'Lag! Gnüss en eifache Zuegang zu ikonische Tourischte-Ort, spannende Underhaltigs-Zentere und muess-probiertä kulinarische Köstlichkeite. Maximiere Dis Erläbnis in Bandung, Westjava, oder wo au immer Dini gwählti {category} Dich hii bringe!",
+      "luxuryAmenitiesQuestion": "Biete einigi {category}-Optionene Luxus-Irichtige oder spezielli Features aa?",
+      "luxuryAmenitiesAnswer": "Tatsächlich! Tauch ii in Komfort und Luxus. Vieli vo üsne {category}-Aalbot sind mit Fünf-Stern-Irichtige wie private Infinity-Pool, holischtische Spa-Service, hochmoderni Fitness-Center und meh usgrüschtet. Belohn Dich mit eme unvergässliche Erläbnis!",
+      "topRatedQuestion": "Welchi {category}-Optionene sind am beschte bewärtet mit de beschte Chunde-Bewerte?",
+      "topRatedAnswer": "Suechsch nach em beschte? Do isch e Lischte vo üsne Top-gwählte {category}-Optionene, beliebt bi üsere Gmeinschaft. Sicher Dir Qualitet und Zuefriedeheit, ungerstützt dur authentischi Benutzer-Testimonial!"
+    },
+    "city": {
+      "typesOfHotelsQuestion": "Welchi Hoteltüüpe sind in {city} verfögbar?",
+      "typesOfHotelsAnswer": "Entdeck e Vielfalt vo Hotels in {city}, vo Luxushotels bis zu Budget-Optionene.",
+      "familyFriendlyHotelsQuestion": "Gibt's Hotels, wo für Familie in {city} geeignet sind?",
+      "familyFriendlyHotelsAnswer": "Jo, es git viel familiäfründlichi Hotels in {city}.",
+      "attractionsNearHotelsQuestion": "Welchi Attraktione sind nöch de Hotels in {city}?",
+      "attractionsNearHotelsAnswer": "Hotels in {city} sind nöch verschiedenä beliebte Attraktione.",
+      "hotelsWithPoolsQuestion": "Gibt's Hotels mit Pool in {city}?",
+      "hotelsWithPoolsAnswer": "Jo, viel Hotels in {city} händ Pools und anderi Irichtige.",
+      "bestRatedHotelsQuestion": "Was sind die am beschte bewärtete Hotels in {city}?",
+      "bestRatedHotelsAnswer": "Do sind einigi vo de Top-bewärtete Hotels in {city}:"
+    },
+    "country": {
+      "typesOfHotelsQuestion": "Welchi Hoteltüüpe sind in {country} verfögbar?",
+      "typesOfHotelsAnswer": "Entdeck e Vielfalt vo Hotels in {country}, vo Luxushotels bis zu Budget-Optionene.",
+      "familyFriendlyHotelsQuestion": "Gibt's Hotels, wo für Familie in {country} geeignet sind?",
+      "familyFriendlyHotelsAnswer": "Jo, es git viel familiäfründlichi Hotels in {country}.",
+      "attractionsNearHotelsQuestion": "Welchi Attraktione sind nöch de Hotels in {country}?",
+      "attractionsNearHotelsAnswer": "Hotels in {country} sind nöch verschiedenä beliebte Attraktione.",
+      "hotelsWithPoolsQuestion": "Gibt's Hotels mit Pool in {country}?",
+      "hotelsWithPoolsAnswer": "Jo, viel Hotels in {country} händ Pools und anderi Irichtige.",
+      "bestRatedHotelsQuestion": "Was sind die am beschte bewärtete Hotels in {country}?",
+      "bestRatedHotelsAnswer": "Do sind einigi vo de Top-bewärtete Hotels in {country}:"
+    },
+    "landmark": {
+      "typesOfHotelsQuestion": "Welchi Hoteltüüpe sind nöch {landmark} verfögbar?",
+      "typesOfHotelsAnswer": "Nöch {landmark} findsch e breiti Uswahl an Unterkunftsoptionene, vo luxuriöse Boutique-Hotels bis zu gmüetliche und erschwingliche Ufenthält. Egal ob Du en churze Bsuech oder e längeri Erkundig planäsch, es git en perfekt Hotel für jede Gschmack.",
+      "familyFriendlyHotelsQuestion": "Gibt's Hotels, wo für Familie nöch {landmark} geeignet sind?",
+      "familyFriendlyHotelsAnswer": "Absolut! Vieli Hotels nöch {landmark} sind guet für Familie usgrüschtet und biete Irichtige wie grosszügigi Familienzimmer, Kids' Clubs und Schwimmbad. Sie biete e gmüetlichi Basis zum d'Landmark und ihri Umgäbig mit dine Liebste z'erkunde.",
+      "attractionsNearHotelsQuestion": "Welchi Attraktione sind nöch Hotels bi {landmark}?",
+      "attractionsNearHotelsAnswer": "Hotels nöch {landmark} biete unverglichlichi Bequemlichkeit für de Bsuech vo de Landmark sälber. Drüberus sind sie oft strategisch günstig gläge bi andere beliebte Attraktione, Musee, Essensmöglihkeite und Underhaltigs-Oert, was Dini Erkundig müehlos macht.",
+      "hotelsWithPoolsQuestion": "Gibt's Hotels mit Pool nöch {landmark}?",
+      "hotelsWithPoolsAnswer": "Jo, viel Hotels nöch {landmark} händ erfrischendi Schwimmbad, perfekt zum Entspanne nach emene Tag Sightseeing. Einigi händ sogar Rooftop-Pool mit atemberaubender Ussicht uf d'Landmark oder d'Stadtskyline.",
+      "bestRatedHotelsQuestion": "Was sind die am beschte bewärtete Hotels nöch {landmark}?",
+      "bestRatedHotelsAnswerDefault": "Aktuell händ mir keini spezifische Bestbewärtigsdate für Hotels direkt nöch {landmark} verfögbar. Du chasch aber e Vielfalt vo hoch bewärtete Optionene i de wiitere Umgäbig dursueche.",
+      "bestRatedHotelsAnswerWithData": "Basierend uf Gäscht-Bewerte ghöred einigi vo de Top-bewärtete Hotels nöch {landmark} dezue:"
+    },
+    "state": {
+      "typesOfHotelsQuestion": "Welchi Hoteltüüpe sind in {state} verfögbar?",
+      "typesOfHotelsAnswer": "Entdeck e Vielfalt vo Hotels in {state}, vo Luxushotels bis zu Budget-Optionene.",
+      "familyFriendlyHotelsQuestion": "Gibt's Hotels, wo für Familie in {state} geeignet sind?",
+      "familyFriendlyHotelsAnswer": "Jo, es git viel familiäfründlichi Hotels in {state}.",
+      "attractionsNearHotelsQuestion": "Welchi Attraktione sind nöch de Hotels in {state}?",
+      "attractionsNearHotelsAnswer": "Hotels in {state} sind nöch verschiedenä beliebte Attraktione.",
+      "hotelsWithPoolsQuestion": "Gibt's Hotels mit Pool in {state}?",
+      "hotelsWithPoolsAnswer": "Jo, viel Hotels in {state} händ Pools und anderi Irichtige.",
+      "bestRatedHotelsQuestion": "Was sind die am beschte bewärtete Hotels in {state}?",
+      "bestRatedHotelsAnswer": "Do sind einigi vo de Top-bewärtete Hotels in {state}:"
+    }
+  }
+}

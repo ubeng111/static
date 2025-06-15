@@ -1,34 +1,48 @@
-const Faqstate = ({ state = "this state", hotels = [] }) => {
+"use client"; // Marks this as a Client Component
+
+const Faqstate = ({ state = "this state", hotels = [], dictionary }) => { // Tambahkan prop dictionary
+  const faqStateContent = dictionary?.faqContent?.state || {};
+
+  const getLocalizedText = (key, interpolations = {}) => {
+    let text = faqStateContent[key];
+    if (!text) return `Missing translation for ${key}`;
+
+    for (const [placeholder, value] of Object.entries(interpolations)) {
+      text = text.replace(new RegExp(`{${placeholder}}`, 'g'), value);
+    }
+    return text;
+  };
+
   const faqContent = [
     {
       id: 1,
       collapseTarget: "One",
-      state: `What types of hotels are available in ${state}?`,
-      content: `Explore a variety of hotels in ${state}, ranging from luxury hotels to budget options.`,
+      state: getLocalizedText('typesOfHotelsQuestion', { state }),
+      content: getLocalizedText('typesOfHotelsAnswer', { state }),
     },
     {
       id: 2,
       collapseTarget: "Two",
-      state: `Are there hotels suitable for families in ${state}?`,
-      content: `Yes, there are plenty of family-friendly hotels in ${state}.`,
+      state: getLocalizedText('familyFriendlyHotelsQuestion', { state }),
+      content: getLocalizedText('familyFriendlyHotelsAnswer', { state }),
     },
     {
       id: 3,
       collapseTarget: "Three",
-      state: `What attractions are near hotels in ${state}?`,
-      content: `Hotels in ${state} are close to various popular attractions.`,
+      state: getLocalizedText('attractionsNearHotelsQuestion', { state }),
+      content: getLocalizedText('attractionsNearHotelsAnswer', { state }),
     },
     {
       id: 4,
       collapseTarget: "Four",
-      state: `Are there hotels with pools in ${state}?`,
-      content: `Yes, many hotels in ${state} feature pools and other facilities.`,
+      state: getLocalizedText('hotelsWithPoolsQuestion', { state }),
+      content: getLocalizedText('hotelsWithPoolsAnswer', { state }),
     },
     {
       id: 5,
       collapseTarget: "Five",
-      state: `What are the best-rated hotels in ${state}?`,
-      content: `Here are some of the top-rated hotels in ${state}:`,
+      state: getLocalizedText('bestRatedHotelsQuestion', { state }),
+      content: getLocalizedText('bestRatedHotelsAnswer', { state }),
     },
   ];
 

@@ -1,0 +1,507 @@
+{
+  "common": {
+    "loadingSearchResults": "Memuatkan hasil carian...",
+    "loadingCityContent": "Memuatkan kandungan bandar...",
+    "loadingHotel": "Memuatkan butiran hotel...",
+    "hotelNotFound": "Hotel tidak ditemui.",
+    "errorServer": "Ralat pelayan telah berlaku",
+    "preloaderTitle": "Hoteloza..",
+    "failedToLoadHotelList": "Gagal memuatkan senarai hotel. Sila cuba lagi.",
+    "cityIdRequired": "ID Bandar diperlukan.",
+    "callToActionsDescription": "Idea yang bagus tidak kekal lama. Tempah perjalanan Hoteloza anda hari ini!",
+    "errorLoadingData": "Ralat berlaku semasa memuatkan data. Sila cuba sebentar lagi.",
+    "noHotelsFound": "Tiada hotel ditemui untuk kategori ini.",
+    "noRelatedCategoriesFound": "Tiada kategori berkaitan ditemui.",
+    "noRelatedCountriesFound": "Tiada negara berkaitan ditemui.",
+    "noRelatedStatesFound": "Tiada negeri berkaitan ditemui.",
+    "noRelatedCitiesFound": "Tiada bandar berkaitan ditemui.",
+    "noRelatedHotelsFound": "Tiada hotel berkaitan ditemui.",
+    "unknownAddress": "Alamat Tidak Diketahui",
+    "unknownCity": "Bandar Tidak Diketahui",
+    "unknownRegion": "Wilayah Tidak Diketahui",
+    "unknownCountry": "Negara Tidak Diketahui",
+    "unnamedHotel": "Hotel Tidak Dinamakan",
+    "reserveNow": "Tempah Sekarang",
+    "unknownCategory": "Kategori Tidak Diketahui",
+    "unknownState": "Negeri Tidak Diketahui",
+    "errorLandmarkNotFound": "Ralat: Mercu tanda tidak ditemui dalam URL. Tidak dapat memuatkan.",
+    "properties": "hartanah",
+    "noDestinationsFound": "Tiada destinasi tersedia untuk wilayah ini.",
+    "topRecommendedHotelsTitle": "Hotel {category} Teratas Disyorkan di {city}",
+    "findTopRatedStays": "Cari penginapan bertaraf tinggi dengan faedah serupa berhampiran destinasi anda",
+    "unknownLocation": "Lokasi Tidak Diketahui",
+    "failedToLoadHotelData": "Gagal mendapatkan data hotel",
+    "errorWithMessage": "Ralat: {error}",
+    "night": "Malam"
+  },
+  "header": {
+    "luxuryBackgroundImageAlt": "Imej latar belakang mewah"
+  },
+  "search": {
+    "searchResultAccommodationIn": "Hasil carian untuk penginapan di {cityName}",
+    "searchResultPropertiesIn": "Hartanah ditemui di",
+    "selectedCity": "Bandar Terpilih",
+    "unknownLocation": "Lokasi Tidak Diketahui",
+    "searchParametersIncomplete": "Parameter carian tidak lengkap."
+  },
+  "categoryPage": {
+    "discoverLuxeStaysIn": "Temui Penginapan Mewah di",
+    "faqsAboutHotels": "Soalan Lazim {formattedCategory}",
+    "categoryDefault": "Kategori",
+    "defaultItemListDescription": "Senarai {formattedCategory} teratas untuk {currentYear} di Hoteloza."
+  },
+  "countryPage": {
+    "discoverStaysIn": "Temui Penginapan di {displayCountry}",
+    "faqsAboutCountryHotels": "Soalan Lazim Hotel di {displayCountry}",
+    "countryDefault": "Negara",
+    "noHotelsFoundForCountry": "Tiada hotel ditemui untuk negara ini."
+  },
+  "statePage": {
+    "discoverStaysInState": "Temui Penginapan di {formattedState}",
+    "faqsAboutStateHotels": "Soalan Lazim Hotel di {displayState}",
+    "stateDefault": "Negeri",
+    "noHotelsFoundForState": "Tiada hotel ditemui untuk negeri ini."
+  },
+  "cityPage": {
+    "discoverStaysInCity": "Temui Penginapan di {formattedCity}",
+    "faqsAboutCityHotels": "Soalan Lazim Hotel di {displayCity}",
+    "cityDefault": "Bandar",
+    "noHotelsFoundForCity": "Tiada hotel ditemui untuk bandar ini."
+  },
+  "hotelSinglePage": {
+    "aboutThisHotel": "Mengenai Hotel Ini",
+    "facilitiesAndServices": "Kemudahan & Perkhidmatan",
+    "attractionsNearby": "Tarikan Berdekatan",
+    "reviews": "Ulasan",
+    "faq": "Soalan Lazim",
+    "locationMap": "Peta Lokasi",
+    "frequentlyAskedQuestions": "Soalan Lazim",
+    "toggleFrequentlyAskedQuestions": "Togol Soalan Lazim",
+    "toggleLocationMap": "Togol Peta Lokasi",
+    "relatedHotels": "Hartanah popular serupa dengan",
+    "toggleFacilities": "Togol Kemudahan",
+    "toggleLandmarks": "Togol Mercu Tanda Berdekatan",
+    "toggleRelatedHotels": "Togol hartanah popular serupa dengan",
+    "defaultSchemaDescription": "Tempah {formattedHotel}, sebuah hotel mewah di {formattedCity} untuk {currentYear} di Hoteloza.",
+    "exceptionalReviewText": "Luar biasa"
+  },
+  "bookNow": {
+    "reserveNowButton": "Tempah Sekarang"
+  },
+  "facilities": {
+    "bathroom": "Bilik mandi",
+    "towels": "Tuala",
+    "bathOrShower": "Mandi atau Pancuran Mandi",
+    "privateBathroom": "Bilik Mandi Peribadi",
+    "toilet": "Tandas",
+    "freeToiletries": "Kelengkapan peribadi percuma",
+    "hairdryer": "Pengering rambut",
+    "bath": "Tab Mandi",
+    "bedroom": "Bilik tidur",
+    "linen": "Linen",
+    "wardrobeOrCloset": "Almari Pakaian atau Almari",
+    "receptionServices": "Perkhidmatan Penyambut Tetamu",
+    "invoiceProvided": "Invois Disediakan",
+    "privateCheckInCheckOut": "Daftar masuk/keluar peribadi",
+    "luggageStorage": "Penyimpanan Bagasi",
+    "twentyFourHourFrontDesk": "Meja penyambut tetamu 24 jam",
+    "mediaTechnology": "Media & Teknologi",
+    "flatScreenTV": "TV skrin rata",
+    "satelliteChannels": "Saluran Satelit",
+    "radio": "Radio",
+    "telephone": "Telefon",
+    "tv": "TV",
+    "foodDrink": "Makanan & Minuman",
+    "kidMeals": "Hidangan Kanak-kanak",
+    "specialDietMenusOnRequest": "Menu diet khas (atas permintaan)",
+    "breakfastInTheRoom": "Sarapan di Bilik",
+    "cleaningServices": "Perkhidmatan Pembersihan",
+    "dailyHousekeeping": "Pengemasan harian",
+    "dryCleaning": "Cucian kering",
+    "laundry": "Dobi",
+    "safetySecurity": "Keselamatan & Sekuriti",
+    "fireExtinguishers": "Alat Pemadam Api",
+    "cctvInCommonAreas": "CCTV di Kawasan Umum",
+    "smokeAlarms": "Penggera asap",
+    "twentyFourHourSecurity": "Keselamatan 24 jam"
+  },
+  "landmarkList": {
+    "noNearbyPlacesFound": "Tiada tempat berhampiran ditemui dalam {radius} km.",
+    "nearbyEssentialAndTouristSpots": "🗺️ Tempat Penting & Pelancong Berdekatan"
+  },
+  "mapComponent": {
+    "mapTitle": "🗺️ Peta {title}"
+  },
+  "relatedCategories": {
+    "countriesIn": "🏨 Negara di {formattedCategory}"
+  },
+  "relatedCities": {
+    "noRelatedCitiesFound": "Tiada bandar berkaitan ditemui",
+    "bestRelatedCitiesIn": "🏨 Bandar Berkaitan Terbaik di {formattedState}"
+  },
+  "relatedCountries": {
+    "noRelatedStatesFound": "Tiada negeri berkaitan ditemui",
+    "statesIn": "🏨 Negeri di {formattedCountry}"
+  },
+  "relatedStates": {
+    "noRelatedCitiesFound": "Tiada bandar berkaitan ditemui",
+    "citiesIn": "🏨 Bandar di {formattedState}"
+  },
+  "city": {
+    "city": "Bandar",
+    "faq": "Soalan Lazim"
+  },
+  "mainFilterSearchBox": {
+    "destinationPlaceholder": "Apakah destinasi anda?",
+    "checkInPlaceholder": "Tarikh Daftar Masuk",
+    "checkOutPlaceholder": "Tarikh Daftar Keluar",
+    "adultsLabel": "Dewasa",
+    "childrenLabel": "Kanak-kanak",
+    "roomsLabel": "Bilik",
+    "searchButton": "Cari"
+  },
+  "footer": {
+    "popularStays": "Penginapan Popular",
+    "hotel": "Hotel",
+    "villa": "Villa",
+    "resort": "Resort",
+    "apartment": "Pangsapuri",
+    "guestHouse": "Rumah tumpangan",
+    "uniqueStays": "Penginapan Unik",
+    "capsuleHotel": "Hotel kapsul",
+    "yurt": "Yurt",
+    "treehouse": "Rumah pokok",
+    "tent": "Khemah",
+    "domeHouse": "Rumah kubah",
+    "traditionalStays": "Penginapan Tradisional",
+    "ryokan": "Ryokan",
+    "machiya": "Machiya",
+    "countryHouse": "Rumah kampung",
+    "haveli": "Haveli",
+    "riad": "Riad",
+    "heritageHotel": "Hotel Warisan",
+    "adventureStays": "Penginapan Pengembaraan",
+    "farmStay": "Penginapan ladang",
+    "cabin": "Kabin",
+    "chalet": "Chalet",
+    "boat": "Bot",
+    "houseboat": "Rumah bot",
+    "hotelozaFooterText": "Hoteloza ialah platform terkemuka untuk tempahan hotel yang mudah dan lancar. Kami memudahkan pencarian anda untuk penginapan yang sempurna, menawarkan pelbagai pilihan penginapan, daripada hotel yang selesa hingga resort mewah. Nikmati kemudahan tempahan, tawaran eksklusif dan perkhidmatan peribadi yang disesuaikan dengan keperluan perjalanan anda. Tempah dengan Hoteloza dan jadikan perjalanan yang tidak dapat dilupakan satu realiti.",
+    "hotelozaAllRightsReserved": "© {year} Hoteloza. Hak cipta terpelihara."
+  },
+  "metadata": {
+    "homePageTitle": "Hoteloza - Cari Hotel Idaman Anda",
+    "homePageDescription": "Cari hotel dan penginapan terbaik untuk perjalanan anda yang seterusnya. Tempah sekarang dengan Hoteloza!",
+    "searchResultPageTitle": "Hotel di {cityName} - Hasil Carian Hoteloza",
+    "searchResultPageDescription": "Cari dan tempah hotel di {cityName}. Bandingkan harga dan kemudahan untuk penginapan terbaik anda.",
+    "cityPageTitle": "Hotel di {cityName} - Temui {cityName} dengan Hoteloza",
+    "cityPageDescription": "Temui hotel terbaik di {cityName} dan dapatkan tawaran terbaik untuk perjalanan anda yang tidak dapat dilupakan dengan Hoteloza.",
+    "categoryNotFoundTitle": "Kategori Tidak Ditemui | Hoteloza",
+    "categoryNotFoundDescription": "Kategori yang anda cari tidak ditemui di Hoteloza.",
+    "categoryPageTitleTemplate": "Diskaun {formattedCategory} Terbaik {currentYear} - Jimat Besar di Hoteloza!",
+    "categoryPageDescriptionTemplate": "Temui {formattedCategory} terbaik pada {currentYear} dengan Hoteloza. Nikmati diskaun eksklusif, harga hebat dan kemudahan terkemuka. Tempah sekarang untuk penginapan yang tidak dapat dilupakan!",
+    "categoryOgTitleTemplate": "Tawaran {formattedCategory} Teratas {currentYear} | Hoteloza",
+    "categoryOgDescriptionTemplate": "Terokai {formattedCategory} teratas untuk {currentYear} di Hoteloza. Tempah sekarang untuk tawaran eksklusif dan kemudahan premium!",
+    "categoryWebPageNameTemplate": "Tawaran {formattedCategory} Teratas {currentYear}",
+    "categoryWebPageDescriptionTemplate": "Temui {formattedCategory} teratas untuk {currentYear} di Hoteloza dengan tawaran eksklusif dan kemudahan premium.",
+    "countryNotFoundTitle": "Halaman Tidak Ditemui | Hoteloza",
+    "countryNotFoundDescription": "Kategori, negara atau negeri yang anda cari tidak ditemui di Hoteloza.",
+    "countryPageTitleTemplate": "{formattedCategory} Murah di {formattedCountry} {currentYear} - Jangan Lepaskan! | Hoteloza",
+    "countryPageDescriptionTemplate": "Dapatkan {formattedCategory} terbaik di {formattedCountry} untuk {currentYear} di Hoteloza. Nikmati tawaran eksklusif, harga berpatutan dan kemudahan terkemuka. Tawaran terhad – tempah penginapan anda hari ini!",
+    "countryOgTitleTemplate": "{formattedCategory} Terbaik di {formattedCountry} {currentYear} | Hoteloza",
+    "countryOgDescriptionTemplate": "Cari {formattedCategory} terbaik di {formattedCountry} untuk {currentYear} di Hoteloza. Tempah sekarang untuk hotel terkemuka dan tawaran eksklusif!",
+    "stateNotFoundTitle": "Halaman Tidak Ditemui | Hoteloza",
+    "stateNotFoundDescription": "Kategori, negara atau negeri yang anda cari tidak ditemui di Hoteloza.",
+    "statePageTitleTemplate": "{formattedCategory} Murah di {formattedState}, {formattedCountry} {currentYear} - Tempah Sekarang! | Hoteloza",
+    "statePageDescriptionTemplate": "Cari {formattedCategory} terbaik di {formattedState}, {formattedCountry} untuk {currentYear} di Hoteloza. Tawaran eksklusif, harga hebat dan kemudahan terkemuka. Tempah penginapan anda yang tidak dapat dilupakan!",
+    "stateOgTitleTemplate": "{formattedCategory} Terbaik di {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
+    "stateOgDescriptionTemplate": "Terokai {formattedCategory} teratas di {formattedState}, {formattedCountry} untuk {currentYear} di Hoteloza. Tempah sekarang untuk tawaran eksklusif dan kemudahan premium!",
+    "cityNotFoundTitle": "Halaman Tidak Ditemui | Hoteloza",
+    "cityNotFoundDescription": "Kategori, negara, negeri atau bandar yang anda cari tidak ditemui di Hoteloza.",
+    "cityPageTitleTemplate": "{formattedCategory} Murah di {formattedCity}, {formattedState}, {formattedCountry} {currentYear} - Diskaun Besar! | Hoteloza",
+    "cityPageDescriptionTemplate": "Cari {formattedCategory} terbaik di {formattedCity}, {formattedState}, {formattedCountry} untuk {currentYear} di Hoteloza. Diskaun eksklusif, kemudahan terkemuka dan harga yang tiada tandingan. Tempah penginapan impian anda sekarang!",
+    "cityOgTitleTemplate": "{formattedCategory} Terbaik di {formattedCity}, {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
+    "cityOgDescriptionTemplate": "Temui {formattedCategory} teratas di {formattedCity}, {formattedState}, {formattedCountry} untuk {currentYear} di Hoteloza. Tempah sekarang untuk tawaran eksklusif dan kemudahan premium!",
+    "hotelNotFoundTitle": "Hotel Tidak Ditemui | Hoteloza",
+    "hotelNotFoundDescription": "Hotel yang anda cari tidak dapat ditemui.",
+    "hotelPageTitleTemplate": "{hotelTitle} - Tempah Sekarang di Hoteloza!",
+    "hotelPageDescriptionTemplate": "Tempah penginapan anda di {hotelTitle} di {city}, {state}, {country}. Cari tawaran, kemudahan dan ulasan terbaik untuk pengalaman yang tidak dapat dilupakan dengan Hoteloza.",
+    "hotelOgTitleTemplate": "{hotelTitle} | Hoteloza",
+    "hotelOgDescriptionTemplate": "Cari tawaran terbaik di {hotelTitle} dengan Hoteloza."
+  },
+  "landmarkPage": {
+    "topHotelsNear": "{category} Murah Berhampiran {landmarkName}",
+    "landmarkPageTitleTemplate": "{category} Murah Berhampiran {landmarkName}",
+    "description": "{category} {landmarkName} menawarkan penginapan terbaik di {cityName}, dengan tawaran hebat dan kemudahan seperti WiFi percuma.",
+    "loadingHotel": "Memuatkan hotel...",
+    "errorLoadingHotel": "Ralat: {error}",
+    "hotelNotFound": "Hotel tidak ditemui.",
+    "serverErrorFetchingData": "Ralat pelayan mengambil data hotel."
+  },
+  "navigation": {
+    "home": "Laman Utama",
+    "about": "Mengenai Kami",
+    "contact": "Hubungi"
+  },
+  "homepage": {
+    "dreamDestinations": "Destinasi Impian",
+    "unforgettableSpots": "Tempat-tempat yang tidak dapat dilupakan yang anda ingin terokai berulang kali",
+    "whatOurGuestsTrulyLoveAboutUs": "Apa Yang Benar-benar Disukai Tetamu Kami Mengenai Kami",
+    "experienceTheMagic": "Rasai keajaiban yang membuat berjuta-juta orang kembali. Di Hoteloza, kami berdedikasi untuk menjadikan setiap penginapan tidak dapat dilupakan, dengan mudah, penjagaan dan perkhidmatan yang luar biasa.",
+    "hotelozaHeroTitle": "Cari, Tempah, dan Bersantai dengan Hoteloza",
+    "hotelozaHeroSubtitle": "Terokai ribuan hotel di seluruh dunia dengan Hoteloza",
+    "delightedGuests": "Tetamu yang Gembira",
+    "guestSatisfactionScore": "Skor Kepuasan Tetamu",
+    "happyPeople": "Orang Gembira",
+    "overallRating": "Penarafan keseluruhan"
+  },
+  "about": {
+    "lookingForJoy": "Mencari kegembiraan?",
+    "trustedTripCompanion": "Teman Perjalanan Anda yang Dipercayai",
+    "whyChooseUs": "Kenapa Pilih Kami",
+    "popularDestinationsOffer": "Destinasi popular ini mempunyai banyak tawaran",
+    "overheardFromTravelers": "Didengar Daripada Pengembara",
+    "aboutHotelozaTitle": "Mengenai Hoteloza",
+    "aboutHotelozaSubtitle": "Temui dunia keselesaan dan keanggunan",
+    "aboutHotelozaParagraph1": "Hoteloza ialah syurga kemewahan anda, menawarkan layanan yang tiada tandingan di tengah-tengah destinasi yang meriah. Hotel kami menggabungkan keanggunan moden dengan keselesaan abadi, memastikan setiap penginapan adalah pengalaman yang tidak dapat dilupakan.",
+    "aboutHotelozaParagraph2": "Tenggelamkan diri anda dalam kemudahan bertaraf dunia kami, dari spa yang tenang hingga santapan yang indah, dan terokai tarikan berdekatan yang menjadikan setiap lawatan tidak dapat dilupakan. Sama ada untuk perniagaan atau percutian, Hoteloza ialah rumah anda yang jauh dari rumah."
+  },
+  "blockGuide": {
+    "bestPriceGuarantee": "Jaminan Harga Terbaik",
+    "bestPriceGuaranteeText": "Cari penginapan sempurna anda pada harga terbaik yang mungkin – dijamin. Tiada bayaran tersembunyi, hanya penjimatan sebenar setiap kali anda menempah.",
+    "easyQuickBooking": "Tempahan Mudah & Cepat",
+    "easyQuickBookingText": "Tempah hotel impian anda dalam beberapa klik sahaja. Cepat, mudah dan tanpa kerumitan – percutian anda yang seterusnya bermula di sini.",
+    "customerSupport": "Sokongan Pelanggan 24/7",
+    "customerSupportText": "Perlukan bantuan? Pasukan sokongan kami tersedia sepanjang masa untuk membantu anda – di mana sahaja dan pada bila-bila masa anda memerlukannya."
+  },
+  "contactPage": {
+    "heroTitle": "Hubungi Kami",
+    "heroSubtitle": "Kami sedia membantu dan menjawab sebarang soalan yang mungkin anda ada.",
+    "getInTouchTitle": "Hubungi",
+    "getInTouchDescription": "Jangan ragu untuk menghubungi kami jika ada soalan atau kebimbangan. Pasukan kami sentiasa bersedia untuk membantu anda.",
+    "addressLabel": "Alamat",
+    "addressValue": "123 Hoteloza Street, Suite 456, Bandar, Negara",
+    "emailLabel": "E-mel",
+    "emailValue": "info@hoteloza.com",
+    "workingHoursLabel": "Waktu Bekerja",
+    "workingHoursValue": "Isnin - Jumaat: 9:00 AM - 5:00 PM (Waktu Tempatan)"
+  },
+  "callToActions": {
+    "subscribeHere": "Langgan Di Sini",
+    "yourEmail": "E-mel anda",
+    "subscribeButton": "Langgan"
+  },
+  "testimonials": {
+    "sarahMQuote": "Hoteloza ialah pengubah permainan! Saya sentiasa menemui tawaran hotel terbaik di sini. Ia benar-benar laman web afiliasi hotel terbaik di peringkat global.",
+    "sarahMName": "Sarah M.",
+    "sarahMDesignation": "Penggemar Kembara",
+    "data": [
+      {
+        "id": 1,
+        "avatar": "/img/avatars/testimonials/1.jpg",
+        "name": "Sarah Miller",
+        "designation": "Blogger Perjalanan",
+        "text": "Penginapan kami di sini benar-benar luar biasa! Lokasi strategik, bilik bersih dan selesa, dan perkhidmatan kakitangan sangat mesra. Sangat disyorkan untuk percutian keluarga.",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "John Davis",
+        "designation": "Usahawan",
+        "text": "Hotel ini adalah pilihan yang sempurna untuk perjalanan perniagaan saya. Kemudahan lengkap, Wi-Fi pantas, dan dekat dengan pusat bandar. Sangat efisien dan selesa.",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "Emily White",
+        "designation": "Pelajar",
+        "text": "Saya suka reka bentuk dalaman yang moden dan Instagrammable! Ia sesuai untuk percutian dengan rakan-rakan. Harganya juga berpatutan untuk kualiti yang hebat ini.",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "David Lee",
+        "designation": "Jurugambar",
+        "text": "Pemandangan dari bilik sangat menakjubkan! Saya berjaya mengambil banyak gambar yang hebat. Kakitangan juga sangat membantu dalam mengesyorkan tempat-tempat pelancongan.",
+        "dealyAnimation": "400"
+      }
+    ],
+    "data2": [
+      {
+        "id": 1,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "Olivia Grace",
+        "designation": "Pengarang",
+        "text": "\"Hotel ini sesuai untuk mencari ketenangan dan kedamaian. Suasana yang tenang, bilik yang sunyi, dan kakitangan yang responsif membolehkan saya menumpukan perhatian pada penulisan tanpa gangguan. Sangat disyorkan.\"",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "Daniel Kim",
+        "designation": "Nomad Digital",
+        "text": "\"Sambungan internet yang stabil dan ruang kerja yang selesa adalah kelebihan besar di sini. Saya boleh bekerja dan bercuti pada masa yang sama. Lokasi juga berhampiran banyak kafe.\"",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "Sophia Brown",
+        "designation": "Pesara",
+        "text": "\"Perkhidmatan yang mesra dan kemudahan mesra warga emas membuatkan kami berasa sangat selesa. Sarapan juga lazat dan pelbagai. Kami pasti akan kembali.\"",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/4.png",
+        "name": "Michael Chen",
+        "designation": "Chef",
+        "text": "\"Sebagai seorang chef, saya benar-benar menghargai kualiti makanan di restoran hotel ini. Hidangan-hidangan yang lazat dan pilihan menu yang pelbagai. Pengalaman kulinari yang benar-benar menakjubkan!\"",
+        "dealyAnimation": "400"
+      },
+      {
+        "id": 5,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/5.png",
+        "name": "Chloe Wilson",
+        "designation": "Pereka Grafik",
+        "text": "\"Reka bentuk dalaman hotel yang estetik dan pencahayaan yang baik benar-benar menyokong kreativiti saya. Banyak tempat menarik untuk bergambar! Bilik juga sangat bersih.\"",
+        "dealyAnimation": "500"
+      }
+    ],
+    "data3": [
+      {
+        "id": 1,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/1.png",
+        "name": "James Taylor",
+        "designation": "Ahli Perniagaan",
+        "text": "\"Resort ini mempunyai pemandangan laut yang spektakular. Ia sesuai untuk berehat dari rutin. Kemudahan kolam renang infiniti juga menakjubkan.\""
+      },
+      {
+        "id": 2,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/2.png",
+        "name": "Isabella Rodriguez",
+        "designation": "Guru",
+        "text": "\"Percutian keluarga kami di sini sangat berkesan. Ada banyak aktiviti kanak-kanak, dan kakitangan sangat peramah dan membantu. Kanak-kanak suka bermain di pantai peribadi.\""
+      },
+      {
+        "id": 3,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/3.png",
+        "name": "Liam Garcia",
+        "designation": "Doktor",
+        "text": "\"Tempat ini adalah pelarian yang sempurna untuk bersantai. Perkhidmatan spa yang menenangkan dan suasana yang damai membuatkan saya berasa segar sepenuhnya.\""
+      },
+      {
+        "id": 4,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/4.png",
+        "name": "Mia Martinez",
+        "designation": "Perunding",
+        "text": "\"Saya sering melancong untuk kerja, dan resort ini memberikan keselesaan seperti di rumah. Perkhidmatan bilik pantas dan profesional. Ia pasti akan menjadi pilihan tetap saya.\""
+      },
+      {
+        "id": 5,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/5.png",
+        "name": "Noah Thompson",
+        "designation": "Pelukis",
+        "text": "\"Inspirasi datang dari mana-mana, dan resort ini penuh dengan keindahan alam semula jadi yang menakjubkan. Saya banyak melukis di sini. Sangat disyorkan untuk artis atau sesiapa sahaja yang mencari inspirasi.\""
+      }
+    ]
+  },
+  "faqContent": {
+    "hotel": {
+      "facilitiesQuestion": "Apakah kemudahan yang termasuk di {title}?",
+      "facilitiesAnswer": "Kemudahan di {title} termasuk Wi-Fi percuma, kolam renang, tempat letak kereta dan banyak lagi. Hubungi pihak penginapan untuk senarai lengkap kemudahan.",
+      "breakfastQuestion": "Adakah sarapan termasuk di {title}?",
+      "breakfastAnswer": "Ya, sarapan termasuk dalam penginapan anda di {title}.",
+      "checkInCheckOutQuestion": "Apakah waktu daftar masuk dan daftar keluar di {title}?",
+      "checkInCheckOutAnswer": "Waktu daftar masuk adalah dari 2 petang, dan daftar keluar adalah selewat-lewatnya 12 tengah hari di {title}.",
+      "petsAllowedQuestion": "Adakah haiwan peliharaan dibenarkan di {title}?",
+      "petsAllowedAnswer": "Haiwan peliharaan tidak dibenarkan di {title}.",
+      "parkingFacilityQuestion": "Adakah terdapat kemudahan tempat letak kereta di {title}?",
+      "parkingFacilityAnswer": "Ya, tempat letak kereta tersedia untuk tetamu di {title}.",
+      "smokingAllowedQuestion": "Adakah merokok dibenarkan di {title}?",
+      "smokingAllowedAnswer": "Tidak, merokok dilarang di semua kawasan {title}.",
+      "airportTransportationQuestion": "Adakah {title} menawarkan pengangkutan lapangan terbang?",
+      "airportTransportationAnswer": "Ya, pengangkutan lapangan terbang boleh diatur di {title} dengan bayaran tambahan.",
+      "cancellationPolicyQuestion": "Apakah polisi pembatalan di {title}?",
+      "cancellationPolicyAnswer": "Pembatalan boleh dibuat sehingga 24 jam sebelum daftar masuk tanpa caj.",
+      "meetingFacilitiesQuestion": "Adakah {title} mempunyai kemudahan mesyuarat?",
+      "meetingFacilitiesAnswer": "Ya, {title} mempunyai bilik mesyuarat yang lengkap tersedia untuk tempahan.",
+      "attractionsNearQuestion": "Apakah tarikan yang berdekatan dengan {title}?",
+      "attractionsNearAnswer": "Tarikan popular berhampiran {title} termasuk [senarai tarikan]."
+    },
+    "category": {
+      "offeringsQuestion": "Apakah jenis tawaran yang tersedia dalam kategori {category}?",
+      "offeringsAnswer": "Bersedia untuk meneroka pelbagai pilihan? Kategori {category} kami menampilkan segala-galanya daripada pengalaman premium eksklusif kepada penyelesaian yang bijak dan mesra bajet. Cari padanan yang sempurna untuk memenuhi impian perjalanan atau keperluan khusus anda!",
+      "familyFriendlyQuestion": "Adakah terdapat pilihan mesra keluarga yang tersedia dalam pilihan {category} kami?",
+      "familyFriendlyAnswer": "Sudah tentu! Kami memahami keperluan anda. Temui pelbagai pilihan {category} yang sangat disyorkan untuk keluarga, lengkap dengan kemudahan dan aktiviti yang direka untuk menjadikan detik-detik anda bersama orang tersayang lebih tidak dapat dilupakan dan selesa.",
+      "mainAttractionsQuestion": "Apakah tarikan utama atau destinasi paling popular berhampiran tawaran {category} ini?",
+      "mainAttractionsAnswer": "Pilihan {category} kami bukan sahaja mengenai produk/perkhidmatan; ia juga mengenai lokasi! Nikmati akses mudah ke tempat pelancongan ikonik, hab hiburan yang menarik, dan hidangan kulinari yang mesti dicuba. Maksimakan pengalaman anda di Bandung, Jawa Barat, atau di mana sahaja {category} pilihan anda membawa anda!",
+      "luxuryAmenitiesQuestion": "Adakah mana-mana pilihan {category} menawarkan kemudahan mewah atau ciri istimewa?",
+      "luxuryAmenitiesAnswer": "Memang benar! Nikmati keselesaan dan kemewahan. Banyak tawaran {category} kami dilengkapi dengan kemudahan lima bintang seperti kolam renang infiniti peribadi, perkhidmatan spa holistik, pusat kecergasan terkini dan banyak lagi. Nikmati pengalaman yang tidak dapat dilupakan!",
+      "topRatedQuestion": "Apakah pilihan {category} yang mendapat penilaian tertinggi dengan ulasan pelanggan terbaik?",
+      "topRatedAnswer": "Mencari yang terbaik? Berikut adalah senarai pilihan {category} teratas kami, yang digemari oleh komuniti kami. Pastikan kualiti dan kepuasan, disokong oleh testimoni pengguna tulen!"
+    },
+    "city": {
+      "typesOfHotelsQuestion": "Apakah jenis hotel yang tersedia di {city}?",
+      "typesOfHotelsAnswer": "Terokai pelbagai hotel di {city}, bermula dari hotel mewah hingga pilihan bajet.",
+      "familyFriendlyHotelsQuestion": "Adakah terdapat hotel yang sesuai untuk keluarga di {city}?",
+      "familyFriendlyHotelsAnswer": "Ya, terdapat banyak hotel mesra keluarga di {city}.",
+      "attractionsNearHotelsQuestion": "Apakah tarikan yang berdekatan dengan hotel di {city}?",
+      "attractionsNearHotelsAnswer": "Hotel-hotel di {city} terletak berhampiran dengan pelbagai tarikan popular.",
+      "hotelsWithPoolsQuestion": "Adakah terdapat hotel dengan kolam renang di {city}?",
+      "hotelsWithPoolsAnswer": "Ya, banyak hotel di {city} mempunyai kolam renang dan kemudahan lain.",
+      "bestRatedHotelsQuestion": "Apakah hotel yang paling mendapat penilaian terbaik di {city}?",
+      "bestRatedHotelsAnswer": "Berikut adalah beberapa hotel yang paling mendapat penilaian terbaik di {city}:"
+    },
+    "country": {
+      "typesOfHotelsQuestion": "Apakah jenis hotel yang tersedia di {country}?",
+      "typesOfHotelsAnswer": "Terokai pelbagai hotel di {country}, bermula dari hotel mewah hingga pilihan bajet.",
+      "familyFriendlyHotelsQuestion": "Adakah terdapat hotel yang sesuai untuk keluarga di {country}?",
+      "familyFriendlyHotelsAnswer": "Ya, terdapat banyak hotel mesra keluarga di {country}.",
+      "attractionsNearHotelsQuestion": "Apakah tarikan yang berdekatan dengan hotel di {country}?",
+      "attractionsNearHotelsAnswer": "Hotel-hotel di {country} terletak berhampiran dengan pelbagai tarikan popular.",
+      "hotelsWithPoolsQuestion": "Adakah terdapat hotel dengan kolam renang di {country}?",
+      "hotelsWithPoolsAnswer": "Ya, banyak hotel di {country} mempunyai kolam renang dan kemudahan lain.",
+      "bestRatedHotelsQuestion": "Apakah hotel yang paling mendapat penilaian terbaik di {country}?",
+      "bestRatedHotelsAnswer": "Berikut adalah beberapa hotel yang paling mendapat penilaian terbaik di {country}:"
+    },
+    "landmark": {
+      "typesOfHotelsQuestion": "Apakah jenis hotel yang tersedia berhampiran {landmark}?",
+      "typesOfHotelsAnswer": "Berhampiran {landmark}, anda akan menemui pelbagai pilihan penginapan, daripada hotel butik mewah hingga penginapan yang selesa dan berpatutan. Sama ada anda mencari lawatan singkat atau penerokaan yang lebih lama, ada hotel yang sesuai untuk setiap pilihan.",
+      "familyFriendlyHotelsQuestion": "Adakah terdapat hotel yang sesuai untuk keluarga berhampiran {landmark}?",
+      "familyFriendlyHotelsAnswer": "Sudah tentu! Banyak hotel berhampiran {landmark} dilengkapi dengan baik untuk keluarga, menawarkan kemudahan seperti bilik keluarga yang luas, kelab kanak-kanak, dan kolam renang. Ia menyediakan pangkalan yang selesa untuk meneroka mercu tanda dan kawasan sekitarnya bersama orang yang anda sayangi.",
+      "attractionsNearHotelsQuestion": "Apakah tarikan yang berdekatan dengan hotel berhampiran {landmark}?",
+      "attractionsNearHotelsAnswer": "Hotel-hotel berhampiran {landmark} menawarkan kemudahan yang tiada tandingan untuk melawat mercu tanda itu sendiri. Selain itu, ia sering terletak secara strategik berhampiran dengan tarikan popular lain, muzium, tempat makan, dan tempat hiburan, menjadikan penerokaan anda mudah.",
+      "hotelsWithPoolsQuestion": "Adakah terdapat hotel dengan kolam renang berhampiran {landmark}?",
+      "hotelsWithPoolsAnswer": "Ya, banyak hotel yang terletak berhampiran {landmark} mempunyai kolam renang yang menyegarkan, sesuai untuk bersantai selepas seharian bersiar-siar. Sesetengahnya malah mempunyai kolam renang atas bumbung dengan pemandangan menakjubkan mercu tanda atau kaki langit bandar.",
+      "bestRatedHotelsQuestion": "Apakah hotel yang paling mendapat penilaian terbaik berhampiran {landmark}?",
+      "bestRatedHotelsAnswerDefault": "Pada masa ini, kami tidak mempunyai data penilaian terbaik khusus yang tersedia untuk hotel berhampiran {landmark}. Walau bagaimanapun, anda boleh menyemak imbas pelbagai pilihan yang mendapat penilaian tinggi di kawasan yang lebih luas.",
+      "bestRatedHotelsAnswerWithData": "Berdasarkan ulasan tetamu, beberapa hotel yang paling mendapat penilaian terbaik berhampiran {landmark} termasuk:"
+    },
+    "state": {
+      "typesOfHotelsQuestion": "Apakah jenis hotel yang tersedia di {state}?",
+      "typesOfHotelsAnswer": "Terokai pelbagai hotel di {state}, bermula dari hotel mewah hingga pilihan bajet.",
+      "familyFriendlyHotelsQuestion": "Adakah terdapat hotel yang sesuai untuk keluarga di {state}?",
+      "familyFriendlyHotelsAnswer": "Ya, terdapat banyak hotel mesra keluarga di {state}.",
+      "attractionsNearHotelsQuestion": "Apakah tarikan yang berdekatan dengan hotel di {state}?",
+      "attractionsNearHotelsAnswer": "Hotel-hotel di {state} terletak berhampiran dengan pelbagai tarikan popular.",
+      "hotelsWithPoolsQuestion": "Adakah terdapat hotel dengan kolam renang di {state}?",
+      "hotelsWithPoolsAnswer": "Ya, banyak hotel di {state} mempunyai kolam renang dan kemudahan lain.",
+      "bestRatedHotelsQuestion": "Apakah hotel yang paling mendapat penilaian terbaik di {state}?",
+      "bestRatedHotelsAnswer": "Berikut adalah beberapa hotel yang paling mendapat penilaian terbaik di {state}:"
+    }
+  }
+}

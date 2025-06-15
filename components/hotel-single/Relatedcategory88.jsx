@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link"; // Pastikan Link diimpor
 
 const createSlug = (country) => {
   return country
@@ -6,17 +7,21 @@ const createSlug = (country) => {
     : 'unknown-country';
 };
 
-const Relatedcategory88 = React.memo(({ relatedcategory, categoryslug }) => {
+const Relatedcategory88 = React.memo(({ relatedcategory, categoryslug, dictionary, currentLang }) => {
+  const relatedCategoriesDict = dictionary?.relatedCategories || {};
+  const categoryPageDict = dictionary?.categoryPage || {};
+  const commonDict = dictionary?.common || {};
+
   const formattedCategory = categoryslug
     ? categoryslug
         .replace(/-/g, ' ')
         .replace(/\b\w/g, (char) => char.toUpperCase())
-    : 'Unknown Category';
+    : categoryPageDict.categoryDefault || 'Unknown Category';
 
   return (
     <div className="container">
       <h2 className="text-center fw-bold mb-3 text-dark">
-        🏨 Countries in {formattedCategory}
+        {relatedCategoriesDict.countriesIn?.replace('{formattedCategory}', formattedCategory) || `🏨 Countries in ${formattedCategory}`}
       </h2>
 
       <div className="row g-2">
@@ -24,18 +29,18 @@ const Relatedcategory88 = React.memo(({ relatedcategory, categoryslug }) => {
           const countrySlug = countryData.countryslug || createSlug(countryData.country);
           const capitalizedCountry = countryData.country
             ? countryData.country.charAt(0).toUpperCase() + countryData.country.slice(1)
-            : 'Unknown Country';
+            : commonDict.unknownCountry || 'Unknown Country';
 
           return (
             <div key={`${countryData.country}-${index}`} className="col-6 col-md-4 col-lg-3">
               <div className="p-2 border rounded bg-white shadow-sm transition-all hover:shadow-md hover:bg-light">
-                <a
-                  href={`/${categoryslug}/${countrySlug}`}
+                <Link
+                  href={`/${currentLang}/${categoryslug}/${countrySlug}`} // Gunakan currentLang
                   className="fw-medium text-dark d-block text-start text-decoration-none"
                   style={{ fontSize: '14px' }}
                 >
                   {`${formattedCategory} In ${capitalizedCountry}`}
-                </a>
+                </Link>
               </div>
             </div>
           );

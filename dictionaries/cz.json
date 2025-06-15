@@ -1,0 +1,507 @@
+{
+  "common": {
+    "loadingSearchResults": "Načítání výsledků vyhledávání...",
+    "loadingCityContent": "Načítání obsahu města...",
+    "loadingHotel": "Načítání podrobností o hotelu...",
+    "hotelNotFound": "Hotel nenalezen.",
+    "errorServer": "Došlo k chybě serveru",
+    "preloaderTitle": "Hoteloza..",
+    "failedToLoadHotelList": "Seznam hotelů se nepodařilo načíst. Zkuste to prosím znovu.",
+    "cityIdRequired": "ID města je povinné.",
+    "callToActionsDescription": "Dobré nápady nevydrží dlouho. Zarezervujte si svůj výlet s Hoteloza ještě dnes!",
+    "errorLoadingData": "Při načítání dat došlo k chybě. Zkuste to prosím znovu později.",
+    "noHotelsFound": "Pro tuto kategorii nebyly nalezeny žádné hotely.",
+    "noRelatedCategoriesFound": "Nenalezeny žádné související kategorie.",
+    "noRelatedCountriesFound": "Nenalezeny žádné související země.",
+    "noRelatedStatesFound": "Nenalezeny žádné související provincie.",
+    "noRelatedCitiesFound": "Nenalezeny žádné související města.",
+    "noRelatedHotelsFound": "Nenalezeny žádné související hotely.",
+    "unknownAddress": "Neznámá adresa",
+    "unknownCity": "Neznámé město",
+    "unknownRegion": "Neznámý region",
+    "unknownCountry": "Neznámá země",
+    "unnamedHotel": "Nepojmenovaný hotel",
+    "reserveNow": "Rezervovat hned",
+    "unknownCategory": "Neznámá kategorie",
+    "unknownState": "Neznámá provincie",
+    "errorLandmarkNotFound": "Chyba: Orientační bod nebyl nalezen v URL. Nelze načíst.",
+    "properties": "nemovitostí",
+    "noDestinationsFound": "Pro tento region nejsou k dispozici žádné destinace.",
+    "topRecommendedHotelsTitle": "Nejlépe hodnocené {category} v {city}",
+    "findTopRatedStays": "Najděte nejlépe hodnocené pobyty s podobnými výhodami poblíž vaší destinace",
+    "unknownLocation": "Neznámá poloha",
+    "failedToLoadHotelData": "Nepodařilo se získat data hotelu",
+    "errorWithMessage": "Chyba: {error}",
+    "night": "Noc"
+  },
+  "header": {
+    "luxuryBackgroundImageAlt": "Luxusní obrázek na pozadí"
+  },
+  "search": {
+    "searchResultAccommodationIn": "Výsledek vyhledávání ubytování v {cityName}",
+    "searchResultPropertiesIn": "Nalezené nemovitosti v",
+    "selectedCity": "Vybrané město",
+    "unknownLocation": "Neznámá poloha",
+    "searchParametersIncomplete": "Parametry vyhledávání neúplné."
+  },
+  "categoryPage": {
+    "discoverLuxeStaysIn": "Objevte luxusní pobyty v",
+    "faqsAboutHotels": "Často kladené otázky {formattedCategory}",
+    "categoryDefault": "Kategorie",
+    "defaultItemListDescription": "Seznam nejlepších {formattedCategory} pro rok {currentYear} na Hoteloza."
+  },
+  "countryPage": {
+    "discoverStaysIn": "Objevte pobyty v {displayCountry}",
+    "faqsAboutCountryHotels": "Často kladené otázky Hotely v {displayCountry}",
+    "countryDefault": "Země",
+    "noHotelsFoundForCountry": "Pro tuto zemi nebyly nalezeny žádné hotely."
+  },
+  "statePage": {
+    "discoverStaysInState": "Objevte pobyty ve {formattedState}",
+    "faqsAboutStateHotels": "Často kladené otázky Hotely ve {displayState}",
+    "stateDefault": "Provincie",
+    "noHotelsFoundForState": "Pro tuto provincii nebyly nalezeny žádné hotely."
+  },
+  "cityPage": {
+    "discoverStaysInCity": "Objevte pobyty ve {formattedCity}",
+    "faqsAboutCityHotels": "Často kladené otázky Hotely ve {displayCity}",
+    "cityDefault": "Město",
+    "noHotelsFoundForCity": "Pro toto město nebyly nalezeny žádné hotely."
+  },
+  "hotelSinglePage": {
+    "aboutThisHotel": "O tomto hotelu",
+    "facilitiesAndServices": "Vybavení a služby",
+    "attractionsNearby": "Atrakce v okolí",
+    "reviews": "Recenze",
+    "faq": "Často kladené otázky",
+    "locationMap": "Mapa polohy",
+    "frequentlyAskedQuestions": "Často kladené otázky",
+    "toggleFrequentlyAskedQuestions": "Přepnout často kladené otázky",
+    "toggleLocationMap": "Přepnout mapu polohy",
+    "relatedHotels": "Oblíbené nemovitosti podobné",
+    "toggleFacilities": "Přepnout vybavení",
+    "toggleLandmarks": "Přepnout blízké orientační body",
+    "toggleRelatedHotels": "Přepnout oblíbené nemovitosti podobné",
+    "defaultSchemaDescription": "Zarezervujte si {formattedHotel}, luxusní hotel ve {formattedCity} pro rok {currentYear} na Hoteloza.",
+    "exceptionalReviewText": "Výjimečné"
+  },
+  "bookNow": {
+    "reserveNowButton": "Rezervovat hned"
+  },
+  "facilities": {
+    "bathroom": "Koupelna",
+    "towels": "Ručníky",
+    "bathOrShower": "Vana nebo sprcha",
+    "privateBathroom": "Vlastní koupelna",
+    "toilet": "WC",
+    "freeToiletries": "Toaletní potřeby zdarma",
+    "hairdryer": "Vysoušeč vlasů",
+    "bath": "Vana",
+    "bedroom": "Ložnice",
+    "linen": "Povlečení",
+    "wardrobeOrCloset": "Šatní skříň nebo šatna",
+    "receptionServices": "Recepční služby",
+    "invoiceProvided": "Faktura vystavena",
+    "privateCheckInCheckOut": "Soukromý check-in/check-out",
+    "luggageStorage": "Úschovna zavazadel",
+    "twentyFourHourFrontDesk": "24hodinová recepce",
+    "mediaTechnology": "Média a technologie",
+    "flatScreenTV": "Televize s plochou obrazovkou",
+    "satelliteChannels": "Satelitní kanály",
+    "radio": "Rádio",
+    "telephone": "Telefon",
+    "tv": "TV",
+    "foodDrink": "Jídlo a pití",
+    "kidMeals": "Dětská jídla",
+    "specialDietMenusOnRequest": "Speciální dietní menu (na vyžádání)",
+    "breakfastInTheRoom": "Snídaně na pokoji",
+    "cleaningServices": "Úklidové služby",
+    "dailyHousekeeping": "Denní úklid",
+    "dryCleaning": "Čištění oděvů",
+    "laundry": "Praní prádla",
+    "safetySecurity": "Bezpečnost a zabezpečení",
+    "fireExtinguishers": "Hasiči",
+    "cctvInCommonAreas": "Kamerový systém v společných prostorách",
+    "smokeAlarms": "Kouřové hlásiče",
+    "twentyFourHourSecurity": "24hodinová ostraha"
+  },
+  "landmarkList": {
+    "noNearbyPlacesFound": "V okruhu {radius} km nebyly nalezeny žádné blízké místa.",
+    "nearbyEssentialAndTouristSpots": "🗺️ Blízká základní a turistická místa"
+  },
+  "mapComponent": {
+    "mapTitle": "🗺️ Mapa {title}"
+  },
+  "relatedCategories": {
+    "countriesIn": "🏨 Země v {formattedCategory}"
+  },
+  "relatedCities": {
+    "noRelatedCitiesFound": "Nenalezeny žádné související města",
+    "bestRelatedCitiesIn": "🏨 Nejlepší související města v {formattedState}"
+  },
+  "relatedCountries": {
+    "noRelatedStatesFound": "Nenalezeny žádné související provincie",
+    "statesIn": "🏨 Provincie v {formattedCountry}"
+  },
+  "relatedStates": {
+    "noRelatedCitiesFound": "Nenalezeny žádné související města",
+    "citiesIn": "🏨 Města v {formattedState}"
+  },
+  "city": {
+    "city": "Město",
+    "faq": "Často kladené otázky"
+  },
+  "mainFilterSearchBox": {
+    "destinationPlaceholder": "Jaký je váš cíl?",
+    "checkInPlaceholder": "Datum příjezdu",
+    "checkOutPlaceholder": "Datum odjezdu",
+    "adultsLabel": "Dospělí",
+    "childrenLabel": "Děti",
+    "roomsLabel": "Pokoje",
+    "searchButton": "Hledat"
+  },
+  "footer": {
+    "popularStays": "Oblíbené pobyty",
+    "hotel": "Hotel",
+    "villa": "Vila",
+    "resort": "Rezort",
+    "apartment": "Apartmán",
+    "guestHouse": "Penzion",
+    "uniqueStays": "Unikátní pobyty",
+    "capsuleHotel": "Kapslový hotel",
+    "yurt": "Jurta",
+    "treehouse": "Domek na stromě",
+    "tent": "Stan",
+    "domeHouse": "Kupole",
+    "traditionalStays": "Tradiční pobyty",
+    "ryokan": "Rjokan",
+    "machiya": "Mačija",
+    "countryHouse": "Venkovský dům",
+    "haveli": "Haveli",
+    "riad": "Riad",
+    "heritageHotel": "Historický hotel",
+    "adventureStays": "Dobrodružné pobyty",
+    "farmStay": "Farmstay",
+    "cabin": "Chata",
+    "chalet": "Chalupa",
+    "boat": "Loď",
+    "houseboat": "Hausbót",
+    "hotelozaFooterText": "Hoteloza je přední platforma pro snadné a bezproblémové rezervace hotelů. Zjednodušujeme vaše hledání dokonalého ubytování a nabízíme rozmanitý výběr pobytů, od útulných hotelů po luxusní resorty. Užijte si pohodlí rezervace, exkluzivní nabídky a personalizované služby přizpůsobené vašim cestovním potřebám. Zarezervujte si s Hoteloza a proměňte nezapomenutelné cesty ve skutečnost.",
+    "hotelozaAllRightsReserved": "© {year} Hoteloza. Všechna práva vyhrazena."
+  },
+  "metadata": {
+    "homePageTitle": "Hoteloza - Najděte si svůj vysněný hotel",
+    "homePageDescription": "Najděte nejlepší hotely a ubytování pro vaši příští cestu. Zarezervujte si hned s Hoteloza!",
+    "searchResultPageTitle": "Hotely v {cityName} - Hoteloza výsledky vyhledávání",
+    "searchResultPageDescription": "Vyhledejte a zarezervujte hotely v {cityName}. Porovnejte ceny a zařízení pro váš nejlepší pobyt.",
+    "cityPageTitle": "Hotely v {cityName} - Objevte {cityName} s Hoteloza",
+    "cityPageDescription": "Objevte nejlepší hotely v {cityName} a najděte nejlepší nabídky pro vaši nezapomenutelnou cestu s Hoteloza.",
+    "categoryNotFoundTitle": "Kategorie nenalezena | Hoteloza",
+    "categoryNotFoundDescription": "Kategorie, kterou hledáte, nebyla na Hoteloza nalezena.",
+    "categoryPageTitleTemplate": "Nejlepší slevy na {formattedCategory} {currentYear} - Ušetřete hodně na Hoteloza!",
+    "categoryPageDescriptionTemplate": "Objevte nejlepší {formattedCategory} v roce {currentYear} s Hoteloza. Užijte si exkluzivní slevy, skvělé ceny a prvotřídní vybavení. Zarezervujte si hned pro nezapomenutelný pobyt!",
+    "categoryOgTitleTemplate": "Nejlepší nabídky {formattedCategory} {currentYear} | Hoteloza",
+    "categoryOgDescriptionTemplate": "Prozkoumejte nejlepší {formattedCategory} pro rok {currentYear} na Hoteloza. Zarezervujte si hned pro exkluzivní nabídky a prémiové vybavení!",
+    "categoryWebPageNameTemplate": "Nejlepší nabídky {formattedCategory} {currentYear}",
+    "categoryWebPageDescriptionTemplate": "Objevte nejlepší {formattedCategory} pro rok {currentYear} na Hoteloza s exkluzivními nabídkami a prémiovým vybavením.",
+    "countryNotFoundTitle": "Stránka nenalezena | Hoteloza",
+    "countryNotFoundDescription": "Kategorie, země nebo provincie, kterou hledáte, nebyla na Hoteloza nalezena.",
+    "countryPageTitleTemplate": "Levné {formattedCategory} v {formattedCountry} {currentYear} - Nenechte si ujít! | Hoteloza",
+    "countryPageDescriptionTemplate": "Získejte nejlepší {formattedCategory} v {formattedCountry} pro rok {currentYear} na Hoteloza. Užijte si exkluzivní nabídky, cenově dostupné ceny a prvotřídní vybavení. Omezené nabídky – zarezervujte si pobyt ještě dnes!",
+    "countryOgTitleTemplate": "Nejlepší {formattedCategory} v {formattedCountry} {currentYear} | Hoteloza",
+    "countryOgDescriptionTemplate": "Najděte nejlepší {formattedCategory} v {formattedCountry} pro rok {currentYear} na Hoteloza. Zarezervujte si hned pro nejlepší hotely a exkluzivní nabídky!",
+    "stateNotFoundTitle": "Stránka nenalezena | Hoteloza",
+    "stateNotFoundDescription": "Kategorie, země nebo provincie, kterou hledáte, nebyla na Hoteloza nalezena.",
+    "statePageTitleTemplate": "Levné {formattedCategory} v {formattedState}, {formattedCountry} {currentYear} - Zarezervujte si hned! | Hoteloza",
+    "statePageDescriptionTemplate": "Najděte nejlepší {formattedCategory} v {formattedState}, {formattedCountry} pro rok {currentYear} na Hoteloza. Exkluzivní nabídky, skvělé ceny a prvotřídní vybavení. Zarezervujte si svůj nezapomenutelný pobyt!",
+    "stateOgTitleTemplate": "Nejlepší {formattedCategory} v {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
+    "stateOgDescriptionTemplate": "Objevte nejlepší {formattedCategory} v {formattedState}, {formattedCountry} pro rok {currentYear} na Hoteloza. Zarezervujte si hned pro exkluzivní nabídky a prémiové vybavení!",
+    "cityNotFoundTitle": "Stránka nenalezena | Hoteloza",
+    "cityNotFoundDescription": "Kategorie, země, provincie nebo město, které hledáte, nebyly na Hoteloza nalezeny.",
+    "cityPageTitleTemplate": "Levné {formattedCategory} v {formattedCity}, {formattedState}, {formattedCountry} {currentYear} - Velké slevy! | Hoteloza",
+    "cityPageDescriptionTemplate": "Najděte nejlepší {formattedCategory} v {formattedCity}, {formattedState}, {formattedCountry} pro rok {currentYear} na Hoteloza. Exkluzivní slevy, prvotřídní vybavení a nepřekonatelné ceny. Zarezervujte si svůj vysněný pobyt hned teď!",
+    "cityOgTitleTemplate": "Nejlepší {formattedCategory} v {formattedCity}, {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
+    "cityOgDescriptionTemplate": "Objevte nejlepší {formattedCategory} v {formattedCity}, {formattedState}, {formattedCountry} pro rok {currentYear} na Hoteloza. Zarezervujte si hned pro exkluzivní nabídky a prémiové vybavení!",
+    "hotelNotFoundTitle": "Hotel nenalezen | Hoteloza",
+    "hotelNotFoundDescription": "Hotel, který hledáte, nebyl nalezen.",
+    "hotelPageTitleTemplate": "{hotelTitle} - Zarezervujte si hned na Hoteloza!",
+    "hotelPageDescriptionTemplate": "Zarezervujte si pobyt v {hotelTitle} v {city}, {state}, {country}. Najděte nejlepší nabídky, zařízení a recenze pro nezapomenutelný zážitek s Hoteloza.",
+    "hotelOgTitleTemplate": "{hotelTitle} | Hoteloza",
+    "hotelOgDescriptionTemplate": "Najděte nejlepší nabídky v {hotelTitle} s Hoteloza."
+  },
+  "landmarkPage": {
+    "topHotelsNear": "Levné {category} poblíž {landmarkName}",
+    "landmarkPageTitleTemplate": "Levné {category} poblíž {landmarkName}",
+    "description": "{category} {landmarkName} nabízí nejlepší ubytování v {cityName} s skvělými nabídkami a vybavením, jako je bezplatné WiFi.",
+    "loadingHotel": "Načítání hotelu...",
+    "errorLoadingHotel": "Chyba: {error}",
+    "hotelNotFound": "Hotel nenalezen.",
+    "serverErrorFetchingData": "Chyba serveru při načítání dat hotelu."
+  },
+  "navigation": {
+    "home": "Domů",
+    "about": "O nás",
+    "contact": "Kontakt"
+  },
+  "homepage": {
+    "dreamDestinations": "Vysněné destinace",
+    "unforgettableSpots": "Nezapomenutelná místa, která budete chtít prozkoumávat znovu a znovu",
+    "whatOurGuestsTrulyLoveAboutUs": "Co naši hosté na nás opravdu milují",
+    "experienceTheMagic": "Zažijte kouzlo, které miliony lidí přitahuje zpět. V Hoteloza se snažíme, aby každý pobyt byl nezapomenutelný, s lehkostí, péčí a výjimečnými službami.",
+    "hotelozaHeroTitle": "Najděte, zarezervujte a relaxujte s Hoteloza",
+    "hotelozaHeroSubtitle": "Prozkoumejte tisíce hotelů po celém světě s Hoteloza",
+    "delightedGuests": "Nadšení hosté",
+    "guestSatisfactionScore": "Skóre spokojenosti hostů",
+    "happyPeople": "Šťastní lidé",
+    "overallRating": "Celkové hodnocení"
+  },
+  "about": {
+    "lookingForJoy": "Hledáte radost?",
+    "trustedTripCompanion": "Váš důvěryhodný společník na cesty",
+    "whyChooseUs": "Proč si vybrat nás",
+    "popularDestinationsOffer": "Tyto oblíbené destinace mají co nabídnout",
+    "overheardFromTravelers": "Od cestovatelů",
+    "aboutHotelozaTitle": "O Hoteloza",
+    "aboutHotelozaSubtitle": "Objevte svět pohodlí a elegance",
+    "aboutHotelozaParagraph1": "Hoteloza je vaším útočištěm luxusu, nabízí bezkonkurenční pohostinnost v srdci živých destinací. Naše hotely snoubí moderní eleganci s nadčasovým komfortem a zajišťují, že každý pobyt je nezapomenutelným zážitkem.",
+    "aboutHotelozaParagraph2": "Ponořte se do našich prvotřídních zařízení, od klidných lázní po vynikající restaurace, a prozkoumejte blízké atrakce, které učiní každou návštěvu nezapomenutelnou. Ať už jde o obchodní cestu nebo volný čas, Hoteloza je vaším domovem daleko od domova."
+  },
+  "blockGuide": {
+    "bestPriceGuarantee": "Garance nejlepší ceny",
+    "bestPriceGuaranteeText": "Najděte si svůj dokonalý pobyt za nejlepší možnou cenu – zaručeno. Žádné skryté poplatky, jen skutečné úspory při každé rezervaci.",
+    "easyQuickBooking": "Snadná a rychlá rezervace",
+    "easyQuickBookingText": "Zarezervujte si svůj vysněný hotel několika kliknutími. Rychle, jednoduše a bezproblémově – vaše další dovolená začíná zde.",
+    "customerSupport": "Zákaznická podpora 24/7",
+    "customerSupportText": "Potřebujete pomoci? Náš tým podpory je k dispozici nepřetržitě, aby vám pomohl – kdekoli a kdykoli to potřebujete."
+  },
+  "contactPage": {
+    "heroTitle": "Kontaktujte nás",
+    "heroSubtitle": "Jsme tu, abychom vám pomohli a zodpověděli veškeré vaše dotazy.",
+    "getInTouchTitle": "Spojte se s námi",
+    "getInTouchDescription": "Neváhejte se na nás obrátit s jakýmikoli dotazy nebo obavami. Náš tým je vždy připraven vám pomoci.",
+    "addressLabel": "Adresa",
+    "addressValue": "Hoteloza ulice 123, apartmá 456, město, země",
+    "emailLabel": "E-mail",
+    "emailValue": "info@hoteloza.com",
+    "workingHoursLabel": "Pracovní doba",
+    "workingHoursValue": "Pondělí - Pátek: 9:00 - 17:00 (místního času)"
+  },
+  "callToActions": {
+    "subscribeHere": "Zaregistrujte se zde",
+    "yourEmail": "Váš e-mail",
+    "subscribeButton": "Odebírat"
+  },
+  "testimonials": {
+    "sarahMQuote": "Hoteloza je game-changer! Důsledně jsem zde nacházela nejlepší hotelové nabídky. Je to skutečně nejlepší webová stránka hotelových partnerů na světě.",
+    "sarahMName": "Sarah M.",
+    "sarahMDesignation": "Cestovní nadšenec",
+    "data": [
+      {
+        "id": 1,
+        "avatar": "/img/avatars/testimonials/1.jpg",
+        "name": "Sarah Miller",
+        "designation": "Cestovní bloggerka",
+        "text": "Náš pobyt zde byl naprosto neuvěřitelný! Poloha je strategická, pokoj byl čistý a pohodlný a obsluha personálu byla výjimečně přátelská. Velmi doporučuji pro rodinnou dovolenou.",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "John Davis",
+        "designation": "Podnikatel",
+        "text": "Tento hotel byl perfektní volbou pro mou služební cestu. Kompletní vybavení, rychlé Wi-Fi a blízko centra města. Velmi efektivní a pohodlný.",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "Emily White",
+        "designation": "Studentka",
+        "text": "Líbí se mi moderní a Instagram-hodný interiérový design! Je ideální pro dovolenou s přáteli. Cena je také přijatelná za takovou skvělou kvalitu.",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "David Lee",
+        "designation": "Fotograf",
+        "text": "Výhled z pokoje byl úžasný! Podařilo se mi pořídit tolik skvělých fotografií. Personál byl také velmi nápomocný při doporučování turistických atrakcí.",
+        "dealyAnimation": "400"
+      }
+    ],
+    "data2": [
+      {
+        "id": 1,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "Olivia Grace",
+        "designation": "Spisovatelka",
+        "text": "\"Tento hotel je ideální pro nalezení klidu a pohody. Klidná atmosféra, tiché pokoje a vstřícný personál mi umožnily soustředit se na psaní bez přerušení. Vřele doporučuji.\"",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "Daniel Kim",
+        "designation": "Digitální nomád",
+        "text": "\"Stabilní připojení k internetu a pohodlné pracovní místo jsou zde obrovským plusem. Mohl jsem pracovat a zároveň si užívat dovolenou. Poloha je také blízko mnoha kaváren.\"",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "Sophia Brown",
+        "designation": "Důchodkyně",
+        "text": "\"Přátelská obsluha a seniorům přívětivé vybavení nás učinily velmi pohodlnými. Snídaně byla také vynikající a rozmanitá. Určitě se vrátíme.\"",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/4.png",
+        "name": "Michael Chen",
+        "designation": "Šéfkuchař",
+        "text": "\"Jako šéfkuchař si opravdu vážím kvality jídla v restauraci tohoto hotelu. Jídla jsou vynikající a možnosti menu jsou rozmanité. Opravdu úžasný kulinářský zážitek!\"",
+        "dealyAnimation": "400"
+      },
+      {
+        "id": 5,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/5.png",
+        "name": "Chloe Wilson",
+        "designation": "Grafická designérka",
+        "text": "\"Estetický interiér hotelu a dobré osvětlení opravdu podporovaly mou kreativitu. Mnoho zajímavých míst na focení! Pokoj byl také velmi čistý.\"",
+        "dealyAnimation": "500"
+      }
+    ],
+    "data3": [
+      {
+        "id": 1,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/1.png",
+        "name": "James Taylor",
+        "designation": "Podnikatel",
+        "text": "\"Tento resort má velkolepý výhled na oceán. Je ideální pro odpočinek od rutiny. Infinity bazén je také dechberoucí.\""
+      },
+      {
+        "id": 2,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/2.png",
+        "name": "Isabella Rodriguez",
+        "designation": "Učitelka",
+        "text": "\"Naše rodinná dovolená zde byla velmi nezapomenutelná. Bylo zde mnoho dětských aktivit a personál byl velmi přátelský a nápomocný. Děti si rády hrály na soukromé pláži.\""
+      },
+      {
+        "id": 3,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/3.png",
+        "name": "Liam Garcia",
+        "designation": "Doktor",
+        "text": "\"Toto místo je perfektním únikem pro relaxaci. Uklidňující lázeňské služby a klidná atmosféra mě přiměly cítit se zcela osvěženě.\""
+      },
+      {
+        "id": 4,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/4.png",
+        "name": "Mia Martinez",
+        "designation": "Konzultantka",
+        "text": "\"Často cestuji pracovně a tento resort poskytuje pohodlí domova. Pokojová služba je rychlá a profesionální. Určitě to bude moje pravidelná volba.\""
+      },
+      {
+        "id": 5,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/avatars/testimonials/2/5.png",
+        "name": "Noah Thompson",
+        "designation": "Umělec",
+        "text": "\"Inspirace pochází odkudkoli a tento resort je plný ohromující přírodní krásy. Hodně jsem tu maloval. Vřele doporučuji umělcům nebo každému, kdo hledá inspiraci.\""
+      }
+    ]
+  },
+  "faqContent": {
+    "hotel": {
+      "facilitiesQuestion": "Jaké vybavení je zahrnuto v {title}?",
+      "facilitiesAnswer": "Vybavení v {title} zahrnuje bezplatné Wi-Fi, bazén, parkoviště a další. Pro kompletní seznam vybavení kontaktujte ubytování.",
+      "breakfastQuestion": "Je snídaně zahrnuta v {title}?",
+      "breakfastAnswer": "Ano, snídaně je zahrnuta ve vašem pobytu v {title}.",
+      "checkInCheckOutQuestion": "Jaké jsou časy check-in a check-out v {title}?",
+      "checkInCheckOutAnswer": "Čas check-in je od 14:00 a check-out je do 12:00 v {title}.",
+      "petsAllowedQuestion": "Jsou domácí zvířata povolena v {title}?",
+      "petsAllowedAnswer": "Domácí zvířata nejsou povolena v {title}.",
+      "parkingFacilityQuestion": "Je v {title} parkování?",
+      "parkingFacilityAnswer": "Ano, parkování je k dispozici pro hosty v {title}.",
+      "smokingAllowedQuestion": "Je v {title} povoleno kouření?",
+      "smokingAllowedAnswer": "Ne, kouření je zakázáno ve všech prostorách {title}.",
+      "airportTransportationQuestion": "Nabízí {title} letištní dopravu?",
+      "airportTransportationAnswer": "Ano, letištní doprava může být zajištěna v {title} za příplatek.",
+      "cancellationPolicyQuestion": "Jaká je storno podmínka v {title}?",
+      "cancellationPolicyAnswer": "Zrušení rezervace lze provést až 24 hodin před check-inem bez poplatku.",
+      "meetingFacilitiesQuestion": "Má {title} zasedací místnosti?",
+      "meetingFacilitiesAnswer": "Ano, {title} má plně vybavené zasedací místnosti k dispozici k rezervaci.",
+      "attractionsNearQuestion": "Jaké atrakce jsou v blízkosti {title}?",
+      "attractionsNearAnswer": "Populární atrakce v blízkosti {title} zahrnují [seznam atrakcí]."
+    },
+    "category": {
+      "offeringsQuestion": "Jaké typy nabídek jsou k dispozici v kategorii {category}?",
+      "offeringsAnswer": "Jste připraveni prozkoumat širokou škálu možností? Naše kategorie {category} nabízí vše od exkluzivních prémiových zážitků po chytrá a rozpočtově přívětivá řešení. Najděte si to pravé, co splní vaše cestovní sny nebo specifické potřeby!",
+      "familyFriendlyQuestion": "Jsou v naší nabídce {category} k dispozici rodinné volby?",
+      "familyFriendlyAnswer": "Rozhodně! Rozumíme vašim potřebám. Objevte četné možnosti {category} vysoce doporučené pro rodiny, doplněné o zařízení a aktivity navržené tak, aby vaše chvíle s blízkými byly ještě nezapomenutelnější a pohodlnější.",
+      "mainAttractionsQuestion": "Jaké jsou hlavní atrakce nebo nejoblíbenější destinace v blízkosti těchto nabídek {category}?",
+      "mainAttractionsAnswer": "Naše výběry {category} se netýkají jen produktu/služby; týkají se i umístění! Užijte si snadný přístup k ikonickým turistickým místům, vzrušujícím zábavním centrům a kulinářským lahůdkám, které musíte vyzkoušet. Maximalizujte svůj zážitek v Bandungu, Západní Jávě, nebo kamkoli vás vaše vybraná {category} zavede!",
+      "luxuryAmenitiesQuestion": "Nabízejí některé možnosti {category} luxusní vybavení nebo speciální funkce?",
+      "luxuryAmenitiesAnswer": "Vskutku! Ponořte se do pohodlí a luxusu. Mnoho našich nabídek {category} je vybaveno pětihvězdičkovými zařízeními, jako jsou soukromé nekonečné bazény, holistické lázeňské služby, nejmodernější fitness centra a mnoho dalšího. Dopřejte si nezapomenutelný zážitek!",
+      "topRatedQuestion": "Které možnosti {category} mají nejvyšší hodnocení s nejlepšími recenzemi zákazníků?",
+      "topRatedAnswer": "Hledáte to nejlepší? Zde je seznam našich nejlepších vybraných možností {category}, které si naše komunita zamilovala. Zajistěte si kvalitu a spokojenost, podpořené autentickými uživatelskými ohlasy!"
+    },
+    "city": {
+      "typesOfHotelsQuestion": "Jaké typy hotelů jsou k dispozici v {city}?",
+      "typesOfHotelsAnswer": "Prozkoumejte různé hotely v {city}, od luxusních hotelů po cenově dostupné možnosti.",
+      "familyFriendlyHotelsQuestion": "Existují hotely vhodné pro rodiny v {city}?",
+      "familyFriendlyHotelsAnswer": "Ano, v {city} je mnoho rodinných hotelů.",
+      "attractionsNearHotelsQuestion": "Jaké atrakce jsou v blízkosti hotelů v {city}?",
+      "attractionsNearHotelsAnswer": "Hotely v {city} jsou blízko různých populárních atrakcí.",
+      "hotelsWithPoolsQuestion": "Existují hotely s bazény v {city}?",
+      "hotelsWithPoolsAnswer": "Ano, mnoho hotelů v {city} nabízí bazény a další vybavení.",
+      "bestRatedHotelsQuestion": "Které hotely v {city} jsou nejlépe hodnocené?",
+      "bestRatedHotelsAnswer": "Zde jsou některé z nejlépe hodnocených hotelů v {city}:"
+    },
+    "country": {
+      "typesOfHotelsQuestion": "Jaké typy hotelů jsou k dispozici v {country}?",
+      "typesOfHotelsAnswer": "Prozkoumejte různé hotely v {country}, od luxusních hotelů po cenově dostupné možnosti.",
+      "familyFriendlyHotelsQuestion": "Existují hotely vhodné pro rodiny v {country}?",
+      "familyFriendlyHotelsAnswer": "Ano, v {country} je mnoho rodinných hotelů.",
+      "attractionsNearHotelsQuestion": "Jaké atrakce jsou v blízkosti hotelů v {country}?",
+      "attractionsNearHotelsAnswer": "Hotely v {country} jsou blízko různých populárních atrakcí.",
+      "hotelsWithPoolsQuestion": "Existují hotely s bazény v {country}?",
+      "hotelsWithPoolsAnswer": "Ano, mnoho hotelů v {country} nabízí bazény a další vybavení.",
+      "bestRatedHotelsQuestion": "Které hotely v {country} jsou nejlépe hodnocené?",
+      "bestRatedHotelsAnswer": "Zde jsou některé z nejlépe hodnocených hotelů v {country}:"
+    },
+    "landmark": {
+      "typesOfHotelsQuestion": "Jaké typy hotelů jsou k dispozici v blízkosti {landmark}?",
+      "typesOfHotelsAnswer": "V blízkosti {landmark} najdete širokou škálu možností ubytování, od luxusních butikových hotelů po pohodlné a cenově dostupné pobyty. Ať už hledáte rychlou návštěvu nebo delší průzkum, pro každou preferenci existuje perfektní hotel.",
+      "familyFriendlyHotelsQuestion": "Jsou v blízkosti {landmark} hotely vhodné pro rodiny?",
+      "familyFriendlyHotelsAnswer": "Rozhodně! Mnoho hotelů v blízkosti {landmark} je dobře vybaveno pro rodiny, nabízí vybavení, jako jsou prostorné rodinné pokoje, dětské kluby a bazény. Poskytují pohodlnou základnu pro objevování památky a jejího okolí s vašimi blízkými.",
+      "attractionsNearHotelsQuestion": "Jaké atrakce jsou v blízkosti hotelů poblíž {landmark}?",
+      "attractionsNearHotelsAnswer": "Hotely v blízkosti {landmark} nabízejí bezkonkurenční pohodlí pro návštěvu samotné památky. Kromě toho jsou často strategicky umístěny blízko dalších populárních atrakcí, muzeí, restaurací a zábavních podniků, což usnadňuje váš průzkum.",
+      "hotelsWithPoolsQuestion": "Jsou v blízkosti {landmark} hotely s bazény?",
+      "hotelsWithPoolsAnswer": "Ano, mnoho hotelů v blízkosti {landmark} má osvěžující bazény, ideální pro relaxaci po dni plném prohlídek. Některé se dokonce pyšní střešními bazény s úchvatným výhledem na památku nebo panorama města.",
+      "bestRatedHotelsQuestion": "Které hotely v blízkosti {landmark} jsou nejlépe hodnocené?",
+      "bestRatedHotelsAnswerDefault": "V současné době nemáme k dispozici konkrétní údaje o nejlépe hodnocených hotelech přímo v blízkosti {landmark}. Můžete však procházet různé vysoce hodnocené možnosti v širší oblasti.",
+      "bestRatedHotelsAnswerWithData": "Na základě recenzí hostů patří mezi nejlépe hodnocené hotely v blízkosti {landmark}:"
+    },
+    "state": {
+      "typesOfHotelsQuestion": "Jaké typy hotelů jsou k dispozici ve {state}?",
+      "typesOfHotelsAnswer": "Prozkoumejte různé hotely ve {state}, od luxusních hotelů po cenově dostupné možnosti.",
+      "familyFriendlyHotelsQuestion": "Existují hotely vhodné pro rodiny ve {state}?",
+      "familyFriendlyHotelsAnswer": "Ano, ve {state} je mnoho rodinných hotelů.",
+      "attractionsNearHotelsQuestion": "Jaké atrakce jsou v blízkosti hotelů ve {state}?",
+      "attractionsNearHotelsAnswer": "Hotely ve {state} jsou blízko různých populárních atrakcí.",
+      "hotelsWithPoolsQuestion": "Existují hotely s bazény ve {state}?",
+      "hotelsWithPoolsAnswer": "Ano, mnoho hotelů ve {state} nabízí bazény a další vybavení.",
+      "bestRatedHotelsQuestion": "Které hotely ve {state} jsou nejlépe hodnocené?",
+      "bestRatedHotelsAnswer": "Zde jsou některé z nejlépe hodnocených hotelů ve {state}:"
+    }
+  }
+}

@@ -1,3 +1,4 @@
+// TopBreadCrumbCategory.jsx
 import Link from "next/link";
 
 const capitalizeFirstLetter = (str) => {
@@ -9,7 +10,7 @@ const capitalizeFirstLetter = (str) => {
     .join(" ");
 };
 
-const TopBreadCrumbCategory = ({ categoryslug }) => {
+const TopBreadCrumbCategory = ({ categoryslug, currentLang }) => { // Menerima currentLang
   return (
     <section className="py-10 d-flex items-center bg-white">
       <div className="container">
@@ -17,25 +18,17 @@ const TopBreadCrumbCategory = ({ categoryslug }) => {
           <div className="col-auto">
             <div className="row x-gap-10 y-gap-5 items-center text-14 text-light-1">
               <div className="col-auto">
-                <Link href="/" className="text-blue-1">
+                <Link href={`/`} className="text-blue-1"> {/* Gunakan currentLang */}
                   Home
                 </Link>
               </div>
               <div className="col-auto">&gt;</div>
               <div className="col-auto">
+                {/* Ini adalah elemen teks akhir, tidak perlu Link */}
                 {capitalizeFirstLetter(categoryslug) || "Unknown Category"}
               </div>
             </div>
           </div>
-
-          {/* The following div containing the "All [Category]" link has been removed. */}
-          {/*
-          <div className="col-auto">
-            <Link href={`/${categoryslug}`} className="text-14 text-blue-1 underline">
-              All {capitalizeFirstLetter(categoryslug) || "Hotels"}
-            </Link>
-          </div>
-          */}
         </div>
       </div>
     </section>

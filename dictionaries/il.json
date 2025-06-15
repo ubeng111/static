@@ -1,0 +1,507 @@
+{
+  "common": {
+    "loadingSearchResults": "טוען תוצאות חיפוש...",
+    "loadingCityContent": "טוען תוכן עיר...",
+    "loadingHotel": "טוען פרטי מלון...",
+    "hotelNotFound": "המלון לא נמצא.",
+    "errorServer": "אירעה שגיאת שרת",
+    "preloaderTitle": "הוטלוזה..",
+    "failedToLoadHotelList": "טעינת רשימת בתי המלון נכשלה. אנא נסה שוב.",
+    "cityIdRequired": "מזהה עיר נדרש.",
+    "callToActionsDescription": "רעיונות טובים לא נשארים לאורך זמן. הזמינו את הטיול שלכם ב-Hoteloza עוד היום!",
+    "errorLoadingData": "אירעה שגיאה בעת טעינת הנתונים. אנא נסה שוב מאוחר יותר.",
+    "noHotelsFound": "לא נמצאו בתי מלון עבור קטגוריה זו.",
+    "noRelatedCategoriesFound": "לא נמצאו קטגוריות קשורות.",
+    "noRelatedCountriesFound": "לא נמצאו מדינות קשורות.",
+    "noRelatedStatesFound": "לא נמצאו מחוזות קשורים.",
+    "noRelatedCitiesFound": "לא נמצאו ערים קשורות.",
+    "noRelatedHotelsFound": "לא נמצאו מלונות קשורים.",
+    "unknownAddress": "כתובת לא ידועה",
+    "unknownCity": "עיר לא ידועה",
+    "unknownRegion": "אזור לא ידוע",
+    "unknownCountry": "מדינה לא ידועה",
+    "unnamedHotel": "מלון ללא שם",
+    "reserveNow": "הזמן עכשיו",
+    "unknownCategory": "קטגוריה לא ידועה",
+    "unknownState": "מחוז לא ידוע",
+    "errorLandmarkNotFound": "שגיאה: ציון דרך לא נמצא בכתובת האתר. לא ניתן לטעון.",
+    "properties": "נכסים",
+    "noDestinationsFound": "אין יעדים זמינים עבור אזור זה.",
+    "topRecommendedHotelsTitle": "המלונות המומלצים ביותר {category} ב{city}",
+    "findTopRatedStays": "מצאו שהיות מדורגות מובילות עם הטבות דומות בקרבת יעדכם",
+    "unknownLocation": "מיקום לא ידוע",
+    "failedToLoadHotelData": "טעינת נתוני מלון נכשלה",
+    "errorWithMessage": "שגיאה: {error}",
+    "night": "לילה"
+  },
+  "header": {
+    "luxuryBackgroundImageAlt": "תמונת רקע יוקרתית"
+  },
+  "search": {
+    "searchResultAccommodationIn": "תוצאות חיפוש לינה ב{cityName}",
+    "searchResultPropertiesIn": "נכסים שנמצאו ב",
+    "selectedCity": "עיר נבחרת",
+    "unknownLocation": "מיקום לא ידוע",
+    "searchParametersIncomplete": "פרמטרי חיפוש חלקיים."
+  },
+  "categoryPage": {
+    "discoverLuxeStaysIn": "גלו שהיות יוקרתיות ב",
+    "faqsAboutHotels": "שאלות נפוצות אודות {formattedCategory}",
+    "categoryDefault": "קטגוריה",
+    "defaultItemListDescription": "רשימה של {formattedCategory} המובילים לשנת {currentYear} ב-Hoteloza."
+  },
+  "countryPage": {
+    "discoverStaysIn": "גלו שהיות ב{displayCountry}",
+    "faqsAboutCountryHotels": "שאלות נפוצות מלונות ב{displayCountry}",
+    "countryDefault": "מדינה",
+    "noHotelsFoundForCountry": "לא נמצאו בתי מלון עבור מדינה זו."
+  },
+  "statePage": {
+    "discoverStaysInState": "גלו שהיות ב{formattedState}",
+    "faqsAboutStateHotels": "שאלות נפוצות מלונות ב{displayState}",
+    "stateDefault": "מחוז",
+    "noHotelsFoundForState": "לא נמצאו בתי מלון עבור מחוז זה."
+  },
+  "cityPage": {
+    "discoverStaysInCity": "גלו שהיות ב{formattedCity}",
+    "faqsAboutCityHotels": "שאלות נפוצות מלונות ב{displayCity}",
+    "cityDefault": "עיר",
+    "noHotelsFoundForCity": "לא נמצאו בתי מלון עבור עיר זו."
+  },
+  "hotelSinglePage": {
+    "aboutThisHotel": "על המלון הזה",
+    "facilitiesAndServices": "מתקנים ושירותים",
+    "attractionsNearby": "אטרקציות בקרבת מקום",
+    "reviews": "ביקורות",
+    "faq": "שאלות נפוצות",
+    "locationMap": "מפת מיקום",
+    "frequentlyAskedQuestions": "שאלות נפוצות",
+    "toggleFrequentlyAskedQuestions": "החלף שאלות נפוצות",
+    "toggleLocationMap": "החלף מפת מיקום",
+    "relatedHotels": "נכסים פופולריים דומים ל",
+    "toggleFacilities": "החלף מתקנים",
+    "toggleLandmarks": "החלף ציוני דרך קרובים",
+    "toggleRelatedHotels": "החלף נכסים פופולריים דומים ל",
+    "defaultSchemaDescription": "הזמינו את {formattedHotel}, מלון יוקרה ב{formattedCity} לשנת {currentYear} ב-Hoteloza.",
+    "exceptionalReviewText": "יוצא מן הכלל"
+  },
+  "bookNow": {
+    "reserveNowButton": "הזמן עכשיו"
+  },
+  "facilities": {
+    "bathroom": "חדר אמבטיה",
+    "towels": "מגבות",
+    "bathOrShower": "אמבטיה או מקלחת",
+    "privateBathroom": "חדר רחצה פרטי",
+    "toilet": "שירותים",
+    "freeToiletries": "מוצרי טיפוח ללא תשלום",
+    "hairdryer": "מייבש שיער",
+    "bath": "אמבטיה",
+    "bedroom": "חדר שינה",
+    "linen": "מצעים",
+    "wardrobeOrCloset": "ארון בגדים או ארון",
+    "receptionServices": "שירותי קבלה",
+    "invoiceProvided": "חשבונית מסופקת",
+    "privateCheckInCheckOut": "צ'ק-אין/צ'ק-אאוט פרטי",
+    "luggageStorage": "אחסון מזוודות",
+    "twentyFourHourFrontDesk": "דלפק קבלה 24 שעות ביממה",
+    "mediaTechnology": "מדיה וטכנולוגיה",
+    "flatScreenTV": "טלוויזיה עם מסך שטוח",
+    "satelliteChannels": "ערוצי לוויין",
+    "radio": "רדיו",
+    "telephone": "טלפון",
+    "tv": "טלוויזיה",
+    "foodDrink": "אוכל ושתיה",
+    "kidMeals": "ארוחות ילדים",
+    "specialDietMenusOnRequest": "תפריטי דיאטה מיוחדים (על פי בקשה)",
+    "breakfastInTheRoom": "ארוחת בוקר בחדר",
+    "cleaningServices": "שירותי ניקיון",
+    "dailyHousekeeping": "ניקיון יומי",
+    "dryCleaning": "ניקוי יבש",
+    "laundry": "שירותי כביסה",
+    "safetySecurity": "בטיחות ואבטחה",
+    "fireExtinguishers": "מטפים",
+    "cctvInCommonAreas": "טלוויזיה במעגל סגור באזורים משותפים",
+    "smokeAlarms": "גלאי עשן",
+    "twentyFourHourSecurity": "אבטחה 24 שעות ביממה"
+  },
+  "landmarkList": {
+    "noNearbyPlacesFound": "לא נמצאו מקומות קרובים בטווח של {radius} ק\"מ.",
+    "nearbyEssentialAndTouristSpots": "🗺️ נקודות חיוניות ותיירותיות קרובות"
+  },
+  "mapComponent": {
+    "mapTitle": "🗺️ מפת {title}"
+  },
+  "relatedCategories": {
+    "countriesIn": "🏨 מדינות ב{formattedCategory}"
+  },
+  "relatedCities": {
+    "noRelatedCitiesFound": "לא נמצאו ערים קשורות",
+    "bestRelatedCitiesIn": "🏨 הערים הקשורות הטובות ביותר ב{formattedState}"
+  },
+  "relatedCountries": {
+    "noRelatedStatesFound": "לא נמצאו מחוזות קשורים",
+    "statesIn": "🏨 מחוזות ב{formattedCountry}"
+  },
+  "relatedStates": {
+    "noRelatedCitiesFound": "לא נמצאו ערים קשורות",
+    "citiesIn": "🏨 ערים ב{formattedState}"
+  },
+  "city": {
+    "city": "עיר",
+    "faq": "שאלות נפוצות"
+  },
+  "mainFilterSearchBox": {
+    "destinationPlaceholder": "מהו יעדכם?",
+    "checkInPlaceholder": "תאריך צ'ק-אין",
+    "checkOutPlaceholder": "תאריך צ'ק-אאוט",
+    "adultsLabel": "מבוגרים",
+    "childrenLabel": "ילדים",
+    "roomsLabel": "חדרים",
+    "searchButton": "חיפוש"
+  },
+  "footer": {
+    "popularStays": "שהיות פופולריות",
+    "hotel": "מלון",
+    "villa": "וילה",
+    "resort": "ריזורט",
+    "apartment": "דירה",
+    "guestHouse": "בית הארחה",
+    "uniqueStays": "שהיות ייחודיות",
+    "capsuleHotel": "מלון קפסולות",
+    "yurt": "יורט",
+    "treehouse": "בית עץ",
+    "tent": "אוהל",
+    "domeHouse": "בית כיפה",
+    "traditionalStays": "שהיות מסורתיות",
+    "ryokan": "ריוקאן",
+    "machiya": "מאצ'יה",
+    "countryHouse": "בית כפרי",
+    "haveli": "האוולי",
+    "riad": "ריאד",
+    "heritageHotel": "מלון מורשת",
+    "adventureStays": "שהיות הרפתקניות",
+    "farmStay": "לינה בחווה",
+    "cabin": "בקתה",
+    "chalet": "שאלט",
+    "boat": "סירה",
+    "houseboat": "סירת מגורים",
+    "hotelozaFooterText": "Hoteloza היא פלטפורמה מובילה להזמנת מלונות בקלות ובחלקות. אנו מפשטים את חיפושכם אחר האירוח המושלם, ומציעים מגוון רחב של שהיות, ממלונות נעימים ועד ריזורטים יוקרתיים. תיהנו מנוחות ההזמנה, ממבצעים בלעדיים וממשירות מותאמים אישית לצרכי הנסיעה שלכם. הזמינו עם Hoteloza והפכו מסעות בלתי נשכחים למציאות.",
+    "hotelozaAllRightsReserved": "© {year} Hoteloza. כל הזכויות שמורות."
+  },
+  "metadata": {
+    "homePageTitle": "Hoteloza - מצאו את מלון חלומותיכם",
+    "homePageDescription": "מצאו את המלונות והאירוח הטובים ביותר לטיול הבא שלכם. הזמינו עכשיו עם Hoteloza!",
+    "searchResultPageTitle": "מלונות ב{cityName} - תוצאות חיפוש Hoteloza",
+    "searchResultPageDescription": "חפשו והזמינו מלונות ב{cityName}. השוו מחירים ומתקנים לשהותכם הטובה ביותר.",
+    "cityPageTitle": "מלונות ב{cityName} - גלו את {cityName} עם Hoteloza",
+    "cityPageDescription": "גלו את המלונות הטובים ביותר ב{cityName} ומצאו את המבצעים הטובים ביותר לטיול בלתי נשכח שלכם עם Hoteloza.",
+    "categoryNotFoundTitle": "הקטגוריה לא נמצאה | Hoteloza",
+    "categoryNotFoundDescription": "הקטגוריה שאתם מחפשים לא נמצאה ב-Hoteloza.",
+    "categoryPageTitleTemplate": "הנחות {formattedCategory} הטובות ביותר {currentYear} - חסכו בגדול ב-Hoteloza!",
+    "categoryPageDescriptionTemplate": "גלו את {formattedCategory} הטובים ביותר בשנת {currentYear} עם Hoteloza. תיהנו מהנחות בלעדיות, מחירים מעולים ומתקנים מהשורה הראשונה. הזמינו עכשיו לשהות בלתי נשכחת!",
+    "categoryOgTitleTemplate": "{formattedCategory} המובילים {currentYear} | Hoteloza",
+    "categoryOgDescriptionTemplate": "חקרו את {formattedCategory} המובילים לשנת {currentYear} ב-Hoteloza. הזמינו עכשיו למבצעים בלעדיים ומתקני פרימיום!",
+    "categoryWebPageNameTemplate": "{formattedCategory} המובילים {currentYear}",
+    "categoryWebPageDescriptionTemplate": "גלו את {formattedCategory} המובילים לשנת {currentYear} ב-Hoteloza עם מבצעים בלעדיים ומתקני פרימיום.",
+    "countryNotFoundTitle": "הדף לא נמצא | Hoteloza",
+    "countryNotFoundDescription": "הקטגוריה, המדינה או המחוז שאתם מחפשים לא נמצאו ב-Hoteloza.",
+    "countryPageTitleTemplate": "{formattedCategory} זולים ב{formattedCountry} {currentYear} - אל תחמיצו! | Hoteloza",
+    "countryPageDescriptionTemplate": "קבלו את {formattedCategory} הטובים ביותר ב{formattedCountry} לשנת {currentYear} ב-Hoteloza. תיהנו ממבצעים בלעדיים, מחירים משתלמים ומתקנים מהשורה הראשונה. הצעות מוגבלות – הזמינו את שהותכם עוד היום!",
+    "countryOgTitleTemplate": "ה{formattedCategory} הטובים ביותר ב{formattedCountry} {currentYear} | Hoteloza",
+    "countryOgDescriptionTemplate": "מצאו את ה{formattedCategory} הטובים ביותר ב{formattedCountry} לשנת {currentYear} ב-Hoteloza. הזמינו עכשיו למלונות מובילים ומבצעים בלעדיים!",
+    "stateNotFoundTitle": "הדף לא נמצא | Hoteloza",
+    "stateNotFoundDescription": "הקטגוריה, המדינה או המחוז שאתם מחפשים לא נמצאו ב-Hoteloza.",
+    "statePageTitleTemplate": "{formattedCategory} זולים ב{formattedState}, {formattedCountry} {currentYear} - הזמינו עכשיו! | Hoteloza",
+    "statePageDescriptionTemplate": "מצאו את ה{formattedCategory} הטובים ביותר ב{formattedState}, {formattedCountry} לשנת {currentYear} ב-Hoteloza. מבצעים בלעדיים, מחירים מעולים ומתקנים מהשורה הראשונה. הזמינו את שהותכם הבלתי נשכחת!",
+    "stateOgTitleTemplate": "ה{formattedCategory} הטובים ביותר ב{formattedState}, {formattedCountry} {currentYear} | Hoteloza",
+    "stateOgDescriptionTemplate": "גלו את ה{formattedCategory} המובילים ב{formattedState}, {formattedCountry} לשנת {currentYear} ב-Hoteloza. הזמינו עכשיו למבצעים בלעדיים ומתקני פרימיום!",
+    "cityNotFoundTitle": "הדף לא נמצא | Hoteloza",
+    "cityNotFoundDescription": "הקטגוריה, המדינה, המחוז או העיר שאתם מחפשים לא נמצאו ב-Hoteloza.",
+    "cityPageTitleTemplate": "{formattedCategory} זולים ב{formattedCity}, {formattedState}, {formattedCountry} {currentYear} - הנחות גדולות! | Hoteloza",
+    "cityPageDescriptionTemplate": "מצאו את ה{formattedCategory} הטובים ביותר ב{formattedCity}, {formattedState}, {formattedCountry} לשנת {currentYear} ב-Hoteloza. הנחות בלעדיות, מתקנים מהשורה הראשונה ומחירים ללא תחרות. הזמינו את שהות חלומותיכם עכשיו!",
+    "cityOgTitleTemplate": "ה{formattedCategory} הטובים ביותר ב{formattedCity}, {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
+    "cityOgDescriptionTemplate": "גלו את ה{formattedCategory} המובילים ב{formattedCity}, {formattedState}, {formattedCountry} לשנת {currentYear} ב-Hoteloza. הזמינו עכשיו למבצעים בלעדיים ומתקני פרימיום!",
+    "hotelNotFoundTitle": "המלון לא נמצא | Hoteloza",
+    "hotelNotFoundDescription": "המלון שאתם מחפשים לא נמצא.",
+    "hotelPageTitleTemplate": "{hotelTitle} - הזמינו עכשיו ב-Hoteloza!",
+    "hotelPageDescriptionTemplate": "הזמינו את שהותכם ב{hotelTitle} ב{city}, {state}, {country}. מצאו את המבצעים הטובים ביותר, המתקנים והביקורות לחוויה בלתי נשכחת עם Hoteloza.",
+    "hotelOgTitleTemplate": "{hotelTitle} | Hoteloza",
+    "hotelOgDescriptionTemplate": "מצאו את המבצעים הטובים ביותר ב{hotelTitle} עם Hoteloza."
+  },
+  "landmarkPage": {
+    "topHotelsNear": "{category} זולים ליד {landmarkName}",
+    "landmarkPageTitleTemplate": "{category} זולים ליד {landmarkName}",
+    "description": "{category} {landmarkName} מציע את האירוח הטוב ביותר ב{cityName}, עם מבצעים מעולים ומתקנים כמו WiFi חינם.",
+    "loadingHotel": "טוען מלון...",
+    "errorLoadingHotel": "שגיאה: {error}",
+    "hotelNotFound": "המלון לא נמצא.",
+    "serverErrorFetchingData": "שגיאת שרת באחזור נתוני מלון."
+  },
+  "navigation": {
+    "home": "בית",
+    "about": "אודותינו",
+    "contact": "צור קשר"
+  },
+  "homepage": {
+    "dreamDestinations": "יעדים חלומיים",
+    "unforgettableSpots": "מקומות בלתי נשכחים שתרצו לחקור שוב ושוב",
+    "whatOurGuestsTrulyLoveAboutUs": "מה האורחים שלנו באמת אוהבים בנו",
+    "experienceTheMagic": "חוו את הקסם שגורם למיליונים לחזור. ב-Hoteloza, אנו מחויבים להפוך כל שהות לבלתי נשכחת, בקלות, בזהירות ובשירות יוצא דופן.",
+    "hotelozaHeroTitle": "מצאו, הזמינו והירגעו עם Hoteloza",
+    "hotelozaHeroSubtitle": "חקרו אלפי מלונות ברחבי העולם עם Hoteloza",
+    "delightedGuests": "אורחים מרוצים",
+    "guestSatisfactionScore": "ציון שביעות רצון אורחים",
+    "happyPeople": "אנשים שמחים",
+    "overallRating": "דירוג כללי"
+  },
+  "about": {
+    "lookingForJoy": "מחפשים שמחה?",
+    "trustedTripCompanion": "מלווה הנסיעה המהימן שלכם",
+    "whyChooseUs": "למה לבחור בנו",
+    "popularDestinationsOffer": "יעדים פופולריים אלה מציעים רבות",
+    "overheardFromTravelers": "נשמע ממטיילים",
+    "aboutHotelozaTitle": "על Hoteloza",
+    "aboutHotelozaSubtitle": "גלו עולם של נוחות ואלגנטיות",
+    "aboutHotelozaParagraph1": "Hoteloza היא מקלט היוקרה שלכם, המציעה אירוח ללא תחרות בלב יעדים תוססים. מלונותינו משלבים אלגנטיות מודרנית עם נוחות נצחית, ומבטיחים שכל שהות תהיה חוויה בלתי נשכחת.",
+    "aboutHotelozaParagraph2": "התענגו על מתקנינו ברמה עולמית, מספא שלווים ועד אוכל משובח, וחקרו אטרקציות סמוכות שהופכות כל ביקור לבלתי נשכח. בין אם לעסקים ובין אם לפנאי, Hoteloza הוא הבית שלכם מחוץ לבית."
+  },
+  "blockGuide": {
+    "bestPriceGuarantee": "התחייבות למחיר הטוב ביותר",
+    "bestPriceGuaranteeText": "מצאו את שהותכם המושלמת במחיר הטוב ביותר האפשרי – מובטח. ללא עמלות נסתרות, רק חיסכון אמיתי בכל פעם שאתם מזמינים.",
+    "easyQuickBooking": "הזמנה קלה ומהירה",
+    "easyQuickBookingText": "הזמינו את מלון חלומותיכם בכמה לחיצות בלבד. מהיר, פשוט וללא טרחה – הטיול הבא שלכם מתחיל כאן.",
+    "customerSupport": "תמיכת לקוחות 24/7",
+    "customerSupportText": "צריכים עזרה? צוות התמיכה שלנו זמין מסביב לשעון לסייע לכם – בכל מקום ובכל עת שתצטרכו."
+  },
+  "contactPage": {
+    "heroTitle": "צרו קשר",
+    "heroSubtitle": "אנחנו כאן כדי לעזור ולענות על כל שאלה שיש לכם.",
+    "getInTouchTitle": "צרו קשר",
+    "getInTouchDescription": "אל תהססו לפנות אלינו בכל שאלה או חשש. הצוות שלנו תמיד מוכן לסייע לכם.",
+    "addressLabel": "כתובת",
+    "addressValue": "רחוב הוטלוזה 123, סוויטה 456, עיר, מדינה",
+    "emailLabel": "דוא\"ל",
+    "emailValue": "info@hoteloza.com",
+    "workingHoursLabel": "שעות פעילות",
+    "workingHoursValue": "שני - שישי: 9:00 - 17:00 (שעון מקומי)"
+  },
+  "callToActions": {
+    "subscribeHere": "הירשם כאן",
+    "yourEmail": "כתובת הדוא\"ל שלך",
+    "subscribeButton": "הירשם"
+  },
+  "testimonials": {
+    "sarahMQuote": "Hoteloza שינתה את כללי המשחק! תמיד מצאתי כאן את מבצעי המלונות הטובים ביותר. זה באמת אתר השותפים הטוב ביותר למלונות בעולם.",
+    "sarahMName": "שרה מ.",
+    "sarahMDesignation": "חובבת טיולים",
+    "data": [
+      {
+        "id": 1,
+        "avatar": "/img/avatars/testimonials/1.jpg",
+        "name": "שרה מילר",
+        "designation": "בלוגרית טיולים",
+        "text": "השהות שלנו כאן הייתה מדהימה לחלוטין! המיקום אסטרטגי, החדר היה נקי ונוח, והשירות של הצוות היה ידידותי באופן יוצא דופן. מומלץ בחום לחופשה משפחתית.",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "ג'ון דייוויס",
+        "designation": "יזם",
+        "text": "מלון זה היה הבחירה המושלמת עבור הנסיעה העסקית שלי. מתקנים מלאים, Wi-Fi מהיר, וקרוב למרכז העיר. יעיל ונוח מאוד.",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "אמילי ווייט",
+        "designation": "סטודנטית",
+        "text": "אני אוהבת את עיצוב הפנים המודרני והאינסטגרמי! הוא מושלם לשהייה בבית עם חברים. המחיר גם סביר עבור איכות כה גדולה.",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "דוד לי",
+        "designation": "צלם",
+        "text": "הנוף מהחדר היה מדהים! הצלחתי לצלם כל כך הרבה תמונות נהדרות. הצוות גם היה מאוד מועיל בהמלצה על אטרקציות תיירותיות.",
+        "dealyAnimation": "400"
+      }
+    ],
+    "data2": [
+      {
+        "id": 1,
+        "meta": "מלון גרנד אימפריאל",
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "אוליביה גרייס",
+        "designation": "סופרת",
+        "text": "\"מלון זה מושלם למציאת שלווה ושקט. האווירה השלווה, החדרים השקטים והצוות המגיב אפשרו לי להתמקד בכתיבה ללא הפרעה. מומלץ בחום.\"",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "meta": "מלון גרנד אימפריאל",
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "דניאל קים",
+        "designation": "נווד דיגיטלי",
+        "text": "\"חיבור אינטרנט יציב ומרחב עבודה נוח הם יתרון עצום כאן. יכולתי לעבוד ולטייל בו זמנית. המיקום גם קרוב להרבה בתי קפה.\"",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "meta": "מלון גרנד אימפריאל",
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "סופיה בראון",
+        "designation": "גמלאית",
+        "text": "\"השירות האדיב והמתקנים הידידותיים לקשישים גרמו לנו להרגיש מאוד בנוח. ארוחת הבוקר הייתה גם טעימה ומגוונת. בהחלט נחזור.\"",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "meta": "מלון גרנד אימפריאל",
+        "avatar": "/img/avatars/testimonials/4.png",
+        "name": "מייקל צ'ן",
+        "designation": "שף",
+        "text": "\"כשף, אני מאוד מעריך את איכות האוכל במסעדת מלון זה. המנות טעימות ואפשרויות התפריט מגוונות. חוויה קולינרית מדהימה באמת!\"",
+        "dealyAnimation": "400"
+      },
+      {
+        "id": 5,
+        "meta": "מלון גרנד אימפריאל",
+        "avatar": "/img/avatars/testimonials/5.png",
+        "name": "קלואי וילסון",
+        "designation": "מעצבת גרפית",
+        "text": "\"העיצוב הפנימי האסתטי של המלון והתאורה הטובה ממש תמכו ביצירתיות שלי. הרבה נקודות עניין לצילום! החדר היה גם נקי מאוד.\"",
+        "dealyAnimation": "500"
+      }
+    ],
+    "data3": [
+      {
+        "id": 1,
+        "meta": "ריזורט נוף לים",
+        "avatar": "/img/testimonials/2/1.png",
+        "name": "ג'יימס טיילור",
+        "designation": "איש עסקים",
+        "text": "\"לריזורט הזה נוף מרהיב לים. הוא מושלם להתנתקות מהשגרה. מתקני הבריכה האינסופית גם עוצרי נשימה.\""
+      },
+      {
+        "id": 2,
+        "meta": "ריזורט נוף לים",
+        "avatar": "/img/testimonials/2/2.png",
+        "name": "איזבלה רודריגז",
+        "designation": "מורה",
+        "text": "\"החופשה המשפחתית שלנו כאן הייתה בלתי נשכחת. היו הרבה פעילויות לילדים, והצוות היה מאוד ידידותי ועוזר. הילדים אהבו לשחק בחוף הפרטי.\""
+      },
+      {
+        "id": 3,
+        "meta": "ריזורט נוף לים",
+        "avatar": "/img/testimonials/2/3.png",
+        "name": "ליאם גרסיה",
+        "designation": "רופא",
+        "text": "\"המקום הזה הוא הבריחה המושלמת להירגעות. שירותי הספא המרגיעים והאווירה השלווה גרמו לי להרגיש רענן לחלוטין.\""
+      },
+      {
+        "id": 4,
+        "meta": "ריזורט נוף לים",
+        "avatar": "/img/testimonials/2/4.png",
+        "name": "מיה מרטינז",
+        "designation": "יועצת",
+        "text": "\"אני נוסעת לעיתים קרובות לעבודה, והריזורט הזה מספק את הנוחות של להיות בבית. שירות החדרים מהיר ומקצועי. זה בהחלט יהיה הבחירה הקבועה שלי.\""
+      },
+      {
+        "id": 5,
+        "meta": "ריזורט נוף לים",
+        "avatar": "/img/testimonials/2/5.png",
+        "name": "נואה תומפסון",
+        "designation": "אמן",
+        "text": "\"השראה מגיעה מכל מקום, והריזורט הזה מלא ביופי טבעי מדהים. ציירתי כאן הרבה. מומלץ בחום לאמנים או לכל מי שמחפש השראה.\""
+      }
+    ]
+  },
+  "faqContent": {
+    "hotel": {
+      "facilitiesQuestion": "אילו מתקנים כלולים ב{title}?",
+      "facilitiesAnswer": "המתקנים ב{title} כוללים Wi-Fi חינם, בריכת שחייה, חניה ועוד. צור קשר עם הנכס לקבלת רשימה מלאה של השירותים.",
+      "breakfastQuestion": "האם ארוחת בוקר כלולה ב{title}?",
+      "breakfastAnswer": "כן, ארוחת בוקר כלולה בשהותך ב{title}.",
+      "checkInCheckOutQuestion": "מהם זמני הצ'ק-אין והצ'ק-אאוט ב{title}?",
+      "checkInCheckOutAnswer": "שעת הצ'ק-אין היא מ-14:00, והצ'ק-אאוט הוא עד 12:00 ב{title}.",
+      "petsAllowedQuestion": "האם חיות מחמד מותרות ב{title}?",
+      "petsAllowedAnswer": "חיות מחמד אינן מורשות ב{title}.",
+      "parkingFacilityQuestion": "האם יש חניה ב{title}?",
+      "parkingFacilityAnswer": "כן, חניה זמינה לאורחים ב{title}.",
+      "smokingAllowedQuestion": "האם מותר לעשן ב{title}?",
+      "smokingAllowedAnswer": "לא, עישון אסור בכל אזורי {title}.",
+      "airportTransportationQuestion": "האם {title} מציע הסעות לשדה התעופה?",
+      "airportTransportationAnswer": "כן, הסעות לשדה התעופה ניתנות לארגן ב{title} בתשלום נוסף.",
+      "cancellationPolicyQuestion": "מהי מדיניות הביטולים ב{title}?",
+      "cancellationPolicyAnswer": "ביטולים ניתנים לביצוע עד 24 שעות לפני הצ'ק-אין ללא חיוב.",
+      "meetingFacilitiesQuestion": "האם ב{title} יש מתקני ישיבות?",
+      "meetingFacilitiesAnswer": "כן, ב{title} יש חדרי ישיבות מאובזרים במלואם הזמינים להזמנה.",
+      "attractionsNearQuestion": "אילו אטרקציות נמצאות בקרבת {title}?",
+      "attractionsNearAnswer": "אטרקציות פופולריות ליד {title} כוללות [רשימת אטרקציות]."
+    },
+    "category": {
+      "offeringsQuestion": "אילו סוגי הצעות זמינים בקטגוריה {category}?",
+      "offeringsAnswer": "מוכנים לחקור מגוון רחב של אפשרויות? קטגוריית {category} שלנו מציגה הכל, החל מחוויות פרימיום בלעדיות ועד לפתרונות חכמים וידידותיים לתקציב. מצאו את ההתאמה המושלמת כדי להגשים את חלומות הטיול או את הצרכים הספציפיים שלכם!",
+      "familyFriendlyQuestion": "האם ישנן אפשרויות ידידותיות למשפחות זמינות בבחירת {category} שלנו?",
+      "familyFriendlyAnswer": "בהחלט! אנו מבינים את הצרכים שלכם. גלו אפשרויות {category} רבות המומלצות בחום למשפחות, עם מתקנים ופעילויות שנועדו להפוך את הרגעים שלכם עם יקיריכם לבלתי נשכחים ונוחים עוד יותר.",
+      "mainAttractionsQuestion": "מהן האטרקציות המרכזיות או היעדים הפופולריים ביותר בקרבת הצעות {category} אלה?",
+      "mainAttractionsAnswer": "הבחירות שלנו ב{category} הן לא רק על המוצר/שירות; הן גם על המיקום! תיהנו מגישה קלה למקומות תיירותיים איקוניים, מרכזי בידור מרגשים ומאכלים קולינריים שחובה לנסות. מקסמו את החוויה שלכם בבנדונג, מערב ג'אווה, או בכל מקום אליו יקח אתכם ה{category} הנבחר שלכם!",
+      "luxuryAmenitiesQuestion": "האם אפשרויות מסוימות ב{category} מציעות מתקני יוקרה או תכונות מיוחדות?",
+      "luxuryAmenitiesAnswer": "בהחלט! התענגו על נוחות ויוקרה. רבות מהצעות ה{category} שלנו מצוידות במתקנים ברמת חמישה כוכבים כמו בריכות אינסוף פרטיות, שירותי ספא הוליסטיים, מרכזי כושר חדישים ועוד. התפנקו בחוויה בלתי נשכחת!",
+      "topRatedQuestion": "אילו אפשרויות {category} מדורגות הגבוה ביותר עם ביקורות הלקוחות הטובות ביותר?",
+      "topRatedAnswer": "מחפשים את הטוב ביותר? הנה רשימה של אפשרויות ה{category} המובילות שלנו, אהובות על ידי הקהילה שלנו. הבטיחו איכות ושביעות רצון, מגובות בעדויות משתמשים אותנטיות!"
+    },
+    "city": {
+      "typesOfHotelsQuestion": "אילו סוגי מלונות זמינים ב{city}?",
+      "typesOfHotelsAnswer": "חקרו מגוון מלונות ב{city}, החל ממלונות יוקרה ועד אפשרויות ידידותיות לתקציב.",
+      "familyFriendlyHotelsQuestion": "האם ישנם מלונות המתאימים למשפחות ב{city}?",
+      "familyFriendlyHotelsAnswer": "כן, ישנם הרבה מלונות ידידותיים למשפחות ב{city}.",
+      "attractionsNearHotelsQuestion": "אילו אטרקציות נמצאות בקרבת מלונות ב{city}?",
+      "attractionsNearHotelsAnswer": "מלונות ב{city} קרובים למגוון אטרקציות פופולריות.",
+      "hotelsWithPoolsQuestion": "האם ישנם מלונות עם בריכות ב{city}?",
+      "hotelsWithPoolsAnswer": "כן, מלונות רבים ב{city} כוללים בריכות ומתקנים אחרים.",
+      "bestRatedHotelsQuestion": "אילו מלונות מדורגים בצורה הטובה ביותר ב{city}?",
+      "bestRatedHotelsAnswer": "להלן כמה מהמלונות המדורגים בצורה הטובה ביותר ב{city}:"
+    },
+    "country": {
+      "typesOfHotelsQuestion": "אילו סוגי מלונות זמינים ב{country}?",
+      "typesOfHotelsAnswer": "חקרו מגוון מלונות ב{country}, החל ממלונות יוקרה ועד אפשרויות ידידותיות לתקציב.",
+      "familyFriendlyHotelsQuestion": "האם ישנם מלונות המתאימים למשפחות ב{country}?",
+      "familyFriendlyHotelsAnswer": "כן, ישנם הרבה מלונות ידידותיים למשפחות ב{country}.",
+      "attractionsNearHotelsQuestion": "אילו אטרקציות נמצאות בקרבת מלונות ב{country}?",
+      "attractionsNearHotelsAnswer": "מלונות ב{country} קרובים למגוון אטרקציות פופולריות.",
+      "hotelsWithPoolsQuestion": "האם ישנם מלונות עם בריכות ב{country}?",
+      "hotelsWithPoolsAnswer": "כן, מלונות רבים ב{country} כוללים בריכות ומתקנים אחרים.",
+      "bestRatedHotelsQuestion": "אילו מלונות מדורגים בצורה הטובה ביותר ב{country}?",
+      "bestRatedHotelsAnswer": "להלן כמה מהמלונות המדורגים בצורה הטובה ביותר ב{country}:"
+    },
+    "landmark": {
+      "typesOfHotelsQuestion": "אילו סוגי מלונות זמינים בקרבת {landmark}?",
+      "typesOfHotelsAnswer": "בקרבת {landmark} תמצאו מגוון רחב של אפשרויות אירוח, ממלונות בוטיק יוקרתיים ועד לשהיות נוחות ובמחיר סביר. בין אם אתם מחפשים ביקור קצר או חקירה ארוכה יותר, יש מלון מושלם לכל העדפה.",
+      "familyFriendlyHotelsQuestion": "האם ישנם מלונות המתאימים למשפחות בקרבת {landmark}?",
+      "familyFriendlyHotelsAnswer": "בהחלט! מלונות רבים בקרבת {landmark} מאובזרים היטב למשפחות, ומציעים שירותים כמו חדרי משפחה מרווחים, מועדוני ילדים ובריכות שחייה. הם מהווים בסיס נוח לחקר ציון הדרך וסביבתו עם יקיריכם.",
+      "attractionsNearHotelsQuestion": "אילו אטרקציות נמצאות בקרבת מלונות סמוכים ל{landmark}?",
+      "attractionsNearHotelsAnswer": "מלונות בקרבת {landmark} מציעים נוחות שאין שני לה לביקור בציון הדרך עצמו. מעבר לכך, הם ממוקמים לעתים קרובות באופן אסטרטגי קרוב לאטרקציות פופולריות אחרות, מוזיאונים, מקומות אוכל ומקומות בילוי, מה שהופך את החקירה שלכם לקלה.",
+      "hotelsWithPoolsQuestion": "האם ישנם מלונות עם בריכות בקרבת {landmark}?",
+      "hotelsWithPoolsAnswer": "כן, מלונות רבים הממוקמים בקרבת {landmark} כוללים בריכות שחייה מרעננות, מושלמות להירגעות לאחר יום של סיורים. חלקם אף מתהדרים בבריכות גג עם נופים מרהיבים של ציון הדרך או קו הרקיע של העיר.",
+      "bestRatedHotelsQuestion": "אילו מלונות מדורגים בצורה הטובה ביותר בקרבת {landmark}?",
+      "bestRatedHotelsAnswerDefault": "נכון לעכשיו, אין לנו נתונים ספציפיים לדירוג הטוב ביותר עבור מלונות ממש ליד {landmark}. עם זאת, תוכלו לדפדף במגוון אפשרויות בעלות דירוג גבוה באזור הרחב יותר.",
+      "bestRatedHotelsAnswerWithData": "בהתבסס על ביקורות אורחים, חלק מהמלונות המדורגים ביותר ליד {landmark} כוללים:"
+    },
+    "state": {
+      "typesOfHotelsQuestion": "אילו סוגי מלונות זמינים ב{state}?",
+      "typesOfHotelsAnswer": "חקרו מגוון מלונות ב{state}, החל ממלונות יוקרה ועד אפשרויות ידידותיות לתקציב.",
+      "familyFriendlyHotelsQuestion": "האם ישנם מלונות המתאימים למשפחות ב{state}?",
+      "familyFriendlyHotelsAnswer": "כן, ישנם הרבה מלונות ידידותיים למשפחות ב{state}.",
+      "attractionsNearHotelsQuestion": "אילו אטרקציות נמצאות בקרבת מלונות ב{state}?",
+      "attractionsNearHotelsAnswer": "מלונות ב{state} קרובים למגוון אטרקציות פופולריות.",
+      "hotelsWithPoolsQuestion": "האם ישנם מלונות עם בריכות ב{state}?",
+      "hotelsWithPoolsAnswer": "כן, מלונות רבים ב{state} כוללים בריכות ומתקנים אחרים.",
+      "bestRatedHotelsQuestion": "אילו מלונות מדורגים בצורה הטובה ביותר ב{state}?",
+      "bestRatedHotelsAnswer": "להלן כמה מהמלונות המדורגים בצורה הטובה ביותר ב{state}:"
+    }
+  }
+}

@@ -1,0 +1,507 @@
+{
+  "common": {
+    "loadingSearchResults": "Se încarcă rezultatele căutării...",
+    "loadingCityContent": "Se încarcă conținutul orașului...",
+    "loadingHotel": "Se încarcă detaliile hotelului...",
+    "hotelNotFound": "Hotelul nu a fost găsit.",
+    "errorServer": "A apărut o eroare de server",
+    "preloaderTitle": "Hoteloza..",
+    "failedToLoadHotelList": "Nu s-a putut încărca lista de hoteluri. Vă rugăm să încercați din nou.",
+    "cityIdRequired": "ID-ul orașului este obligatoriu.",
+    "callToActionsDescription": "Ideile bune nu durează mult. Rezervă-ți călătoria cu Hoteloza astăzi!",
+    "errorLoadingData": "A apărut o eroare la încărcarea datelor. Vă rugăm să încercați din nou mai târziu.",
+    "noHotelsFound": "Nu au fost găsite hoteluri pentru această categorie.",
+    "noRelatedCategoriesFound": "Nu au fost găsite categorii înrudite.",
+    "noRelatedCountriesFound": "Nu au fost găsite țări înrudite.",
+    "noRelatedStatesFound": "Nu au fost găsite provincii înrudite.",
+    "noRelatedCitiesFound": "Nu au fost găsite orașe înrudite.",
+    "noRelatedHotelsFound": "Nu au fost găsite hoteluri înrudite.",
+    "unknownAddress": "Adresă necunoscută",
+    "unknownCity": "Oraș necunoscut",
+    "unknownRegion": "Regiune necunoscută",
+    "unknownCountry": "Țară necunoscută",
+    "unnamedHotel": "Hotel fără nume",
+    "reserveNow": "Rezervă acum",
+    "unknownCategory": "Categorie necunoscută",
+    "unknownState": "Provincie necunoscută",
+    "errorLandmarkNotFound": "Eroare: reperul nu a fost găsit în URL. Nu se poate încărca.",
+    "properties": "proprietăți",
+    "noDestinationsFound": "Nici o destinație disponibilă pentru această regiune.",
+    "topRecommendedHotelsTitle": "Top {category} recomandate în {city}",
+    "findTopRatedStays": "Găsiți sejururi de top cu beneficii similare în apropierea destinației dvs.",
+    "unknownLocation": "Locație necunoscută",
+    "failedToLoadHotelData": "Nu s-au putut prelua datele hotelului",
+    "errorWithMessage": "Eroare: {error}",
+    "night": "Noapte"
+  },
+  "header": {
+    "luxuryBackgroundImageAlt": "Imagine de fundal de lux"
+  },
+  "search": {
+    "searchResultAccommodationIn": "Rezultate căutare cazare în {cityName}",
+    "searchResultPropertiesIn": "Proprietăți găsite în",
+    "selectedCity": "Oraș selectat",
+    "unknownLocation": "Locație necunoscută",
+    "searchParametersIncomplete": "Parametrii de căutare incompleți."
+  },
+  "categoryPage": {
+    "discoverLuxeStaysIn": "Descoperă sejururi de lux în",
+    "faqsAboutHotels": "Întrebări frecvente {formattedCategory}",
+    "categoryDefault": "Categorie",
+    "defaultItemListDescription": "O listă cu cele mai bune {formattedCategory} pentru {currentYear} pe Hoteloza."
+  },
+  "countryPage": {
+    "discoverStaysIn": "Descoperă sejururi în {displayCountry}",
+    "faqsAboutCountryHotels": "Întrebări frecvente Hoteluri în {displayCountry}",
+    "countryDefault": "Țară",
+    "noHotelsFoundForCountry": "Nu au fost găsite hoteluri pentru această țară."
+  },
+  "statePage": {
+    "discoverStaysInState": "Descoperă sejururi în {formattedState}",
+    "faqsAboutStateHotels": "Întrebări frecvente Hoteluri în {displayState}",
+    "stateDefault": "Provincie",
+    "noHotelsFoundForState": "Nu au fost găsite hoteluri pentru această provincie."
+  },
+  "cityPage": {
+    "discoverStaysInCity": "Descoperă sejururi în {formattedCity}",
+    "faqsAboutCityHotels": "Întrebări frecvente Hoteluri în {displayCity}",
+    "cityDefault": "Oraș",
+    "noHotelsFoundForCity": "Nu au fost găsite hoteluri pentru acest oraș."
+  },
+  "hotelSinglePage": {
+    "aboutThisHotel": "Despre acest hotel",
+    "facilitiesAndServices": "Facilități și servicii",
+    "attractionsNearby": "Atractii în apropiere",
+    "reviews": "Recenzii",
+    "faq": "Întrebări frecvente",
+    "locationMap": "Harta locației",
+    "frequentlyAskedQuestions": "Întrebări frecvente",
+    "toggleFrequentlyAskedQuestions": "Comută întrebările frecvente",
+    "toggleLocationMap": "Comută harta locației",
+    "relatedHotels": "Proprietăți populare similare cu",
+    "toggleFacilities": "Comută facilitățile",
+    "toggleLandmarks": "Comută reperele din apropiere",
+    "toggleRelatedHotels": "Comută proprietățile populare similare cu",
+    "defaultSchemaDescription": "Rezervați {formattedHotel}, un hotel de lux în {formattedCity} pentru {currentYear} pe Hoteloza.",
+    "exceptionalReviewText": "Excepțional"
+  },
+  "bookNow": {
+    "reserveNowButton": "Rezervă acum"
+  },
+  "facilities": {
+    "bathroom": "Baie",
+    "towels": "Prosoape",
+    "bathOrShower": "Cadă sau duș",
+    "privateBathroom": "Baie privată",
+    "toilet": "Toaletă",
+    "freeToiletries": "Articole de toaletă gratuite",
+    "hairdryer": "Uscător de păr",
+    "bath": "Cadă",
+    "bedroom": "Dormitor",
+    "linen": "Lenjerie de pat",
+    "wardrobeOrCloset": "Dulap sau dressing",
+    "receptionServices": "Servicii de recepție",
+    "invoiceProvided": "Factură furnizată",
+    "privateCheckInCheckOut": "Check-in/check-out privat",
+    "luggageStorage": "Depozit de bagaje",
+    "twentyFourHourFrontDesk": "Recepție deschisă 24 de ore",
+    "mediaTechnology": "Media și Tehnologie",
+    "flatScreenTV": "Televizor cu ecran plat",
+    "satelliteChannels": "Canale prin satelit",
+    "radio": "Radio",
+    "telephone": "Telefon",
+    "tv": "TV",
+    "foodDrink": "Mâncare și Băutură",
+    "kidMeals": "Mese pentru copii",
+    "specialDietMenusOnRequest": "Meniuri pentru diete speciale (la cerere)",
+    "breakfastInTheRoom": "Mic dejun în cameră",
+    "cleaningServices": "Servicii de curățenie",
+    "dailyHousekeeping": "Curățenie zilnică",
+    "dryCleaning": "Curățătorie chimică",
+    "laundry": "Spălătorie",
+    "safetySecurity": "Siguranță și Securitate",
+    "fireExtinguishers": "Extinctoare",
+    "cctvInCommonAreas": "CCTV în zonele comune",
+    "smokeAlarms": "Alarme de fum",
+    "twentyFourHourSecurity": "Securitate 24 de ore"
+  },
+  "landmarkList": {
+    "noNearbyPlacesFound": "Nu au fost găsite locuri în apropiere pe o rază de {radius} km.",
+    "nearbyEssentialAndTouristSpots": "🗺️ Locuri esențiale și turistice din apropiere"
+  },
+  "mapComponent": {
+    "mapTitle": "🗺️ Hartă {title}"
+  },
+  "relatedCategories": {
+    "countriesIn": "🏨 Țări în {formattedCategory}"
+  },
+  "relatedCities": {
+    "noRelatedCitiesFound": "Nu au fost găsite orașe înrudite",
+    "bestRelatedCitiesIn": "🏨 Cele mai bune orașe înrudite din {formattedState}"
+  },
+  "relatedCountries": {
+    "noRelatedStatesFound": "Nu au fost găsite provincii înrudite",
+    "statesIn": "🏨 Provincii în {formattedCountry}"
+  },
+  "relatedStates": {
+    "noRelatedCitiesFound": "Nu au fost găsite orașe înrudite",
+    "citiesIn": "🏨 Orașe în {formattedState}"
+  },
+  "city": {
+    "city": "Oraș",
+    "faq": "Întrebări frecvente"
+  },
+  "mainFilterSearchBox": {
+    "destinationPlaceholder": "Care este destinația ta?",
+    "checkInPlaceholder": "Data de check-in",
+    "checkOutPlaceholder": "Data de check-out",
+    "adultsLabel": "Adulți",
+    "childrenLabel": "Copii",
+    "roomsLabel": "Camere",
+    "searchButton": "Căutare"
+  },
+  "footer": {
+    "popularStays": "Sejururi populare",
+    "hotel": "Hotel",
+    "villa": "Vilă",
+    "resort": "Stațiune",
+    "apartment": "Apartament",
+    "guestHouse": "Pensiune",
+    "uniqueStays": "Sejururi unice",
+    "capsuleHotel": "Hotel capsulă",
+    "yurt": "Iurtă",
+    "treehouse": "Căsuță în copac",
+    "tent": "Cort",
+    "domeHouse": "Casă tip dom",
+    "traditionalStays": "Sejururi tradiționale",
+    "ryokan": "Ryokan",
+    "machiya": "Machiya",
+    "countryHouse": "Casă la țară",
+    "haveli": "Haveli",
+    "riad": "Riad",
+    "heritageHotel": "Hotel de patrimoniu",
+    "adventureStays": "Sejururi de aventură",
+    "farmStay": "Agroturism",
+    "cabin": "Cabana",
+    "chalet": "Cabana alpină",
+    "boat": "Barcă",
+    "houseboat": "Casă plutitoare",
+    "hotelozaFooterText": "Hoteloza este o platformă de top pentru rezervări hoteliere ușoare și fără probleme. Simplificăm căutarea dumneavoastră pentru cazarea perfectă, oferind o selecție diversificată de sejururi, de la hoteluri confortabile la stațiuni de lux. Bucurați-vă de comoditatea rezervărilor, oferte exclusive și servicii personalizate adaptate nevoilor dumneavoastră de călătorie. Rezervați cu Hoteloza și transformați călătoriile de neuitat în realitate.",
+    "hotelozaAllRightsReserved": "© {year} Hoteloza. Toate drepturile rezervate."
+  },
+  "metadata": {
+    "homePageTitle": "Hoteloza - Găsește-ți hotelul de vis",
+    "homePageDescription": "Găsește cele mai bune hoteluri și cazări pentru următoarea ta călătorie. Rezervă acum cu Hoteloza!",
+    "searchResultPageTitle": "Hoteluri în {cityName} - Rezultate căutare Hoteloza",
+    "searchResultPageDescription": "Căutați și rezervați hoteluri în {cityName}. Comparați prețurile și facilitățile pentru cel mai bun sejur al dumneavoastră.",
+    "cityPageTitle": "Hoteluri în {cityName} - Descoperiți {cityName} cu Hoteloza",
+    "cityPageDescription": "Descoperiți cele mai bune hoteluri din {cityName} și găsiți cele mai bune oferte pentru călătoria dumneavoastră de neuitat cu Hoteloza.",
+    "categoryNotFoundTitle": "Categorie negăsită | Hoteloza",
+    "categoryNotFoundDescription": "Categoria pe care o căutați nu a fost găsită pe Hoteloza.",
+    "categoryPageTitleTemplate": "Cele mai bune reduceri {formattedCategory} {currentYear} - Economisește mult la Hoteloza!",
+    "categoryPageDescriptionTemplate": "Descoperă cele mai bune {formattedCategory} în {currentYear} cu Hoteloza. Bucură-te de reduceri exclusive, prețuri excelente și facilități de top. Rezervă acum pentru un sejur de neuitat!",
+    "categoryOgTitleTemplate": "Top {formattedCategory} Oferte {currentYear} | Hoteloza",
+    "categoryOgDescriptionTemplate": "Explorați cele mai bune oferte {formattedCategory} pentru {currentYear} pe Hoteloza. Rezervați acum pentru oferte exclusive și facilități premium!",
+    "categoryWebPageNameTemplate": "Cele mai bune oferte {formattedCategory} {currentYear}",
+    "categoryWebPageDescriptionTemplate": "Descoperiți cele mai bune {formattedCategory} pentru {currentYear} pe Hoteloza cu oferte exclusive și facilități premium.",
+    "countryNotFoundTitle": "Pagina negăsită | Hoteloza",
+    "countryNotFoundDescription": "Categoria, țara sau provincia pe care o căutați nu a fost găsită pe Hoteloza.",
+    "countryPageTitleTemplate": "{formattedCategory} ieftine în {formattedCountry} {currentYear} - Nu ratați! | Hoteloza",
+    "countryPageDescriptionTemplate": "Obțineți cele mai bune {formattedCategory} în {formattedCountry} pentru {currentYear} pe Hoteloza. Bucurați-vă de oferte exclusive, prețuri accesibile și facilități de top. Oferte limitate – rezervați-vă sejurul astăzi!",
+    "countryOgTitleTemplate": "Cele mai bune {formattedCategory} în {formattedCountry} {currentYear} | Hoteloza",
+    "countryOgDescriptionTemplate": "Găsiți cele mai bune {formattedCategory} în {formattedCountry} pentru {currentYear} pe Hoteloza. Rezervați acum pentru hoteluri de top și oferte exclusive!",
+    "stateNotFoundTitle": "Pagina negăsită | Hoteloza",
+    "stateNotFoundDescription": "Categoria, țara sau provincia pe care o căutați nu a fost găsită pe Hoteloza.",
+    "statePageTitleTemplate": "{formattedCategory} ieftine în {formattedState}, {formattedCountry} {currentYear} - Rezervă acum! | Hoteloza",
+    "statePageDescriptionTemplate": "Găsiți cele mai bune {formattedCategory} în {formattedState}, {formattedCountry} pentru {currentYear} pe Hoteloza. Oferte exclusive, prețuri excelente și facilități de top. Rezervați-vă sejurul de neuitat!",
+    "stateOgTitleTemplate": "Cele mai bune {formattedCategory} în {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
+    "stateOgDescriptionTemplate": "Descoperiți cele mai bune {formattedCategory} în {formattedState}, {formattedCountry} pentru {currentYear} pe Hoteloza. Rezervați acum pentru oferte exclusive și facilități premium!",
+    "cityNotFoundTitle": "Pagina negăsită | Hoteloza",
+    "cityNotFoundDescription": "Categoria, țara, provincia sau orașul pe care o căutați nu au fost găsite pe Hoteloza.",
+    "cityPageTitleTemplate": "{formattedCategory} ieftine în {formattedCity}, {formattedState}, {formattedCountry} {currentYear} - Reduceri mari! | Hoteloza",
+    "cityPageDescriptionTemplate": "Găsiți cele mai bune {formattedCategory} în {formattedCity}, {formattedState}, {formattedCountry} pentru {currentYear} pe Hoteloza. Reduceri exclusive, facilități de top și prețuri imbatabile. Rezervați-vă sejurul de vis acum!",
+    "cityOgTitleTemplate": "Cele mai bune {formattedCategory} în {formattedCity}, {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
+    "cityOgDescriptionTemplate": "Descoperiți cele mai bune {formattedCategory} în {formattedCity}, {formattedState}, {formattedCountry} pentru {currentYear} pe Hoteloza. Rezervați acum pentru oferte exclusive și facilități premium!",
+    "hotelNotFoundTitle": "Hotelul nu a fost găsit | Hoteloza",
+    "hotelNotFoundDescription": "Hotelul pe care îl căutați nu a putut fi găsit.",
+    "hotelPageTitleTemplate": "{hotelTitle} - Rezervă acum pe Hoteloza!",
+    "hotelPageDescriptionTemplate": "Rezervă-ți sejurul la {hotelTitle} în {city}, {state}, {country}. Găsește cele mai bune oferte, facilități și recenzii pentru o experiență de neuitat cu Hoteloza.",
+    "hotelOgTitleTemplate": "{hotelTitle} | Hoteloza",
+    "hotelOgDescriptionTemplate": "Găsește cele mai bune oferte la {hotelTitle} cu Hoteloza."
+  },
+  "landmarkPage": {
+    "topHotelsNear": "{category} ieftine lângă {landmarkName}",
+    "landmarkPageTitleTemplate": "{category} ieftine lângă {landmarkName}",
+    "description": "{category} {landmarkName} oferă cea mai bună cazare în {cityName}, cu oferte excelente și facilități precum WiFi gratuit.",
+    "loadingHotel": "Se încarcă hotelul...",
+    "errorLoadingHotel": "Eroare: {error}",
+    "hotelNotFound": "Hotelul nu a fost găsit.",
+    "serverErrorFetchingData": "Eroare de server la preluarea datelor hotelului."
+  },
+  "navigation": {
+    "home": "Acasă",
+    "about": "Despre noi",
+    "contact": "Contact"
+  },
+  "homepage": {
+    "dreamDestinations": "Destinații de vis",
+    "unforgettableSpots": "Locuri de neuitat pe care veți dori să le explorați din nou și din nou",
+    "whatOurGuestsTrulyLoveAboutUs": "Ce iubesc cu adevărat oaspeții noștri la noi",
+    "experienceTheMagic": "Experimentați magia care îi face pe milioane de oameni să se întoarcă. La Hoteloza, ne dedicăm să facem fiecare sejur de neuitat, cu ușurință, grijă și servicii excepționale.",
+    "hotelozaHeroTitle": "Găsește, Rezervă și Relaxează-te cu Hoteloza",
+    "hotelozaHeroSubtitle": "Explorează mii de hoteluri din întreaga lume cu Hoteloza",
+    "delightedGuests": "Oaspeți încântați",
+    "guestSatisfactionScore": "Scorul de satisfacție al oaspeților",
+    "happyPeople": "Oameni fericiți",
+    "overallRating": "Evaluare generală"
+  },
+  "about": {
+    "lookingForJoy": "Cauți bucurie?",
+    "trustedTripCompanion": "Companionul tău de încredere în călătorii",
+    "whyChooseUs": "De ce să ne alegi pe noi",
+    "popularDestinationsOffer": "Aceste destinații populare au multe de oferit",
+    "overheardFromTravelers": "Auzite de la călători",
+    "aboutHotelozaTitle": "Despre Hoteloza",
+    "aboutHotelozaSubtitle": "Descoperă o lume de confort și eleganță",
+    "aboutHotelozaParagraph1": "Hoteloza este sanctuarul tău de lux, oferind o ospitalitate de neegalat în inima destinațiilor vibrante. Hotelurile noastre îmbină eleganța modernă cu confortul atemporal, asigurând că fiecare ședere este o experiență memorabilă.",
+    "aboutHotelozaParagraph2": "Cufundați-vă în facilitățile noastre de talie mondială, de la spa-uri senine la restaurante rafinate, și explorați atracțiile din apropiere care fac fiecare vizită de neuitat. Indiferent dacă este pentru afaceri sau pentru plăcere, Hoteloza este casa dumneavoastră departe de casă."
+  },
+  "blockGuide": {
+    "bestPriceGuarantee": "Garanția celui mai bun preț",
+    "bestPriceGuaranteeText": "Găsește-ți sejurul perfect la cel mai bun preț posibil – garantat. Fără taxe ascunse, doar economii reale de fiecare dată când rezervi.",
+    "easyQuickBooking": "Rezervare ușoară și rapidă",
+    "easyQuickBookingText": "Rezervă-ți hotelul de vis în doar câteva click-uri. Rapid, simplu și fără bătăi de cap – următoarea ta escapadă începe aici.",
+    "customerSupport": "Suport clienți 24/7",
+    "customerSupportText": "Ai nevoie de ajutor? Echipa noastră de suport este disponibilă non-stop pentru a te asista – oriunde și oricând ai nevoie."
+  },
+  "contactPage": {
+    "heroTitle": "Contactează-ne",
+    "heroSubtitle": "Suntem aici pentru a te ajuta și a răspunde la orice întrebări ai putea avea.",
+    "getInTouchTitle": "Ia legătura",
+    "getInTouchDescription": "Nu ezitați să ne contactați cu orice întrebări sau nelămuriri. Echipa noastră este mereu pregătită să vă ajute.",
+    "addressLabel": "Adresă",
+    "addressValue": "Strada Hoteloza 123, Suita 456, Oraș, Țară",
+    "emailLabel": "Email",
+    "emailValue": "info@hoteloza.com",
+    "workingHoursLabel": "Program de lucru",
+    "workingHoursValue": "Luni - Vineri: 9:00 - 17:00 (Ora locală)"
+  },
+  "callToActions": {
+    "subscribeHere": "Abonează-te aici",
+    "yourEmail": "Adresa ta de email",
+    "subscribeButton": "Abonează-te"
+  },
+  "testimonials": {
+    "sarahMQuote": "Hoteloza este o schimbare de joc! Am găsit constant cele mai bune oferte de hoteluri aici. Este cu adevărat cel mai bun site web afiliat de hoteluri la nivel global.",
+    "sarahMName": "Sarah M.",
+    "sarahMDesignation": "Pasionată de călătorii",
+    "data": [
+      {
+        "id": 1,
+        "avatar": "/img/avatars/testimonials/1.jpg",
+        "name": "Sarah Miller",
+        "designation": "Blogger de călătorii",
+        "text": "Sejurul nostru aici a fost absolut incredibil! Locația este strategică, camera a fost curată și confortabilă, iar serviciul personalului a fost excepțional de prietenos. Recomandat cu tărie pentru o vacanță în familie.",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "John Davis",
+        "designation": "Antreprenor",
+        "text": "Acest hotel a fost alegerea perfectă pentru călătoria mea de afaceri. Facilități complete, Wi-Fi rapid și aproape de centrul orașului. Foarte eficient și confortabil.",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "Emily White",
+        "designation": "Studentă",
+        "text": "Îmi place designul interior modern și Instagrammabil! Este perfect pentru o vacanță acasă cu prietenii. Prețul este, de asemenea, accesibil pentru o calitate atât de bună.",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "David Lee",
+        "designation": "Fotograf",
+        "text": "Vedere de la cameră a fost uimitoare! Am reușit să fac atâtea fotografii grozave. Personalul a fost, de asemenea, foarte util în recomandarea atracțiilor turistice.",
+        "dealyAnimation": "400"
+      }
+    ],
+    "data2": [
+      {
+        "id": 1,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "Olivia Grace",
+        "designation": "Autoare",
+        "text": "\"Acest hotel este perfect pentru a găsi pace și liniște. Atmosfera liniștită, camerele silențioase și personalul receptiv mi-au permis să mă concentrez pe scris fără întreruperi. Recomandat cu tărie.\"",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "Daniel Kim",
+        "designation": "Nomad digital",
+        "text": "\"Conexiunea la internet stabilă și un spațiu de lucru confortabil sunt un mare plus aici. Am putut lucra și vacanță în același timp. Locația este, de asemenea, aproape de multe cafenele.\"",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "Sophia Brown",
+        "designation": "Pensionară",
+        "text": "\"Serviciul prietenos și facilitățile prietenoase pentru vârstnici ne-au făcut să ne simțim foarte confortabil. Micul dejun a fost, de asemenea, delicios și variat. Cu siguranță vom reveni.\"",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/4.png",
+        "name": "Michael Chen",
+        "designation": "Chef",
+        "text": "\"În calitate de chef, apreciez cu adevărat calitatea mâncărurilor din restaurantul acestui hotel. Preparatele sunt delicioase, iar opțiunile din meniu sunt diverse. O experiență culinară cu adevărat uimitoare!\"",
+        "dealyAnimation": "400"
+      },
+      {
+        "id": 5,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/5.png",
+        "name": "Chloe Wilson",
+        "designation": "Designer grafic",
+        "text": "\"Designul interior estetic al hotelului și iluminatul bun mi-au susținut cu adevărat creativitatea. Multe locuri interesante pentru fotografii! Camera a fost, de asemenea, foarte curată.\"",
+        "dealyAnimation": "500"
+      }
+    ],
+    "data3": [
+      {
+        "id": 1,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/1.png",
+        "name": "James Taylor",
+        "designation": "Om de afaceri",
+        "text": "\"Această stațiune are o vedere spectaculoasă la ocean. Este perfectă pentru a te relaxa de rutina zilnică. Facilitățile piscinei infinity sunt, de asemenea, uimitoare.\""
+      },
+      {
+        "id": 2,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/2.png",
+        "name": "Isabella Rodriguez",
+        "designation": "Profesoară",
+        "text": "\"Vacanța noastră în familie aici a fost foarte memorabilă. Au fost o mulțime de activități pentru copii, iar personalul a fost foarte prietenos și amabil. Copiii au iubit să se joace pe plaja privată.\""
+      },
+      {
+        "id": 3,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/3.png",
+        "name": "Liam Garcia",
+        "designation": "Doctor",
+        "text": "\"Acest loc este evadarea perfectă pentru relaxare. Serviciile de spa liniștitoare și atmosfera pașnică m-au făcut să mă simt complet revigorat.\""
+      },
+      {
+        "id": 4,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/4.png",
+        "name": "Mia Martinez",
+        "designation": "Consultant",
+        "text": "\"Călătoresc frecvent pentru muncă, iar această stațiune oferă confortul de a fi acasă. Serviciul de cameră este rapid și profesional. Va fi cu siguranță alegerea mea obișnuită.\""
+      },
+      {
+        "id": 5,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/5.png",
+        "name": "Noah Thompson",
+        "designation": "Artist",
+        "text": "\"Inspirația vine de pretutindeni, iar această stațiune este plină de o frumusețe naturală uimitoare. Am pictat mult aici. Recomandat cu tărie artiștilor sau oricui caută inspirație.\""
+      }
+    ]
+  },
+  "faqContent": {
+    "hotel": {
+      "facilitiesQuestion": "Ce facilități sunt incluse la {title}?",
+      "facilitiesAnswer": "Facilitățile la {title} includ Wi-Fi gratuit, o piscină, parcare și multe altele. Contactați proprietatea pentru o listă completă de facilități.",
+      "breakfastQuestion": "Este micul dejun inclus la {title}?",
+      "breakfastAnswer": "Da, micul dejun este inclus în sejurul dumneavoastră la {title}.",
+      "checkInCheckOutQuestion": "Care sunt orele de check-in și check-out la {title}?",
+      "checkInCheckOutAnswer": "Ora de check-in este de la 14:00, iar check-out-ul este până la 12:00 la {title}.",
+      "petsAllowedQuestion": "Sunt permise animalele de companie la {title}?",
+      "petsAllowedAnswer": "Animalele de companie nu sunt permise la {title}.",
+      "parkingFacilityQuestion": "Există o parcare la {title}?",
+      "parkingFacilityAnswer": "Da, parcarea este disponibilă pentru oaspeții de la {title}.",
+      "smokingAllowedQuestion": "Este permis fumatul la {title}?",
+      "smokingAllowedAnswer": "Nu, fumatul este interzis în toate zonele din {title}.",
+      "airportTransportationQuestion": "Oferă {title} transport la aeroport?",
+      "airportTransportationAnswer": "Da, transportul la aeroport poate fi aranjat la {title} contra unei taxe suplimentare.",
+      "cancellationPolicyQuestion": "Care este politica de anulare la {title}?",
+      "cancellationPolicyAnswer": "Anulările pot fi făcute cu până la 24 de ore înainte de check-in fără taxă.",
+      "meetingFacilitiesQuestion": "Are {title} facilități de întâlnire?",
+      "meetingFacilitiesAnswer": "Da, {title} are săli de ședințe complet echipate, disponibile pentru rezervare.",
+      "attractionsNearQuestion": "Ce atracții sunt lângă {title}?",
+      "attractionsNearAnswer": "Atracții populare lângă {title} includ [listă de atracții]."
+    },
+    "category": {
+      "offeringsQuestion": "Ce tipuri de oferte sunt disponibile în categoria {category}?",
+      "offeringsAnswer": "Ești gata să explorezi o gamă largă de opțiuni? Categoria noastră {category} include totul, de la experiențe premium exclusive la soluții inteligente și economice. Găsește potrivirea perfectă pentru a-ți îndeplini visele de călătorie sau nevoile specifice!",
+      "familyFriendlyQuestion": "Există opțiuni potrivite pentru familii disponibile în selecția noastră {category}?",
+      "familyFriendlyAnswer": "Absolut! Înțelegem nevoile dumneavoastră. Descoperiți numeroase opțiuni {category} foarte recomandate pentru familii, complete cu facilități și activități concepute pentru a face momentele dumneavoastră cu cei dragi și mai memorabile și confortabile.",
+      "mainAttractionsQuestion": "Care sunt principalele atracții sau cele mai populare destinații lângă aceste oferte {category}?",
+      "mainAttractionsAnswer": "Selecțiile noastre {category} nu sunt doar despre produs/serviciu; sunt și despre locație! Bucurați-vă de acces ușor la locuri turistice iconice, centre de divertisment interesante și delicii culinare pe care trebuie să le încercați. Maximizați-vă experiența în Bandung, Java de Vest, sau oriunde vă duce {category} ales!",
+      "luxuryAmenitiesQuestion": "Oferă anumite opțiuni {category} facilități de lux sau caracteristici speciale?",
+      "luxuryAmenitiesAnswer": "Într-adevăr! Cufundați-vă în confort și lux. Multe dintre ofertele noastre {category} sunt echipate cu facilități de cinci stele, cum ar fi piscine private infinity, servicii spa holistice, centre de fitness de ultimă generație și multe altele. Răsfățați-vă cu o experiență de neuitat!",
+      "topRatedQuestion": "Care sunt opțiunile {category} cele mai bine cotate, cu cele mai bune recenzii ale clienților?",
+      "topRatedAnswer": "Căutați cele mai bune? Iată o listă cu opțiunile noastre {category} de top, îndrăgite de comunitatea noastră. Asigurați-vă calitatea și satisfacția, susținute de mărturii autentice ale utilizatorilor!"
+    },
+    "city": {
+      "typesOfHotelsQuestion": "Ce tipuri de hoteluri sunt disponibile în {city}?",
+      "typesOfHotelsAnswer": "Explorează o varietate de hoteluri în {city}, de la hoteluri de lux la opțiuni economice.",
+      "familyFriendlyHotelsQuestion": "Există hoteluri potrivite pentru familii în {city}?",
+      "familyFriendlyHotelsAnswer": "Da, există o mulțime de hoteluri potrivite pentru familii în {city}.",
+      "attractionsNearHotelsQuestion": "Ce atracții sunt lângă hotelurile din {city}?",
+      "attractionsNearHotelsAnswer": "Hotelurile din {city} sunt aproape de diverse atracții populare.",
+      "hotelsWithPoolsQuestion": "Există hoteluri cu piscină în {city}?",
+      "hotelsWithPoolsAnswer": "Da, multe hoteluri din {city} dispun de piscine și alte facilități.",
+      "bestRatedHotelsQuestion": "Care sunt cele mai bine cotate hoteluri din {city}?",
+      "bestRatedHotelsAnswer": "Iată câteva dintre cele mai bine cotate hoteluri din {city}:"
+    },
+    "country": {
+      "typesOfHotelsQuestion": "Ce tipuri de hoteluri sunt disponibile în {country}?",
+      "typesOfHotelsAnswer": "Explorează o varietate de hoteluri în {country}, de la hoteluri de lux la opțiuni economice.",
+      "familyFriendlyHotelsQuestion": "Există hoteluri potrivite pentru familii în {country}?",
+      "familyFriendlyHotelsAnswer": "Da, există o mulțime de hoteluri potrivite pentru familii în {country}.",
+      "attractionsNearHotelsQuestion": "Ce atracții sunt lângă hotelurile din {country}?",
+      "attractionsNearHotelsAnswer": "Hotelurile din {country} sunt aproape de diverse atracții populare.",
+      "hotelsWithPoolsQuestion": "Există hoteluri cu piscină în {country}?",
+      "hotelsWithPoolsAnswer": "Da, multe hoteluri din {country} dispun de piscine și alte facilități.",
+      "bestRatedHotelsQuestion": "Care sunt cele mai bine cotate hoteluri din {country}?",
+      "bestRatedHotelsAnswer": "Iată câteva dintre cele mai bine cotate hoteluri din {country}:"
+    },
+    "landmark": {
+      "typesOfHotelsQuestion": "Ce tipuri de hoteluri sunt disponibile lângă {landmark}?",
+      "typesOfHotelsAnswer": "Lângă {landmark}, veți găsi o gamă largă de opțiuni de cazare, de la hoteluri boutique de lux la sejururi confortabile și accesibile. Indiferent dacă căutați o vizită rapidă sau o explorare mai lungă, există un hotel perfect pentru fiecare preferință.",
+      "familyFriendlyHotelsQuestion": "Există hoteluri potrivite pentru familii lângă {landmark}?",
+      "familyFriendlyHotelsAnswer": "Absolut! Multe hoteluri lângă {landmark} sunt bine echipate pentru familii, oferind facilități precum camere spațioase de familie, cluburi pentru copii și piscine. Ele oferă o bază confortabilă pentru a explora reperul și împrejurimile sale cu cei dragi.",
+      "attractionsNearHotelsQuestion": "Ce atracții sunt lângă hotelurile din apropierea {landmark}?",
+      "attractionsNearHotelsAnswer": "Hotelurile lângă {landmark} oferă o comoditate de neegalat pentru vizitarea reperului în sine. Pe lângă asta, sunt adesea situate strategic, aproape de alte atracții populare, muzee, locuri de luat masa și locuri de divertisment, făcând explorarea dumneavoastră fără efort.",
+      "hotelsWithPoolsQuestion": "Există hoteluri cu piscină lângă {landmark}?",
+      "hotelsWithPoolsAnswer": "Da, multe hoteluri situate lângă {landmark} dispun de piscine răcoritoare, perfecte pentru relaxare după o zi de vizitare a obiectivelor turistice. Unele chiar se laudă cu piscine pe acoperiș cu vederi uimitoare ale reperului sau ale orizontului orașului.",
+      "bestRatedHotelsQuestion": "Care sunt cele mai bine cotate hoteluri lângă {landmark}?",
+      "bestRatedHotelsAnswerDefault": "În prezent, nu avem date specifice privind cele mai bine cotate hoteluri chiar lângă {landmark}. Cu toate acestea, puteți naviga printr-o varietate de opțiuni foarte bine cotate în zona mai largă.",
+      "bestRatedHotelsAnswerWithData": "Pe baza recenziilor oaspeților, unele dintre cele mai bine cotate hoteluri lângă {landmark} includ:"
+    },
+    "state": {
+      "typesOfHotelsQuestion": "Ce tipuri de hoteluri sunt disponibile în {state}?",
+      "typesOfHotelsAnswer": "Explorează o varietate de hoteluri în {state}, de la hoteluri de lux la opțiuni economice.",
+      "familyFriendlyHotelsQuestion": "Există hoteluri potrivite pentru familii în {state}?",
+      "familyFriendlyHotelsAnswer": "Da, există o mulțime de hoteluri potrivite pentru familii în {state}.",
+      "attractionsNearHotelsQuestion": "Ce atracții sunt lângă hotelurile din {state}?",
+      "attractionsNearHotelsAnswer": "Hotelurile din {state} sunt aproape de diverse atracții populare.",
+      "hotelsWithPoolsQuestion": "Există hoteluri cu piscină în {state}?",
+      "hotelsWithPoolsAnswer": "Da, multe hoteluri din {state} dispun de piscine și alte facilități.",
+      "bestRatedHotelsQuestion": "Care sunt cele mai bine cotate hoteluri din {state}?",
+      "bestRatedHotelsAnswer": "Iată câteva dintre cele mai bine cotate hoteluri din {state}:"
+    }
+  }
+}

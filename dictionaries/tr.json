@@ -1,0 +1,507 @@
+{
+  "common": {
+    "loadingSearchResults": "Arama sonuçları yükleniyor...",
+    "loadingCityContent": "Şehir içeriği yükleniyor...",
+    "loadingHotel": "Otel detayları yükleniyor...",
+    "hotelNotFound": "Otel bulunamadı.",
+    "errorServer": "Bir sunucu hatası oluştu",
+    "preloaderTitle": "Hoteloza..",
+    "failedToLoadHotelList": "Otel listesi yüklenemedi. Lütfen tekrar deneyin.",
+    "cityIdRequired": "Şehir kimliği gerekli.",
+    "callToActionsDescription": "İyi fikirler uzun sürmez. Hoteloza seyahatinizi bugün ayırtın!",
+    "errorLoadingData": "Veriler yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+    "noHotelsFound": "Bu kategori için otel bulunamadı.",
+    "noRelatedCategoriesFound": "İlgili kategori bulunamadı.",
+    "noRelatedCountriesFound": "İlgili ülke bulunamadı.",
+    "noRelatedStatesFound": "İlgili il bulunamadı.",
+    "noRelatedCitiesFound": "İlgili şehir bulunamadı.",
+    "noRelatedHotelsFound": "İlgili otel bulunamadı.",
+    "unknownAddress": "Bilinmeyen Adres",
+    "unknownCity": "Bilinmeyen Şehir",
+    "unknownRegion": "Bilinmeyen Bölge",
+    "unknownCountry": "Bilinmeyen Ülke",
+    "unnamedHotel": "İsimsiz Otel",
+    "reserveNow": "Şimdi Ayırt",
+    "unknownCategory": "Bilinmeyen Kategori",
+    "unknownState": "Bilinmeyen İl",
+    "errorLandmarkNotFound": "Hata: URL'de önemli nokta bulunamadı. Yüklenemiyor.",
+    "properties": "tesisler",
+    "noDestinationsFound": "Bu bölge için mevcut destinasyon bulunamadı.",
+    "topRecommendedHotelsTitle": "{city} şehrindeki En Çok Önerilen {category}",
+    "findTopRatedStays": "Varış noktanızın yakınında benzer avantajlara sahip en beğenilen konaklamaları bulun",
+    "unknownLocation": "Bilinmeyen Konum",
+    "failedToLoadHotelData": "Otel verileri alınamadı",
+    "errorWithMessage": "Hata: {error}",
+    "night": "Gece"
+  },
+  "header": {
+    "luxuryBackgroundImageAlt": "Lüks arka plan resmi"
+  },
+  "search": {
+    "searchResultAccommodationIn": "{cityName} şehrindeki konaklama için arama sonucu",
+    "searchResultPropertiesIn": "Bulunan tesisler:",
+    "selectedCity": "Seçilen Şehir",
+    "unknownLocation": "Bilinmeyen Konum",
+    "searchParametersIncomplete": "Arama parametreleri eksik."
+  },
+  "categoryPage": {
+    "discoverLuxeStaysIn": "Lüks Konaklamaları Keşfedin",
+    "faqsAboutHotels": "{formattedCategory} Hakkında Sıkça Sorulan Sorular",
+    "categoryDefault": "Kategori",
+    "defaultItemListDescription": "Hoteloza'da {currentYear} yılı için en iyi {formattedCategory} listesi."
+  },
+  "countryPage": {
+    "discoverStaysIn": "{displayCountry} şehrindeki Konaklamaları Keşfedin",
+    "faqsAboutCountryHotels": "{displayCountry} Otelleri Hakkında Sıkça Sorulan Sorular",
+    "countryDefault": "Ülke",
+    "noHotelsFoundForCountry": "Bu ülke için otel bulunamadı."
+  },
+  "statePage": {
+    "discoverStaysInState": "{formattedState} şehrindeki Konaklamaları Keşfedin",
+    "faqsAboutStateHotels": "{displayState} Otelleri Hakkında Sıkça Sorulan Sorular",
+    "stateDefault": "İl",
+    "noHotelsFoundForState": "Bu il için otel bulunamadı."
+  },
+  "cityPage": {
+    "discoverStaysInCity": "{formattedCity} şehrindeki Konaklamaları Keşfedin",
+    "faqsAboutCityHotels": "{displayCity} Otelleri Hakkında Sıkça Sorulan Sorular",
+    "cityDefault": "Şehir",
+    "noHotelsFoundForCity": "Bu şehir için otel bulunamadı."
+  },
+  "hotelSinglePage": {
+    "aboutThisHotel": "Bu Otel Hakkında",
+    "facilitiesAndServices": "Tesisler ve Hizmetler",
+    "attractionsNearby": "Yakındaki Gezilecek Yerler",
+    "reviews": "Yorumlar",
+    "faq": "Sıkça Sorulan Sorular",
+    "locationMap": "Konum Haritası",
+    "frequentlyAskedQuestions": "Sıkça Sorulan Sorular",
+    "toggleFrequentlyAskedQuestions": "Sıkça Sorulan Soruları Aç/Kapat",
+    "toggleLocationMap": "Konum Haritasını Aç/Kapat",
+    "relatedHotels": "Benzer Popüler Tesisler",
+    "toggleFacilities": "Tesisleri Aç/Kapat",
+    "toggleLandmarks": "Yakındaki Önemli Yerleri Aç/Kapat",
+    "toggleRelatedHotels": "Benzer Popüler Tesisleri Aç/Kapat",
+    "defaultSchemaDescription": "Hoteloza'da {currentYear} yılı için {formattedCity} şehrindeki lüks otel {formattedHotel}’i ayırtın.",
+    "exceptionalReviewText": "Olağanüstü"
+  },
+  "bookNow": {
+    "reserveNowButton": "Şimdi Ayırt"
+  },
+  "facilities": {
+    "bathroom": "Banyo",
+    "towels": "Havlu",
+    "bathOrShower": "Küvet veya Duş",
+    "privateBathroom": "Özel Banyo",
+    "toilet": "Tuvalet",
+    "freeToiletries": "Ücretsiz banyo malzemeleri",
+    "hairdryer": "Saç kurutma makinesi",
+    "bath": "Küvet",
+    "bedroom": "Yatak Odası",
+    "linen": "Nevresim",
+    "wardrobeOrCloset": "Gardırop veya Dolap",
+    "receptionServices": "Resepsiyon Hizmetleri",
+    "invoiceProvided": "Fatura Sağlandı",
+    "privateCheckInCheckOut": "Özel giriş/çıkış",
+    "luggageStorage": "Bagaj Depolama",
+    "twentyFourHourFrontDesk": "24 saat açık resepsiyon",
+    "mediaTechnology": "Medya & Teknoloji",
+    "flatScreenTV": "Düz ekran TV",
+    "satelliteChannels": "Uydu Kanalları",
+    "radio": "Radyo",
+    "telephone": "Telefon",
+    "tv": "TV",
+    "foodDrink": "Yiyecek & İçecek",
+    "kidMeals": "Çocuk Yemekleri",
+    "specialDietMenusOnRequest": "Özel diyet menüleri (talep üzerine)",
+    "breakfastInTheRoom": "Oda Kahvaltısı",
+    "cleaningServices": "Temizlik Hizmetleri",
+    "dailyHousekeeping": "Günlük Temizlik",
+    "dryCleaning": "Kuru Temizleme",
+    "laundry": "Çamaşırhane",
+    "safetySecurity": "Güvenlik & Emniyet",
+    "fireExtinguishers": "Yangın söndürücüler",
+    "cctvInCommonAreas": "Ortak Alanlarda CCTV",
+    "smokeAlarms": "Duman alarmları",
+    "twentyFourHourSecurity": "24 saat güvenlik"
+  },
+  "landmarkList": {
+    "noNearbyPlacesFound": "{radius} km içinde yakın yer bulunamadı.",
+    "nearbyEssentialAndTouristSpots": "🗺️ Yakındaki Önemli ve Turistik Noktalar"
+  },
+  "mapComponent": {
+    "mapTitle": "🗺️ Harita {title}"
+  },
+  "relatedCategories": {
+    "countriesIn": "🏨 {formattedCategory} İçindeki Ülkeler"
+  },
+  "relatedCities": {
+    "noRelatedCitiesFound": "İlgili şehir bulunamadı",
+    "bestRelatedCitiesIn": "🏨 {formattedState} İçindeki En İyi İlgili Şehirler"
+  },
+  "relatedCountries": {
+    "noRelatedStatesFound": "İlgili il bulunamadı",
+    "statesIn": "🏨 {formattedCountry} İçindeki İller"
+  },
+  "relatedStates": {
+    "noRelatedCitiesFound": "İlgili şehir bulunamadı",
+    "citiesIn": "🏨 {formattedState} İçindeki Şehirler"
+  },
+  "city": {
+    "city": "Şehir",
+    "faq": "Sıkça Sorulan Sorular"
+  },
+  "mainFilterSearchBox": {
+    "destinationPlaceholder": "Hedefiniz neresi?",
+    "checkInPlaceholder": "Giriş Tarihi",
+    "checkOutPlaceholder": "Çıkış Tarihi",
+    "adultsLabel": "Yetişkinler",
+    "childrenLabel": "Çocuklar",
+    "roomsLabel": "Oda",
+    "searchButton": "Ara"
+  },
+  "footer": {
+    "popularStays": "Popüler Konaklamalar",
+    "hotel": "Otel",
+    "villa": "Villa",
+    "resort": "Tatil Köyü",
+    "apartment": "Apartman",
+    "guestHouse": "Misafir Evi",
+    "uniqueStays": "Benzersiz Konaklamalar",
+    "capsuleHotel": "Kapsül Otel",
+    "yurt": "Yurt",
+    "treehouse": "Ağaç Ev",
+    "tent": "Çadır",
+    "domeHouse": "Kubbe Ev",
+    "traditionalStays": "Geleneksel Konaklamalar",
+    "ryokan": "Ryokan",
+    "machiya": "Machiya",
+    "countryHouse": "Kır Evi",
+    "haveli": "Haveli",
+    "riad": "Riad",
+    "heritageHotel": "Miras Otel",
+    "adventureStays": "Macera Konaklamaları",
+    "farmStay": "Çiftlik Evi",
+    "cabin": "Kulübe",
+    "chalet": "Dağ Evi",
+    "boat": "Tekne",
+    "houseboat": "Tekne Ev",
+    "hotelozaFooterText": "Hoteloza, kolay ve sorunsuz otel rezervasyonları için lider bir platformdur. Rahat otellerden lüks tatil köylerine kadar çok çeşitli konaklama seçenekleri sunarak mükemmel konaklamayı aramanızı kolaylaştırıyoruz. Rezervasyon kolaylığının, özel fırsatların ve seyahat ihtiyaçlarınıza göre kişiselleştirilmiş hizmetlerin tadını çıkarın. Hoteloza ile rezervasyon yapın ve unutulmaz yolculukları gerçeğe dönüştürün.",
+    "hotelozaAllRightsReserved": "© {year} Hoteloza. Tüm hakları saklıdır."
+  },
+  "metadata": {
+    "homePageTitle": "Hoteloza - Hayalinizdeki Oteli Bulun",
+    "homePageDescription": "Bir sonraki seyahatiniz için en iyi otelleri ve konaklama yerlerini bulun. Şimdi Hoteloza ile rezervasyon yapın!",
+    "searchResultPageTitle": "{cityName} Otelleri - Hoteloza Arama Sonuçları",
+    "searchResultPageDescription": "{cityName} otellerini arayın ve rezervasyon yapın. En iyi konaklamanız için fiyatları ve tesisleri karşılaştırın.",
+    "cityPageTitle": "{cityName} Otelleri - Hoteloza ile {cityName} Keşfedin",
+    "cityPageDescription": "{cityName} şehrindeki en iyi otelleri keşfedin ve Hoteloza ile unutulmaz seyahatiniz için en iyi fırsatları bulun.",
+    "categoryNotFoundTitle": "Kategori Bulunamadı | Hoteloza",
+    "categoryNotFoundDescription": "Aradığınız kategori Hoteloza'da bulunamadı.",
+    "categoryPageTitleTemplate": "En İyi {formattedCategory} İndirimleri {currentYear} - Hoteloza'da Büyük Tasarruf Edin!",
+    "categoryPageDescriptionTemplate": "Hoteloza ile {currentYear} yılındaki en iyi {formattedCategory} kategorisini keşfedin. Özel indirimlerin, harika fiyatların ve birinci sınıf olanakların tadını çıkarın. Unutulmaz bir konaklama için şimdi rezervasyon yapın!",
+    "categoryOgTitleTemplate": "En İyi {formattedCategory} Fırsatları {currentYear} | Hoteloza",
+    "categoryOgDescriptionTemplate": "Hoteloza'da {currentYear} yılı için en iyi {formattedCategory} kategorisini keşfedin. Özel fırsatlar ve premium olanaklar için şimdi rezervasyon yapın!",
+    "categoryWebPageNameTemplate": "En İyi {formattedCategory} Fırsatları {currentYear}",
+    "categoryWebPageDescriptionTemplate": "Hoteloza'da {currentYear} yılı için en iyi {formattedCategory} kategorisini özel fırsatlar ve premium olanaklarla keşfedin.",
+    "countryNotFoundTitle": "Sayfa Bulunamadı | Hoteloza",
+    "countryNotFoundDescription": "Aradığınız kategori, ülke veya il Hoteloza'da bulunamadı.",
+    "countryPageTitleTemplate": "{formattedCountry} {currentYear} Yılında Ucuz {formattedCategory} - Kaçırmayın! | Hoteloza",
+    "countryPageDescriptionTemplate": "Hoteloza'da {currentYear} yılı için {formattedCountry} ülkesindeki en iyi {formattedCategory} kategorisini alın. Özel fırsatların, uygun fiyatların ve birinci sınıf olanakların tadını çıkarın. Sınırlı teklifler – konaklamanızı bugün ayırtın!",
+    "countryOgTitleTemplate": "{formattedCountry} {currentYear} Yılında En İyi {formattedCategory} | Hoteloza",
+    "countryOgDescriptionTemplate": "Hoteloza'da {currentYear} yılı için {formattedCountry} ülkesindeki en iyi {formattedCategory} kategorisini bulun. En iyi oteller ve özel fırsatlar için şimdi rezervasyon yapın!",
+    "stateNotFoundTitle": "Sayfa Bulunamadı | Hoteloza",
+    "stateNotFoundDescription": "Aradığınız kategori, ülke veya il Hoteloza'da bulunamadı.",
+    "statePageTitleTemplate": "{formattedState}, {formattedCountry} {currentYear} Yılında Ucuz {formattedCategory} - Şimdi Ayırt! | Hoteloza",
+    "statePageDescriptionTemplate": "Hoteloza'da {currentYear} yılı için {formattedState}, {formattedCountry} bölgesindeki en iyi {formattedCategory} kategorisini bulun. Özel fırsatlar, harika fiyatlar ve birinci sınıf olanaklar. Unutulmaz konaklamanızı ayırtın!",
+    "stateOgTitleTemplate": "{formattedState}, {formattedCountry} {currentYear} Yılında En İyi {formattedCategory} | Hoteloza",
+    "stateOgDescriptionTemplate": "Hoteloza'da {currentYear} yılı için {formattedState}, {formattedCountry} bölgesindeki en iyi {formattedCategory} kategorisini keşfedin. Özel fırsatlar ve premium olanaklar için şimdi rezervasyon yapın!",
+    "cityNotFoundTitle": "Sayfa Bulunamadı | Hoteloza",
+    "cityNotFoundDescription": "Aradığınız kategori, ülke, il veya şehir Hoteloza'da bulunamadı.",
+    "cityPageTitleTemplate": "{formattedCity}, {formattedState}, {formattedCountry} {currentYear} Yılında Ucuz {formattedCategory} - Büyük İndirimler! | Hoteloza",
+    "cityPageDescriptionTemplate": "Hoteloza'da {currentYear} yılı için {formattedCity}, {formattedState}, {formattedCountry} bölgesindeki en iyi {formattedCategory} kategorisini bulun. Özel indirimler, birinci sınıf olanaklar ve rakipsiz fiyatlar. Hayalinizdeki konaklamayı şimdi ayırtın!",
+    "cityOgTitleTemplate": "{formattedCity}, {formattedState}, {formattedCountry} {currentYear} Yılında En İyi {formattedCategory} | Hoteloza",
+    "cityOgDescriptionTemplate": "Hoteloza'da {currentYear} yılı için {formattedCity}, {formattedState}, {formattedCountry} bölgesindeki en iyi {formattedCategory} kategorisini keşfedin. Özel fırsatlar ve premium olanaklar için şimdi rezervasyon yapın!",
+    "hotelNotFoundTitle": "Otel Bulunamadı | Hoteloza",
+    "hotelNotFoundDescription": "Aradığınız otel bulunamadı.",
+    "hotelPageTitleTemplate": "{hotelTitle} - Şimdi Hoteloza'da Ayırtın!",
+    "hotelPageDescriptionTemplate": "{city}, {state}, {country} adresindeki {hotelTitle} otelinde konaklamanızı ayırtın. Hoteloza ile unutulmaz bir deneyim için en iyi fırsatları, olanakları ve yorumları bulun.",
+    "hotelOgTitleTemplate": "{hotelTitle} | Hoteloza",
+    "hotelOgDescriptionTemplate": "Hoteloza ile {hotelTitle} otelinde en iyi fırsatları bulun."
+  },
+  "landmarkPage": {
+    "topHotelsNear": "{landmarkName} Yakınında Ucuz {category}",
+    "landmarkPageTitleTemplate": "{landmarkName} Yakınında Ucuz {category}",
+    "description": "{category} {landmarkName}, {cityName} şehrinde ücretsiz WiFi gibi harika fırsatlar ve olanaklar sunan en iyi konaklamayı sunar.",
+    "loadingHotel": "Otel yükleniyor...",
+    "errorLoadingHotel": "Hata: {error}",
+    "hotelNotFound": "Otel bulunamadı.",
+    "serverErrorFetchingData": "Otel verileri getirilirken sunucu hatası."
+  },
+  "navigation": {
+    "home": "Ana Sayfa",
+    "about": "Hakkımızda",
+    "contact": "İletişim"
+  },
+  "homepage": {
+    "dreamDestinations": "Hayal Destinasyonları",
+    "unforgettableSpots": "Tekrar tekrar keşfetmek isteyeceğiniz unutulmaz noktalar",
+    "whatOurGuestsTrulyLoveAboutUs": "Misafirlerimizin Bizi Gerçekten Sevdiği Şeyler",
+    "experienceTheMagic": "Milyonları geri getiren büyüyü yaşayın. Hoteloza'da her konaklamayı kolaylıkla, özenle ve olağanüstü hizmetle unutulmaz kılmaya adadık.",
+    "hotelozaHeroTitle": "Hoteloza ile Bul, Ayırt ve Rahatla",
+    "hotelozaHeroSubtitle": "Hoteloza ile dünya genelindeki binlerce oteli keşfedin",
+    "delightedGuests": "Memnun Misafirler",
+    "guestSatisfactionScore": "Misafir Memnuniyet Puanı",
+    "happyPeople": "Mutlu İnsanlar",
+    "overallRating": "Genel puan"
+  },
+  "about": {
+    "lookingForJoy": "Neşe mi arıyorsunuz?",
+    "trustedTripCompanion": "Güvenilir Seyahat Arkadaşınız",
+    "whyChooseUs": "Neden Bizi Seçmelisiniz",
+    "popularDestinationsOffer": "Bu popüler destinasyonlar çok şey sunuyor",
+    "overheardFromTravelers": "Gezginlerden Duyulanlar",
+    "aboutHotelozaTitle": "Hoteloza Hakkında",
+    "aboutHotelozaSubtitle": "Konfor ve zarafet dünyasını keşfedin",
+    "aboutHotelozaParagraph1": "Hoteloza, hareketli destinasyonların kalbinde eşsiz bir konukseverlik sunan lüks sığınağınızdır. Otellerimiz, modern zarafeti zamansız konforla harmanlayarak her konaklamanın unutulmaz bir deneyim olmasını sağlar.",
+    "aboutHotelozaParagraph2": "Sakin spalarından enfes yemeklerine kadar dünya standartlarındaki olanaklarımızla kendinizi şımartın ve her ziyareti unutulmaz kılan yakındaki turistik yerleri keşfedin. İster iş ister tatil amaçlı olsun, Hoteloza evden uzaktaki evinizdir."
+  },
+  "blockGuide": {
+    "bestPriceGuarantee": "En İyi Fiyat Garantisi",
+    "bestPriceGuaranteeText": "Mükemmel konaklamanızı mümkün olan en iyi fiyata bulun – garantili. Gizli ücret yok, sadece her rezervasyonda gerçek tasarruflar.",
+    "easyQuickBooking": "Kolay & Hızlı Rezervasyon",
+    "easyQuickBookingText": "Hayalinizdeki oteli sadece birkaç tıklamayla ayırtın. Hızlı, basit ve sorunsuz – bir sonraki kaçamağınız buradan başlıyor.",
+    "customerSupport": "7/24 Müşteri Desteği",
+    "customerSupportText": "Yardıma mı ihtiyacınız var? Destek ekibimiz size yardımcı olmak için günün her saati hazırdır – nerede ve ne zaman ihtiyacınız olursa olsun."
+  },
+  "contactPage": {
+    "heroTitle": "Bize Ulaşın",
+    "heroSubtitle": "Size yardımcı olmak ve tüm sorularınızı yanıtlamak için buradayız.",
+    "getInTouchTitle": "İletişime Geçin",
+    "getInTouchDescription": "Her türlü soru veya endişeniz için bizimle iletişime geçmekten çekinmeyin. Ekibimiz her zaman size yardımcı olmaya hazırdır.",
+    "addressLabel": "Adres",
+    "addressValue": "123 Hoteloza Caddesi, Süit 456, Şehir, Ülke",
+    "emailLabel": "E-posta",
+    "emailValue": "info@hoteloza.com",
+    "workingHoursLabel": "Çalışma Saatleri",
+    "workingHoursValue": "Pazartesi - Cuma: 09:00 - 17:00 (Yerel Saat)"
+  },
+  "callToActions": {
+    "subscribeHere": "Buradan Abone Olun",
+    "yourEmail": "E-postanız",
+    "subscribeButton": "Abone Ol"
+  },
+  "testimonials": {
+    "sarahMQuote": "Hoteloza oyunun kurallarını değiştirdi! Burada sürekli en iyi otel fırsatlarını buldum. Gerçekten de dünya genelindeki en iyi otel iş ortağı web sitesi.",
+    "sarahMName": "Sarah M.",
+    "sarahMDesignation": "Seyahat Meraklısı",
+    "data": [
+      {
+        "id": 1,
+        "avatar": "/img/avatars/testimonials/1.jpg",
+        "name": "Sarah Miller",
+        "designation": "Seyahat Blogcusu",
+        "text": "Buradaki konaklamamız kesinlikle inanılmazdı! Konumu stratejik, oda temiz ve konforluydu ve personelin hizmeti olağanüstü derecede arkadaş canlısıydı. Bir aile tatili için şiddetle tavsiye edilir.",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "John Davis",
+        "designation": "Girişimci",
+        "text": "Bu otel iş seyahatim için mükemmel bir seçimdi. Eksiksiz olanaklar, hızlı Wi-Fi ve şehir merkezine yakınlığı sayesinde çok verimli ve konforluydu.",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "Emily White",
+        "designation": "Öğrenci",
+        "text": "Modern ve Instagram'lık iç mimari tasarımını çok seviyorum! Arkadaşlarla evde kalmak için mükemmel. Fiyatı da bu kadar harika bir kalite için uygun.",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "David Lee",
+        "designation": "Fotoğrafçı",
+        "text": "Oda manzarası büyüleyiciydi! Birçok harika fotoğraf çekmeyi başardım. Personel de turistik yerler önerme konusunda çok yardımcı oldu.",
+        "dealyAnimation": "400"
+      }
+    ],
+    "data2": [
+      {
+        "id": 1,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "Olivia Grace",
+        "designation": "Yazar",
+        "text": "\"Bu otel, huzur ve sessizlik bulmak için mükemmel. Sakin atmosfer, sessiz odalar ve duyarlı personel, kesintisiz yazmaya odaklanmamı sağladı. Kesinlikle tavsiye ederim.\"",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "Daniel Kim",
+        "designation": "Dijital Göçebe",
+        "text": "\"Stabil internet bağlantısı ve konforlu bir çalışma alanı burada büyük bir artı. Aynı anda hem çalışıp hem de tatil yapabildim. Konumu da birçok kafeye yakın.\"",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "Emily White",
+        "designation": "Öğrenci",
+        "text": "\"Dostane hizmet ve yaşlı dostu olanaklar sayesinde kendimizi çok rahat hissettik. Kahvaltı da lezzetli ve çeşitliydi. Kesinlikle geri geleceğiz.\"",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/4.png",
+        "name": "Michael Chen",
+        "designation": "Şef",
+        "text": "\"Bir şef olarak, bu otelin restoranındaki yemeklerin kalitesini gerçekten takdir ediyorum. Yemekler lezzetli ve menü seçenekleri çeşitlidir. Gerçekten harika bir mutfak deneyimi!\"",
+        "dealyAnimation": "400"
+      },
+      {
+        "id": 5,
+        "meta": "Grand Imperial Hotel",
+        "avatar": "/img/avatars/testimonials/5.png",
+        "name": "Chloe Wilson",
+        "designation": "Grafik Tasarımcı",
+        "text": "\"Otelin estetik iç mimari tasarımı ve iyi aydınlatması yaratıcılığımı gerçekten destekledi. Birçok ilginç fotoğraf çekme noktası var! Oda da çok temizdi.\"",
+        "dealyAnimation": "500"
+      }
+    ],
+    "data3": [
+      {
+        "id": 1,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/1.png",
+        "name": "James Taylor",
+        "designation": "İş İnsanı",
+        "text": "\"Bu tesisin muhteşem okyanus manzarası var. Rutinden uzaklaşmak için mükemmel. Sonsuzluk havuzu olanakları da nefes kesici.\""
+      },
+      {
+        "id": 2,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/2.png",
+        "name": "Isabella Rodriguez",
+        "designation": "Öğretmen",
+        "text": "\"Aile tatilimiz burada çok unutulmazdı. Birçok çocuk aktivitesi vardı ve personel çok arkadaş canlısı ve yardımseverdi. Çocuklar özel plajda oynamayı çok sevdi.\""
+      },
+      {
+        "id": 3,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/3.png",
+        "name": "Liam Garcia",
+        "designation": "Doktor",
+        "text": "\"Burası rahatlamak için mükemmel bir kaçış noktası. Sakinleştirici spa hizmetleri ve huzurlu atmosfer, kendimi tamamen yenilenmiş hissetmemi sağladı.\""
+      },
+      {
+        "id": 4,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/4.png",
+        "name": "Mia Martinez",
+        "designation": "Danışman",
+        "text": "\"İş için sık sık seyahat ediyorum ve bu tesis evimde olma konforunu sağlıyor. Oda servisi hızlı ve profesyonel. Kesinlikle düzenli tercihim olacak.\""
+      },
+      {
+        "id": 5,
+        "meta": "Ocean View Resort",
+        "avatar": "/img/testimonials/2/5.png",
+        "name": "Noah Thompson",
+        "designation": "Sanatçı",
+        "text": "\"İlham her yerden gelir ve bu tesis muhteşem doğal güzelliklerle dolu. Burada çok resim yaptım. Sanatçılar veya ilham arayan herkes için şiddetle tavsiye edilir.\""
+      }
+    ]
+  },
+  "faqContent": {
+    "hotel": {
+      "facilitiesQuestion": "{title} otelinde hangi olanaklar bulunmaktadır?",
+      "facilitiesAnswer": "{title} otelindeki olanaklar arasında ücretsiz Wi-Fi, yüzme havuzu, otopark ve daha fazlası bulunmaktadır. Tesisle iletişime geçerek tüm olanakların tam listesini alabilirsiniz.",
+      "breakfastQuestion": "{title} otelinde kahvaltı dahil mi?",
+      "breakfastAnswer": "Evet, {title} otelinde kahvaltı konaklamanıza dahildir.",
+      "checkInCheckOutQuestion": "{title} otelinde giriş ve çıkış saatleri nedir?",
+      "checkInCheckOutAnswer": "{title} otelinde giriş saati 14:00'ten itibaren, çıkış saati ise 12:00'ye kadardır.",
+      "petsAllowedQuestion": "{title} otelinde evcil hayvanlara izin veriliyor mu?",
+      "petsAllowedAnswer": "{title} otelinde evcil hayvanlara izin verilmemektedir.",
+      "parkingFacilityQuestion": "{title} otelinde otopark imkanı var mı?",
+      "parkingFacilityAnswer": "Evet, {title} otelinde konuklar için otopark mevcuttur.",
+      "smokingAllowedQuestion": "{title} otelinde sigara içmeye izin veriliyor mu?",
+      "smokingAllowedAnswer": "Hayır, {title} otelinin tüm alanlarında sigara içmek yasaktır.",
+      "airportTransportationQuestion": "{title} oteli havaalanı ulaşımı sağlıyor mu?",
+      "airportTransportationAnswer": "Evet, {title} otelinde ek ücret karşılığında havaalanı ulaşımı ayarlanabilir.",
+      "cancellationPolicyQuestion": "{title} otelinde iptal politikası nedir?",
+      "cancellationPolicyAnswer": "İptaller, girişten 24 saat öncesine kadar ücretsiz olarak yapılabilir.",
+      "meetingFacilitiesQuestion": "{title} otelinde toplantı olanakları var mı?",
+      "meetingFacilitiesAnswer": "Evet, {title} otelinde rezervasyon için tam donanımlı toplantı odaları bulunmaktadır.",
+      "attractionsNearQuestion": "{title} oteline yakın hangi turistik yerler var?",
+      "attractionsNearAnswer": "{title} oteline yakın popüler turistik yerler [turistik yerlerin listesi] içerir."
+    },
+    "category": {
+      "offeringsQuestion": "{category} kategorisinde hangi tür teklifler mevcuttur?",
+      "offeringsAnswer": "Geniş bir seçenek yelpazesini keşfetmeye hazır mısınız? {category} kategorimiz, özel premium deneyimlerden akıllı, bütçe dostu çözümlere kadar her şeyi sunar. Seyahat hayallerinizi veya özel ihtiyaçlarınızı karşılamak için mükemmel uyumu bulun!",
+      "familyFriendlyQuestion": "{category} seçimimizde aile dostu seçenekler mevcut mu?",
+      "familyFriendlyAnswer": "Kesinlikle! İhtiyaçlarınızı anlıyoruz. Aileler için şiddetle tavsiye edilen, sevdiklerinizle geçirdiğiniz anları daha da unutulmaz ve konforlu hale getirmek için tasarlanmış tesisler ve aktivitelerle dolu çok sayıda {category} seçeneğini keşfedin.",
+      "mainAttractionsQuestion": "Bu {category} tekliflerinin yakınındaki başlıca turistik yerler veya en popüler destinasyonlar nelerdir?",
+      "mainAttractionsAnswer": "Hoteloza'nın {category} seçimleri sadece ürün/hizmetle ilgili değil; konumla da ilgilidir! İkonik turistik noktalara, heyecan verici eğlence merkezlerine ve mutlaka denenmesi gereken mutfak lezzetlerine kolayca erişimin keyfini çıkarın. Bandung, Batı Cava veya seçtiğiniz {category} sizi nereye götürürse götürsün deneyiminizi en üst düzeye çıkarın!",
+      "luxuryAmenitiesQuestion": "Bazı {category} seçenekleri lüks olanaklar veya özel özellikler sunuyor mu?",
+      "luxuryAmenitiesAnswer": "Gerçekten de! Konfor ve lüksle dolu bir dünyaya dalın. {category} tekliflerimizin çoğu, özel sonsuzluk havuzları, bütünsel spa hizmetleri, son teknoloji fitness merkezleri ve daha fazlası gibi beş yıldızlı olanaklarla donatılmıştır. Unutulmaz bir deneyimin tadını çıkarın!",
+      "topRatedQuestion": "En iyi müşteri yorumlarına sahip en beğenilen {category} seçenekleri hangileridir?",
+      "topRatedAnswer": "En iyisini mi arıyorsunuz? İşte topluluğumuz tarafından sevilen, özenle seçilmiş {category} seçeneklerimizin bir listesi. Otantik kullanıcı referanslarıyla desteklenen kalite ve memnuniyeti garantileyin!"
+    },
+    "city": {
+      "typesOfHotelsQuestion": "{city} şehrinde hangi tür oteller bulunmaktadır?",
+      "typesOfHotelsAnswer": "{city} şehrinde lüks otellerden bütçe dostu seçeneklere kadar çeşitli otelleri keşfedin.",
+      "familyFriendlyHotelsQuestion": "{city} şehrinde aileler için uygun oteller var mı?",
+      "familyFriendlyHotelsAnswer": "Evet, {city} şehrinde aileler için çok sayıda uygun otel bulunmaktadır.",
+      "attractionsNearHotelsQuestion": "{city} şehrindeki otellerin yakınında hangi turistik yerler bulunmaktadır?",
+      "attractionsNearHotelsAnswer": "{city} şehrindeki oteller çeşitli popüler turistik yerlere yakındır.",
+      "hotelsWithPoolsQuestion": "{city} şehrinde havuzlu oteller var mı?",
+      "hotelsWithPoolsAnswer": "Evet, {city} şehrindeki birçok otelde havuz ve diğer olanaklar bulunmaktadır.",
+      "bestRatedHotelsQuestion": "{city} şehrinde en beğenilen oteller hangileridir?",
+      "bestRatedHotelsAnswer": "İşte {city} şehrindeki en beğenilen otellerden bazıları:"
+    },
+    "country": {
+      "typesOfHotelsQuestion": "{country} ülkesinde hangi tür oteller bulunmaktadır?",
+      "typesOfHotelsAnswer": "{country} ülkesinde lüks otellerden bütçe dostu seçeneklere kadar çeşitli otelleri keşfedin.",
+      "familyFriendlyHotelsQuestion": "{country} ülkesinde aileler için uygun oteller var mı?",
+      "familyFriendlyHotelsAnswer": "Evet, {country} ülkesinde aileler için çok sayıda uygun otel bulunmaktadır.",
+      "attractionsNearHotelsQuestion": "Hotellerin yakınında {country} ülkesinde hangi turistik yerler bulunmaktadır?",
+      "attractionsNearHotelsAnswer": "{country} ülkesindeki oteller çeşitli popüler turistik yerlere yakındır.",
+      "hotelsWithPoolsQuestion": "{country} ülkesinde havuzlu oteller var mı?",
+      "hotelsWithPoolsAnswer": "Evet, {country} ülkesindeki birçok otelde havuz ve diğer olanaklar bulunmaktadır.",
+      "bestRatedHotelsQuestion": "{country} ülkesinde en beğenilen oteller hangileridir?",
+      "bestRatedHotelsAnswer": "İşte {country} ülkesindeki en beğenilen otellerden bazıları:"
+    },
+    "landmark": {
+      "typesOfHotelsQuestion": "{landmark} yakınında hangi tür oteller bulunmaktadır?",
+      "typesOfHotelsAnswer": "{landmark} yakınında, lüks butik otellerden konforlu ve uygun fiyatlı konaklamalara kadar geniş bir konaklama seçeneği bulacaksınız. İster kısa bir ziyaret ister daha uzun bir keşif arıyor olun, her tercih için mükemmel bir otel vardır.",
+      "familyFriendlyHotelsQuestion": "{landmark} yakınında aileler için uygun oteller var mı?",
+      "familyFriendlyHotelsAnswer": "Kesinlikle! {landmark} yakınındaki birçok otel, geniş aile odaları, çocuk kulüpleri ve yüzme havuzları gibi olanaklarla aileler için iyi donatılmıştır. Sevdiklerinizle birlikte önemli noktayı ve çevresini keşfetmek için rahat bir üs sağlarlar.",
+      "attractionsNearHotelsQuestion": "{landmark} yakınındaki otellerin yakınında hangi turistik yerler bulunmaktadır?",
+      "attractionsNearHotelsAnswer": "{landmark} yakınındaki oteller, önemli noktayı ziyaret etmek için eşsiz bir kolaylık sunar. Bunun ötesinde, genellikle diğer popüler turistik yerlere, müzelere, yemek mekanlarına ve eğlence mekanlarına stratejik olarak yakın konumlanmıştır, bu da keşfinizi zahmetsiz hale getirir.",
+      "hotelsWithPoolsQuestion": "{landmark} yakınında havuzlu oteller var mı?",
+      "hotelsWithPoolsAnswer": "Evet, {landmark} yakınında bulunan birçok otelde serinletici yüzme havuzları vardır, bunlar gezip dolaştıktan sonra dinlenmek için mükemmeldir. Bazıları, önemli noktaya veya şehir silüetine muhteşem manzaralar sunan çatı katı havuzlarına bile sahiptir.",
+      "bestRatedHotelsQuestion": "{landmark} yakınında en beğenilen oteller hangileridir?",
+      "bestRatedHotelsAnswerDefault": "Şu anda, {landmark} yakınındaki oteller için belirli en beğenilen verilerimiz mevcut değil. Ancak, daha geniş alandaki çeşitli yüksek puanlı seçenekleri inceleyebilirsiniz.",
+      "bestRatedHotelsAnswerWithData": "Misafir yorumlarına göre, {landmark} yakınındaki en beğenilen otellerden bazıları şunlardır:"
+    },
+    "state": {
+      "typesOfHotelsQuestion": "{state} ilinde hangi tür oteller bulunmaktadır?",
+      "typesOfHotelsAnswer": "{state} ilinde lüks otellerden bütçe dostu seçeneklere kadar çeşitli otelleri keşfedin.",
+      "familyFriendlyHotelsQuestion": "{state} ilinde aileler için uygun oteller var mı?",
+      "familyFriendlyHotelsAnswer": "Evet, {state} ilinde aileler için çok sayıda uygun otel bulunmaktadır.",
+      "attractionsNearHotelsQuestion": "{state} ilindeki otellerin yakınında hangi turistik yerler bulunmaktadır?",
+      "attractionsNearHotelsAnswer": "{state} ilindeki oteller çeşitli popüler turistik yerlere yakındır.",
+      "hotelsWithPoolsQuestion": "{state} ilinde havuzlu oteller var mı?",
+      "hotelsWithPoolsAnswer": "Evet, {state} ilindeki birçok otelde havuz ve diğer olanaklar bulunmaktadır.",
+      "bestRatedHotelsQuestion": "{state} ilinde en beğenilen oteller hangileridir?",
+      "bestRatedHotelsAnswer": "İşte {state} ilindeki en beğenilen otellerden bazıları:"
+    }
+  }
+}

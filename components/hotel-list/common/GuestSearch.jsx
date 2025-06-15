@@ -8,8 +8,10 @@ const counters = [
   { name: 'Rooms', defaultValue: 1 },
 ];
 
-const Counter = ({ name, defaultValue, onCounterChange }) => {
+const Counter = ({ name, defaultValue, onCounterChange, dictionary }) => { // Menerima dictionary
   const [count, setCount] = useState(defaultValue);
+
+  const guestLabels = dictionary?.mainFilterSearchBox?.guestLabels || {};
 
   const incrementCount = () => {
     setCount((prev) => prev + 1);
@@ -23,24 +25,26 @@ const Counter = ({ name, defaultValue, onCounterChange }) => {
     }
   };
 
+  const translatedName = guestLabels[name.toLowerCase()] || name;
+
   return (
     <div className="counter-row">
       <div className="counter-label">
-        {name}
+        {translatedName}
         {name === 'Children' && (
-          <span className="text-10 text-light-1 ml-2"> (0-17)</span>
+          <span className="text-10 text-light-1 ml-2"> ({guestLabels.childrenAgeRange || '0-17'})</span>
         )}
       </div>
       <div className="counter-controls">
-        <button onClick={decrementCount} disabled={count === 0} aria-label={`Decrease ${name} count`}>-</button>
+        <button onClick={decrementCount} disabled={count === 0} aria-label={`Decrease ${translatedName} count`}>-</button>
         <span className="counter-value">{count}</span>
-        <button onClick={incrementCount} aria-label={`Increase ${name} count`}>+</button>
+        <button onClick={incrementCount} aria-label={`Increase ${translatedName} count`}>+</button>
       </div>
     </div>
   );
 };
 
-const GuestSearch = ({ onGuestChange }) => {
+const GuestSearch = ({ onGuestChange, dictionary }) => { // Menerima dictionary
   const [guestCounts, setGuestCounts] = useState({
     Adults: 2,
     Children: 0,
@@ -48,14 +52,15 @@ const GuestSearch = ({ onGuestChange }) => {
   });
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
-  // Tambahkan ref untuk tombol pemicu
-  const triggerRef = useRef(null); 
+
+  const mainFilterSearchBoxDict = dictionary?.mainFilterSearchBox || {};
+  const guestLabels = mainFilterSearchBoxDict.guestLabels || {};
 
   useEffect(() => {
     if (onGuestChange) {
       onGuestChange(guestCounts);
     }
-  }, [guestCounts]);
+  }, [guestCounts, onGuestChange]);
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
@@ -66,46 +71,33 @@ const GuestSearch = ({ onGuestChange }) => {
       ...prev,
       [name]: value,
     }));
-    // Pastikan onGuestChange selalu dipanggil dengan state terbaru
-    if (onGuestChange) {
-      onGuestChange({ ...guestCounts, [name]: value });
-    }
   };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Jika klik terjadi di dalam dropdown itu sendiri, biarkan terbuka
-      // Jika klik terjadi di elemen pemicu, biarkan `toggleDropdown` yang mengelolanya
-      if (
-        dropdownRef.current && dropdownRef.current.contains(event.target) ||
-        triggerRef.current && triggerRef.current.contains(event.target)
-      ) {
-        return; // Jangan lakukan apa-apa
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
       }
-      
-      // Jika tidak di dalam dropdown dan tidak di pemicu, tutup dropdown
-      setIsOpen(false);
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []); // Dependensi kosong karena kita tidak perlu me-re-run ini jika refs berubah
+  }, []);
+
+  const adultText = `${guestCounts.Adults} ${guestCounts.Adults !== 1 ? (guestLabels.adultsPlural || 'Adults') : (guestLabels.adultsSingular || 'Adult')}`;
+  const childrenText = `${guestCounts.Children} ${guestCounts.Children !== 1 ? (guestLabels.childrenPlural || 'Children') : (guestLabels.childrenSingular || 'Child')}`;
+  const roomText = `${guestCounts.Rooms} ${guestCounts.Rooms !== 1 ? (guestLabels.roomsPlural || 'Rooms') : (guestLabels.roomsSingular || 'Room')}`;
+
 
   return (
     <div className="searchMenu-guests search-field">
-      {/* Label di atas komponen */}
-      <label>Select Guests & Rooms</label>
+      <label>{mainFilterSearchBoxDict.selectGuestsAndRooms || 'Select Guests & Rooms'}</label>
 
-      {/* Tombol toggle dropdown dengan ringkasan total */}
       <div
         role="button"
         onClick={toggleDropdown}
         aria-label="Select guest options"
-        ref={triggerRef} // Kaitkan ref ini ke elemen pemicu
       >
-        {guestCounts.Adults} Adult{guestCounts.Adults !== 1 ? 's' : ''},{" "}
-        {guestCounts.Children} Child{guestCounts.Children !== 1 ? 'ren' : ''},{" "}
-        {guestCounts.Rooms} Room{guestCounts.Rooms !== 1 ? 's' : ''}
+        {adultText}, {childrenText}, {roomText}
       </div>
 
       <div className={`dropdown ${isOpen ? '-is-active' : ''}`} ref={dropdownRef}>
@@ -116,6 +108,7 @@ const GuestSearch = ({ onGuestChange }) => {
               name={counter.name}
               defaultValue={counter.defaultValue}
               onCounterChange={handleCounterChange}
+              dictionary={dictionary} // Teruskan dictionary ke Counter
             />
           ))}
         </div>

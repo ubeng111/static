@@ -8,7 +8,7 @@ import ReactPaginate from 'react-paginate';
 // Dynamically import components
 const CallToActions = dynamic(() => import('@/components/common/CallToActions'), { ssr: false });
 const Header11 = dynamic(() => import('@/components/header/header-11'), { ssr: false });
-const DefaultFooter = dynamic(() => import('@/components/footer/default'), { ssr: false });
+const DefaultFooter = dynamic(() => import('@/components/footer'), { ssr: false });
 const HotelProperties88 = dynamic(() => import('@/components/hotel-list/hotel-list-v5/HotelProperties88'), { ssr: false });
 const Hotels2 = dynamic(() => import('@/components/hotels/Hotels2'), { ssr: false });
 const LandmarkList = dynamic(() => import('@/components/hotel-single/LandmarkList'), { ssr: false });

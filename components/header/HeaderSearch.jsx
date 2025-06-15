@@ -1,15 +1,19 @@
-// HeaderSearch.jsx
+// components/hotel-list/common/HeaderSearch.jsx
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
-const HeaderSearch = () => {
+const HeaderSearch = ({ dictionary, currentLang }) => { // Menerima dictionary dan currentLang
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
   const router = useRouter();
   const dropdownRef = useRef(null);
+
+  // Akses dictionary untuk teks placeholder jika diperlukan
+  const searchDict = dictionary?.search || {}; // Asumsi ada bagian 'search' di dictionary
+  const commonDict = dictionary?.common || {}; // Asumsi ada bagian 'common' di dictionary
 
   const fetchCities = async (searchTerm) => {
     if (!searchTerm.trim()) {
@@ -40,17 +44,20 @@ const HeaderSearch = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     if (suggestions.length >= 1) {
-      router.push(`/search-result?city_id=${encodeURIComponent(suggestions[0].city_id)}`);
+      const selectedCityId = suggestions[0].city_id;
+      const selectedCityName = suggestions[0].city; // Ambil nama kota dari saran pertama
+      router.push(`/${currentLang}/search-result?city_id=${encodeURIComponent(selectedCityId)}&city=${encodeURIComponent(selectedCityName)}`); // Tambahkan parameter city
       setQuery('');
       setSuggestions([]);
+      setIsFocused(false); // Sembunyikan saran setelah pencarian
     }
   };
 
-  const handleSuggestionClick = (cityId) => {
-    router.push(`/search-result?city_id=${encodeURIComponent(cityId)}`);
+  const handleSuggestionClick = (city) => { // Menerima objek city lengkap
+    router.push(`/${currentLang}/search-result?city_id=${encodeURIComponent(city.city_id)}&city=${encodeURIComponent(city.city)}`); // Tambahkan parameter city
     setQuery('');
     setSuggestions([]);
-    setIsFocused(false);
+    setIsFocused(false); // Sembunyikan saran setelah klik
   };
 
   useEffect(() => {
@@ -78,7 +85,8 @@ const HeaderSearch = () => {
         <input
           id="hotel-search-input" // Tambahkan ID yang unik
           type="text"
-          placeholder="Search..."
+          // Gunakan teks dari kamus jika tersedia, jika tidak gunakan placeholder default
+          placeholder={searchDict.destinationPlaceholder || "Search..."}
           value={query}
           onChange={handleInputChange}
           onFocus={() => setIsFocused(true)}
@@ -118,7 +126,7 @@ const HeaderSearch = () => {
           {suggestions.map((city) => (
             <li
               key={city.city_id}
-              onClick={() => handleSuggestionClick(city.city_id)}
+              onClick={() => handleSuggestionClick(city)} // Teruskan objek city lengkap di sini
               style={{
                 padding: '8px 12px',
                 cursor: 'pointer',

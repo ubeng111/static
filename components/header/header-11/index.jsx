@@ -1,17 +1,22 @@
+// components/index.jsx (Header1)
 'use client';
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import MainMenu from '../MainMenu'; // Pastikan path ini benar
-import CurrencyMenu from '../CurrencyMenu'; // Pastikan path ini benar
-import HeaderSearch from '../HeaderSearch'; // Pastikan path ini benar
-import Head from 'next/head'; // Import Head for preloading fonts
+import MainMenu from '../MainMenu';
+import CurrencyMenu from '../CurrencyMenu';
+import HeaderSearch from '../HeaderSearch';
+import Head from 'next/head'; 
+import LanguageMenu from '../LanguageMenu';
 
-const Header1 = () => {
+const Header1 = ({ dictionary, currentLang }) => {
   const [navbar, setNavbar] = useState(false);
 
+  const headerDict = dictionary?.header || {};
+  const commonDict = dictionary?.common || {};
+
   const changeBackground = () => {
-    if (window.scrollY >= 10) {
+    if (typeof window !== 'undefined' && window.scrollY >= 10) {
       setNavbar(true);
     } else {
       setNavbar(false);
@@ -19,28 +24,30 @@ const Header1 = () => {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', changeBackground);
-    return () => {
-      window.removeEventListener('scroll', changeBackground);
-    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', changeBackground);
+      return () => {
+        window.removeEventListener('scroll', changeBackground);
+      };
+    }
   }, []);
 
   return (
     <>
       <Head>
-        {/* Preload Poppins font to prevent FOUT/FOIT and associated layout shifts */}
-        {/* Pastikan path font ini benar dan Anda memiliki file .woff2 */}
+        {/* Existing preloads for fonts */}
         <link rel="preload" href="/fonts/Poppins-Regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/Poppins-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        {/* Preload Icomoon font (ganti dengan path dan tipe font yang benar jika berbeda) */}
         <link rel="preload" href="/media/icomoon.178677f7.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
-        {/* Preload Slick font (ganti dengan path dan tipe font yang benar jika berbeda) */}
         <link rel="preload" href="/media/slick.653a4cbb.woff" as="font" type="font/woff" crossOrigin="anonymous" />
-
-        {/* Preconnect to external image domain for LCP image */}
-        {/* Penting jika gambar LCP dari domain pihak ketiga (misalnya Agoda) */}
+        
+        {/* Existing preconnect for agoda.net */}
         <link rel="preconnect" href="https://pix3.agoda.net" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://pix3.agoda.net" />
+
+        {/* BARIS INI DITAMBAHKAN UNTUK FLAGCDN.COM */}
+        <link rel="preconnect" href="https://flagcdn.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://flagcdn.com" />
       </Head>
       <header
         className={`header bg-dark-3 ${navbar ? 'is-sticky' : ''}`}
@@ -51,30 +58,27 @@ const Header1 = () => {
       >
         <div className="header__container">
           <div className="main-header-row">
-            {/* Left Section: Logo and MainMenu */}
             <div className="header-left-group">
-              <Link href="/" className="header-logo" aria-label="Hoteloza Hotel Logo">
-                <i className="fas fa-hotel logo-icon" aria-hidden="true"></i>
+<Link href={`/`} className="header-logo" aria-label="Hoteloza Hotel Logo"> <i className="fas fa-hotel logo-icon" aria-hidden="true"></i>
                 <span className="logo-text">Hoteloza</span>
               </Link>
               <div className="header-menu">
                 <div className="header-menu__content">
-                  <MainMenu style="text-white" />
+                  <MainMenu style="text-white" dictionary={dictionary} currentLang={currentLang} />
                 </div>
               </div>
             </div>
 
-            {/* Right Section: Search and Currency */}
             <div className="header-right-group">
               <div className="search-currency-wrapper">
-                <HeaderSearch />
-                <CurrencyMenu textClass="text-dark-1" />
+                <HeaderSearch dictionary={dictionary} currentLang={currentLang} />
+                <CurrencyMenu textClass="text-dark-1" dictionary={dictionary} currentLang={currentLang} />
+                <LanguageMenu />
               </div>
             </div>
           </div>
         </div>
 
-        {/* Schema Markup for SEO */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -82,8 +86,8 @@ const Header1 = () => {
               '@context': 'https://schema.org',
               '@type': 'Organization',
               name: 'Hoteloza',
-              description: 'Hoteloza - A premium hotel experience.',
-              url: 'https://hoteloza.com',
+              description: commonDict.callToActionsDescription || 'Hoteloza - A premium hotel experience.',
+              url: `https://hoteloza.com/${currentLang}`,
               logo: 'https://hoteloza.com/img/general/logo-dark-2.svg.',
             }),
           }}
@@ -94,10 +98,10 @@ const Header1 = () => {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 60px; /* Fixed height for stability */
+            height: 60px;
             padding: 0 40px;
             box-sizing: border-box;
-            transition: height 0.3s ease; /* Optional: smooth transition for height changes if any */
+            transition: height 0.3s ease;
           }
 
           .main-header-row {
@@ -119,6 +123,7 @@ const Header1 = () => {
             align-items: center;
             text-decoration: none;
             flex-shrink: 0;
+            color: #FFFFFF;
           }
 
           .logo-icon {
@@ -138,8 +143,6 @@ const Header1 = () => {
             border: 2px solid #FFFFFF;
             border-radius: 4px;
             padding: 2px 6px;
-            /* Pastikan font-display: swap ditambahkan di deklarasi @font-face global */
-            /* Ini penting untuk "Pastikan teks tetap terlihat selama pemuatan font web" */
           }
 
           .header-logo:hover .logo-icon,
@@ -161,12 +164,10 @@ const Header1 = () => {
             flex-shrink: 0;
           }
 
-          /* --- Media Queries for Responsiveness --- */
-
           @media (min-width: 768px) and (max-width: 1023px) {
             .header__container {
               padding: 0 20px;
-              height: 55px; /* Fixed height for stability */
+              height: 55px;
             }
             .header-menu {
               margin-left: 10px;
@@ -190,7 +191,29 @@ const Header1 = () => {
           @media (max-width: 767px) {
             .header__container {
               padding: 0 10px;
-              height: 50px; /* Fixed height for stability */
+              height: 60px;
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: center;
+              padding-top: 0;
+              padding-bottom: 0;
+            }
+            .main-header-row {
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: center;
+              gap: 5px;
+            }
+            .header-left-group {
+              width: auto;
+              justify-content: flex-start;
+              margin-bottom: 0;
+            }
+            .header-right-group {
+              width: auto;
+              justify-content: flex-end;
+              margin-bottom: 0;
+              flex-grow: 1;
             }
             .header-menu {
               display: none;
@@ -206,14 +229,17 @@ const Header1 = () => {
               padding: 2px 5px;
             }
             .search-currency-wrapper {
-              gap: 8px;
+              gap: 5px;
+              flex-direction: row;
+              flex-wrap: nowrap;
+              justify-content: flex-end;
+              width: auto;
             }
           }
 
           @media (max-width: 479px) {
             .header__container {
               padding: 0 5px;
-              height: 48px; /* Fixed height for stability */
             }
             .logo-icon {
               font-size: 16px;
@@ -228,6 +254,8 @@ const Header1 = () => {
             }
             .search-currency-wrapper {
               gap: 5px;
+              flex-direction: row;
+              flex-wrap: nowrap;
             }
           }
         `}</style>

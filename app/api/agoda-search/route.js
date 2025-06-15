@@ -8,9 +8,9 @@ const pool = new Pool({
   ssl: { ca: fs.readFileSync(path.resolve('certs', 'root.crt')) },
 });
 
-const AGODA_API_URL = process.env.AGODA_API_URL 
-const SITE_ID = process.env.AGODA_SITE_ID 
-const API_KEY = process.env.AGODA_API_KEY 
+const AGODA_API_URL = process.env.AGODA_API_URL;
+const SITE_ID = process.env.AGODA_SITE_ID;
+const API_KEY = process.env.AGODA_API_KEY;
 
 export async function POST(req) {
   try {
@@ -23,8 +23,18 @@ export async function POST(req) {
       numberOfChildren = 0,
       numberOfRooms = 1,
       currency = 'USD',
-      language = 'en-us',
+      language: clientLanguage, // Ambil language dari body sebagai clientLanguage
     } = body;
+
+    // --- Start Perbaikan untuk language ---
+    let language = clientLanguage || 'en-us'; // Gunakan 'en-us' sebagai default
+
+    // Validasi panjang string language
+    if (typeof language !== 'string' || language.length < 5) {
+      console.warn(`SERVER WARN [route.js]: Incoming language "${clientLanguage}" is invalid or too short. Falling back to default 'en-us'.`);
+      language = 'en-us'; // Paksa ke 'en-us' jika tidak valid atau terlalu pendek
+    }
+    // --- End Perbaikan untuk language ---
 
     if (!city_id || !checkInDate || !checkOutDate) {
       return new Response(
@@ -47,7 +57,7 @@ export async function POST(req) {
       criteria: {
         additional: {
           currency,
-          language,
+          language, // Gunakan nilai 'language' yang sudah divalidasi
           maxResult: 100,
           occupancy: { numberOfAdult: numberOfAdults, numberOfChildren: numberOfChildren },
           sortBy: 'Recommended',

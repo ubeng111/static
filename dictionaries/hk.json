@@ -1,0 +1,507 @@
+{
+  "common": {
+    "loadingSearchResults": "正在載入搜尋結果...",
+    "loadingCityContent": "正在載入城市內容...",
+    "loadingHotel": "正在載入飯店詳細資訊...",
+    "hotelNotFound": "找不到飯店。",
+    "errorServer": "發生伺服器錯誤",
+    "preloaderTitle": "Hoteloza..",
+    "failedToLoadHotelList": "無法載入飯店列表。請再試一次。",
+    "cityIdRequired": "需要城市 ID。",
+    "callToActionsDescription": "好點子稍縱即逝。立即預訂您的 Hoteloza 之旅！",
+    "errorLoadingData": "載入資料時發生錯誤。請稍後再試。",
+    "noHotelsFound": "此類別沒有找到飯店。",
+    "noRelatedCategoriesFound": "沒有找到相關類別。",
+    "noRelatedCountriesFound": "沒有找到相關國家。",
+    "noRelatedStatesFound": "沒有找到相關省份。",
+    "noRelatedCitiesFound": "沒有找到相關城市。",
+    "noRelatedHotelsFound": "沒有找到相關飯店。",
+    "unknownAddress": "未知地址",
+    "unknownCity": "未知城市",
+    "unknownRegion": "未知地區",
+    "unknownCountry": "未知國家",
+    "unnamedHotel": "未命名飯店",
+    "reserveNow": "立即預訂",
+    "unknownCategory": "未知類別",
+    "unknownState": "未知省份",
+    "errorLandmarkNotFound": "錯誤：URL 中找不到地標。無法載入。",
+    "properties": "物業",
+    "noDestinationsFound": "此區域沒有可用的目的地。",
+    "topRecommendedHotelsTitle": "{city} 頂級推薦 {category}",
+    "findTopRatedStays": "在您的目的地附近尋找具有類似福利的頂級住宿",
+    "unknownLocation": "未知位置",
+    "failedToLoadHotelData": "無法檢索飯店資料",
+    "errorWithMessage": "錯誤：{error}",
+    "night": "晚"
+  },
+  "header": {
+    "luxuryBackgroundImageAlt": "奢華背景圖片"
+  },
+  "search": {
+    "searchResultAccommodationIn": "{cityName} 的住宿搜尋結果",
+    "searchResultPropertiesIn": "在以下地點找到的物業",
+    "selectedCity": "所選城市",
+    "unknownLocation": "未知位置",
+    "searchParametersIncomplete": "搜尋參數不完整。"
+  },
+  "categoryPage": {
+    "discoverLuxeStaysIn": "探索奢華住宿於",
+    "faqsAboutHotels": "關於 {formattedCategory} 的常見問題",
+    "categoryDefault": "類別",
+    "defaultItemListDescription": "Hoteloza 上 {currentYear} 年最受歡迎的 {formattedCategory} 列表。"
+  },
+  "countryPage": {
+    "discoverStaysIn": "探索 {displayCountry} 的住宿",
+    "faqsAboutCountryHotels": "關於 {displayCountry} 飯店的常見問題",
+    "countryDefault": "國家",
+    "noHotelsFoundForCountry": "此國家沒有找到飯店。"
+  },
+  "statePage": {
+    "discoverStaysInState": "探索 {formattedState} 的住宿",
+    "faqsAboutStateHotels": "關於 {displayState} 飯店的常見問題",
+    "stateDefault": "省份",
+    "noHotelsFoundForState": "此省份沒有找到飯店。"
+  },
+  "cityPage": {
+    "discoverStaysInCity": "探索 {formattedCity} 的住宿",
+    "faqsAboutCityHotels": "關於 {displayCity} 飯店的常見問題",
+    "cityDefault": "城市",
+    "noHotelsFoundForCity": "此城市沒有找到飯店。"
+  },
+  "hotelSinglePage": {
+    "aboutThisHotel": "關於這家飯店",
+    "facilitiesAndServices": "設施與服務",
+    "attractionsNearby": "附近景點",
+    "reviews": "評論",
+    "faq": "常見問題",
+    "locationMap": "位置地圖",
+    "frequentlyAskedQuestions": "常見問題",
+    "toggleFrequentlyAskedQuestions": "切換常見問題",
+    "toggleLocationMap": "切換位置地圖",
+    "relatedHotels": "類似的熱門物業",
+    "toggleFacilities": "切換設施",
+    "toggleLandmarks": "切換附近地標",
+    "toggleRelatedHotels": "切換類似的熱門物業",
+    "defaultSchemaDescription": "在 Hoteloza 預訂 {formattedHotel}，這是一家位於 {formattedCity} 的豪華飯店，適用於 {currentYear} 年。",
+    "exceptionalReviewText": "出色"
+  },
+  "bookNow": {
+    "reserveNowButton": "立即預訂"
+  },
+  "facilities": {
+    "bathroom": "浴室",
+    "towels": "毛巾",
+    "bathOrShower": "浴缸或淋浴",
+    "privateBathroom": "私人浴室",
+    "toilet": "馬桶",
+    "freeToiletries": "免費盥洗用品",
+    "hairdryer": "吹風機",
+    "bath": "浴缸",
+    "bedroom": "臥室",
+    "linen": "床單",
+    "wardrobeOrCloset": "衣櫃或壁櫥",
+    "receptionServices": "接待服務",
+    "invoiceProvided": "提供發票",
+    "privateCheckInCheckOut": "私人入住/退房",
+    "luggageStorage": "行李寄存",
+    "twentyFourHourFrontDesk": "24 小時櫃檯",
+    "mediaTechnology": "媒體與科技",
+    "flatScreenTV": "平面電視",
+    "satelliteChannels": "衛星頻道",
+    "radio": "收音機",
+    "telephone": "電話",
+    "tv": "電視",
+    "foodDrink": "餐飲",
+    "kidMeals": "兒童餐",
+    "specialDietMenusOnRequest": "特殊飲食菜單 (應要求提供)",
+    "breakfastInTheRoom": "客房內早餐",
+    "cleaningServices": "清潔服務",
+    "dailyHousekeeping": "每日清潔服務",
+    "dryCleaning": "乾洗",
+    "laundry": "洗衣服務",
+    "safetySecurity": "安全與保安",
+    "fireExtinguishers": "滅火器",
+    "cctvInCommonAreas": "公共區域閉路電視",
+    "smokeAlarms": "煙霧警報器",
+    "twentyFourHourSecurity": "24 小時保安"
+  },
+  "landmarkList": {
+    "noNearbyPlacesFound": "{radius} 公里內沒有找到附近地點。",
+    "nearbyEssentialAndTouristSpots": "🗺️ 附近必去及旅遊景點"
+  },
+  "mapComponent": {
+    "mapTitle": "🗺️ 地圖 {title}"
+  },
+  "relatedCategories": {
+    "countriesIn": "🏨 {formattedCategory} 中的國家"
+  },
+  "relatedCities": {
+    "noRelatedCitiesFound": "沒有找到相關城市",
+    "bestRelatedCitiesIn": "🏨 {formattedState} 中最佳相關城市"
+  },
+  "relatedCountries": {
+    "noRelatedStatesFound": "沒有找到相關省份",
+    "statesIn": "🏨 {formattedCountry} 中的省份"
+  },
+  "relatedStates": {
+    "noRelatedCitiesFound": "沒有找到相關城市",
+    "citiesIn": "🏨 {formattedState} 中的城市"
+  },
+  "city": {
+    "city": "城市",
+    "faq": "常見問題"
+  },
+  "mainFilterSearchBox": {
+    "destinationPlaceholder": "您的目的地是哪裡？",
+    "checkInPlaceholder": "入住日期",
+    "checkOutPlaceholder": "退房日期",
+    "adultsLabel": "成人",
+    "childrenLabel": "兒童",
+    "roomsLabel": "房間",
+    "searchButton": "搜尋"
+  },
+  "footer": {
+    "popularStays": "熱門住宿",
+    "hotel": "飯店",
+    "villa": "別墅",
+    "resort": "度假村",
+    "apartment": "公寓",
+    "guestHouse": "民宿",
+    "uniqueStays": "獨特住宿",
+    "capsuleHotel": "膠囊旅館",
+    "yurt": "蒙古包",
+    "treehouse": "樹屋",
+    "tent": "帳篷",
+    "domeHouse": "圓頂屋",
+    "traditionalStays": "傳統住宿",
+    "ryokan": "日式旅館",
+    "machiya": "町屋",
+    "countryHouse": "鄉村別墅",
+    "haveli": "哈維利 (印度古宅)",
+    "riad": "里亞德 (摩洛哥傳統庭院住宅)",
+    "heritageHotel": "文物酒店",
+    "adventureStays": "冒險住宿",
+    "farmStay": "農場住宿",
+    "cabin": "小木屋",
+    "chalet": "山間小屋",
+    "boat": "船屋",
+    "houseboat": "船屋",
+    "hotelozaFooterText": "Hoteloza 是一個領先的平台，提供便捷無縫的飯店預訂服務。我們簡化您尋找完美住宿的過程，提供從舒適飯店到豪華度假村的多樣化選擇。享受便捷的預訂、獨家優惠以及根據您的旅行需求量身定制的個人化服務。立即透過 Hoteloza 預訂，讓難忘的旅程成為現實。",
+    "hotelozaAllRightsReserved": "© {year} Hoteloza。版權所有。"
+  },
+  "metadata": {
+    "homePageTitle": "Hoteloza - 尋找您的夢想飯店",
+    "homePageDescription": "尋找最適合您下次旅行的飯店和住宿。立即透過 Hoteloza 預訂！",
+    "searchResultPageTitle": "{cityName} 的飯店 - Hoteloza 搜尋結果",
+    "searchResultPageDescription": "搜尋並預訂 {cityName} 的飯店。比較價格和設施，為您提供最佳住宿體驗。",
+    "cityPageTitle": "{cityName} 的飯店 - 透過 Hoteloza 探索 {cityName}",
+    "cityPageDescription": "探索 {cityName} 最好的飯店，並透過 Hoteloza 找到最優惠的價格，讓您的旅程難忘。",
+    "categoryNotFoundTitle": "未找到類別 | Hoteloza",
+    "categoryNotFoundDescription": "您正在尋找的類別未在 Hoteloza 上找到。",
+    "categoryPageTitleTemplate": "{currentYear} 最佳 {formattedCategory} 折扣 - 在 Hoteloza 大省一筆！",
+    "categoryPageDescriptionTemplate": "透過 Hoteloza 探索 {currentYear} 年最棒的 {formattedCategory}。享受獨家折扣、超值價格和一流設施。立即預訂，享受難忘的住宿體驗！",
+    "categoryOgTitleTemplate": "{currentYear} 頂級 {formattedCategory} 優惠 | Hoteloza",
+    "categoryOgDescriptionTemplate": "在 Hoteloza 探索 {currentYear} 年最受歡迎的 {formattedCategory}。立即預訂，享受獨家優惠和優質設施！",
+    "categoryWebPageNameTemplate": "{currentYear} 頂級 {formattedCategory} 優惠",
+    "categoryWebPageDescriptionTemplate": "在 Hoteloza 探索 {currentYear} 年最受歡迎的 {formattedCategory}，享受獨家優惠和優質設施。",
+    "countryNotFoundTitle": "頁面未找到 | Hoteloza",
+    "countryNotFoundDescription": "您正在尋找的類別、國家或省份未在 Hoteloza 上找到。",
+    "countryPageTitleTemplate": "{currentYear} {formattedCountry} 廉價 {formattedCategory} - 千萬別錯過！ | Hoteloza",
+    "countryPageDescriptionTemplate": "在 Hoteloza 取得 {currentYear} 年 {formattedCountry} 最棒的 {formattedCategory}。享受獨家優惠、實惠價格和一流設施。優惠有限 – 立即預訂您的住宿！",
+    "countryOgTitleTemplate": "{currentYear} {formattedCountry} 最棒的 {formattedCategory} | Hoteloza",
+    "countryOgDescriptionTemplate": "在 Hoteloza 尋找 {currentYear} 年 {formattedCountry} 最棒的 {formattedCategory}。立即預訂，享受頂級飯店和獨家優惠！",
+    "stateNotFoundTitle": "頁面未找到 | Hoteloza",
+    "stateNotFoundDescription": "您正在尋找的類別、國家或省份未在 Hoteloza 上找到。",
+    "statePageTitleTemplate": "{currentYear} {formattedCountry} {formattedState} 廉價 {formattedCategory} - 立即預訂！ | Hoteloza",
+    "statePageDescriptionTemplate": "在 Hoteloza 尋找 {currentYear} 年 {formattedState}, {formattedCountry} 最棒的 {formattedCategory}。獨家優惠、超值價格和一流設施。預訂您難忘的住宿體驗！",
+    "stateOgTitleTemplate": "{currentYear} {formattedCountry} {formattedState} 最棒的 {formattedCategory} | Hoteloza",
+    "stateOgDescriptionTemplate": "在 Hoteloza 探索 {currentYear} 年 {formattedState}, {formattedCountry} 最受歡迎的 {formattedCategory}。立即預訂，享受獨家優惠和優質設施！",
+    "cityNotFoundTitle": "頁面未找到 | Hoteloza",
+    "cityNotFoundDescription": "您正在尋找的類別、國家、省份或城市未在 Hoteloza 上找到。",
+    "cityPageTitleTemplate": "{currentYear} {formattedCountry} {formattedState} {formattedCity} 廉價 {formattedCategory} - 大折扣！ | Hoteloza",
+    "cityPageDescriptionTemplate": "在 Hoteloza 尋找 {currentYear} 年 {formattedCity}, {formattedState}, {formattedCountry} 最棒的 {formattedCategory}。獨家折扣、一流設施和無與倫比的價格。立即預訂您的夢想住宿！",
+    "cityOgTitleTemplate": "{currentYear} {formattedCountry} {formattedState} {formattedCity} 最棒的 {formattedCategory} | Hoteloza",
+    "cityOgDescriptionTemplate": "在 Hoteloza 探索 {currentYear} 年 {formattedCity}, {formattedState}, {formattedCountry} 最受歡迎的 {formattedCategory}。立即預訂，享受獨家優惠和優質設施！",
+    "hotelNotFoundTitle": "飯店未找到 | Hoteloza",
+    "hotelNotFoundDescription": "您正在尋找的飯店找不到。",
+    "hotelPageTitleTemplate": "{hotelTitle} - 立即在 Hoteloza 預訂！",
+    "hotelPageDescriptionTemplate": "預訂您在 {city}, {state}, {country} 的 {hotelTitle} 住宿。透過 Hoteloza 尋找最優惠的價格、設施和評論，享受難忘的體驗。",
+    "hotelOgTitleTemplate": "{hotelTitle} | Hoteloza",
+    "hotelOgDescriptionTemplate": "透過 Hoteloza 尋找 {hotelTitle} 最優惠的價格。"
+  },
+  "landmarkPage": {
+    "topHotelsNear": "接近 {landmarkName} 的廉價 {category}",
+    "landmarkPageTitleTemplate": "接近 {landmarkName} 的廉價 {category}",
+    "description": "{category} {landmarkName} 提供 {cityName} 最好的住宿，以及免費 WiFi 等超值優惠和設施。",
+    "loadingHotel": "正在載入飯店...",
+    "errorLoadingHotel": "錯誤：{error}",
+    "hotelNotFound": "飯店未找到。",
+    "serverErrorFetchingData": "伺服器錯誤，無法獲取飯店資料。"
+  },
+  "navigation": {
+    "home": "首頁",
+    "about": "關於我們",
+    "contact": "聯絡我們"
+  },
+  "homepage": {
+    "dreamDestinations": "夢想目的地",
+    "unforgettableSpots": "您會想一再探索的難忘景點",
+    "whatOurGuestsTrulyLoveAboutUs": "我們的客人真正喜歡我們什麼",
+    "experienceTheMagic": "體驗讓數百萬人一再回來的魔力。在 Hoteloza，我們致力於以輕鬆、關懷和卓越的服務，讓每一次住宿都難忘。",
+    "hotelozaHeroTitle": "透過 Hoteloza 尋找、預訂並放鬆",
+    "hotelozaHeroSubtitle": "透過 Hoteloza 探索全球數千家飯店",
+    "delightedGuests": "滿意的客人",
+    "guestSatisfactionScore": "客人滿意度評分",
+    "happyPeople": "快樂的人",
+    "overallRating": "整體評分"
+  },
+  "about": {
+    "lookingForJoy": "尋找快樂？",
+    "trustedTripCompanion": "您值得信賴的旅行夥伴",
+    "whyChooseUs": "為何選擇我們",
+    "popularDestinationsOffer": "這些熱門目的地有很多值得提供的",
+    "overheardFromTravelers": "從旅行者那裡聽到的",
+    "aboutHotelozaTitle": "關於 Hoteloza",
+    "aboutHotelozaSubtitle": "探索舒適與優雅的世界",
+    "aboutHotelozaParagraph1": "Hoteloza 是您的奢華天堂，在充滿活力的目的地中心提供無與倫比的熱情款待。我們的飯店將現代優雅與永恆舒適融為一體，確保每一次住宿都是難忘的體驗。",
+    "aboutHotelozaParagraph2": "沉浸在我們世界一流的設施中，從寧靜的溫泉到精緻的餐飲，並探索附近的景點，讓每次到訪都難忘。無論是商務還是休閒，Hoteloza 都是您離家在外的家。"
+  },
+  "blockGuide": {
+    "bestPriceGuarantee": "最佳價格保證",
+    "bestPriceGuaranteeText": "保證以最優惠的價格找到您完美的住宿。沒有隱藏費用，每次預訂都能真正省錢。",
+    "easyQuickBooking": "輕鬆快速預訂",
+    "easyQuickBookingText": "只需點擊幾下即可預訂您的夢想飯店。快速、簡單、無憂 – 您的下一個假期從這裡開始。",
+    "customerSupport": "24/7 客戶支援",
+    "customerSupportText": "需要幫助嗎？我們的支援團隊全天候為您服務 – 無論何時何地您需要幫助。"
+  },
+  "contactPage": {
+    "heroTitle": "聯絡我們",
+    "heroSubtitle": "我們在這裡為您提供幫助並回答您可能遇到的任何問題。",
+    "getInTouchTitle": "聯絡方式",
+    "getInTouchDescription": "如有任何疑問或疑慮，請隨時與我們聯絡。我們的團隊隨時樂意為您提供協助。",
+    "addressLabel": "地址",
+    "addressValue": "Hoteloza 街 123 號，456 室，城市，國家",
+    "emailLabel": "電子郵件",
+    "emailValue": "info@hoteloza.com",
+    "workingHoursLabel": "工作時間",
+    "workingHoursValue": "週一至週五：上午 9:00 - 下午 5:00 (當地時間)"
+  },
+  "callToActions": {
+    "subscribeHere": "在此訂閱",
+    "yourEmail": "您的電子郵件",
+    "subscribeButton": "訂閱"
+  },
+  "testimonials": {
+    "sarahMQuote": "Hoteloza 改變了遊戲規則！我一直在這裡找到最優惠的飯店。它確實是全球最好的飯店聯盟網站。",
+    "sarahMName": "莎拉·M。",
+    "sarahMDesignation": "旅遊愛好者",
+    "data": [
+      {
+        "id": 1,
+        "avatar": "/img/avatars/testimonials/1.jpg",
+        "name": "莎拉·米勒",
+        "designation": "旅遊部落客",
+        "text": "我們在這裡的住宿絕對令人難以置信！地理位置優越，房間乾淨舒適，工作人員的服務非常友好。強烈推薦家庭度假。",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "約翰·戴維斯",
+        "designation": "企業家",
+        "text": "這家飯店是我的商務旅行的完美選擇。設施齊全，Wi-Fi 快速，並且靠近市中心。非常高效和舒適。",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "艾米莉·懷特",
+        "designation": "學生",
+        "text": "我喜歡現代感十足且適合拍照的室內設計！非常適合與朋友一起度假。價格也很實惠，品質卻如此出色。",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "大衛·李",
+        "designation": "攝影師",
+        "text": "房間的景色令人驚嘆！我拍了許多很棒的照片。工作人員也非常樂於助人，推薦了旅遊景點。",
+        "dealyAnimation": "400"
+      }
+    ],
+    "data2": [
+      {
+        "id": 1,
+        "meta": "帝國大飯店",
+        "avatar": "/img/avatars/testimonials/1.png",
+        "name": "奧利維亞·格雷斯",
+        "designation": "作家",
+        "text": "\"這家飯店非常適合尋找寧靜。寧靜的氛圍、安靜的房間和反應迅速的工作人員讓我可以專注於寫作，不受打擾。強烈推薦。\"",
+        "dealyAnimation": "100"
+      },
+      {
+        "id": 2,
+        "meta": "帝國大飯店",
+        "avatar": "/img/avatars/testimonials/2.png",
+        "name": "丹尼爾·金",
+        "designation": "數位遊牧者",
+        "text": "\"穩定的網路連線和舒適的工作空間是這裡的一大優點。我可以同時工作和度假。地理位置也靠近許多咖啡館。\"",
+        "dealyAnimation": "200"
+      },
+      {
+        "id": 3,
+        "meta": "帝國大飯店",
+        "avatar": "/img/avatars/testimonials/3.png",
+        "name": "索菲亞·布朗",
+        "designation": "退休人員",
+        "text": "\"友善的服務和長者友善的設施讓我們感到非常舒適。早餐也美味又多樣。我們一定會再回來。\"",
+        "dealyAnimation": "300"
+      },
+      {
+        "id": 4,
+        "meta": "帝國大飯店",
+        "avatar": "/img/avatars/testimonials/4.png",
+        "name": "邁克爾·陳",
+        "designation": "廚師",
+        "text": "\"身為廚師，我非常感謝這家飯店餐廳的食物品質。菜餚美味，菜單選擇多樣。一次真正令人驚嘆的美食體驗！\"",
+        "dealyAnimation": "400"
+      },
+      {
+        "id": 5,
+        "meta": "帝國大飯店",
+        "avatar": "/img/avatars/testimonials/5.png",
+        "name": "克洛伊·威爾遜",
+        "designation": "平面設計師",
+        "text": "\"飯店的美學室內設計和良好的採光確實支持了我的創造力。許多有趣的拍照點！房間也非常乾淨。\"",
+        "dealyAnimation": "500"
+      }
+    ],
+    "data3": [
+      {
+        "id": 1,
+        "meta": "海景度假村",
+        "avatar": "/img/testimonials/2/1.png",
+        "name": "詹姆斯·泰勒",
+        "designation": "商人",
+        "text": "\"這家度假村擁有壯觀的海景。非常適合從日常工作中放鬆身心。無邊際泳池設施也令人驚嘆。\""
+      },
+      {
+        "id": 2,
+        "meta": "海景度假村",
+        "avatar": "/img/testimonials/2/2.png",
+        "name": "伊莎貝拉·羅德里格斯",
+        "designation": "老師",
+        "text": "\"我們的家庭假期非常難忘。有很多兒童活動，工作人員也非常友善和樂於助人。孩子們喜歡在私人海灘玩耍。\""
+      },
+      {
+        "id": 3,
+        "meta": "海景度假村",
+        "avatar": "/img/testimonials/2/3.png",
+        "name": "利亞姆·加西亞",
+        "designation": "醫生",
+        "text": "\"這個地方是放鬆的完美場所。舒緩的 Spa 服務和寧靜的氛圍讓我感覺完全恢復活力。\""
+      },
+      {
+        "id": 4,
+        "meta": "海景度假村",
+        "avatar": "/img/testimonials/2/4.png",
+        "name": "米亞·馬丁內斯",
+        "designation": "顧問",
+        "text": "\"我經常出差，這家度假村提供了像家一樣的舒適感。客房服務快速且專業。它肯定會成為我的常規選擇。\""
+      },
+      {
+        "id": 5,
+        "meta": "海景度假村",
+        "avatar": "/img/testimonials/2/5.png",
+        "name": "諾亞·湯普森",
+        "designation": "藝術家",
+        "text": "\"靈感無處不在，這個度假村充滿了令人驚嘆的自然美景。我在這裡畫了很多畫。強烈推薦給藝術家或任何尋求靈感的人。\""
+      }
+    ]
+  },
+  "faqContent": {
+    "hotel": {
+      "facilitiesQuestion": "{title} 包含哪些設施？",
+      "facilitiesAnswer": "{title} 的設施包括免費 Wi-Fi、游泳池、停車場等。請聯絡住宿以獲取完整設施列表。",
+      "breakfastQuestion": "{title} 包含早餐嗎？",
+      "breakfastAnswer": "是的，{title} 的住宿包含早餐。",
+      "checkInCheckOutQuestion": "{title} 的入住和退房時間是幾點？",
+      "checkInCheckOutAnswer": "{title} 的入住時間為下午 2 點起，退房時間為中午 12 點前。",
+      "petsAllowedQuestion": "{title} 允許攜帶寵物嗎？",
+      "petsAllowedAnswer": "{title} 不允許攜帶寵物。",
+      "parkingFacilityQuestion": "{title} 有停車設施嗎？",
+      "parkingFacilityAnswer": "是的，{title} 為住客提供停車位。",
+      "smokingAllowedQuestion": "{title} 允許吸煙嗎？",
+      "smokingAllowedAnswer": "不，{title} 的所有區域都禁止吸煙。",
+      "airportTransportationQuestion": "{title} 提供機場接送服務嗎？",
+      "airportTransportationAnswer": "是的，{title} 可安排機場接送服務，需額外付費。",
+      "cancellationPolicyQuestion": "{title} 的取消政策是什麼？",
+      "cancellationPolicyAnswer": "可在入住前 24 小時內免費取消預訂。",
+      "meetingFacilitiesQuestion": "{title} 有會議設施嗎？",
+      "meetingFacilitiesAnswer": "是的，{title} 設有設備齊全的會議室可供預訂。",
+      "attractionsNearQuestion": "{title} 附近有哪些景點？",
+      "attractionsNearAnswer": "{title} 附近的熱門景點包括 [景點列表]。"
+    },
+    "category": {
+      "offeringsQuestion": "{category} 類別中有哪些類型的產品？",
+      "offeringsAnswer": "準備好探索廣泛的選擇了嗎？我們的 {category} 類別提供從獨家高級體驗到智慧、預算友善的解決方案。找到完美的選擇，滿足您的旅行夢想或特定需求！",
+      "familyFriendlyQuestion": "我們的 {category} 精選中有適合家庭的選擇嗎？",
+      "familyFriendlyAnswer": "當然！我們了解您的需求。發現許多強烈推薦給家庭的 {category} 選項，配備設施和活動，旨在讓您與親人共度的時光更加難忘和舒適。",
+      "mainAttractionsQuestion": "這些 {category} 產品附近的主要景點或最受歡迎的目的地是什麼？",
+      "mainAttractionsAnswer": "我們的 {category} 精選不僅關乎產品/服務；也關乎地點！輕鬆前往標誌性旅遊景點、刺激的娛樂中心和必嚐的美食。無論您的 {category} 帶您到萬隆、西爪哇還是其他地方，都能最大化您的體驗！",
+      "luxuryAmenitiesQuestion": "是否有任何 {category} 選項提供豪華設施或特殊功能？",
+      "luxuryAmenitiesAnswer": "確實如此！沉浸在舒適與奢華中。我們的許多 {category} 產品都配備五星級設施，例如私人無邊際泳池、整體水療服務、最先進的健身中心等等。盡情享受難忘的體驗！",
+      "topRatedQuestion": "哪些 {category} 選項是評價最高且客戶評論最佳的？",
+      "topRatedAnswer": "尋找最好的？這是我們精選的頂級 {category} 選項列表，深受我們社區的喜愛。確保品質和滿意度，並有真實的用戶評價支持！"
+    },
+    "city": {
+      "typesOfHotelsQuestion": "{city} 有哪些類型的飯店？",
+      "typesOfHotelsAnswer": "探索 {city} 各種類型的飯店，從豪華飯店到經濟型選擇。",
+      "familyFriendlyHotelsQuestion": "{city} 有適合家庭入住的飯店嗎？",
+      "familyFriendlyHotelsAnswer": "是的，{city} 有很多適合家庭入住的飯店。",
+      "attractionsNearHotelsQuestion": "{city} 的飯店附近有哪些景點？",
+      "attractionsNearHotelsAnswer": "{city} 的飯店靠近各種熱門景點。",
+      "hotelsWithPoolsQuestion": "{city} 有帶游泳池的飯店嗎？",
+      "hotelsWithPoolsAnswer": "是的，{city} 的許多飯店都設有游泳池和其他設施。",
+      "bestRatedHotelsQuestion": "{city} 評分最高的飯店有哪些？",
+      "bestRatedHotelsAnswer": "以下是 {city} 評分最高的飯店： "
+    },
+    "country": {
+      "typesOfHotelsQuestion": "{country} 有哪些類型的飯店？",
+      "typesOfHotelsAnswer": "探索 {country} 各種類型的飯店，從豪華飯店到經濟型選擇。",
+      "familyFriendlyHotelsQuestion": "{country} 有適合家庭入住的飯店嗎？",
+      "familyFriendlyHotelsAnswer": "是的，{country} 有很多適合家庭入住的飯店。",
+      "attractionsNearHotelsQuestion": "{country} 的飯店附近有哪些景點？",
+      "attractionsNearHotelsAnswer": "{country} 的飯店靠近各種熱門景點。",
+      "hotelsWithPoolsQuestion": "{country} 有帶游泳池的飯店嗎？",
+      "hotelsWithPoolsAnswer": "是的，{country} 的許多飯店都設有游泳池和其他設施。",
+      "bestRatedHotelsQuestion": "{country} 評分最高的飯店有哪些？",
+      "bestRatedHotelsAnswer": "以下是 {country} 評分最高的飯店： "
+    },
+    "landmark": {
+      "typesOfHotelsQuestion": "{landmark} 附近有哪些類型的飯店？",
+      "typesOfHotelsAnswer": "{landmark} 附近有各種住宿選擇，從豪華精品飯店到舒適實惠的住宿。無論您是尋求短期拜訪還是長期探索，都能找到適合各種喜好的完美飯店。",
+      "familyFriendlyHotelsQuestion": "{landmark} 附近有適合家庭入住的飯店嗎？",
+      "familyFriendlyHotelsAnswer": "當然！ {landmark} 附近的許多飯店都配備完善，適合家庭入住，提供寬敞的家庭房、兒童俱樂部和游泳池等設施。它們是與親人一同探索地標及其周邊地區的舒適基地。",
+      "attractionsNearHotelsQuestion": "靠近 {landmark} 的飯店附近有哪些景點？",
+      "attractionsNearHotelsAnswer": "靠近 {landmark} 的飯店為參觀地標本身提供了無與倫比的便利。除此之外，它們通常策略性地靠近其他受歡迎的景點、博物館、餐飲場所和娛樂場所，讓您的探索輕鬆無比。",
+      "hotelsWithPoolsQuestion": "靠近 {landmark} 的飯店有帶游泳池的嗎？",
+      "hotelsWithPoolsAnswer": "是的，許多位於 {landmark} 附近的飯店都設有清爽的游泳池，非常適合在觀光一天後放鬆身心。有些甚至擁有可欣賞地標或城市天際線壯麗景色的屋頂游泳池。",
+      "bestRatedHotelsQuestion": "靠近 {landmark} 評分最高的飯店有哪些？",
+      "bestRatedHotelsAnswerDefault": "目前，我們沒有關於 {landmark} 附近飯店的特定最佳評分數據。但是，您可以在更廣闊的區域瀏覽各種高評分選項。",
+      "bestRatedHotelsAnswerWithData": "根據住客評論，靠近 {landmark} 評分最高的飯店包括："
+    },
+    "state": {
+      "typesOfHotelsQuestion": "{state} 有哪些類型的飯店？",
+      "typesOfHotelsAnswer": "探索 {state} 各種類型的飯店，從豪華飯店到經濟型選擇。",
+      "familyFriendlyHotelsQuestion": "{state} 有適合家庭入住的飯店嗎？",
+      "familyFriendlyHotelsAnswer": "是的，{state} 有很多適合家庭入住的飯店。",
+      "attractionsNearHotelsQuestion": "{state} 的飯店附近有哪些景點？",
+      "attractionsNearHotelsAnswer": "{state} 的飯店靠近各種熱門景點。",
+      "hotelsWithPoolsQuestion": "{state} 有帶游泳池的飯店嗎？",
+      "hotelsWithPoolsAnswer": "是的，{state} 的許多飯店都設有游泳池和其他設施。",
+      "bestRatedHotelsQuestion": "{state} 評分最高的飯店有哪些？",
+      "bestRatedHotelsAnswer": "以下是 {state} 評分最高的飯店： "
+    }
+  }
+}

@@ -26,7 +26,11 @@ function setCache(key, data) {
 const LIMIT = 12;
 
 export async function GET(req, { params }) {
-  const { categoryslug, countryslug, stateslug, cityslug } = params;
+  // --- MULAI PERUBAHAN DI SINI ---
+  const awaitedParams = await params; // <--- AWAIT PARAMS DI SINI
+  const { categoryslug, countryslug, stateslug, cityslug } = awaitedParams; // <--- GUNAKAN awaitedParams
+  // --- AKHIR PERUBAHAN ---
+
   if (!categoryslug || !countryslug || !stateslug || !cityslug) {
     return new Response(JSON.stringify({ message: 'All slugs are required' }), { status: 400 });
   }

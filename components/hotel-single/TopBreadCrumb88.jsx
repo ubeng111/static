@@ -1,3 +1,4 @@
+// TopBreadCrumb88.jsx
 import Link from "next/link";
 
 const capitalizeFirstLetter = (str) => {
@@ -5,7 +6,7 @@ const capitalizeFirstLetter = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-const TopBreadCrumb88 = ({ hotel }) => {
+const TopBreadCrumb88 = ({ hotel, currentLang }) => { // Menerima currentLang
   if (!hotel) {
     return <div>No hotel data available.</div>;
   }
@@ -14,7 +15,7 @@ const TopBreadCrumb88 = ({ hotel }) => {
   const countrySlug = hotel?.countryslug || "unknown";
   const stateSlug = hotel?.stateslug || "unknown";
   const citySlug = hotel?.cityslug || "unknown";
-  const baseUrl = `/${categorySlug}/${countrySlug}/${stateSlug}/${citySlug}`;
+  const baseUrl = `/${currentLang}/${categorySlug}/${countrySlug}/${stateSlug}/${citySlug}`; // Gunakan currentLang
 
   return (
     <section className="py-10 d-flex items-center bg-white">
@@ -24,31 +25,31 @@ const TopBreadCrumb88 = ({ hotel }) => {
             <nav aria-label="breadcrumb">
               <div className="row x-gap-10 y-gap-5 items-center text-14 text-light-1">
                 <div className="col-auto">
-                  <Link href="/" className="text-blue-1">
+                  <Link href={`/${currentLang}`} className="text-blue-1"> {/* Gunakan currentLang */}
                     Home
                   </Link>
                 </div>
                 <div className="col-auto">&gt;</div>
                 <div className="col-auto">
-                  <Link href={`/${categorySlug}`} className="text-blue-1">
+                  <Link href={`/${currentLang}/${categorySlug}`} className="text-blue-1"> {/* Gunakan currentLang */}
                     {capitalizeFirstLetter(hotel?.category) || "Unknown Category"}
                   </Link>
                 </div>
                 <div className="col-auto">&gt;</div>
                 <div className="col-auto">
-                  <Link href={`/${categorySlug}/${countrySlug}`} className="text-blue-1">
+                  <Link href={`/${currentLang}/${categorySlug}/${countrySlug}`} className="text-blue-1"> {/* Gunakan currentLang */}
                     {capitalizeFirstLetter(hotel?.country) || "Unknown Country"}
                   </Link>
                 </div>
                 <div className="col-auto">&gt;</div>
                 <div className="col-auto">
-                  <Link href={`/${categorySlug}/${countrySlug}/${stateSlug}`} className="text-blue-1">
+                  <Link href={`/${currentLang}/${categorySlug}/${countrySlug}/${stateSlug}`} className="text-blue-1"> {/* Gunakan currentLang */}
                     {capitalizeFirstLetter(hotel?.state) || "Unknown State"}
                   </Link>
                 </div>
                 <div className="col-auto">&gt;</div>
                 <div className="col-auto">
-                  <Link href={baseUrl} className="text-blue-1">
+                  <Link href={baseUrl} className="text-blue-1"> {/* baseUrl sudah mengandung currentLang */}
                     {capitalizeFirstLetter(hotel?.city) || "Unknown City"}
                   </Link>
                 </div>
@@ -59,15 +60,6 @@ const TopBreadCrumb88 = ({ hotel }) => {
               </div>
             </nav>
           </div>
-
-          {/*
-          <div className="col-auto">
-            <Link href={baseUrl} className="text-14 text-blue-1 underline">
-              All {capitalizeFirstLetter(hotel?.category) || "Hotels"} in{" "}
-              {capitalizeFirstLetter(hotel?.city) || "Unknown City"}
-            </Link>
-          </div>
-          */}
         </div>
       </div>
     </section>
