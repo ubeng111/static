@@ -1,31 +1,10 @@
 // components/footer/index.jsx
-import Copyright from "./Copyright";
+import Copyright from "./Copyright"; // Mengimpor komponen Copyright
 
-const Footer = ({ dictionary, currentLang }) => {
+const Footer = ({ dictionary, currentLang }) => { // Footer sudah menerima dictionary dan currentLang sebagai prop
+  // Pastikan currentLang memiliki nilai default jika tidak ada, misalnya 'en'
   const langPrefix = currentLang ? `/${currentLang}` : '';
 
-  // --- PERBAIKAN PENTING DI SINI ---
-  // Pastikan dictionary dan dictionary.footer ada sebelum digunakan.
-  // Ini akan MENCEGAH crash jika getdictionary mengembalikan nilai yang tidak lengkap.
-  if (!dictionary || !dictionary.footer) {
-    console.error("Footer: Dictionary or dictionary.footer is missing. Rendering fallback UI.");
-    // Mengembalikan UI fallback minimal agar tidak crash.
-    // Pastikan fallback ini tidak mencoba mengakses properti yang tidak ada.
-    return (
-      <footer className="footer py-5 bg-dark-2 text-white">
-        <div className="container">
-          <p className="text-center text-white">Loading footer content...</p>
-          {/* Meneruskan dictionary ke Copyright, karena Copyright juga memiliki penanganan defensifnya sendiri. */}
-          <div className="border-top pt-3" style={{ borderColor: "rgba(255,255,255,0.2)" }}>
-            <Copyright dictionary={dictionary} />
-          </div>
-        </div>
-      </footer>
-    );
-  }
-  // --- AKHIR PERBAIKAN PENTING ---
-
-  // Setelah pengecekan di atas, akses ke dictionary.footer di sini seharusnya aman
   const categories = {
     [dictionary.footer.popularStays]: [
       { name: dictionary.footer.hotel, url: `${langPrefix}/hotel` },
@@ -68,7 +47,7 @@ const Footer = ({ dictionary, currentLang }) => {
                 style={{
                   borderBottom: "2px solid white",
                   paddingBottom: "0.3rem",
-                  fontSize: "16px",
+                  fontSize: "16px", // Set font size to 16px here
                 }}
               >
                 {title}
@@ -77,7 +56,7 @@ const Footer = ({ dictionary, currentLang }) => {
                 {links.map((link, i) => (
                   <li key={i}>
                     <a
-                      href={link.url}
+                      href={link.url} // Menggunakan URL relatif dengan prefiks bahasa
                       className="text-white d-block py-1 small"
                       style={{ textDecoration: "none" }}
                     >
@@ -93,7 +72,7 @@ const Footer = ({ dictionary, currentLang }) => {
           className="border-top pt-3"
           style={{ borderColor: "rgba(255,255,255,0.2)" }}
         >
-          <Copyright dictionary={dictionary} />
+          <Copyright dictionary={dictionary} /> {/* Meneruskan dictionary sebagai prop */}
         </div>
       </div>
     </footer>
