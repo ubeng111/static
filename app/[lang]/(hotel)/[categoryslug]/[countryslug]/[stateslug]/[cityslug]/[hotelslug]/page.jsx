@@ -13,11 +13,11 @@ const formatSlug = (slug) =>
 async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, hotelslug }) {
   // Sanitize slugs to prevent invalid characters
   const sanitizedParams = {
-    categoryslug: categoryslug?.replace(/[^a-zA-Z0-9-]/g, ''),
-    countryslug: countryslug?.replace(/[^a-zA-Z0-9-]/g, ''),
-    stateslug: stateslug?.replace(/[^a-zA-Z0-9-]/g, ''),
-    cityslug: cityslug?.replace(/[^a-zA-Z0-9-]/g, ''),
-    hotelslug: hotelslug?.replace(/[^a-zA-Z0-9-]/g, ''),
+    categoryslug: categoryslug?.replace(/[^a-zA-Z0-9-]/g, '') || '', // Tambah || '' untuk memastikan string
+    countryslug: countryslug?.replace(/[^a-zA-Z0-9-]/g, '') || '',
+    stateslug: stateslug?.replace(/[^a-zA-Z0-9-]/g, '') || '',
+    cityslug: cityslug?.replace(/[^a-zA-Z0-9-]/g, '') || '',
+    hotelslug: hotelslug?.replace(/[^a-zA-Z0-9-]/g, '') || '',
   };
 
   // Validate parameters
@@ -37,7 +37,13 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
   console.log('Constructed API URL in getHotelData:', apiUrl);
 
   try {
-    const response = await fetch(apiUrl, { cache: 'no-store' });
+    // === PERUBAHAN UTAMA UNTUK ISR ===
+    // Mengatur revalidate time (misalnya 3600 detik = 1 jam)
+    // Ini menggantikan `cache: 'no-store'` yang menyebabkan masalah SSG.
+    // Next.js akan meng-cache data selama 1 jam, kemudian memperbarui di latar belakang.
+    const response = await fetch(apiUrl, { next: { revalidate: 3600 } }); //
+    // === AKHIR PERUBAHAN ===
+
     if (!response.ok) {
       console.error(
         `Failed to fetch hotel data from API. Status: ${response.status} - ${response.statusText}`
@@ -59,7 +65,15 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
   }
 }
 
+// Untuk ISR, generateStaticParams masih diperlukan untuk memberitahu Next.js
+// rute mana saja yang harus di-prerender saat build (opsional, bisa hanya yang populer)
+// dan juga untuk "validasi" rute dinamis yang mungkin diakses.
+// Jika Anda tidak mengembalikan apa pun di sini, Next.js akan berasumsi
+// semua halaman adalah "dynamic" secara default, yang mungkin berarti SSR.
+// Namun, dengan `revalidate` pada fetch, ia akan mencoba ISR.
 export async function generateStaticParams() {
+  // Mengembalikan subset kecil atau nol slug untuk menghemat build time invocations.
+  // Halaman lain akan di-generate on demand dan di-cache oleh ISR.
   return [
     {
       categoryslug: 'hotel',
@@ -68,15 +82,24 @@ export async function generateStaticParams() {
       cityslug: 'los-angeles',
       hotelslug: 'the-ritz-carlton-los-angeles',
     },
+    // Jika Anda ingin hotel-sokol di-prerender saat build (bukan on demand pertama kali)
+    // Anda bisa menambahkannya di sini:
+    {
+      categoryslug: 'hotel',
+      countryslug: 'russia',
+      stateslug: 'cheboksary',
+      cityslug: 'cheboksary',
+      hotelslug: 'hotel-sokol',
+    },
+    // Halaman hotel lain yang tidak terdaftar di sini akan di-generate
+    // saat permintaan pertama datang (dan kemudian di-cache oleh ISR).
   ];
 }
 
 export async function generateMetadata({ params }) {
-  // --- MULAI PERUBAHAN UNTUK generateMetadata ---
-  const resolvedParams = await params; // <--- AWAIT PARAMS DI SINI
+  const resolvedParams = params; // Params sudah resolved, tidak perlu await lagi di sini
   console.log('Metadata params:', resolvedParams);
   const { hotelslug, lang: locale } = resolvedParams;
-  // --- AKHIR PERUBAHAN ---
 
   const dictionary = await getdictionary(locale);
   const metadataDict = dictionary?.metadata || {};
@@ -140,11 +163,9 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function HotelDetailPage({ params }) {
-  // --- MULAI PERUBAHAN UNTUK KOMPONEN Page ---
-  const resolvedParams = await params; // <--- AWAIT PARAMS DI SINI
+  const resolvedParams = params; // Params sudah resolved, tidak perlu await lagi di sini
   console.log('Received params in HotelDetailPage:', resolvedParams);
   const data = await getHotelData(resolvedParams);
-  // --- AKHIR PERUBAHAN ---
 
   console.log('Data received from getHotelData in HotelDetailPage component:', data);
   const { lang: locale } = resolvedParams;
@@ -153,7 +174,7 @@ export default async function HotelDetailPage({ params }) {
   const currentLang = locale; // Lang saat ini
 
   const commonDict = dictionary?.common || {};
-  const navigationDict = dictionary?.navigation || {};
+  const navigationDict = dictionary?.navigationDict?.navigation || {}; // Pastikan navigationDict aman
 
   if (!data || !data.hotel) {
     console.error('Hotel data is missing or null in HotelDetailPage. Calling notFound(). Data:', data);
@@ -218,36 +239,36 @@ export default async function HotelDetailPage({ params }) {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: navigationDict.home || 'Home', item: `https://hoteloza.com/${currentLang}` }, // URL Home dengan lang
+        { '@type': 'ListItem', position: 1, name: navigationDict.home || 'Home', item: `https://hoteloza.com/${currentLang}` },
         {
           '@type': 'ListItem',
           position: 2,
           name: formatSlug(resolvedParams.categoryslug) || formattedCategory,
-          item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}`, // URL Category dengan lang
+          item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}`,
         },
         {
           '@type': 'ListItem',
           position: 3,
           name: formatSlug(resolvedParams.countryslug) || formattedCountry,
-          item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}`, // URL Country dengan lang
+          item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}`,
         },
         {
           '@type': 'ListItem',
           position: 4,
           name: formatSlug(resolvedParams.stateslug) || formattedState,
-          item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}`, // URL State dengan lang
+          item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}`,
         },
         {
           '@type': 'ListItem',
           position: 5,
           name: formatSlug(resolvedParams.cityslug) || formattedCity,
-          item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}`, // URL City dengan lang
+          item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}`,
         },
         {
           '@type': 'ListItem',
           position: 6,
           name: hotel.title || formattedHotel,
-          item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}/${resolvedParams.hotelslug}`, // URL Hotel detail dengan lang
+          item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}/${resolvedParams.hotelslug}`,
         },
       ],
     },
@@ -271,7 +292,7 @@ export default async function HotelDetailPage({ params }) {
         stateslug={resolvedParams.stateslug}
         cityslug={resolvedParams.cityslug}
         dictionary={dictionary}
-        currentLang={currentLang} // Teruskan currentLang
+        currentLang={currentLang}
       />
     </>
   );
