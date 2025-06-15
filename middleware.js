@@ -17,7 +17,7 @@ export function middleware(request) {
 
   // Deklarasikan variabel sekali di awal fungsi
   let targetLocale = defaultLocale;
-  let pureContentSegments = [];
+  let pureContentSegments = []; // Initial declaration
   let foundInitialLocaleInPath = false;
 
   // DEBUG: Log awal permintaan
@@ -32,9 +32,12 @@ export function middleware(request) {
     foundInitialLocaleInPath = true;
     console.log('Middleware: Locale found in path:', targetLocale);
   } else {
+    // INI ADALAH PERBAIKANNYA: Tetapkan rawSegments ke pureContentSegments di sini
+    pureContentSegments = rawSegments; // <<< BARIS INI DITAMBAHKAN/DIPERBAIKI
+
     // 2. Jika tidak ada locale di URL path, coba deteksi dari Accept-Language header
     const acceptLanguageHeader = request.headers.get('accept-language');
-    let initialTargetLocale = defaultLocale; // Mulai dengan defaultLocale
+    let initialTargetLocale = defaultLocale;
 
     // DEBUG: Log Accept-Language header
     console.log('Middleware: Accept-Language Header:', acceptLanguageHeader);
@@ -78,6 +81,7 @@ export function middleware(request) {
     console.log('Middleware: Final determined targetLocale (after Accept-Language check):', targetLocale);
   }
 
+  // Bangun jalur URL yang dinormalisasi: /{targetLocale}/{pureContentPath}
   const normalizedPathname = `/${targetLocale}${pureContentSegments.length > 0 ? `/${pureContentSegments.join('/')}` : ''}`;
 
   // DEBUG: Log hasil normalisasi
