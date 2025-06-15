@@ -85,7 +85,7 @@ export default function ClientPage({
 
   return (
     <>
-                <Header11 dictionary={dictionary} currentLang={currentLang} />
+      <Header11 dictionary={dictionary} currentLang={currentLang} />
 
 
       <style jsx global>{`
@@ -169,7 +169,7 @@ export default function ClientPage({
               ariaLabel={hotelSinglePageDict.toggleFacilities || `Toggle Facilities of ${hotel?.title}`}
             >
               <div className="row x-gap-40 y-gap-40">
-                <Facilities dictionary={dictionary} /> {/* Pastikan Facilities mengambil dari dictionary */}
+                <Facilities dictionary={dictionary} />
               </div>
             </AccordionItem>
 
@@ -192,15 +192,18 @@ export default function ClientPage({
               <AccordionItem
                 id="relatedHotelsCollapse"
                 icon="fas fa-hotel"
-                title={hotelSinglePageDict.relatedHotels || `Popular properties similar to ${hotel?.title}`}
+                // Perubahan di sini: Menggabungkan string secara eksplisit untuk title AccordionItem
+                title={`${hotelSinglePageDict.relatedHotels || "Popular properties similar to"} ${hotel?.title || "this hotel"}`}
                 isOpen={openSections.relatedHotels}
                 toggle={() => toggleSection('relatedHotels')}
-                ariaLabel={hotelSinglePageDict.toggleRelatedHotels || `Toggle Popular properties similar to ${hotel?.title}`}
+                // Perubahan di sini: Menggabungkan string secara eksplisit untuk ariaLabel
+                ariaLabel={`${hotelSinglePageDict.toggleRelatedHotels || "Toggle Popular properties similar to"} ${hotel?.title || "this hotel"}`}
               >
                 <div className="row justify-center text-center">
                   <div className="col-auto">
                     <h2 style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>
-                      {hotelSinglePageDict.relatedHotels || `Popular properties similar to ${hotel?.title}`}
+                      {/* PERUBAHAN UTAMA: Menggabungkan string di sini */}
+                      {`${hotelSinglePageDict.relatedHotels || "Popular properties similar to"} ${hotel?.title || "this hotel"}`}
                     </h2>
                     <p style={{ fontSize: '14px', marginTop: '14px' }}>
                       {commonDict.findTopRatedStays || "Find top-rated stays with similar perks near your destination"}
@@ -215,14 +218,14 @@ export default function ClientPage({
                     stateslug={stateslug}
                     cityslug={cityslug}
                     dictionary={dictionary}
-                    currentLang={currentLang} // Teruskan currentLang
+                    currentLang={currentLang}
                   />
                   <RelatedHotels
                     relatedHotels={relatedHotels}
                     category={categoryslug}
                     city={hotel?.city || cityslug?.replace(/-/g, ' ') || ''}
                     dictionary={dictionary}
-                    currentLang={currentLang} // Teruskan currentLang
+                    currentLang={currentLang}
                   />
                 </div>
               </AccordionItem>
@@ -238,7 +241,7 @@ export default function ClientPage({
               ariaLabel={hotelSinglePageDict.toggleFrequentlyAskedQuestions || "Toggle Frequently Asked Questions"}
             >
               <div id="Faq1" className="row y-gap-20">
-                <Faq title={hotel?.title} dictionary={dictionary} /> {/* Pastikan Faq mengambil dari dictionary */}
+                <Faq title={hotel?.title} dictionary={dictionary} />
               </div>
             </AccordionItem>
           </div>
@@ -261,7 +264,7 @@ export default function ClientPage({
                       longitude={hotel?.longitude}
                       title={hotel?.title}
                       dictionary={dictionary}
-                    /> {/* Pastikan MapComponent mengambil dari dictionary */}
+                    />
                   </AccordionItem>
                 )}
               </div>
@@ -269,7 +272,7 @@ export default function ClientPage({
           </div>
         </div>
       </section>
- <CallToActions dictionary={dictionary} currentLang={currentLang} />
+      <CallToActions dictionary={dictionary} currentLang={currentLang} />
 
       <Footer dictionary={dictionary} currentLang={currentLang} />
     </>
