@@ -4,39 +4,28 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
-// HAPUS SEMUA IMPOR BERIKUT KARENA TIDAK DIGUNAKAN DI DALAM KOMPONEN INI:
-// import MainMenu from '../MainMenu';
-// import CurrencyMenu from '../CurrencyMenu';
-// import HeaderSearch from '../HeaderSearch'; // Ini mengimpor dirinya sendiri!
-// import Head from 'next/head'; // Head tidak digunakan di komponen ini
-// import LanguageMenu from '../LanguageMenu';
-
-
 const HeaderSearch = ({ dictionary, currentLang }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [isOverlayOpen, setIsOverlayOpen] = useState(false); // Internal state for overlay
-  const [isMobile, setIsMobile] = useState(false); // State to track mobile view
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const router = useRouter();
-  const dropdownRef = useRef(null); // Ref for suggestions dropdown (desktop & overlay)
-  const searchInputRef = useRef(null); // Ref for the actual input field (desktop & overlay)
+  const dropdownRef = useRef(null);
+  const searchInputRef = useRef(null);
 
   const searchDict = dictionary?.search || {};
   const commonDict = dictionary?.common || {};
 
-  // Detect mobile view on mount and resize
   useEffect(() => {
     const checkIsMobile = () => {
-      // Pastikan breakpoint ini konsisten dengan yang di Header1
       setIsMobile(window.innerWidth <= 767);
     };
-    checkIsMobile(); // Initial check
+    checkIsMobile();
     window.addEventListener('resize', checkIsMobile);
     return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
 
-  // Memfokuskan input ketika overlay terbuka
   useEffect(() => {
     if (isOverlayOpen && searchInputRef.current) {
       searchInputRef.current.focus();
@@ -77,7 +66,7 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
       router.push(`/${currentLang}/search-result?city_id=${encodeURIComponent(selectedCityId)}&city=${encodeURIComponent(selectedCityName)}`);
       setQuery('');
       setSuggestions([]);
-      setIsOverlayOpen(false); // Close overlay after search
+      setIsOverlayOpen(false);
     }
   };
 
@@ -85,18 +74,15 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
     router.push(`/${currentLang}/search-result?city_id=${encodeURIComponent(city.city_id)}&city=${encodeURIComponent(city.city)}`);
     setQuery('');
     setSuggestions([]);
-    setIsOverlayOpen(false); // Close overlay after selection
+    setIsOverlayOpen(false);
   };
 
-  // Close suggestions dropdown (for desktop input) AND overlay suggestions
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Logic for desktop suggestions dropdown
       if (!isMobile && dropdownRef.current && !dropdownRef.current.contains(event.target) && searchInputRef.current && !searchInputRef.current.contains(event.target)) {
         setSuggestions([]);
       }
 
-      // Logic for closing mobile search overlay when clicking outside its content
       if (isMobile && isOverlayOpen && event.target.closest('.search-overlay-content') === null) {
           if (event.target.closest('.mobile-search-toggle') === null) {
              setIsOverlayOpen(false);
@@ -119,7 +105,7 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
             <label htmlFor="hotel-search-input-desktop" className="sr-only">Search for hotels or destinations</label>
             <input
               id="hotel-search-input-desktop"
-              ref={searchInputRef} // Use searchInputRef for desktop input too
+              ref={searchInputRef}
               type="text"
               placeholder={searchDict.destinationPlaceholder || "Search..."}
               value={query}
@@ -185,7 +171,6 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
           onClick={() => setIsOverlayOpen(true)}
           aria-label="Search"
         >
-          {/* SVG for Search Icon */}
           <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
             <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
           </svg>
@@ -208,7 +193,6 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
                 className="overlay-search-input"
               />
               <button type="submit" className="overlay-search-submit" aria-label="Submit search">
-                {/* SVG for Arrow Right Icon (optional, you can keep or replace this) */}
                 <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
                 </svg>
@@ -223,7 +207,6 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
               }}
               aria-label="Close search"
             >
-              {/* SVG for Close Icon */}
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
               </svg>
@@ -262,8 +245,10 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
         .header-search-container {
           position: relative;
           flex: 1 1 auto;
-          min-width: 70px;
-          max-width: 220px;
+          /* --- Perubahan di sini untuk mencegah 'panjang sejenak' --- */
+          min-width: 150px; /* Memberikan lebar minimum yang cukup */
+          max-width: 220px; /* Batas lebar maksimum tetap */
+          /* --- Akhir Perubahan --- */
           box-sizing: border-box;
           flex-shrink: 1;
         }
@@ -272,11 +257,11 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
         .mobile-search-toggle {
           background: none;
           border: none;
-          color: #FFFFFF; /* White icon color, now applies to SVG fill */
-          font-size: 20px; /* Keep for general sizing, but SVG will use width/height */
+          color: #FFFFFF;
+          font-size: 20px;
           cursor: pointer;
-          height: 48px; /* Large touch target */
-          width: 48px; /* Large touch target */
+          height: 48px;
+          width: 48px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -284,11 +269,10 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
         }
 
         .mobile-search-toggle .icon {
-          width: 20px; /* Adjust SVG icon size */
-          height: 20px; /* Adjust SVG icon size */
-          fill: currentColor; /* Inherit color from parent (.mobile-search-toggle) */
+          width: 20px;
+          height: 20px;
+          fill: currentColor;
         }
-
 
         /* Search Overlay Styles */
         .search-overlay {
@@ -297,23 +281,23 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
           left: 0;
           width: 100%;
           height: 100%;
-          background-color: rgba(0, 0, 0, 0.9); /* Darker overlay */
+          background-color: rgba(0, 0, 0, 0.9);
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding-top: 60px; /* Space for header */
+          padding-top: 60px;
           z-index: 1000;
         }
 
         .search-overlay-content {
           width: 90%;
           max-width: 500px;
-          position: relative; /* For suggestions */
+          position: relative;
         }
 
         .overlay-search-form {
           display: flex;
-          border-bottom: 2px solid #fff; /* Underline effect */
+          border-bottom: 2px solid #fff;
           padding-bottom: 5px;
           margin-bottom: 20px;
         }
@@ -340,15 +324,14 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
           padding: 8px 10px;
         }
         .overlay-search-submit .icon {
-          width: 20px; /* Adjust SVG icon size */
-          height: 20px; /* Adjust SVG icon size */
+          width: 20px;
+          height: 20px;
           fill: currentColor;
         }
 
-
         .overlay-close-button {
           position: absolute;
-          top: -40px; /* Position above search bar in overlay */
+          top: -40px;
           right: 0;
           background: none;
           border: none;
@@ -362,11 +345,10 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
           justify-content: center;
         }
         .overlay-close-button .icon {
-          width: 24px; /* Adjust SVG icon size */
-          height: 24px; /* Adjust SVG icon size */
+          width: 24px;
+          height: 24px;
           fill: currentColor;
         }
-
 
         .overlay-suggestions-list {
           background-color: #fff;
@@ -388,43 +370,40 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
           background-color: #f0f0f0;
         }
 
-
         @media (max-width: 767px) {
           .header-search-container {
-            display: none; /* Hide desktop input container on mobile */
+            display: none;
           }
-          /* mobile-search-toggle is displayed by default for mobile within its component's render logic */
         }
 
-        @media (max-width: 479px) { /* iPhone SE specific overrides */
+        @media (max-width: 479px) {
           .mobile-search-toggle {
-            height: 44px; /* Consistent touch target */
+            height: 44px;
             width: 44px;
-            /* font-size: 18px; <- ini tidak lagi relevan untuk SVG */
           }
           .mobile-search-toggle .icon {
-            width: 18px; /* Adjust SVG icon size for iPhone SE */
-            height: 18px; /* Adjust SVG icon size for iPhone SE */
+            width: 18px;
+            height: 18px;
           }
           .search-overlay {
-            padding-top: 50px; /* Adjust padding for smaller header */
+            padding-top: 50px;
           }
           .overlay-close-button {
-            top: -35px; /* Adjust close button position */
+            top: -35px;
           }
           .overlay-close-button .icon {
-            width: 22px; /* Adjust SVG icon size for iPhone SE */
-            height: 22px; /* Adjust SVG icon size for iPhone SE */
+            width: 22px;
+            height: 22px;
           }
           .overlay-search-input {
-            font-size: 18px; /* Slightly smaller font in overlay for SE */
+            font-size: 18px;
           }
           .overlay-suggestions-list li {
-            font-size: 14px; /* Smaller font for suggestions */
+            font-size: 14px;
           }
           .overlay-search-submit .icon {
-            width: 18px; /* Adjust SVG icon size for iPhone SE */
-            height: 18px; /* Adjust SVG icon size for iPhone SE */
+            width: 18px;
+            height: 18px;
           }
         }
       `}</style>
