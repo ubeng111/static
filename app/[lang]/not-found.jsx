@@ -2,7 +2,7 @@
 import Footer from "@/components/footer";
 import CallToActions from "@/components/common/CallToActions";
 import NotFound from "@/components/common/NotFound";
-import { getdictionary } from '@/dictionaries/get-dictionary'; // Import getdictionary
+import { getdictionary } from '@/dictionaries/get-dictionary'; 
 
 export const metadata = {
   title: "404 || Hotelazo",
@@ -15,15 +15,16 @@ const NotFoundPage = async ({ params }) => {
   // Meskipun not-found biasanya tidak memiliki params.lang langsung,
   // ini adalah praktik yang baik jika Next.js di masa mendatang menyediakannya
   // atau jika ada routing kompleks. Untuk saat ini, 'us' adalah fallback yang aman.
-  const lang = params?.lang || 'us';
+  const lang = params?.lang || 'us'; // Variabel yang dideklarasikan adalah 'lang'
   const dictionary = await getdictionary(lang);
 
   return (
     <>
       <div className="header-margin"></div>
       <NotFound />
-      <CallToActions dictionary={dictionary} currentLang={currentLang} />
-      <Footer dictionary={dictionary} currentLang={currentLang} />
+      {/* Gunakan 'lang' sebagai pengganti 'currentLang' */}
+      <CallToActions dictionary={dictionary} currentLang={lang} />
+      <Footer dictionary={dictionary} currentLang={lang} />
     </>
   );
 };

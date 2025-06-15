@@ -2,7 +2,6 @@
 import { NextResponse } from 'next/server';
 import { i18nConfig, defaultLocale } from './config/i18n';
 
-// validLangSlugs akan berisi kode negara seperti 'us', 'es', 'cn', 'hk', dll.
 const validLangSlugs = i18nConfig.map(config => config.code);
 
 export function middleware(request) {
@@ -14,63 +13,90 @@ export function middleware(request) {
     return NextResponse.next();
   }
 
-  const rawSegments = pathname.split('/').filter(Boolean); // e.g., ['us', 'us', 'villa', 'indonesia']
+  const rawSegments = pathname.split('/').filter(Boolean);
 
-  let targetLocale = defaultLocale; // Locale yang seharusnya ada di awal URL
-  let pureContentSegments = []; // Segmen jalur yang murni konten, setelah normalisasi
+  // Deklarasikan variabel sekali di awal fungsi
+  let targetLocale = defaultLocale;
+  let pureContentSegments = [];
+  let foundInitialLocaleInPath = false;
 
-  let foundInitialLocale = false;
+  // DEBUG: Log awal permintaan
+  console.log('--- Middleware Request Start ---');
+  console.log('Middleware: Original Pathname:', pathname);
+  console.log('Middleware: Raw Segments:', rawSegments);
 
-  // Iterasi melalui segmen untuk mengekstrak targetLocale yang benar
-  // dan membangun pureContentSegments tanpa locale yang berulang di awal.
-  for (let i = 0; i < rawSegments.length; i++) {
-    const segment = rawSegments[i];
+  // 1. Coba deteksi locale dari URL path terlebih dahulu
+  if (rawSegments.length > 0 && validLangSlugs.includes(rawSegments[0])) {
+    targetLocale = rawSegments[0];
+    pureContentSegments = rawSegments.slice(1);
+    foundInitialLocaleInPath = true;
+    console.log('Middleware: Locale found in path:', targetLocale);
+  } else {
+    // 2. Jika tidak ada locale di URL path, coba deteksi dari Accept-Language header
+    const acceptLanguageHeader = request.headers.get('accept-language');
+    let initialTargetLocale = defaultLocale; // Mulai dengan defaultLocale
 
-    if (!foundInitialLocale) {
-      // Jika kita belum menemukan locale awal
-      if (validLangSlugs.includes(segment)) {
-        targetLocale = segment; // Ini adalah locale utama yang kita inginkan
-        foundInitialLocale = true;
-      } else {
-        // Jika segmen pertama BUKAN locale yang valid, berarti itu adalah bagian dari konten.
-        // URL akan dimulai dengan defaultLocale, diikuti oleh konten ini.
-        pureContentSegments.push(segment);
+    // DEBUG: Log Accept-Language header
+    console.log('Middleware: Accept-Language Header:', acceptLanguageHeader);
+
+    if (acceptLanguageHeader) {
+      const preferredLanguages = acceptLanguageHeader
+        .split(',')
+        .map(lang => {
+          const parts = lang.trim().split(';');
+          const code = parts[0].toLowerCase();
+          const q = parts.length > 1 ? parseFloat(parts[1].split('=')[1]) : 1.0;
+          return { code, q };
+        })
+        .sort((a, b) => b.q - a.q); // Urutkan berdasarkan kualitas secara menurun
+
+      // DEBUG: Log parsed preferred languages
+      console.log('Middleware: Parsed Preferred Languages:', preferredLanguages);
+
+      for (const browserPref of preferredLanguages) {
+        const langCode = browserPref.code;
+
+        // Prioritas 1: Coba temukan kecocokan langsung dengan `localeCode` di i18nConfig
+        let matchedConfig = i18nConfig.find(config => config.localeCode === langCode);
+        if (matchedConfig) {
+          initialTargetLocale = matchedConfig.code; // Gunakan slug URL dari i18nConfig
+          console.log('Middleware: Match by localeCode:', langCode, '->', initialTargetLocale);
+          break; // Kecocokan terbaik ditemukan, gunakan ini
+        }
+
+        // Prioritas 2: Jika tidak ada kecocokan `localeCode` yang tepat, coba temukan berdasarkan `language` generik
+        const genericLang = langCode.split('-')[0];
+        matchedConfig = i18nConfig.find(config => config.language === genericLang);
+        if (matchedConfig) {
+          initialTargetLocale = matchedConfig.code; // Gunakan slug URL dari i18nConfig
+          console.log('Middleware: Match by generic language:', genericLang, '->', initialTargetLocale);
+          break; // Kecocokan ditemukan, gunakan ini
+        }
       }
-    } else {
-      // Kita SUDAH menemukan locale awal.
-      // Semua segmen berikutnya, BAHKAN JIKA MEREKA KODE NEGARA YANG VALID,
-      // akan diperlakukan sebagai bagian dari jalur konten.
-      pureContentSegments.push(segment);
     }
+    targetLocale = initialTargetLocale;
+    console.log('Middleware: Final determined targetLocale (after Accept-Language check):', targetLocale);
   }
 
-  // Tangani kasus di mana tidak ada locale valid ditemukan di path (misal: '/' atau '/villa')
-  if (!foundInitialLocale && rawSegments.length === 0) {
-      targetLocale = defaultLocale;
-  } else if (!foundInitialLocale && rawSegments.length > 0) {
-      // Jika path seperti '/villa/indonesia' (tanpa locale di awal),
-      // maka defaultLocale akan digunakan dan 'villa/indonesia' menjadi contentPath.
-      targetLocale = defaultLocale; // Pastikan menggunakan defaultLocale
-      // pureContentSegments sudah terisi dengan rawSegments jika ini kasusnya
-  }
-
-
-  // Bangun jalur URL yang dinormalisasi: /{targetLocale}/{pureContentPath}
-  // Ini akan memastikan struktur URL yang konsisten dan mengatasi duplikasi yang tidak sah di awal.
   const normalizedPathname = `/${targetLocale}${pureContentSegments.length > 0 ? `/${pureContentSegments.join('/')}` : ''}`;
 
-  // Lakukan redirect jika URL saat ini tidak sama dengan URL yang dinormalisasi.
+  // DEBUG: Log hasil normalisasi
+  console.log('Middleware: Normalized Pathname:', normalizedPathname);
+  console.log('Middleware: Should Redirect:', pathname !== normalizedPathname);
+
   if (pathname !== normalizedPathname) {
     const newUrl = new URL(`${normalizedPathname}${search}`, request.url);
+    console.log('Middleware: Redirecting to:', newUrl.toString());
+    console.log('--- Middleware Request End (Redirect) ---');
     return NextResponse.redirect(newUrl);
   }
 
-  // Jika URL sudah dinormalisasi, lanjutkan request.
+  console.log('Middleware: Continuing without redirect.');
+  console.log('--- Middleware Request End (Continue) ---');
   return NextResponse.next();
 }
 
 export const config = {
-  // Matcher untuk semua path kecuali API, _next, dan file statis
   matcher: [
     '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],

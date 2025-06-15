@@ -2,7 +2,7 @@
 import ClientProviders from "@/components/ClientProviders";
 import { getdictionary } from '@/dictionaries/get-dictionary';
 import { headers } from 'next/headers';
-import { locales, defaultLocale, i18nConfig } from '@/config/i18n';
+import { locales, defaultLocale, i18nConfig } from '@/config/i18n'; // Import dari i18n.js
 
 // Import CSS global
 import "swiper/css";
@@ -17,30 +17,27 @@ import "@/styles/index.scss";
 export default async function RootLayout({ children }) {
   const headersList = headers();
   const acceptLanguage = await headersList.get('accept-language') || 'en-US';
-  const browserLangPref = acceptLanguage.split(',')[0].split('-')[0].toLowerCase();
+  const browserLangPref = acceptLanguage.split(',')[0].split('-')[0].toLowerCase(); // e.g., 'en', 'es', 'af'
 
   // Cari countryCode yang cocok di i18nConfig
-  // DEBUG: Log Accept-Language dari Layout
-  console.log('--- Layout Render Start ---');
-  console.log('Layout: Accept-Language Header (raw):', acceptLanguage);
-  console.log('Layout: Detected Browser Lang Pref (from Accept-Language):', browserLangPref);
-
-  // Perbaiki logika pencarian ini juga, gunakan properti yang benar dari i18nConfig
   const matchedLangConfig = i18nConfig.find(config =>
-    config.localeCode.startsWith(browserLangPref) || config.language === browserLangPref || config.code === browserLangPref // Prioritas: localeCode (e.g. en-US -> en), then generic language, then exact code
+    config.countryCode === browserLangPref || config.code.startsWith(browserLangPref + '-')
   );
 
-  const initialLangSlug = matchedLangConfig ? matchedLangConfig.code : defaultLocale; // Gunakan .code sebagai slug
+  // Gunakan countryCode yang cocok, atau defaultLocale jika tidak ada yang cocok
+  const initialLangSlug = matchedLangConfig ? matchedLangConfig.countryCode : defaultLocale;
 
   // Debugging di Server Component
-  console.log('Layout: Matched Lang Config:', matchedLangConfig);
+  console.log('Layout: Accept-Language Header:', acceptLanguage);
+  console.log('Layout: Detected Browser Lang Pref:', browserLangPref);
   console.log('Layout: Determined initialLangSlug:', initialLangSlug);
-  console.log('--- Layout Render End ---');
+
 
   const dictionary = await getdictionary(initialLangSlug);
 
+  // Debugging dictionary load
   console.log('Layout: Loaded dictionary for:', initialLangSlug);
-  console.log('Layout: Footer section of dictionary (sample):', dictionary?.footer?.copyright);
+  console.log('Layout: Footer section of dictionary:', dictionary?.footer); // Periksa objek footer
 
   return (
     <html lang={initialLangSlug}>
