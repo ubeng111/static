@@ -2,7 +2,8 @@
 import ClientProviders from "@/components/ClientProviders";
 import { getdictionary } from '@/dictionaries/get-dictionary';
 import { headers } from 'next/headers';
-import { locales, defaultLocale, i18nConfig } from '@/config/i18n';
+// Import 'defaultHtmlLang' dari config/i18n
+import { locales, defaultLocale, i18nConfig, defaultHtmlLang } from '@/config/i18n'; 
 
 // Import CSS global
 import "swiper/css";
@@ -19,31 +20,34 @@ export default async function RootLayout({ children }) {
   const acceptLanguage = await headersList.get('accept-language') || 'en-US';
   const browserLangPref = acceptLanguage.split(',')[0].split('-')[0].toLowerCase();
 
-  // Cari countryCode yang cocok di i18nConfig
   // DEBUG: Log Accept-Language dari Layout
   console.log('--- Layout Render Start ---');
   console.log('Layout: Accept-Language Header (raw):', acceptLanguage);
   console.log('Layout: Detected Browser Lang Pref (from Accept-Language):', browserLangPref);
 
-  // Perbaiki logika pencarian ini juga, gunakan properti yang benar dari i18nConfig
   const matchedLangConfig = i18nConfig.find(config =>
-    config.localeCode.startsWith(browserLangPref) || config.language === browserLangPref || config.code === browserLangPref // Prioritas: localeCode (e.g. en-US -> en), then generic language, then exact code
+    config.localeCode.startsWith(browserLangPref) || config.language === browserLangPref || config.code === browserLangPref
   );
 
-  const initialLangSlug = matchedLangConfig ? matchedLangConfig.code : defaultLocale; // Gunakan .code sebagai slug
+  // Gunakan 'htmlLangCode' dari matched config, atau 'defaultHtmlLang'
+  const initialHtmlLang = matchedLangConfig ? matchedLangConfig.htmlLangCode : defaultHtmlLang;
 
   // Debugging di Server Component
   console.log('Layout: Matched Lang Config:', matchedLangConfig);
-  console.log('Layout: Determined initialLangSlug:', initialLangSlug);
+  console.log('Layout: Determined initialHtmlLang (for <html> lang attribute):', initialHtmlLang);
   console.log('--- Layout Render End ---');
 
-  const dictionary = await getdictionary(initialLangSlug);
+  // Gunakan 'code' dari matched config, atau 'defaultLocale' untuk mengambil kamus
+  // Asumsi: getdictionary mengharapkan slug seperti 'us', 'id', 'es'
+  const initialLangSlugForDictionary = matchedLangConfig ? matchedLangConfig.code : defaultLocale; 
+  const dictionary = await getdictionary(initialLangSlugForDictionary);
 
-  console.log('Layout: Loaded dictionary for:', initialLangSlug);
+
+  console.log('Layout: Loaded dictionary for:', initialLangSlugForDictionary);
   console.log('Layout: Footer section of dictionary (sample):', dictionary?.footer?.copyright);
 
   return (
-    <html lang={initialLangSlug}>
+    <html lang={initialHtmlLang}> {/* Atribut lang sekarang menggunakan nilai BCP 47 yang valid */}
       <head>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <meta
@@ -52,7 +56,7 @@ export default async function RootLayout({ children }) {
         />
       </head>
       <body>
-        <ClientProviders dictionary={dictionary} initialLangSlug={initialLangSlug}>
+        <ClientProviders dictionary={dictionary} initialLangSlug={initialLangSlugForDictionary}>
           {children}
         </ClientProviders>
       </body>
