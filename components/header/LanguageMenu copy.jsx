@@ -13,6 +13,8 @@ const LanguageMenu = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const selectedOptionRef = useRef(null);
+  const [dropdownStyle, setDropdownStyle] = useState({});
 
   const getFlagUrl = (countryCode) => {
     if (!countryCode) return '';
@@ -58,13 +60,67 @@ const LanguageMenu = () => {
     };
   }, [dropdownRef]);
 
+  useEffect(() => {
+    if (isOpen && selectedOptionRef.current) {
+      const rect = selectedOptionRef.current.getBoundingClientRect();
+      const offset = 5;
+
+      let dropdownCalculatedWidth = 100;
+      const isMobileView = window.innerWidth <= 767;
+      const isIphoneSEView = window.innerWidth <= 479;
+
+      if (isIphoneSEView) {
+        dropdownCalculatedWidth = 52;
+      } else if (isMobileView) {
+        dropdownCalculatedWidth = 70;
+      }
+
+      let dropdownHeightLimit = 400;
+      if (isIphoneSEView) {
+          dropdownHeightLimit = 280;
+      } else if (isMobileView) {
+          dropdownHeightLimit = 320;
+      }
+
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+
+      let finalTop = rect.bottom + offset;
+      let finalRight = window.innerWidth - rect.right;
+
+      const headerHeightDesktop = 60;
+      if (!isMobileView && finalTop < headerHeightDesktop) {
+          finalTop = headerHeightDesktop + offset;
+      }
+
+      if (isMobileView) {
+          if (spaceBelow < dropdownHeightLimit && spaceAbove > dropdownHeightLimit) {
+              finalTop = rect.top - dropdownHeightLimit - offset;
+          } else if (spaceBelow < dropdownHeightLimit && spaceAbove < dropdownHeightLimit) {
+              finalTop = window.innerHeight - dropdownHeightLimit - offset;
+              finalTop = Math.max(0, finalTop);
+          }
+      }
+
+      setDropdownStyle({
+        position: 'fixed',
+        top: `${finalTop}px`,
+        right: `${finalRight}px`,
+        width: `${dropdownCalculatedWidth}px`,
+        zIndex: 9999
+      });
+    } else {
+      setDropdownStyle({});
+    }
+  }, [isOpen]);
+
   if (!currentLanguageItem) {
     return null;
   }
 
   return (
     <div className="custom-language-menu" ref={dropdownRef}>
-      <div className="selected-option" onClick={() => setIsOpen(!isOpen)}>
+      <div className="selected-option" onClick={() => setIsOpen(!isOpen)} ref={selectedOptionRef}>
         <img
           src={getFlagUrl(currentLanguageItem.code)}
           alt={currentLanguageItem.name}
@@ -76,7 +132,7 @@ const LanguageMenu = () => {
       </div>
 
       {isOpen && (
-        <ul className="options-list">
+        <ul className="options-list" style={dropdownStyle}>
           {i18nConfig.map((lang) => (
             <li
               key={lang.code}
@@ -100,8 +156,8 @@ const LanguageMenu = () => {
           position: relative;
           display: inline-block;
           font-size: 14px;
-          min-width: 75px; /* Default desktop width */
-          max-width: 95px; /* Default desktop width */
+          min-width: 75px;
+          max-width: 95px;
           border: none;
           background-color: transparent;
           cursor: pointer;
@@ -118,12 +174,13 @@ const LanguageMenu = () => {
           height: 40px;
           overflow: hidden;
           background-color: transparent;
-          color: #FFFFFF; /* Ensure text color is white on dark background */
+          color: #FFFFFF;
         }
 
         .flag-icon {
-          width: 36px;
-          height: auto;
+          height: 100%;
+          width: auto;
+          object-fit: contain;
           flex-shrink: 0;
           border: none;
           box-shadow: none;
@@ -141,10 +198,6 @@ const LanguageMenu = () => {
         }
 
         .options-list {
-          position: absolute;
-          top: 100%;
-          right: 0;
-          width: 100px;
           background-color: #333;
           border: 1px solid rgba(255,255,255,0.2);
           border-top: none;
@@ -152,10 +205,9 @@ const LanguageMenu = () => {
           list-style: none;
           padding: 0;
           margin: 0;
-          max-height: 200px;
+          max-height: 400px;
           overflow-y: auto;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-          z-index: 1001;
         }
 
         .options-list li {
@@ -165,14 +217,21 @@ const LanguageMenu = () => {
           padding: 4px 8px;
           cursor: pointer;
           height: 40px;
+          box-sizing: border-box;
           background-color: transparent;
-          color: #FFFFFF; /* Ensure text color is white for list items */
+          color: #FFFFFF;
+        }
+
+        /* Apply margin-bottom to list items themselves for vertical spacing */
+        .options-list li:not(:last-child) {
+          margin-bottom: 10px; /* Adjust as needed for desktop */
         }
 
         .options-list li .flag-icon {
-          width: 36px;
-          height: auto;
-          margin-right: 0;
+          height: 100%;
+          width: auto;
+          object-fit: contain;
+          margin-right: 0; /* No horizontal margin within the list item flag */
         }
 
         .options-list li:hover, .options-list li.active {
@@ -190,53 +249,71 @@ const LanguageMenu = () => {
             padding: 3px 6px;
           }
           .flag-icon {
-            width: 28px;
-            height: 19px;
+            height: 100%;
+            width: auto;
+            object-fit: contain;
             margin-right: 5px;
           }
           .options-list {
-            width: 70px;
+            max-height: 320px;
           }
           .options-list li {
             height: 32px;
             padding: 3px 6px;
+            box-sizing: border-box;
+          }
+          /* Adjust margin-bottom for list items on mobile */
+          .options-list li:not(:last-child) {
+            margin-bottom: 8px; /* Adjust as needed for mobile */
           }
           .options-list li .flag-icon {
-            width: 28px;
-            height: 19px;
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            margin-right: 0;
           }
         }
 
         @media (max-width: 479px) { /* iPhone SE specific overrides */
           .custom-language-menu {
-            min-width: 48px; /* Target 48px touch target */
-            max-width: 52px; /* Slight buffer */
-            height: 28px; /* Consistent height with Currency & Search input */
-            border: 1px solid #777; /* Border for clarity */
+            min-width: 48px;
+            max-width: 52px;
+            height: 28px;
+            border: 1px solid #777;
             border-radius: 4px;
           }
           .selected-option {
             height: 28px;
-            padding: 0 4px; /* Minimal padding */
+            padding: 0 4px;
             justify-content: center;
           }
           .flag-icon {
-            width: 24px; /* Smallest practical flag size */
-            height: 16px;
-            margin-right: 2px; /* Minimal margin */
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            margin-right: 2px;
           }
           .arrow-icon {
-            font-size: 8px; /* Very small arrow */
+            font-size: 8px;
           }
           .options-list {
-            min-width: 100%; /* Make dropdown match parent width */
-            right: 0; /* Align dropdown to right edge of parent */
-            left: auto;
+            max-height: 280px;
           }
           .options-list li {
             height: 28px;
             padding: 0 6px;
-            font-size: 11px; /* Consistent with Currency */
+            font-size: 11px;
+            box-sizing: border-box;
+          }
+          /* Adjust margin-bottom for list items on iPhone SE */
+          .options-list li:not(:last-child) {
+            margin-bottom: 6px; /* Adjust as needed for iPhone SE */
+          }
+          .options-list li .flag-icon {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            margin-right: 0;
           }
         }
       `}</style>

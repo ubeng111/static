@@ -4,6 +4,7 @@
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { i18nConfig, defaultLocale } from '@/config/i18n';
 
+// PERBAIKAN SINTAKS IMPORT DI SINI
 import { useState, useRef, useEffect } from 'react';
 
 const LanguageMenu = () => {
@@ -243,6 +244,8 @@ const LanguageMenu = () => {
             min-width: 60px;
             max-width: 70px;
             height: 32px;
+            // Border untuk mobile umum (jika ada, ubah ke none atau transparent)
+            border: none; // Menghilangkan border
           }
           .selected-option {
             height: 32px;
@@ -279,7 +282,7 @@ const LanguageMenu = () => {
             min-width: 48px;
             max-width: 52px;
             height: 28px;
-            border: 1px solid #777;
+            border: none; /* UBAH INI MENJADI NONE ATAU transparent */
             border-radius: 4px;
           }
           .selected-option {
