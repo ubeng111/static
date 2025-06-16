@@ -1,81 +1,60 @@
-// app/[lang]/(hotel)/[categoryslug]/[countryslug]/[stateslug]/page.jsx
+// page.jsx (State)
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
-import { getdictionary } from '@/dictionaries/get-dictionary';
+import { getdictionary } from '@/dictionaries/get-dictionary'; // Menggunakan alias
 
 // Helper function to sanitize slugs
-const sanitizeSlug = (slug) => {
-  const sanitized = slug?.replace(/[^a-zA-Z0-9-]/g, '');
-  if (!sanitized && slug) {
-    console.warn(`sanitizeSlug: Input '${slug}' resulted in empty/null slug.`);
-  }
-  return sanitized;
-};
+const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
 
-// Helper function to format slugs (e.g., "new-york" -> "New York")
+// Helper function to format slugs
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
-// Function to fetch state data from your API
+// Function to fetch state data
 async function getStateData(categoryslug, countryslug, stateslug) {
-  console.log('getStateData: Received slugs - category:', categoryslug, 'country:', countryslug, 'state:', stateslug);
-
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
   const sanitizedState = sanitizeSlug(stateslug);
-
-  console.log('getStateData: Sanitized slugs - category:', sanitizedCategory, 'country:', sanitizedCountry, 'state:', sanitizedState);
-
   if (!sanitizedCategory || !sanitizedCountry || !sanitizedState) {
-    console.error('getStateData: INVALID OR MISSING SLUGS AFTER SANITIZATION. category:', sanitizedCategory, 'country:', sanitizedCountry, 'state:', sanitizedState);
+    console.error('Invalid slugs:', { categoryslug, countryslug, stateslug });
     return null;
   }
 
-  // Ensure NEXT_PUBLIC_API_BASE_URL is correctly set in your .env file
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
   const apiUrl = `${baseUrl}/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
-  console.log('getStateData: Constructed API URL:', apiUrl);
 
   try {
     const response = await fetch(apiUrl, { cache: 'no-store' });
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error(
-        `getStateData: Failed to fetch state data from API. Status: ${response.status} - ${response.statusText}. Response Body: ${errorText}`
-      );
+      console.error(`Failed to fetch state data for ${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}. Status: ${response.status}`);
       return null;
     }
-    const data = await response.json();
-    console.log('getStateData: Raw data received from API:', JSON.stringify(data, null, 2));
-    return data;
+    return response.json();
   } catch (error) {
-    console.error('getStateData: Error fetching state data:', error);
+    console.error('Error fetching state data:', error);
     return null;
   }
 }
 
-// Dynamic import for client-side component (if you have one for this page)
-// Assuming ClientPage is meant to handle interactive elements that require client-side rendering
-const ClientPage = dynamic(() => import('./ClientPage'), { ssr: false }); // Added ssr: false for explicit client-side rendering
+const ClientPage = dynamic(() => import('./ClientPage'));
 
-// generateMetadata function for SEO metadata
 export async function generateMetadata({ params }) {
-  const awaitedParams = await params;
-  const { categoryslug, countryslug, stateslug, lang: locale } = awaitedParams;
-
-  console.log('generateMetadata (State): Received params - category:', categoryslug, 'country:', countryslug, 'state:', stateslug, 'lang:', locale);
+  // --- MULAI PERUBAHAN UNTUK generateMetadata ---
+  const awaitedParams = await params; // <--- AWAIT PARAMS DI SINI
+  const { categoryslug, countryslug, stateslug, lang: locale } = awaitedParams; // <--- GUNAKAN awaitedParams
+  // --- AKHIR PERUBAHAN UNTUK generateMetadata ---
 
   const dictionary = await getdictionary(locale);
   const metadataDict = dictionary?.metadata || {};
   const statePageDict = dictionary?.statePage || {};
+  const commonDict = dictionary?.common || {};
 
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
   const sanitizedState = sanitizeSlug(stateslug);
 
   if (!sanitizedCategory || !sanitizedCountry || !sanitizedState) {
-    console.error('generateMetadata (State): Missing required slugs after sanitization. Returning default metadata.');
     return {
       title: metadataDict.stateNotFoundTitle || 'Page Not Found | Hoteloza',
       description: metadataDict.stateNotFoundDescription || 'The requested category, country, or state was not found on Hoteloza.',
@@ -83,9 +62,7 @@ export async function generateMetadata({ params }) {
   }
 
   const data = await getStateData(categoryslug, countryslug, stateslug);
-  console.log('generateMetadata (State): Data from getStateData for metadata:', JSON.stringify(data, null, 2));
   if (!data || !data.hotels || data.hotels.length === 0) {
-    console.error('generateMetadata (State): State data is null, or hotels array is missing/empty. Data:', data);
     return {
       title: metadataDict.stateNotFoundTitle || 'Page Not Found | Hoteloza',
       description: metadataDict.stateNotFoundDescription || 'The requested category, country, or state was not found on Hoteloza.',
@@ -119,21 +96,21 @@ export async function generateMetadata({ params }) {
         .replace('{formattedState}', formattedState)
         .replace('{formattedCountry}', formattedCountry)
         .replace('{currentYear}', currentYear),
-      url: `https://hoteloza.com/${locale}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`,
+      url: `https://hoteloza.com/${locale}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`, // URL OpenGraph dengan lang
       type: 'website',
     },
   };
 }
 
-// Main Page component
 export default async function Page({ params }) {
-  const awaitedParams = await params;
-  const { categoryslug, countryslug, stateslug, lang: locale } = awaitedParams;
-
-  console.log('Page component (State): Received params - category:', categoryslug, 'country:', countryslug, 'state:', stateslug, 'lang:', locale);
+  // --- MULAI PERUBAHAN UNTUK KOMPONEN Page ---
+  const awaitedParams = await params; // <--- AWAIT PARAMS DI SINI
+  const { categoryslug, countryslug, stateslug, lang: locale } = awaitedParams; // <--- GUNAKAN awaitedParams
+  // --- AKHIR PERUBAHAN UNTUK KOMPONEN Page ---
 
   const dictionary = await getdictionary(locale);
-  const currentLang = locale;
+
+  const currentLang = locale; // Lang saat ini
 
   const commonDict = dictionary?.common || {};
   const statePageDict = dictionary?.statePage || {};
@@ -144,19 +121,12 @@ export default async function Page({ params }) {
   const sanitizedCountry = sanitizeSlug(countryslug);
   const sanitizedState = sanitizeSlug(stateslug);
 
-  console.log('Page component (State): Sanitized slugs for component - category:', sanitizedCategory, 'country:', sanitizedCountry, 'state:', sanitizedState);
-
   if (!sanitizedCategory || !sanitizedCountry || !sanitizedState) {
-    console.error('Page component (State): Missing required slugs after sanitization. Calling notFound(). category:', sanitizedCategory, 'country:', sanitizedCountry, 'state:', sanitizedState);
     notFound();
   }
 
   const data = await getStateData(categoryslug, countryslug, stateslug);
-  console.log('Page component (State): Data from getStateData:', JSON.stringify(data, null, 2));
-
-  // If data is null, or data.hotels is missing/empty, trigger a 404
   if (!data || !data.hotels || data.hotels.length === 0) {
-    console.error('Page component (State): State data is null, or hotels array is missing/empty. Calling notFound(). Data:', data);
     notFound();
   }
 
@@ -164,11 +134,9 @@ export default async function Page({ params }) {
   const formattedCountry = formatSlug(sanitizedCountry) || (statePageDict.countryDefault || 'Country');
   const formattedCategory = formatSlug(sanitizedCategory) || (statePageDict.categoryDefault || 'Category');
   const currentYear = new Date().getFullYear();
-  // Using an environment variable for the base URL is generally good practice
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://hoteloza.com';
-  const currentUrl = `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
+  const baseUrl = 'https://hoteloza.com';
+  const currentUrl = `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`; // URL dasar dengan lang
 
-  // Schema.org JSON-LD Markup
   const schemas = [
     {
       '@context': 'https://schema.org',
@@ -194,9 +162,9 @@ export default async function Page({ params }) {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: navigationDict.home || 'Home', item: `${baseUrl}/${currentLang}` },
-        { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${currentLang}/${sanitizedCategory}` },
-        { '@type': 'ListItem', position: 3, name: formattedCountry, item: `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}` },
+        { '@type': 'ListItem', position: 1, name: navigationDict.home || 'Home', item: `${baseUrl}/${currentLang}` }, // URL Home dengan lang
+        { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${currentLang}/${sanitizedCategory}` }, // URL Category dengan lang
+        { '@type': 'ListItem', position: 3, name: formattedCountry, item: `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}` }, // URL Country dengan lang
         { '@type': 'ListItem', position: 4, name: formattedState, item: currentUrl },
       ],
     },
@@ -219,18 +187,18 @@ export default async function Page({ params }) {
         item: {
           '@type': 'Hotel',
           name: hotel.title || hotel.name || commonDict.unnamedHotel || 'Unnamed Hotel',
-          url: hotel.hotelslug && hotel.cityslug // Removed stateslug and countryslug as they are already in the URL path
-            ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${hotel.cityslug}/${hotel.hotelslug}`
+          url: hotel.hotelslug && hotel.cityslug
+            ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${hotel.cityslug}/${hotel.hotelslug}` // URL hotel detail dengan lang
             : `${currentUrl}/${hotel.id || index + 1}`,
-          image: hotel.img || (Array.isArray(hotel.slideImg) && hotel.slideImg.length > 0 ? hotel.slideImg[0] : ''), // PERBAIKAN: Mengakses elemen pertama dari slideImg jika ada
+          image: hotel.img || hotel.slideimg || '',
           address: {
             '@type': 'PostalAddress',
-            streetAddress: hotel.location || commonDict.unknownAddress || 'Unknown Address', // PERBAIKAN: Menggunakan properti 'location' dari API
-            addressLocality: hotel.city ? formatSlug(hotel.city) : commonDict.unknownCity || 'Unknown City', // PERBAIKAN: Menggunakan properti 'city' dari API
-            addressRegion: hotel.state ? formatSlug(hotel.state) : formattedState || commonDict.unknownState || 'Unknown Province', // PERBAIKAN: Menggunakan properti 'state' dari API
-            addressCountry: hotel.country ? formatSlug(hotel.country) : formattedCountry || commonDict.unknownCountry || 'Unknown Country', // Menggunakan properti 'country' dari API
+            streetAddress: hotel.lokasi || commonDict.unknownAddress || 'Unknown Address',
+            addressLocality: hotel.kota ? formatSlug(hotel.kota) : commonDict.unknownCity || 'Unknown City',
+            addressRegion: hotel['negara bagian'] ? formatSlug(hotel['negara bagian']) : formattedState || commonDict.unknownState || 'Unknown Province',
+            addressCountry: hotel.country ? formatSlug(hotel.country) : formattedCountry || commonDict.unknownCountry || 'Unknown Country',
           },
-          description: hotel.overview || commonDict.unknownCategory || `A ${formattedCategory.toLowerCase()} in ${hotel.city ? formatSlug(hotel.city) : commonDict.unknownLocation || 'unknown location'}, ${formattedState}, ${formattedCountry}.`, // PERBAIKAN: Menggunakan properti 'overview' dari API
+          description: hotel.description || hotel.overview || `A ${formattedCategory.toLowerCase()} in ${hotel.kota ? formatSlug(hotel.kota) : commonDict.unknownLocation || 'unknown location'}, ${formattedState}, ${formattedCountry}.`,
         },
       })),
     },
@@ -238,21 +206,12 @@ export default async function Page({ params }) {
 
   return (
     <>
-      {/* Script for Schema.org JSON-LD */}
       <Script
         id="state-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
       />
-      {/* Client-side component to handle interactive elements */}
-      <ClientPage
-        categoryslug={sanitizedCategory}
-        countryslug={sanitizedCountry}
-        stateslug={sanitizedState}
-        dictionary={dictionary}
-        currentLang={currentLang}
-        initialData={data} // Pass the fetched data as initialData for SWR hydration
-      />
+      <ClientPage categoryslug={sanitizedCategory} countryslug={sanitizedCountry} stateslug={sanitizedState} dictionary={dictionary} currentLang={currentLang} />
     </>
   );
 }
