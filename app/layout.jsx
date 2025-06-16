@@ -2,7 +2,6 @@
 import ClientProviders from "@/components/ClientProviders";
 import { getdictionary } from '@/dictionaries/get-dictionary';
 import { headers } from 'next/headers';
-// Import 'defaultHtmlLang' dari config/i18n
 // Pastikan defaultHtmlLang diimpor dari config/i18n.js yang sudah dimodifikasi
 import { locales, defaultLocale, i18nConfig, defaultHtmlLang } from '@/config/i18n'; 
 
@@ -13,17 +12,17 @@ import "swiper/css/navigation";
 import "swiper/css/scrollbar";
 import "swiper/css/effect-cards";
 import "aos/dist/aos.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.bundle.min.css"; // Menggunakan bundle untuk JS Bootstrap
 import "@/styles/index.scss";
 
 // RootLayout menerima 'children' dan 'params'.
 // 'params.lang' akan berisi slug bahasa dari URL (misalnya 'us', 'id', 'es').
-export default async function RootLayout({ children, params }) {
+export default async function RootLayout({ children, params }) { // <--- PERUBAHAN UTAMA DI SINI: MENERIMA 'params'
   const headersList = headers();
   const acceptLanguage = await headersList.get('accept-language') || 'en-US';
   
   // Dapatkan slug bahasa dari URL parameters (ini adalah cara paling andal di App Router Server Components)
-  const urlLangSlug = params.lang; 
+  const urlLangSlug = params.lang; // <--- PERUBAHAN UTAMA: Menggunakan params.lang
 
   let determinedHtmlLang = defaultHtmlLang; // Atur nilai default BCP 47 sebagai fallback utama
   let initialLangSlugForDictionary = defaultLocale; // Atur default untuk kamus dan slug
