@@ -8,6 +8,17 @@ Sitemap: https://hoteloza.com/sitemap4.xml
 Sitemap: https://hoteloza.com/sitemap5.xml
 Sitemap: https://hoteloza.com/sitemap6.xml
 Sitemap: https://hoteloza.com/sitemap7.xml
+Sitemap: https://hoteloza.com/sitemap8.xml
+Sitemap: https://hoteloza.com/sitemap9.xml
+Sitemap: https://hoteloza.com/sitemap10.xml
+Sitemap: https://hoteloza.com/sitemap11.xml
+Sitemap: https://hoteloza.com/sitemap12.xml
+Sitemap: https://hoteloza.com/sitemap13.xml
+Sitemap: https://hoteloza.com/sitemap14.xml
+Sitemap: https://hoteloza.com/sitemap15.xml
+Sitemap: https://hoteloza.com/sitemap16.xml
+Sitemap: https://hoteloza.com/sitemap17.xml
+
 
 
 
