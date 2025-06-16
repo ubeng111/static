@@ -1,15 +1,13 @@
 // page.jsx (Hotel Single Page Detail)
 import { notFound } from 'next/navigation';
 import BookNow from '@/components/hotel-single/BookNow';
-import ClientPage from './ClientPage'; // Ini adalah Client Component yang berisi UI
+import ClientPage from './ClientPage';
 import Script from 'next/script';
 import { getdictionary } from '@/dictionaries/get-dictionary';
 
-// Helper function to format slugs for display purposes
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
-// Function to fetch hotel data for both metadata and page content
 async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, hotelslug }) {
   const sanitizedParams = {
     categoryslug: categoryslug?.replace(/[^a-zA-Z0-9-]/g, '') || '',
@@ -19,13 +17,7 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
     hotelslug: hotelslug?.replace(/[^a-zA-Z0-9-]/g, '') || '',
   };
 
-  if (
-    !sanitizedParams.categoryslug ||
-    !sanitizedParams.countryslug ||
-    !sanitizedParams.stateslug ||
-    !sanitizedParams.cityslug ||
-    !sanitizedParams.hotelslug
-  ) {
+  if (!sanitizedParams.categoryslug || !sanitizedParams.countryslug || !sanitizedParams.stateslug || !sanitizedParams.cityslug || !sanitizedParams.hotelslug) {
     console.error('Missing required parameters after sanitization:', sanitizedParams);
     return null;
   }
@@ -35,15 +27,9 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
   console.log('Constructed API URL in getHotelData:', apiUrl);
 
   try {
-    // --- PERBAIKAN: Untuk SSR MURNI, gunakan cache: 'no-store' atau biarkan default (dynamically rendered) ---
-    // Pastikan tidak ada { next: { revalidate: X } } atau { cache: 'force-cache' } jika ingin SSR murni
-    const response = await fetch(apiUrl, { cache: 'no-store' }); // Ini akan memaksa SSR
-    // --- AKHIR PERBAIKAN ---
-
+    const response = await fetch(apiUrl, { cache: 'no-store' });
     if (!response.ok) {
-      console.error(
-        `Failed to fetch hotel data from API. Status: ${response.status} - ${response.statusText}`
-      );
+      console.error(`Failed to fetch hotel data from API. Status: ${response.status} - ${response.statusText}`);
       const errorBody = await response.text();
       console.error('API Error Response Body:', errorBody);
       return null;
@@ -61,15 +47,8 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
   }
 }
 
-// --- PERBAIKAN: HAPUS FUNGSI generateStaticParams() INI SECARA KESELURUHAN ---
-// export async function generateStaticParams() {
-//   return []; // Hapus atau kembalikan array kosong jika tetap ada tapi tidak digunakan
-// }
-// --- AKHIR PERBAIKAN ---
-
-
 export async function generateMetadata({ params }) {
-  const resolvedParams = params;
+  const resolvedParams = await params;
   console.log('Metadata params:', resolvedParams);
   const { hotelslug, lang: locale } = resolvedParams;
 
@@ -97,31 +76,21 @@ export async function generateMetadata({ params }) {
     const currentYear = new Date().getFullYear();
 
     return {
-      title: (metadataDict.hotelPageTitleTemplate || `{hotelTitle} - Book Now on Hoteloza!`)
-        .replace('{hotelTitle}', formattedHotel)
-        .replace('{cityName}', formattedCity),
-      description: (metadataDict.hotelPageDescriptionTemplate || `Book your stay at {hotelTitle} in {city}, {state}, {country}. Find the best deals, facilities, and reviews for an unforgettable experience with Hoteloza.`)
-        .replace('{hotelTitle}', formattedHotel)
-        .replace('{city}', formattedCity)
-        .replace('{state}', formattedState)
-        .replace('{country}', formattedCountry),
+      title: (metadataDict.hotelPageTitleTemplate || `{hotelTitle} - Book Now on Hoteloza!`).replace('{hotelTitle}', formattedHotel).replace('{cityName}', formattedCity),
+      description: (metadataDict.hotelPageDescriptionTemplate || `Book your stay at {hotelTitle} in {city}, {state}, {country}.`).replace('{hotelTitle}', formattedHotel).replace('{city}', formattedCity).replace('{state}', formattedState).replace('{country}', formattedCountry),
       alternates: {
         canonical: `https://hoteloza.com/${locale}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}/${hotelslug}`,
       },
       openGraph: {
-        title: (metadataDict.hotelOgTitleTemplate || `{hotelTitle} | Hoteloza`)
-          .replace('{hotelTitle}', formattedHotel),
-        description: (metadataDict.hotelOgDescriptionTemplate || `Find the best deals at {hotelTitle} with Hoteloza.`)
-          .replace('{hotelTitle}', formattedHotel),
+        title: (metadataDict.hotelOgTitleTemplate || `{hotelTitle} | Hoteloza`).replace('{hotelTitle}', formattedHotel),
+        description: (metadataDict.hotelOgDescriptionTemplate || `Find the best deals at {hotelTitle} with Hoteloza.`).replace('{hotelTitle}', formattedHotel),
         url: `https://hoteloza.com/${locale}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}/${hotelslug}`,
         images: [hotel.img || hotel.slideimg || ''],
       },
       twitter: {
         card: 'summary_large_image',
-        title: (metadataDict.hotelOgTitleTemplate || `{hotelTitle} | Hoteloza`)
-          .replace('{hotelTitle}', formattedHotel),
-        description: (metadataDict.hotelOgDescriptionTemplate || `Find the best deals at {hotelTitle} with Hoteloza.`)
-          .replace('{hotelTitle}', formattedHotel),
+        title: (metadataDict.hotelOgTitleTemplate || `{hotelTitle} | Hoteloza`).replace('{hotelTitle}', formattedHotel),
+        description: (metadataDict.hotelOgDescriptionTemplate || `Find the best deals at {hotelTitle} with Hoteloza.`).replace('{hotelTitle}', formattedHotel),
         images: [hotel.img || hotel.slideimg || ''],
       },
     };
@@ -135,20 +104,17 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function HotelDetailPage({ params }) {
-  const resolvedParams = params;
+  const resolvedParams = await params;
   console.log('Received params in HotelDetailPage:', resolvedParams);
   const data = await getHotelData(resolvedParams);
 
   console.log('Data received from getHotelData in HotelDetailPage component:', data);
   const { lang: locale } = resolvedParams;
   const dictionary = await getdictionary(locale);
-
   const currentLang = locale;
 
-  // --- PERBAIKAN: Penanganan defensif untuk dictionary di sini juga ---
   const commonDict = dictionary?.common || {};
   const navigationDict = dictionary?.navigation || {};
-  // --- AKHIR PERBAIKAN ---
 
   if (!data || !data.hotel) {
     console.error('Hotel data is missing or null in HotelDetailPage. Calling notFound(). Data:', data);
@@ -157,8 +123,6 @@ export default async function HotelDetailPage({ params }) {
 
   const hotel = data.hotel;
   const relatedHotels = data.relatedHotels;
-
-  console.log('Hotel object being passed to ClientPage:', hotel);
 
   const formattedHotel = formatSlug(resolvedParams.hotelslug) || hotel.title;
   const formattedCity = formatSlug(resolvedParams.cityslug) || hotel.city;
@@ -214,47 +178,18 @@ export default async function HotelDetailPage({ params }) {
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: navigationDict.home || 'Home', item: `https://hoteloza.com/${currentLang}` },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: formatSlug(resolvedParams.categoryslug) || formattedCategory,
-          item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 3,
-          name: formatSlug(resolvedParams.countryslug) || formattedCountry,
-          item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 4,
-          name: formatSlug(resolvedParams.stateslug) || formattedState,
-          item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 5,
-          name: formatSlug(resolvedParams.cityslug) || formattedCity,
-          item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 6,
-          name: hotel.title || formattedHotel,
-          item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}/${resolvedParams.hotelslug}`,
-        },
+        { '@type': 'ListItem', position: 2, name: formatSlug(resolvedParams.categoryslug) || formattedCategory, item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}` },
+        { '@type': 'ListItem', position: 3, name: formatSlug(resolvedParams.countryslug) || formattedCountry, item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}` },
+        { '@type': 'ListItem', position: 4, name: formatSlug(resolvedParams.stateslug) || formattedState, item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}` },
+        { '@type': 'ListItem', position: 5, name: formatSlug(resolvedParams.cityslug) || formattedCity, item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}` },
+        { '@type': 'ListItem', position: 6, name: hotel.title || formattedHotel, item: `https://hoteloza.com/${currentLang}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}/${resolvedParams.hotelslug}` },
       ],
     },
   ];
 
   return (
     <>
-      <Script
-        id="hotel-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
-      />
+      <Script id="hotel-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
       <BookNow hotel={data.hotel} hotelId={data.hotel?.id} dictionary={dictionary} />
       <ClientPage
         hotel={hotel}

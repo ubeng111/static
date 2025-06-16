@@ -1,9 +1,9 @@
 // page.jsx (Hotel Single Page Detail)
 import { notFound } from 'next/navigation';
 import BookNow from '@/components/hotel-single/BookNow';
-import ClientPage from './ClientPage';
+import ClientPage from './ClientPage'; // Ini adalah Client Component yang berisi UI
 import Script from 'next/script';
-import { getdictionary } from '@/dictionaries/get-dictionary'; // Menggunakan alias
+import { getdictionary } from '@/dictionaries/get-dictionary';
 
 // Helper function to format slugs for display purposes
 const formatSlug = (slug) =>
@@ -11,7 +11,6 @@ const formatSlug = (slug) =>
 
 // Function to fetch hotel data for both metadata and page content
 async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, hotelslug }) {
-  // Sanitize slugs to prevent invalid characters
   const sanitizedParams = {
     categoryslug: categoryslug?.replace(/[^a-zA-Z0-9-]/g, '') || '',
     countryslug: countryslug?.replace(/[^a-zA-Z0-9-]/g, '') || '',
@@ -20,7 +19,6 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
     hotelslug: hotelslug?.replace(/[^a-zA-Z0-9-]/g, '') || '',
   };
 
-  // Validate parameters
   if (
     !sanitizedParams.categoryslug ||
     !sanitizedParams.countryslug ||
@@ -37,11 +35,10 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
   console.log('Constructed API URL in getHotelData:', apiUrl);
 
   try {
-    // === PERUBAHAN UNTUK SSR MURNI ===
-    // Menggunakan cache: 'no-store' atau tidak memberikan opsi cache sama sekali
-    // secara default akan membuat fetch bersifat dinamis dan halaman menjadi SSR.
-    const response = await fetch(apiUrl, { cache: 'no-store' }); // Atau cukup: await fetch(apiUrl);
-    // === AKHIR PERUBAHAN ===
+    // --- PERBAIKAN: Untuk SSR MURNI, gunakan cache: 'no-store' atau biarkan default (dynamically rendered) ---
+    // Pastikan tidak ada { next: { revalidate: X } } atau { cache: 'force-cache' } jika ingin SSR murni
+    const response = await fetch(apiUrl, { cache: 'no-store' }); // Ini akan memaksa SSR
+    // --- AKHIR PERBAIKAN ---
 
     if (!response.ok) {
       console.error(
@@ -64,13 +61,11 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
   }
 }
 
-// === PERUBAHAN UTAMA: HAPUS FUNGSI generateStaticParams() INI ===
-// Karena kita beralih ke SSR, kita tidak memerlukan fungsi ini untuk prerendering statis.
-// Menghapusnya akan memberitahu Next.js bahwa rute ini sepenuhnya dinamis.
+// --- PERBAIKAN: HAPUS FUNGSI generateStaticParams() INI SECARA KESELURUHAN ---
 // export async function generateStaticParams() {
-//   return []; // Atau return kosong, atau hapus seluruh fungsi.
+//   return []; // Hapus atau kembalikan array kosong jika tetap ada tapi tidak digunakan
 // }
-// === AKHIR PERUBAHAN ===
+// --- AKHIR PERBAIKAN ---
 
 
 export async function generateMetadata({ params }) {
@@ -150,9 +145,10 @@ export default async function HotelDetailPage({ params }) {
 
   const currentLang = locale;
 
+  // --- PERBAIKAN: Penanganan defensif untuk dictionary di sini juga ---
   const commonDict = dictionary?.common || {};
-  // Menggunakan || {} untuk memastikan navigationDict selalu objek, bahkan jika navigation tidak ada di dictionary
   const navigationDict = dictionary?.navigation || {};
+  // --- AKHIR PERBAIKAN ---
 
   if (!data || !data.hotel) {
     console.error('Hotel data is missing or null in HotelDetailPage. Calling notFound(). Data:', data);
