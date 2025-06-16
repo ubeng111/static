@@ -128,7 +128,7 @@ export default function SearchClient({ dictionary, currentLang }) {
             {error && <div>Error: {error}</div>}
             {!loading && !error && hotels.length === 0 && <div>Hotel not found.</div>}
             {!loading && !error && hotels.length > 0 && (
-              <HotelProperties2 hotels={hotels} cityName={cityName} />
+                <HotelProperties2 hotels={hotels} cityName={cityName} dictionary={dictionary} currentLang={currentLang}/>
             )}
           </div>
         </div>

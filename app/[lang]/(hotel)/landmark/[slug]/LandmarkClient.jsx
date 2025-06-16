@@ -216,7 +216,7 @@ export default function LandmarkClient({ landmarkSlug, dictionary, currentLang }
                     />
                   </React.Fragment>
                 ))}
-                <HotelProperties2 hotels={hotels} cityName={cityName} />
+                <HotelProperties2 hotels={hotels} cityName={cityName} dictionary={dictionary} currentLang={currentLang}/>
               </>
             )}
           </div>
