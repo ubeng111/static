@@ -32,7 +32,6 @@ async function getStateData(categoryslug, countryslug, stateslug) {
     return null;
   }
 
-  // Ensure NEXT_PUBLIC_API_BASE_URL is correctly set in your .env file
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
   const apiUrl = `${baseUrl}/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
   console.log('getStateData: Constructed API URL:', apiUrl);
@@ -50,14 +49,13 @@ async function getStateData(categoryslug, countryslug, stateslug) {
     console.log('getStateData: Raw data received from API:', JSON.stringify(data, null, 2));
     return data;
   } catch (error) {
-    console.error('getStateData: Error fetching state data:', error);
+    console.error('Error fetching state data:', error);
     return null;
   }
 }
 
 // Dynamic import for client-side component (if you have one for this page)
-// Assuming ClientPage is meant to handle interactive elements that require client-side rendering
-const ClientPage = dynamic(() => import('./ClientPage'), { ssr: false }); // Added ssr: false for explicit client-side rendering
+const ClientPage = dynamic(() => import('./ClientPage'), { ssr: false });
 
 // generateMetadata function for SEO metadata
 export async function generateMetadata({ params }) {
@@ -69,6 +67,7 @@ export async function generateMetadata({ params }) {
   const dictionary = await getdictionary(locale);
   const metadataDict = dictionary?.metadata || {};
   const statePageDict = dictionary?.statePage || {};
+  const commonDict = dictionary?.common || {};
 
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
@@ -154,7 +153,6 @@ export default async function Page({ params }) {
   const data = await getStateData(categoryslug, countryslug, stateslug);
   console.log('Page component (State): Data from getStateData:', JSON.stringify(data, null, 2));
 
-  // If data is null, or data.hotels is missing/empty, trigger a 404
   if (!data || !data.hotels || data.hotels.length === 0) {
     console.error('Page component (State): State data is null, or hotels array is missing/empty. Calling notFound(). Data:', data);
     notFound();
@@ -164,11 +162,9 @@ export default async function Page({ params }) {
   const formattedCountry = formatSlug(sanitizedCountry) || (statePageDict.countryDefault || 'Country');
   const formattedCategory = formatSlug(sanitizedCategory) || (statePageDict.categoryDefault || 'Category');
   const currentYear = new Date().getFullYear();
-  // Using an environment variable for the base URL is generally good practice
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://hoteloza.com';
   const currentUrl = `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
 
-  // Schema.org JSON-LD Markup
   const schemas = [
     {
       '@context': 'https://schema.org',
@@ -218,19 +214,19 @@ export default async function Page({ params }) {
         position: index + 1,
         item: {
           '@type': 'Hotel',
-          name: hotel.title || hotel.name || commonDict.unnamedHotel || 'Unnamed Hotel',
-          url: hotel.hotelslug && hotel.cityslug // Removed stateslug and countryslug as they are already in the URL path
+          name: hotel.title || hotel.name || 'Unnamed Hotel', // No dict fallback
+          url: hotel.hotelslug && hotel.cityslug
             ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${hotel.cityslug}/${hotel.hotelslug}`
             : `${currentUrl}/${hotel.id || index + 1}`,
-          image: hotel.img || (Array.isArray(hotel.slideImg) && hotel.slideImg.length > 0 ? hotel.slideImg[0] : ''), // PERBAIKAN: Mengakses elemen pertama dari slideImg jika ada
+          image: hotel.img || (Array.isArray(hotel.slideImg) && hotel.slideImg.length > 0 ? hotel.slideImg[0] : ''), // Corrected: access first element of slideImg
           address: {
             '@type': 'PostalAddress',
-            streetAddress: hotel.location || commonDict.unknownAddress || 'Unknown Address', // PERBAIKAN: Menggunakan properti 'location' dari API
-            addressLocality: hotel.city ? formatSlug(hotel.city) : commonDict.unknownCity || 'Unknown City', // PERBAIKAN: Menggunakan properti 'city' dari API
-            addressRegion: hotel.state ? formatSlug(hotel.state) : formattedState || commonDict.unknownState || 'Unknown Province', // PERBAIKAN: Menggunakan properti 'state' dari API
-            addressCountry: hotel.country ? formatSlug(hotel.country) : formattedCountry || commonDict.unknownCountry || 'Unknown Country', // Menggunakan properti 'country' dari API
+            streetAddress: hotel.location || 'Unknown Address', // Corrected: use hotel.location, no dict fallback
+            addressLocality: hotel.city ? formatSlug(hotel.city) : 'Unknown City', // Corrected: use hotel.city, no dict fallback
+            addressRegion: hotel.state ? formatSlug(hotel.state) : 'Unknown Region', // Corrected: use hotel.state, no dict fallback
+            addressCountry: hotel.country ? formatSlug(hotel.country) : 'Unknown Country', // Corrected: use hotel.country, no dict fallback
           },
-          description: hotel.overview || commonDict.unknownCategory || `A ${formattedCategory.toLowerCase()} in ${hotel.city ? formatSlug(hotel.city) : commonDict.unknownLocation || 'unknown location'}, ${formattedState}, ${formattedCountry}.`, // PERBAIKAN: Menggunakan properti 'overview' dari API
+          description: hotel.overview || `A ${formattedCategory.toLowerCase()} in ${hotel.city ? formatSlug(hotel.city) : 'unknown location'}, ${formattedState}, ${formattedCountry}.`, // Corrected: prioritize overview, literal fallback
         },
       })),
     },
@@ -238,21 +234,12 @@ export default async function Page({ params }) {
 
   return (
     <>
-      {/* Script for Schema.org JSON-LD */}
       <Script
         id="state-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
       />
-      {/* Client-side component to handle interactive elements */}
-      <ClientPage
-        categoryslug={sanitizedCategory}
-        countryslug={sanitizedCountry}
-        stateslug={sanitizedState}
-        dictionary={dictionary}
-        currentLang={currentLang}
-        initialData={data} // Pass the fetched data as initialData for SWR hydration
-      />
+      <ClientPage categoryslug={sanitizedCategory} countryslug={sanitizedCountry} stateslug={sanitizedState} dictionary={dictionary} currentLang={currentLang} />
     </>
   );
 }

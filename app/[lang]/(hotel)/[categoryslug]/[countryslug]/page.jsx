@@ -45,7 +45,7 @@ async function getCountryData(categoryslug, countryslug) {
     console.log('getCountryData: Raw data received from API:', JSON.stringify(data, null, 2));
     return data;
   } catch (error) {
-    console.error('getCountryData: Error fetching country data:', error);
+    console.error('Error fetching country data:', error);
     return null;
   }
 }
@@ -61,6 +61,7 @@ export async function generateMetadata({ params }) {
   const dictionary = await getdictionary(locale);
   const metadataDict = dictionary?.metadata || {};
   const countryPageDict = dictionary?.countryPage || {};
+  const commonDict = dictionary?.common || {};
 
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
@@ -130,6 +131,7 @@ export default async function Page({ params }) {
 
   console.log('Page component (Country): Sanitized slugs for component - category:', sanitizedCategory, 'country:', sanitizedCountry);
 
+
   if (!sanitizedCategory || !sanitizedCountry) {
     console.error('Page component (Country): Missing required slugs after sanitization. Calling notFound(). category:', sanitizedCategory, 'country:', sanitizedCountry);
     notFound();
@@ -146,7 +148,7 @@ export default async function Page({ params }) {
   const formattedCountry = formatSlug(sanitizedCountry) || (countryPageDict.countryDefault || 'Country');
   const formattedCategory = formatSlug(sanitizedCategory) || (countryPageDict.categoryDefault || 'Category');
   const currentYear = new Date().getFullYear();
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://hoteloza.com'; // Menggunakan env var
+  const baseUrl = 'https://hoteloza.com';
   const currentUrl = `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}`;
 
   const schemas = [
@@ -193,19 +195,19 @@ export default async function Page({ params }) {
         position: index + 1,
         item: {
           '@type': 'Hotel',
-          name: hotel.title || hotel.name || commonDict.unnamedHotel,
+          name: hotel.title || hotel.name || 'Unnamed Hotel', // No dict fallback
           url: hotel.hotelslug && hotel.stateslug && hotel.cityslug
             ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${hotel.stateslug}/${hotel.cityslug}/${hotel.hotelslug}`
             : `${currentUrl}/${hotel.id || index + 1}`,
-          image: hotel.img || (Array.isArray(hotel.slideImg) && hotel.slideImg.length > 0 ? hotel.slideImg[0] : ''), // Diperbaiki: Akses elemen pertama dari slideImg jika ada
+          image: hotel.img || (Array.isArray(hotel.slideImg) && hotel.slideImg.length > 0 ? hotel.slideImg[0] : ''), // Corrected: access first element of slideImg
           address: {
             '@type': 'PostalAddress',
-            streetAddress: hotel.location || commonDict.unknownAddress, // PERBAIKAN: Gunakan hotel.location
-            addressLocality: hotel.city ? formatSlug(hotel.city) : commonDict.unknownCity, // PERBAIKAN: Gunakan hotel.city
-            addressRegion: hotel.state ? formatSlug(hotel.state) : commonDict.unknownRegion, // PERBAIKAN: Gunakan hotel.state
-            addressCountry: hotel.country ? formatSlug(hotel.country) : (commonDict.unknownCountry || formattedCountry),
+            streetAddress: hotel.location || 'Unknown Address', // Corrected: use hotel.location, no dict fallback
+            addressLocality: hotel.city ? formatSlug(hotel.city) : 'Unknown City', // Corrected: use hotel.city, no dict fallback
+            addressRegion: hotel.state ? formatSlug(hotel.state) : 'Unknown Region', // Corrected: use hotel.state, no dict fallback
+            addressCountry: hotel.country ? formatSlug(hotel.country) : 'Unknown Country', // Corrected: use hotel.country, no dict fallback
           },
-          description: hotel.overview || commonDict.unknownCategory || `${formattedCategory.toLowerCase()} in ${hotel.city ? formatSlug(hotel.city) : (commonDict.unknownLocation || 'unknown location')}, ${formattedCountry}.`, // PERBAIKAN: Prioritaskan overview, dan perbaiki fallback umum untuk kota
+          description: hotel.overview || `${formattedCategory.toLowerCase()} in ${hotel.city ? formatSlug(hotel.city) : 'unknown location'}, ${formattedCountry}.`, // Corrected: prioritize overview, literal fallback
         },
       })),
     },
