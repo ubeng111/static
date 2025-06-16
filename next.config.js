@@ -3,6 +3,7 @@ const path = require('path');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  output: 'export', // <<< TAMBAHKAN BARIS PENTING INI
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'pix1.agoda.net' },
