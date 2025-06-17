@@ -34,14 +34,13 @@ async function getCategoryData(categoryslug) {
 const ClientPage = dynamic(() => import('./ClientPage'));
 
 export async function generateMetadata({ params }) {
-  // --- MULAI PERUBAHAN UNTUK generateMetadata ---
-  const awaitedParams = await params; // <--- AWAIT PARAMS DI SINI
-  const { categoryslug, lang: locale } = awaitedParams; // <--- GUNAKAN awaitedParams
-  // --- AKHIR PERUBAHAN UNTUK generateMetadata ---
+  const awaitedParams = await params;
+  const { categoryslug, lang: locale } = awaitedParams;
 
   const dictionary = await getdictionary(locale);
   const metadataDict = dictionary?.metadata || {};
   const categoryPageDict = dictionary?.categoryPage || {};
+  const commonDict = dictionary?.common || {};
 
   const sanitizedCategory = sanitizeSlug(categoryslug);
 
@@ -84,10 +83,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-  // --- MULAI PERUBAHAN UNTUK KOMPONEN Page ---
-  const awaitedParams = await params; // <--- AWAIT PARAMS DI SINI
-  const { categoryslug, lang: locale } = awaitedParams; // <--- GUNAKAN awaitedParams
-  // --- AKHIR PERUBAHAN UNTUK KOMPONEN Page ---
+  const awaitedParams = await params;
+  const { categoryslug, lang: locale } = awaitedParams;
 
   const dictionary = await getdictionary(locale);
 
@@ -157,19 +154,19 @@ export default async function Page({ params }) {
         position: index + 1,
         item: {
           '@type': 'Hotel',
-          name: hotel.title || hotel.name || commonDict.unnamedHotel || 'Unnamed Hotel',
+          name: hotel.title || hotel.name || 'Unnamed Hotel', // No dict fallback here, only literal
           url: hotel.hotelslug && hotel.countryslug && hotel.stateslug && hotel.cityslug
             ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${hotel.countryslug}/${hotel.stateslug}/${hotel.cityslug}/${hotel.hotelslug}`
             : `${currentUrl}/${hotel.id || index + 1}`,
-          image: hotel.img || hotel.slideimg || '',
+          image: hotel.img || (Array.isArray(hotel.slideImg) && hotel.slideImg.length > 0 ? hotel.slideImg[0] : ''), // Corrected: access first element of slideImg if array
           address: {
             '@type': 'PostalAddress',
-            streetAddress: hotel.lokasi || commonDict.unknownAddress || 'Unknown Address',
-            addressLocality: hotel.kota ? formatSlug(hotel.kota) : commonDict.unknownCity || 'Unknown City',
-            addressRegion: hotel['negara bagian'] ? formatSlug(hotel['negara bagian']) : commonDict.unknownRegion || 'Unknown Region',
-            addressCountry: hotel.country ? formatSlug(hotel.country) : commonDict.unknownCountry || 'Unknown Country',
+            streetAddress: hotel.location || 'Unknown Address', // Corrected: use hotel.location, no dict fallback
+            addressLocality: hotel.city ? formatSlug(hotel.city) : 'Unknown City', // Corrected: use hotel.city, no dict fallback
+            addressRegion: hotel.state ? formatSlug(hotel.state) : 'Unknown Region', // Corrected: use hotel.state, no dict fallback
+            addressCountry: hotel.country ? formatSlug(hotel.country) : 'Unknown Country', // Corrected: use hotel.country, no dict fallback
           },
-          description: hotel.description || hotel.overview || `${categoryPageDict.categoryDefault || 'A category'} in ${hotel.kota ? formatSlug(hotel.kota) : commonDict.unknownLocation || 'unknown location'}.`,
+          description: hotel.overview || `A ${formattedCategory.toLowerCase()} in ${hotel.city ? formatSlug(hotel.city) : 'unknown location'}.`, // Corrected: prioritize overview, literal fallback
         },
       })),
     },

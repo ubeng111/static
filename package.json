@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:cloudflare": "next build && next-on-pages",
     "start": "next start",
     "lint": "next lint"
   },
@@ -30,6 +29,7 @@
     "i18next": "^25.2.1",
     "i18next-browser-languagedetector": "^8.1.0",
     "i18next-http-backend": "^3.0.2",
+    "install": "^0.13.0",
     "ioredis": "^5.4.2",
     "leaflet": "^1.9.4",
     "lodash": "^4.17.21",
@@ -39,6 +39,7 @@
     "node-cache": "^5.1.2",
     "pg": "^8.16.0",
     "photoswipe": "^5.4.2",
+    "postgres": "^3.4.7",
     "react": "^19.1.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^19.1.0",
@@ -63,7 +64,6 @@
     "swr": "^2.3.3"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.13.12",
     "@types/node": "22.15.21",
     "@types/react": "^19.1.8",
     "eslint": "^9.29.0",

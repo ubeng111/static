@@ -1,7 +1,7 @@
 import { Pool } from 'pg';
 import fs from 'fs';
 import path from 'path';
-import 'dotenv/config'; // Impor dotenv untuk memuat .env
+import 'dotenv/config';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
@@ -23,7 +23,7 @@ function setCache(key, data) {
   cache[key] = { data, timestamp: Date.now() };
 }
 
-const LIMIT = 13;
+const LIMIT = 12;
 
 export async function GET(req, { params }) {
   const { categoryslug } = await params;
@@ -49,14 +49,28 @@ export async function GET(req, { params }) {
   try {
     const query = `
       WITH hotel_data AS (
-        SELECT * FROM public.hotels
+        SELECT id, title, city, state, country, category, categoryslug, countryslug, stateslug, cityslug, hotelslug, img, location, ratings, numberOfReviews, numberrooms, overview, city_id, latitude, longitude
+        FROM public.hotels
         WHERE categoryslug = $1
+          AND title IS NOT NULL 
+          AND title != ''
+          AND city IS NOT NULL 
+          AND city != ''
+          AND country IS NOT NULL 
+          AND country != ''
         ORDER BY id ASC
         LIMIT $2 OFFSET $3
       ),
       hotel_count AS (
-        SELECT COUNT(*) AS total FROM public.hotels
+        SELECT COUNT(*) AS total 
+        FROM public.hotels
         WHERE categoryslug = $1
+          AND title IS NOT NULL 
+          AND title != ''
+          AND city IS NOT NULL 
+          AND city != ''
+          AND country IS NOT NULL 
+          AND country != ''
       )
       SELECT hotel_data.*, hotel_count.total
       FROM hotel_data, hotel_count;
@@ -70,17 +84,45 @@ export async function GET(req, { params }) {
     const totalHotels = parseInt(result.rows[0].total, 10);
     const totalPages = Math.ceil(totalHotels / LIMIT);
 
+    // Clean hotel data to ensure consistent structure
+    const cleanHotels = result.rows.map(row => ({
+      id: row.id,
+      title: row.title,
+      city: row.city,
+      state: row.state || '',
+      country: row.country,
+      category: row.category,
+      categoryslug: row.categoryslug,
+      countryslug: row.countryslug || '',
+      stateslug: row.stateslug || '',
+      cityslug: row.cityslug || '',
+      hotelslug: row.hotelslug,
+      img: row.img || '',
+      location: row.location || '',
+      ratings: row.ratings || 0,
+      numberOfReviews: row.numberOfReviews || 0,
+      numberrooms: row.numberrooms || 0,
+      overview: row.overview || '',
+      city_id: row.city_id || null,
+      latitude: row.latitude || null,
+      longitude: row.longitude || null,
+    }));
+
     const relatedCountryQuery = `
       SELECT DISTINCT country, countryslug
       FROM public.hotels
-      WHERE categoryslug = $1 AND country != ''
+      WHERE categoryslug = $1 
+        AND country IS NOT NULL 
+        AND country != ''
+        AND countryslug IS NOT NULL 
+        AND countryslug != ''
       LIMIT 120
     `;
     const relatedCountryResult = await client.query(relatedCountryQuery, [categoryslug]);
 
     const response = {
-      hotels: result.rows.slice(0, -1),
-      relatedcategory: relatedCountryResult.rows,
+      hotels: cleanHotels,
+      relatedcategory: relatedCountryResult.rows, // Contains only valid countries
       pagination: { page, totalPages, totalHotels },
     };
 
