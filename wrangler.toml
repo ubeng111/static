@@ -1,18 +1,11 @@
-name = "gotrip" # Pastikan ini unik, misalnya "gotrip-app" atau "gotrip-project"
+# fileName: wrangler.toml
+name = "gotrip" # Ganti dengan nama unik yang spesifik untuk proyek Pages Anda, misal "gotrip-pages-app"
 compatibility_date = "2025-06-17" # Pertahankan tanggal terbaru
 
 # Konfigurasi untuk aset statis (penting untuk Next.js di Pages)
-# Gunakan bagian [assets] seperti yang disarankan oleh error log Wrangler
 [assets]
-# Next.js menghasilkan output ke direktori `.next`
-# Namun, jika Anda menggunakan `output: 'export'` di next.config.js,
-# maka ini harus menjadi `out`
-directory = ".next" # Asumsi umum untuk Next.js Pages
+# Next.js sekarang akan menghasilkan output di direktori `out` karena `output: 'export'`
+directory = "out" # <<< UBAH DARI ".next" MENJADI "out"
 
-# Bagian observasi log Anda baik-baik saja
 [observability.logs]
 enabled = true
-
-# Hapus atau komentar bagian [pages_build_output] karena menyebabkan konflik/tidak dikenali
-# [pages_build_output]
-# directory = ".next"
