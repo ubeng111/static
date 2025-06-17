@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next-on-pages",
+    "build": "next build",
+    "build:cloudflare": "next build && next-on-pages",
     "start": "next start",
     "lint": "next lint"
   },
@@ -63,7 +64,13 @@
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.13.12",
-    "@types/node": "22.15.21"
+    "@types/node": "22.15.21",
+    "@types/react": "^19.1.8",
+    "eslint": "^9.29.0",
+    "jquery": "^3.7.1",
+    "prop-types": "^15.8.1",
+    "typescript": "^5.8.3",
+    "vercel": "^43.2.0"
   },
   "packageManager": "yarn@4.9.2"
 }
