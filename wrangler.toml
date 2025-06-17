@@ -1,11 +1,6 @@
 # fileName: wrangler.toml
-name = "gotrip" # Ganti dengan nama unik yang spesifik untuk proyek Pages Anda, misal "gotrip-pages-app"
-compatibility_date = "2025-06-17" # Pertahankan tanggal terbaru
-
-# Konfigurasi untuk aset statis (penting untuk Next.js di Pages)
-[assets]
-# Next.js sekarang akan menghasilkan output di direktori `out` karena `output: 'export'`
-directory = "out" # <<< UBAH DARI ".next" MENJADI "out"
+name = "gotrip"
+compatibility_date = "2025-06-17"
 
 [observability.logs]
 enabled = true
