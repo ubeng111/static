@@ -1,6 +1,10 @@
 # fileName: wrangler.toml
-name = "gotrip"
-compatibility_date = "2025-06-17"
+name = "gotrip" # Ganti dengan nama unik yang Anda inginkan di Cloudflare Pages
+compatibility_date = "2025-06-17" # Pertahankan tanggal hari ini
+
+# Hapus bagian `[assets]` karena next-on-pages akan mengelola output
+# [assets]
+# directory = "out" 
 
 [observability.logs]
 enabled = true
