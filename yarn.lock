@@ -2914,7 +2914,7 @@ postgres-interval@^1.1.0:
   dependencies:
     xtend "^4.0.0"
 
-prop-types@^15, prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15, prop-types@^15.5.0, prop-types@^15.5.8, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmmirror.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -2954,13 +2954,6 @@ react-element-popper@^2.1.6:
   version "2.1.7"
   resolved "https://registry.npmmirror.com/react-element-popper/-/react-element-popper-2.1.7.tgz#924aac2dd8d8f0efa344987690fa462cab00e710"
   integrity sha512-tuM2OxKlW32h+6uFSK6EENHPeZ2OGgOipHfOAl+VLWEv9/j3QkSGbD+ADX3A9uJlmq24i37n28RjJmAbGTfpEg==
-
-react-flags@^0.1.18:
-  version "0.1.18"
-  resolved "https://registry.npmmirror.com/react-flags/-/react-flags-0.1.18.tgz#d763d7e802692a08e15d1802a51933a173f388fd"
-  integrity sha512-fa8D6DIZS6DWRqLcmKGIHVT13r4viHAfIRth9cFO7cDyxEPfTBbZei6p0Xeao6of4C/K4XU/j35aMjPC15ePIg==
-  dependencies:
-    prop-types "^15.5.10"
 
 react-i18next@^15.5.2:
   version "15.5.2"
