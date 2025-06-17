@@ -15,4 +15,4 @@ enabled = true
 
 # Hapus atau komentar bagian [pages_build_output] karena menyebabkan konflik/tidak dikenali
 # [pages_build_output]
-# directory = "out"
+# directory = ".next"
