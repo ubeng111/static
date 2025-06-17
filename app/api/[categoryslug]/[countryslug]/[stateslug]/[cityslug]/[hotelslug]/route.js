@@ -4,7 +4,6 @@ import fs from 'fs';
 import path from 'path';
 import 'dotenv/config';
 import { gzipSync } from 'zlib';
-export const runtime = 'edge';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
