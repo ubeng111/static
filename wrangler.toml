@@ -1,0 +1,15 @@
+name = "gotrip" # Ganti dengan nama unik untuk proyek Pages Anda
+compatibility_date = "2025-06-17" # Tanggal kompatibilitas terbaru
+
+# Konfigurasi untuk Cloudflare Pages
+[pages_build_output]
+# Next.js menghasilkan output di direktori .next
+# Untuk Next.js app router, ini seringkali hanya direktori .next
+# Atau jika Anda menggunakan `output: 'export'` di next.config.js, itu akan ke `out`
+# Default Next.js Pages biasanya .next/static or just .next
+directory = ".next" # Ini asumsi umum untuk Next.js Pages
+
+# Jika Anda juga memiliki API Routes/Middleware, Anda mungkin perlu bagian ini
+# [build]
+# command = "yarn build" # Ini sudah dijalankan sebelumnya oleh Cloudflare Pages
+# publish = ".next" # Wrangler akan mencari folder ini untuk Pages
