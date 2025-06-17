@@ -1,17 +1,13 @@
 // app/[lang]/(hotel)/[categoryslug]/[countryslug]/[stateslug]/[cityslug]/page.jsx
-import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { getdictionary } from '@/dictionaries/get-dictionary';
+import ClientPage from './ClientPage';
 
-// Helper function to sanitize slugs
 const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
-
-// Helper function to format slugs
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
-// Function to fetch city data
 async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
@@ -26,7 +22,7 @@ async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
   const apiUrl = `${baseUrl}/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`;
 
   try {
-    const response = await fetch(apiUrl, { cache: 'no-store' });
+    const response = await fetch(apiUrl, { next: { revalidate: 86400 } });
     if (!response.ok) {
       console.error(`Failed to fetch city data for ${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}. Status: ${response.status}`);
       return null;
@@ -38,11 +34,12 @@ async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
   }
 }
 
-const ClientPage = dynamic(() => import('./ClientPage'));
+export async function generateStaticParams() {
+  return [];
+}
 
 export async function generateMetadata({ params }) {
-  const awaitedParams = await params;
-  const { categoryslug, countryslug, stateslug, cityslug, lang: locale } = awaitedParams;
+  const { categoryslug, countryslug, stateslug, cityslug, lang: locale } = await params;
   const dictionary = await getdictionary(locale);
   const metadataDict = dictionary?.metadata || {};
   const cityPageDict = dictionary?.cityPage || {};
@@ -75,26 +72,26 @@ export async function generateMetadata({ params }) {
   const currentYear = new Date().getFullYear();
 
   return {
-    title: (metadataDict.cityPageTitleTemplate || `Cheap {formattedCategory} in {formattedCity}, {formattedState}, {formattedCountry} {currentYear} - Big Discounts! | Hoteloza`)
+    title: (metadataDict.cityPageTitleTemplate || `Cheap ${formattedCategory} in ${formattedCity}, ${formattedState}, ${formattedCountry} ${currentYear} - Big Discounts! | Hoteloza`)
       .replace('{formattedCategory}', formattedCategory)
       .replace('{formattedCity}', formattedCity)
       .replace('{formattedState}', formattedState)
       .replace('{formattedCountry}', formattedCountry)
       .replace('{currentYear}', currentYear),
-    description: (metadataDict.cityPageDescriptionTemplate || `Find the best {formattedCategory} in {formattedCity}, {formattedState}, {formattedCountry} for {currentYear} on Hoteloza. Exclusive discounts, top facilities, and unbeatable prices. Book your dream stay now!`)
+    description: (metadataDict.cityPageDescriptionTemplate || `Find the best ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState}, ${formattedCountry} for ${currentYear} on Hoteloza. Exclusive discounts, top facilities, and unbeatable prices. Book your dream stay now!`)
       .replace('{formattedCategory}', formattedCategory.toLowerCase())
       .replace('{formattedCity}', formattedCity)
       .replace('{formattedState}', formattedState)
       .replace('{formattedCountry}', formattedCountry)
       .replace('{currentYear}', currentYear),
     openGraph: {
-      title: (metadataDict.cityOgTitleTemplate || `Best {formattedCategory} in {formattedCity}, {formattedState}, {formattedCountry} {currentYear} | Hoteloza`)
+      title: (metadataDict.cityOgTitleTemplate || `Best ${formattedCategory} in ${formattedCity}, ${formattedState}, ${formattedCountry} ${currentYear} | Hoteloza`)
         .replace('{formattedCategory}', formattedCategory)
         .replace('{formattedCity}', formattedCity)
         .replace('{formattedState}', formattedState)
         .replace('{formattedCountry}', formattedCountry)
         .replace('{currentYear}', currentYear),
-      description: (metadataDict.cityOgDescriptionTemplate || `Discover top {formattedCategory} in {formattedCity}, {formattedState}, {formattedCountry} for {currentYear} on Hoteloza. Book now for exclusive deals and premium facilities!`)
+      description: (metadataDict.cityOgDescriptionTemplate || `Discover top ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState}, ${formattedCountry} for ${currentYear} on Hoteloza. Book now for exclusive deals and premium facilities!`)
         .replace('{formattedCategory}', formattedCategory.toLowerCase())
         .replace('{formattedCity}', formattedCity)
         .replace('{formattedState}', formattedState)
@@ -107,10 +104,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-  const awaitedParams = await params;
-  const { categoryslug, countryslug, stateslug, cityslug, lang: locale } = awaitedParams;
+  const { categoryslug, countryslug, stateslug, cityslug, lang: locale } = await params;
   const dictionary = await getdictionary(locale);
-
   const currentLang = locale;
 
   const commonDict = dictionary?.common || {};
@@ -146,19 +141,19 @@ export default async function Page({ params }) {
     position: index + 1,
     item: {
       '@type': 'Hotel',
-      name: hotel.title || hotel.name || 'Unnamed Hotel', // No dict fallback
+      name: hotel.title || hotel.name || 'Unnamed Hotel',
       url: hotel.hotelslug
         ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}/${hotel.hotelslug}`
         : `${currentUrl}/${hotel.id || index + 1}`,
-      image: hotel.img || (Array.isArray(hotel.slideImg) && hotel.slideImg.length > 0 ? hotel.slideImg[0] : ''), // Corrected: access first element of slideImg
+      image: hotel.img || (Array.isArray(hotel.slideImg) && hotel.slideImg.length > 0 ? hotel.slideImg[0] : ''),
       address: {
         '@type': 'PostalAddress',
-        streetAddress: hotel.location || 'Unknown Address', // Corrected: use hotel.location, no dict fallback
-        addressLocality: hotel.city ? formatSlug(hotel.city) : 'Unknown City', // Corrected: use hotel.city, no dict fallback
-        addressRegion: hotel.state ? formatSlug(hotel.state) : 'Unknown Region', // Corrected: use hotel.state, no dict fallback
-        addressCountry: hotel.country ? formatSlug(hotel.country) : 'Unknown Country', // Corrected: use hotel.country, no dict fallback
+        streetAddress: hotel.location || 'Unknown Address',
+        addressLocality: hotel.city ? formatSlug(hotel.city) : 'Unknown City',
+        addressRegion: hotel.state ? formatSlug(hotel.state) : 'Unknown Region',
+        addressCountry: hotel.country ? formatSlug(hotel.country) : 'Unknown Country',
       },
-      description: hotel.overview || `A ${formattedCategory.toLowerCase()} in ${hotel.city ? formatSlug(hotel.city) : 'unknown location'}, ${hotel.state ? formatSlug(hotel.state) : 'unknown state'}.`, // Corrected: prioritize overview, literal fallback
+      description: hotel.overview || `A ${formattedCategory.toLowerCase()} in ${hotel.city ? formatSlug(hotel.city) : 'unknown location'}, ${hotel.state ? formatSlug(hotel.state) : 'unknown state'}.`,
     },
   }));
 
@@ -168,12 +163,12 @@ export default async function Page({ params }) {
       {
         '@type': 'WebPage',
         url: currentUrl,
-        name: (metadataDict.cityOgTitleTemplate || `Top {formattedCategory} in {formattedCity}, {formattedState} {currentYear}`)
+        name: (metadataDict.cityOgTitleTemplate || `Top ${formattedCategory} in ${formattedCity}, ${formattedState} ${currentYear}`)
           .replace('{formattedCategory}', formattedCategory)
           .replace('{formattedCity}', formattedCity)
           .replace('{formattedState}', formattedState)
           .replace('{currentYear}', currentYear),
-        description: (metadataDict.cityOgDescriptionTemplate || `Book top {formattedCategory} in {formattedCity}, {formattedState} for {currentYear} on Hoteloza with exclusive deals and amenities.`)
+        description: (metadataDict.cityOgDescriptionTemplate || `Book top ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState} for ${currentYear} on Hoteloza with exclusive deals and amenities.`)
           .replace('{formattedCategory}', formattedCategory.toLowerCase())
           .replace('{formattedCity}', formattedCity)
           .replace('{formattedState}', formattedState)
@@ -196,11 +191,11 @@ export default async function Page({ params }) {
       },
       {
         '@type': 'ItemList',
-        name: (metadataDict.cityOgTitleTemplate || `Top {formattedCategory} in {formattedCity}, {formattedState}`)
+        name: (metadataDict.cityOgTitleTemplate || `Top ${formattedCategory} in ${formattedCity}, ${formattedState}`)
           .replace('{formattedCategory}', formattedCategory)
           .replace('{formattedCity}', formattedCity)
           .replace('{formattedState}', formattedState),
-        description: (metadataDict.cityOgDescriptionTemplate || `A list of top {formattedCategory} in {formattedCity}, {formattedState} for {currentYear} on Hoteloza.`)
+        description: (metadataDict.cityOgDescriptionTemplate || `A list of top ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState} for ${currentYear} on Hoteloza.`)
           .replace('{formattedCategory}', formattedCategory.toLowerCase())
           .replace('{formattedCity}', formattedCity)
           .replace('{formattedState}', formattedState)
@@ -212,7 +207,10 @@ export default async function Page({ params }) {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }} />
+      <Script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
+      />
       <ClientPage
         categoryslug={sanitizedCategory}
         countryslug={sanitizedCountry}

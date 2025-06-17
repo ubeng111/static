@@ -1,8 +1,8 @@
 // app/[lang]/(hotel)/[categoryslug]/[countryslug]/page.jsx
-import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { getdictionary } from '@/dictionaries/get-dictionary';
+import ClientPage from './ClientPage';
 
 const sanitizeSlug = (slug) => {
   const sanitized = slug?.replace(/[^a-zA-Z0-9-]/g, '');
@@ -16,12 +16,8 @@ const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
 async function getCountryData(categoryslug, countryslug) {
-  console.log('getCountryData: Received slugs - category:', categoryslug, 'country:', countryslug);
-
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
-
-  console.log('getCountryData: Sanitized slugs - category:', sanitizedCategory, 'country:', sanitizedCountry);
 
   if (!sanitizedCategory || !sanitizedCountry) {
     console.error('getCountryData: INVALID OR MISSING SLUGS AFTER SANITIZATION. category:', sanitizedCategory, 'country:', sanitizedCountry);
@@ -30,33 +26,28 @@ async function getCountryData(categoryslug, countryslug) {
 
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
   const apiUrl = `${baseUrl}/api/${sanitizedCategory}/${sanitizedCountry}`;
-  console.log('getCountryData: Constructed API URL:', apiUrl);
 
   try {
-    const response = await fetch(apiUrl, { cache: 'no-store' });
+    const response = await fetch(apiUrl, { next: { revalidate: 86400 } });
     if (!response.ok) {
-      const errorText = await response.text();
       console.error(
-        `getCountryData: Failed to fetch country data from API. Status: ${response.status} - ${response.statusText}. Response Body: ${errorText}`
+        `getCountryData: Failed to fetch country data from API. Status: ${response.status} - ${response.statusText}`
       );
       return null;
     }
-    const data = await response.json();
-    console.log('getCountryData: Raw data received from API:', JSON.stringify(data, null, 2));
-    return data;
+    return response.json();
   } catch (error) {
     console.error('Error fetching country data:', error);
     return null;
   }
 }
 
-const ClientPageCountry = dynamic(() => import('./ClientPage'));
+export async function generateStaticParams() {
+  return [];
+}
 
 export async function generateMetadata({ params }) {
-  const awaitedParams = await params;
-  const { categoryslug, countryslug, lang: locale } = awaitedParams;
-
-  console.log('generateMetadata (Country): Received params - category:', categoryslug, 'country:', countryslug, 'lang:', locale);
+  const { categoryslug, countryslug, lang: locale } = await params;
 
   const dictionary = await getdictionary(locale);
   const metadataDict = dictionary?.metadata || {};
@@ -67,7 +58,6 @@ export async function generateMetadata({ params }) {
   const sanitizedCountry = sanitizeSlug(countryslug);
 
   if (!sanitizedCategory || !sanitizedCountry) {
-    console.error('generateMetadata (Country): Missing required slugs after sanitization. Returning default metadata.');
     return {
       title: metadataDict.countryNotFoundTitle || 'Page Not Found | Hoteloza',
       description: metadataDict.countryNotFoundDescription || 'The requested category or country was not found on Hoteloza.',
@@ -75,9 +65,7 @@ export async function generateMetadata({ params }) {
   }
 
   const data = await getCountryData(categoryslug, countryslug);
-  console.log('generateMetadata (Country): Data from getCountryData for metadata:', JSON.stringify(data, null, 2));
   if (!data || !data.hotels || data.hotels.length === 0) {
-    console.error('generateMetadata (Country): Country data is null, or hotels array is missing/empty. Data:', data);
     return {
       title: metadataDict.countryNotFoundTitle || 'Page Not Found | Hoteloza',
       description: metadataDict.countryNotFoundDescription || 'The requested category or country was not found on Hoteloza.',
@@ -113,11 +101,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-  const awaitedParams = await params;
-  const { categoryslug, countryslug, lang: locale } = awaitedParams;
-
-  console.log('Page component (Country): Received params - category:', categoryslug, 'country:', countryslug, 'lang:', locale);
-
+  const { categoryslug, countryslug, lang: locale } = await params;
   const dictionary = await getdictionary(locale);
   const currentLang = locale;
 
@@ -129,19 +113,12 @@ export default async function Page({ params }) {
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
 
-  console.log('Page component (Country): Sanitized slugs for component - category:', sanitizedCategory, 'country:', sanitizedCountry);
-
-
   if (!sanitizedCategory || !sanitizedCountry) {
-    console.error('Page component (Country): Missing required slugs after sanitization. Calling notFound(). category:', sanitizedCategory, 'country:', sanitizedCountry);
     notFound();
   }
 
   const data = await getCountryData(categoryslug, countryslug);
-  console.log('Page component (Country): Data from getCountryData:', JSON.stringify(data, null, 2));
-
   if (!data || !data.hotels || data.hotels.length === 0) {
-    console.error('Page component (Country): Country data is null, or hotels array is missing/empty. Calling notFound(). Data:', data);
     notFound();
   }
 
@@ -155,11 +132,11 @@ export default async function Page({ params }) {
     {
       '@context': 'https://schema.org',
       '@type': 'WebPage',
-      name: (metadataDict.countryPageTitleTemplate || `Best {formattedCategory} in {formattedCountry} {currentYear}`)
+      name: (metadataDict.countryPageTitleTemplate || `Best ${formattedCategory} in ${formattedCountry} ${currentYear}`)
         .replace('{formattedCategory}', formattedCategory)
         .replace('{formattedCountry}', formattedCountry)
         .replace('{currentYear}', currentYear),
-      description: (metadataDict.countryPageDescriptionTemplate || `Find the best {formattedCategory} in {formattedCountry} for {currentYear} on Hoteloza with top hotels and exclusive deals.`)
+      description: (metadataDict.countryPageDescriptionTemplate || `Find the best ${formattedCategory.toLowerCase()} in ${formattedCountry} for ${currentYear} on Hoteloza with top hotels and exclusive deals.`)
         .replace('{formattedCategory}', formattedCategory.toLowerCase())
         .replace('{formattedCountry}', formattedCountry)
         .replace('{currentYear}', currentYear),
@@ -182,11 +159,11 @@ export default async function Page({ params }) {
     {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
-      name: (metadataDict.countryOgTitleTemplate || `Top {formattedCategory} in {formattedCountry} {currentYear}`)
+      name: (metadataDict.countryOgTitleTemplate || `Top ${formattedCategory} in ${formattedCountry} ${currentYear}`)
         .replace('{formattedCategory}', formattedCategory)
         .replace('{formattedCountry}', formattedCountry)
         .replace('{currentYear}', currentYear),
-      description: (metadataDict.countryOgDescriptionTemplate || `A list of top {formattedCategory} in {formattedCountry} for {currentYear} on Hoteloza.`)
+      description: (metadataDict.countryOgDescriptionTemplate || `A list of top ${formattedCategory.toLowerCase()} in ${formattedCountry} for ${currentYear} on Hoteloza.`)
         .replace('{formattedCategory}', formattedCategory.toLowerCase())
         .replace('{formattedCountry}', formattedCountry)
         .replace('{currentYear}', currentYear),
@@ -195,19 +172,19 @@ export default async function Page({ params }) {
         position: index + 1,
         item: {
           '@type': 'Hotel',
-          name: hotel.title || hotel.name || 'Unnamed Hotel', // No dict fallback
+          name: hotel.title || hotel.name || 'Unnamed Hotel',
           url: hotel.hotelslug && hotel.stateslug && hotel.cityslug
             ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${hotel.stateslug}/${hotel.cityslug}/${hotel.hotelslug}`
             : `${currentUrl}/${hotel.id || index + 1}`,
-          image: hotel.img || (Array.isArray(hotel.slideImg) && hotel.slideImg.length > 0 ? hotel.slideImg[0] : ''), // Corrected: access first element of slideImg
+          image: hotel.img || (Array.isArray(hotel.slideImg) && hotel.slideImg.length > 0 ? hotel.slideImg[0] : ''),
           address: {
             '@type': 'PostalAddress',
-            streetAddress: hotel.location || 'Unknown Address', // Corrected: use hotel.location, no dict fallback
-            addressLocality: hotel.city ? formatSlug(hotel.city) : 'Unknown City', // Corrected: use hotel.city, no dict fallback
-            addressRegion: hotel.state ? formatSlug(hotel.state) : 'Unknown Region', // Corrected: use hotel.state, no dict fallback
-            addressCountry: hotel.country ? formatSlug(hotel.country) : 'Unknown Country', // Corrected: use hotel.country, no dict fallback
+            streetAddress: hotel.location || 'Unknown Address',
+            addressLocality: hotel.city ? formatSlug(hotel.city) : 'Unknown City',
+            addressRegion: hotel.state ? formatSlug(hotel.state) : 'Unknown Region',
+            addressCountry: hotel.country ? formatSlug(hotel.country) : 'Unknown Country',
           },
-          description: hotel.overview || `${formattedCategory.toLowerCase()} in ${hotel.city ? formatSlug(hotel.city) : 'unknown location'}, ${formattedCountry}.`, // Corrected: prioritize overview, literal fallback
+          description: hotel.overview || `${formattedCategory.toLowerCase()} in ${hotel.city ? formatSlug(hotel.city) : 'unknown location'}, ${formattedCountry}.`,
         },
       })),
     },
@@ -220,13 +197,12 @@ export default async function Page({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
       />
-      {/* Pass initialData to ClientPageCountry for SWR hydration */}
-      <ClientPageCountry
+      <ClientPage
         categoryslug={sanitizedCategory}
         countryslug={sanitizedCountry}
         dictionary={dictionary}
         currentLang={currentLang}
-        initialData={data} // Pass the fetched data as initialData
+        initialData={data}
       />
     </>
   );
