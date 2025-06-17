@@ -1,15 +1,18 @@
-name = "gotrip" # Ganti dengan nama unik untuk proyek Pages Anda
-compatibility_date = "2025-06-17" # Tanggal kompatibilitas terbaru
+name = "gotrip" # Pastikan ini unik, misalnya "gotrip-app" atau "gotrip-project"
+compatibility_date = "2025-06-17" # Pertahankan tanggal terbaru
 
-# Konfigurasi untuk Cloudflare Pages
-[pages_build_output]
-# Next.js menghasilkan output di direktori .next
-# Untuk Next.js app router, ini seringkali hanya direktori .next
-# Atau jika Anda menggunakan `output: 'export'` di next.config.js, itu akan ke `out`
-# Default Next.js Pages biasanya .next/static or just .next
-directory = ".next" # Ini asumsi umum untuk Next.js Pages
+# Konfigurasi untuk aset statis (penting untuk Next.js di Pages)
+# Gunakan bagian [assets] seperti yang disarankan oleh error log Wrangler
+[assets]
+# Next.js menghasilkan output ke direktori `.next`
+# Namun, jika Anda menggunakan `output: 'export'` di next.config.js,
+# maka ini harus menjadi `out`
+directory = ".next" # Asumsi umum untuk Next.js Pages
 
-# Jika Anda juga memiliki API Routes/Middleware, Anda mungkin perlu bagian ini
-# [build]
-# command = "yarn build" # Ini sudah dijalankan sebelumnya oleh Cloudflare Pages
-# publish = ".next" # Wrangler akan mencari folder ini untuk Pages
+# Bagian observasi log Anda baik-baik saja
+[observability.logs]
+enabled = true
+
+# Hapus atau komentar bagian [pages_build_output] karena menyebabkan konflik/tidak dikenali
+# [pages_build_output]
+# directory = ".next"
