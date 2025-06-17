@@ -1,23 +1,23 @@
 User-agent: *
 Disallow: /admin/
 
-Sitemap: https://sitemap.hoteloza.com/sitemap1.xml
-Sitemap: https://sitemap.hoteloza.com/sitemap2.xml
-Sitemap: https://sitemap.hoteloza.com/sitemap3.xml
-Sitemap: https://sitemap.hoteloza.com/sitemap4.xml
-Sitemap: https://sitemap.hoteloza.com/sitemap5.xml
-Sitemap: https://sitemap.hoteloza.com/sitemap6.xml
-Sitemap: https://sitemap.hoteloza.com/sitemap7.xml
-Sitemap: https://sitemap.hoteloza.com/sitemap8.xml
-Sitemap: https://sitemap.hoteloza.com/sitemap9.xml
-Sitemap: https://sitemap.hoteloza.com/sitemap10.xml
-Sitemap: https://sitemap.hoteloza.com/sitemap11.xml
-Sitemap: https://sitemap.hoteloza.com/sitemap12.xml
-Sitemap: https://sitemap.hoteloza.com/sitemap13.xml
-Sitemap: https://sitemap.hoteloza.com/sitemap14.xml
-Sitemap: https://sitemap.hoteloza.com/sitemap15.xml
-Sitemap: https://sitemap.hoteloza.com/sitemap16.xml
-Sitemap: https://sitemap.hoteloza.com/sitemap17.xml
+Sitemap: https://hoteloza.com/bako/sitemap1.xml
+Sitemap: https://hoteloza.com/bako/sitemap2.xml
+Sitemap: https://hoteloza.com/bako/sitemap3.xml
+Sitemap: https://hoteloza.com/bako/sitemap4.xml
+Sitemap: https://hoteloza.com/bako/sitemap5.xml
+Sitemap: https://hoteloza.com/bako/sitemap6.xml
+Sitemap: https://hoteloza.com/bako/sitemap7.xml
+Sitemap: https://hoteloza.com/bako/sitemap8.xml
+Sitemap: https://hoteloza.com/bako/sitemap9.xml
+Sitemap: https://hoteloza.com/bako/sitemap10.xml
+Sitemap: https://hoteloza.com/bako/sitemap11.xml
+Sitemap: https://hoteloza.com/bako/sitemap12.xml
+Sitemap: https://hoteloza.com/bako/sitemap13.xml
+Sitemap: https://hoteloza.com/bako/sitemap14.xml
+Sitemap: https://hoteloza.com/bako/sitemap15.xml
+Sitemap: https://hoteloza.com/bako/sitemap16.xml
+Sitemap: https://hoteloza.com/bako/sitemap17.xml
 
 
 
