@@ -3,27 +3,31 @@
 
 import { useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic'; // Pastikan dynamic sudah diimpor
 import useSWR from 'swr';
-import PaginationComponent from '@/components/hotel-list/hotel-list-v5/PaginationComponent';
-import Relatedcity88 from '@/components/hotel-single/Relatedcity88';
-import HotelProperties88 from '@/components/hotel-list/hotel-list-v5/HotelProperties88';
-import Footer from "@/components/footer";
-import CallToActions from "@/components/common/CallToActions";
-import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox";
-import Header11 from "@/components/header/header-11"; // Import Header11
 
+// --- MODIFIKASI: Impor Komponen Secara Dinamis (next/dynamic) ---
 
+// Komponen yang sudah dinamis:
+const Faqcity = dynamic(() => import('@/components/faq/Faqcity'), { ssr: false, loading: () => <p>Loading FAQs...</p> });
+const TopBreadCrumbCity = dynamic(() => import('@/components/hotel-list/hotel-list-v5/TopBreadCrumbCity'), { ssr: false, loading: () => <p>Loading breadcrumbs...</p> });
 
+// Tambahkan dynamic import untuk komponen-komponen lain yang diimpor langsung:
+const DynamicPaginationComponent = dynamic(() => import('@/components/hotel-list/hotel-list-v5/PaginationComponent'), { ssr: false, loading: () => <p>Loading pagination...</p> });
+const DynamicRelatedcity88 = dynamic(() => import('@/components/hotel-single/Relatedcity88'), { ssr: false, loading: () => <p>Loading related cities...</p> });
+const DynamicHotelProperties88 = dynamic(() => import('@/components/hotel-list/hotel-list-v5/HotelProperties88'), { ssr: false, loading: () => <p>Loading hotel properties...</p> });
+const DynamicFooter = dynamic(() => import("@/components/footer"), { ssr: false, loading: () => <p>Loading footer...</p> });
+const DynamicCallToActions = dynamic(() => import("@/components/common/CallToActions"), { ssr: false, loading: () => <p>Loading call to actions...</p> });
+const DynamicMainFilterSearchBox = dynamic(() => import("@/components/hotel-list/common/MainFilterSearchBox"), { ssr: false, loading: () => <p>Loading search box...</p> });
+const DynamicHeader11 = dynamic(() => import("@/components/header/header-11"), { ssr: false, loading: () => <p>Loading header...</p> });
 
-const Faqcity = dynamic(() => import('@/components/faq/Faqcity'), { ssr: false });
-const TopBreadCrumbCity = dynamic(() => import('@/components/hotel-list/hotel-list-v5/TopBreadCrumbCity'), { ssr: false });
+// --- AKHIR MODIFIKASI next/dynamic ---
 
 // Helper function to format slugs
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
-export default function ClientPage({ categoryslug, countryslug, stateslug, cityslug, dictionary, currentLang }) { // <--- TAMBAHKAN currentLang DI SINI
+export default function ClientPage({ categoryslug, countryslug, stateslug, cityslug, dictionary, currentLang }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const page = parseInt(searchParams.get('page')) || 1;
@@ -63,10 +67,10 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, citys
     (event) => {
       const newPage = event.selected + 1;
       if (newPage === pagination.page) return;
-      router.push(`/${currentLang}/${categoryslug}/${countryslug}/${stateslug}/${cityslug}?page=${newPage}`, { shallow: true }); // <--- GUNAKAN currentLang DI SINI
+      router.push(`/${currentLang}/${categoryslug}/${countryslug}/${stateslug}/${cityslug}?page=${newPage}`, { shallow: true });
       window.scrollTo(0, 0);
     },
-    [categoryslug, countryslug, stateslug, cityslug, pagination.page, router, currentLang] // <--- TAMBAHKAN currentLang KE DEPENDENSI
+    [categoryslug, countryslug, stateslug, cityslug, pagination.page, router, currentLang]
   );
 
   if (isLoading) {
@@ -90,7 +94,8 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, citys
 
   return (
     <>
-              <Header11 dictionary={dictionary} currentLang={currentLang} />
+      {/* Panggil DynamicHeader11 */}
+      <DynamicHeader11 dictionary={dictionary} currentLang={currentLang} />
 
       <div className="header-margin"></div>
       <section className="section-bg pt-40 pb-40 relative z-5">
@@ -118,14 +123,15 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, citys
         </div>
       </section>
 
-      <TopBreadCrumbCity categoryslug={categoryslug} countryslug={countryslug} stateslug={stateslug} cityslug={cityslug} dictionary={dictionary} currentLang={currentLang} /> {/* <--- TERUSKAN currentLang DI SINI */}
+      {/* TopBreadCrumbCity sudah dinamis */}
+      <TopBreadCrumbCity categoryslug={categoryslug} countryslug={countryslug} stateslug={stateslug} cityslug={cityslug} dictionary={dictionary} currentLang={currentLang} />
 
       <section className="layout-pt-md">
         <div className="container">
           <div className="row">
             <div className="col-12">
-         <MainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
-
+              {/* Panggil DynamicMainFilterSearchBox */}
+              <DynamicMainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
             </div>
           </div>
         </div>
@@ -134,35 +140,40 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, citys
       <section className="layout-pt-md layout-pb-lg">
         <div className="container">
           <div className="row">
-            <HotelProperties88 hotels={hotels} dictionary={dictionary} currentLang={currentLang} />
+            {/* Panggil DynamicHotelProperties88 */}
+            <DynamicHotelProperties88 hotels={hotels} dictionary={dictionary} currentLang={currentLang} />
           </div>
         </div>
       </section>
 
-      <div style={{ display: 'flex', justifyContent: 'center', transform: 'translateY(-60px)', marginTop: '5%' }}>
-        <PaginationComponent
-          pageCount={pagination.totalPages}
-          onPageChange={handlePageClick}
-          containerClassName="pagination"
-          activeClassName="active"
-          pageClassName="page-item"
-          pageLinkClassName="page-link"
-          previousLabel={null}
-          nextLabel={null}
-          forcePage={pagination.page - 1}
-        />
-      </div>
+      {pagination.totalPages > 1 && (
+        <div style={{ display: 'flex', justifyContent: 'center', transform: 'translateY(-60px)', marginTop: '5%' }}>
+          {/* Panggil DynamicPaginationComponent */}
+          <DynamicPaginationComponent
+            pageCount={pagination.totalPages}
+            onPageChange={handlePageClick}
+            containerClassName="pagination"
+            activeClassName="active"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousLabel={null}
+            nextLabel={null}
+            forcePage={pagination.page - 1}
+          />
+        </div>
+      )}
 
       <div className="pt-40 sm:pt-20 item_gap-x30">
         {relatedcity.length > 0 ? (
-          <Relatedcity88
+          // Panggil DynamicRelatedcity88 (komentar sudah diperbaiki)
+          <DynamicRelatedcity88
             relatedcity={relatedcity}
             categoryslug={categoryslug}
             countryslug={countryslug}
             stateslug={stateslug}
             cityslug={cityslug}
             dictionary={dictionary}
-            currentLang={currentLang} // <--- TERUSKAN currentLang DI SINI
+            currentLang={currentLang}
           />
         ) : (
           <p>{commonDict.noRelatedCitiesFound || 'No related cities found.'}</p>
@@ -180,16 +191,19 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, citys
               </div>
               <div className="col-lg-8 offset-lg-2">
                 <div className="accordion -simple row y-gap-20 js-accordion">
-                  <Faqcity city={formattedCity} dictionary={dictionary} currentLang={currentLang} /> {/* <--- TERUSKAN currentLang DI SINI */}
+                  {/* Faqcity sudah dinamis */}
+                  <Faqcity city={formattedCity} dictionary={dictionary} currentLang={currentLang} />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
- <CallToActions dictionary={dictionary} currentLang={currentLang} />
+      {/* Panggil DynamicCallToActions */}
+      <DynamicCallToActions dictionary={dictionary} currentLang={currentLang} />
 
-      <Footer dictionary={dictionary} currentLang={currentLang} />
+      {/* Panggil DynamicFooter */}
+      <DynamicFooter dictionary={dictionary} currentLang={currentLang} />
     </>
   );
 }

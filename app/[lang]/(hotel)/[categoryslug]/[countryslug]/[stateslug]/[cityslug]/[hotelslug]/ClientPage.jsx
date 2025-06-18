@@ -4,22 +4,25 @@
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 
-import GalleryTwo from '@/components/hotel-single/GalleryTwo';
-import TopBreadCrumb88 from '@/components/hotel-single/TopBreadCrumb88';
-import Footer from "@/components/footer";
-import CallToActions from "@/components/common/CallToActions";
-import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox";
-import Header11 from "@/components/header/header-11"; // Import Header11
+// --- MODIFIKASI: Impor Komponen Secara Dinamis (next/dynamic) ---
 
+// Komponen-komponen yang diimpor secara dinamis
+const DynamicGalleryTwo = dynamic(() => import('@/components/hotel-single/GalleryTwo'), { ssr: false, loading: () => <p>Loading gallery...</p> });
+const DynamicTopBreadCrumb88 = dynamic(() => import('@/components/hotel-single/TopBreadCrumb88'), { ssr: false, loading: () => <p>Loading breadcrumbs...</p> });
+const DynamicFooter = dynamic(() => import("@/components/footer"), { ssr: false, loading: () => <p>Loading footer...</p> });
+const DynamicCallToActions = dynamic(() => import("@/components/common/CallToActions"), { ssr: false, loading: () => <p>Loading call to actions...</p> });
+const DynamicMainFilterSearchBox = dynamic(() => import("@/components/hotel-list/common/MainFilterSearchBox"), { ssr: false, loading: () => <p>Loading search box...</p> });
+const DynamicHeader11 = dynamic(() => import("@/components/header/header-11"), { ssr: false, loading: () => <p>Loading header...</p> });
 
-// Dynamic imports, sebagian besar untuk client-side only jika tidak ada kebutuhan khusus untuk SSR
-
+// Komponen-komponen yang sudah Anda buat dinamis sebelumnya
 const MapComponent = dynamic(() => import('@/components/hotel-single/MapComponent'), { ssr: false });
 const Facilities = dynamic(() => import('@/components/hotel-single/Facilities'), { ssr: false });
 const Hotels2 = dynamic(() => import('@/components/hotels/Hotels2'), { ssr: false });
 const LandmarkList = dynamic(() => import('@/components/hotel-single/LandmarkList'), { ssr: false });
 const RelatedHotels = dynamic(() => import('@/components/hotel-single/RelatedHotels'), { ssr: false });
 const Faq = dynamic(() => import('@/components/faq/Faq'), { ssr: false });
+
+// --- AKHIR MODIFIKASI next/dynamic ---
 
 // AccordionItem Component (dibuat di sini agar bisa menggunakan dictionary dari parent ClientPage)
 const AccordionItem = ({ id, icon, title, isOpen, toggle, ariaLabel, children }) => (
@@ -53,8 +56,8 @@ export default function ClientPage({
   countryslug,
   stateslug,
   cityslug,
-  dictionary, // <-- Tambahkan dictionary sebagai prop
-  currentLang, // <-- Tambahkan currentLang sebagai prop
+  dictionary,
+  currentLang,
 }) {
   const [openSections, setOpenSections] = useState({
     facilities: true,
@@ -85,8 +88,7 @@ export default function ClientPage({
 
   return (
     <>
-      <Header11 dictionary={dictionary} currentLang={currentLang} />
-
+      <DynamicHeader11 dictionary={dictionary} currentLang={currentLang} />
 
       <style jsx global>{`
         .accordion-item .accordion-header {
@@ -133,7 +135,7 @@ export default function ClientPage({
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <TopBreadCrumb88 hotel={hotel} dictionary={dictionary} currentLang={currentLang} />
+              <DynamicTopBreadCrumb88 hotel={hotel} dictionary={dictionary} currentLang={currentLang} />
             </div>
           </div>
         </div>
@@ -143,8 +145,7 @@ export default function ClientPage({
         <div className="container">
           <div className="row">
             <div className="col-12">
-   <MainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
-
+              <DynamicMainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
             </div>
           </div>
         </div>
@@ -152,7 +153,7 @@ export default function ClientPage({
 
       <section className="mt-40" id="overview">
         <div className="container">
-          <GalleryTwo hotel={hotel} />
+          <DynamicGalleryTwo hotel={hotel} />
         </div>
       </section>
 
@@ -192,17 +193,14 @@ export default function ClientPage({
               <AccordionItem
                 id="relatedHotelsCollapse"
                 icon="fas fa-hotel"
-                // Perubahan di sini: Menggabungkan string secara eksplisit untuk title AccordionItem
                 title={`${hotelSinglePageDict.relatedHotels || "Popular properties similar to"} ${hotel?.title || "this hotel"}`}
                 isOpen={openSections.relatedHotels}
                 toggle={() => toggleSection('relatedHotels')}
-                // Perubahan di sini: Menggabungkan string secara eksplisit untuk ariaLabel
                 ariaLabel={`${hotelSinglePageDict.toggleRelatedHotels || "Toggle Popular properties similar to"} ${hotel?.title || "this hotel"}`}
               >
                 <div className="row justify-center text-center">
                   <div className="col-auto">
                     <h2 style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>
-                      {/* PERUBAHAN UTAMA: Menggabungkan string di sini */}
                       {`${hotelSinglePageDict.relatedHotels || "Popular properties similar to"} ${hotel?.title || "this hotel"}`}
                     </h2>
                     <p style={{ fontSize: '14px', marginTop: '14px' }}>
@@ -272,9 +270,9 @@ export default function ClientPage({
           </div>
         </div>
       </section>
-      <CallToActions dictionary={dictionary} currentLang={currentLang} />
+      <DynamicCallToActions dictionary={dictionary} currentLang={currentLang} />
 
-      <Footer dictionary={dictionary} currentLang={currentLang} />
+      <DynamicFooter dictionary={dictionary} currentLang={currentLang} />
     </>
   );
 }

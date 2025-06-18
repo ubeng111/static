@@ -3,16 +3,34 @@
 
 import dynamic from "next/dynamic";
 
+// --- MODIFIKASI: Impor Komponen Secara Dinamis (next/dynamic) ---
+
+// Komponen-komponen yang sudah dinamis (pertahankan)
 const WhyChoose = dynamic(() => import("@/components/block/BlockGuide"), { ssr: false });
 const Block1 = dynamic(() => import("@/components/about/Block1"), { ssr: false });
 const Counter = dynamic(() => import("@/components/counter/Counter"), { ssr: false });
 const Testimonial = dynamic(() => import("@/components/testimonial/Testimonial"), { ssr: false });
 const Counter2 = dynamic(() => import("@/components/counter/Counter2"), { ssr: false });
-import Footer from "@/components/footer";
-import CallToActions from "@/components/common/CallToActions";
-import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox";
-import Header2 from "@/components/header/header2"; // Import Header11
 
+// Tambahkan dynamic import untuk komponen-komponen lain yang diimpor langsung:
+const DynamicFooter = dynamic(() => import("@/components/footer"), {
+  ssr: false,
+  loading: () => <p>Loading footer...</p>,
+});
+const DynamicCallToActions = dynamic(() => import("@/components/common/CallToActions"), {
+  ssr: false,
+  loading: () => <p>Loading call to actions...</p>,
+});
+const DynamicMainFilterSearchBox = dynamic(() => import("@/components/hotel-list/common/MainFilterSearchBox"), {
+  ssr: false,
+  loading: () => <p>Loading search box...</p>,
+});
+const DynamicHeader2 = dynamic(() => import("@/components/header/header2"), {
+  ssr: false,
+  loading: () => <p>Loading header...</p>,
+});
+
+// --- AKHIR MODIFIKASI next/dynamic ---
 
 
 // Add currentLang to the destructured props
@@ -20,14 +38,13 @@ const Client = ({ dictionary, currentLang }) => {
   const aboutDict = dictionary?.about || {};
   const blockGuideDict = dictionary?.blockGuide || {};
   const commonDict = dictionary?.common || {};
-  const homepageDict = dictionary?.homepage || {};
+  const homepageDict = dictionary?.homepage || {}; // Tidak digunakan langsung di sini, tapi mungkin di komponen anak.
 
   return (
     <>
-              <Header2 dictionary={dictionary} currentLang={currentLang} />
+      <DynamicHeader2 dictionary={dictionary} currentLang={currentLang} />
 
       <div className="header-margin"></div>
-
 
       <section className="section-bg layout-pt-lg layout-pb-lg">
         <div className="section-bg__item col-12">
@@ -47,29 +64,26 @@ const Client = ({ dictionary, currentLang }) => {
               </h1>
               <div className="text-white mt-15">
                 {aboutDict.trustedTripCompanion}
-
               </div>
             </div>
           </div>
         </div>
       </section>
-        <section className="layout-pt-md">
+
+      <section className="layout-pt-md">
         <div className="container">
           <div className="row">
             <div className="col-12">
-         <MainFilterSearchBox dictionary={dictionary} currentLang={currentLang} /> 
+              <DynamicMainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
             </div>
           </div>
         </div>
       </section>
 
       <section className="layout-pt-lg layout-pb-md">
-
         <div className="container">
           <div className="row justify-center text-center">
             <div className="col-auto">
-              {/* Pass currentLang here */}
-
               <div className="sectionTitle -md">
                 <h2 className="sectionTitle__title">{aboutDict.whyChooseUs}</h2>
                 <p className="sectionTitle__text mt-5 sm:mt-0">
@@ -132,12 +146,10 @@ const Client = ({ dictionary, currentLang }) => {
           </div>
         </div>
       </section>
-      {/* Pass currentLang here */}
-      <CallToActions dictionary={dictionary} currentLang={currentLang} />
+      
+      <DynamicCallToActions dictionary={dictionary} currentLang={currentLang} />
 
-      {/* Pass currentLang here */}
-      <Footer dictionary={dictionary} currentLang={currentLang} />
-
+      <DynamicFooter dictionary={dictionary} currentLang={currentLang} />
     </>
   );
 };

@@ -1,17 +1,30 @@
 // app/[lang]/(others)/contact/Client.jsx
 "use client";
 
-import Footer from "@/components/footer";
-import CallToActions from "@/components/common/CallToActions";
-import Header2 from "@/components/header/header2"; // Import Header11
+// --- MODIFIKASI: Impor Komponen Secara Dinamis (next/dynamic) ---
+import dynamic from "next/dynamic";
 
+const DynamicFooter = dynamic(() => import("@/components/footer"), {
+  ssr: false,
+  loading: () => <p>Loading footer...</p>,
+});
+const DynamicCallToActions = dynamic(() => import("@/components/common/CallToActions"), {
+  ssr: false,
+  loading: () => <p>Loading call to actions...</p>,
+});
+const DynamicHeader2 = dynamic(() => import("@/components/header/header2"), { // Pastikan ini Header2, bukan Header11
+  ssr: false,
+  loading: () => <p>Loading header...</p>,
+});
+
+// --- AKHIR MODIFIKASI next/dynamic ---
 
 
 const Client = ({ dictionary, currentLang }) => { // Accept currentLang as a prop
   // Ambil bagian-bagian dictionary yang relevan, dengan fallback objek kosong
   const contactPageDict = dictionary?.contactPage || {};
-  const navigationDict = dictionary?.navigation || {};
-  const footerDict = dictionary?.footer || {};
+  const navigationDict = dictionary?.navigation || {}; // Tidak digunakan di sini, tapi mungkin di komponen anak
+  const footerDict = dictionary?.footer || {}; // Tidak digunakan di sini, tapi mungkin di komponen anak
 
   // --- DEBUGGING CLIENT SIDE (akan muncul di konsol browser Anda) ---
   console.log("CLIENT: Dictionary received in Client.jsx (contact):", dictionary);
@@ -24,7 +37,7 @@ const Client = ({ dictionary, currentLang }) => { // Accept currentLang as a pro
 
   return (
     <>
-          <Header2 dictionary={dictionary} currentLang={currentLang} />
+      <DynamicHeader2 dictionary={dictionary} currentLang={currentLang} />
 
       <div className="header-margin"></div>
 
@@ -73,11 +86,9 @@ const Client = ({ dictionary, currentLang }) => { // Accept currentLang as a pro
         </div>
       </section>
 
-      {/* Pass currentLang here */}
-      <CallToActions dictionary={dictionary} currentLang={currentLang} />
+      <DynamicCallToActions dictionary={dictionary} currentLang={currentLang} />
 
-      {/* Pass currentLang here */}
-      <Footer dictionary={dictionary} currentLang={currentLang} />
+      <DynamicFooter dictionary={dictionary} currentLang={currentLang} />
     </>
   );
 };

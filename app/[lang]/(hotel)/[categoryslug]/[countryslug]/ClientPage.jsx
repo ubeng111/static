@@ -3,20 +3,25 @@
 
 import { useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic'; // Pastikan dynamic sudah diimpor
 import useSWR from 'swr';
-import PaginationComponent from '@/components/hotel-list/hotel-list-v5/PaginationComponent';
-import Relatedcountry88 from '@/components/hotel-single/Relatedcountry88';
-import HotelProperties88 from '@/components/hotel-list/hotel-list-v5/HotelProperties88';
-import Footer from "@/components/footer";
-import CallToActions from "@/components/common/CallToActions";
-import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox";
-import Header11 from "@/components/header/header-11"; // Import Header11
 
+// --- MODIFIKASI: Impor Komponen Secara Dinamis (next/dynamic) ---
 
+// Komponen yang sudah dinamis:
+const Faqcountry = dynamic(() => import('@/components/faq/Faqcountry'), { ssr: false, loading: () => <p>Loading FAQs...</p> });
+const TopBreadCrumbCountry = dynamic(() => import('@/components/hotel-list/hotel-list-v5/TopBreadCrumbCountry'), { ssr: false, loading: () => <p>Loading breadcrumbs...</p> });
 
-const Faqcountry = dynamic(() => import('@/components/faq/Faqcountry'), { ssr: false });
-const TopBreadCrumbCountry = dynamic(() => import('@/components/hotel-list/hotel-list-v5/TopBreadCrumbCountry'), { ssr: false });
+// Tambahkan dynamic import untuk komponen-komponen lain yang diimpor langsung:
+const DynamicPaginationComponent = dynamic(() => import('@/components/hotel-list/hotel-list-v5/PaginationComponent'), { ssr: false, loading: () => <p>Loading pagination...</p> });
+const DynamicRelatedcountry88 = dynamic(() => import('@/components/hotel-single/Relatedcountry88'), { ssr: false, loading: () => <p>Loading related countries...</p> });
+const DynamicHotelProperties88 = dynamic(() => import('@/components/hotel-list/hotel-list-v5/HotelProperties88'), { ssr: false, loading: () => <p>Loading hotel properties...</p> });
+const DynamicFooter = dynamic(() => import("@/components/footer"), { ssr: false, loading: () => <p>Loading footer...</p> });
+const DynamicCallToActions = dynamic(() => import("@/components/common/CallToActions"), { ssr: false, loading: () => <p>Loading call to actions...</p> });
+const DynamicMainFilterSearchBox = dynamic(() => import("@/components/hotel-list/common/MainFilterSearchBox"), { ssr: false, loading: () => <p>Loading search box...</p> });
+const DynamicHeader11 = dynamic(() => import("@/components/header/header-11"), { ssr: false, loading: () => <p>Loading header...</p> });
+
+// --- AKHIR MODIFIKASI next/dynamic ---
 
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
@@ -31,6 +36,8 @@ export default function ClientPage({ categoryslug, countryslug, dictionary, curr
   const commonDict = dictionary?.common || {};
   const countryPageDict = dictionary?.countryPage || {};
   const headerDict = dictionary?.header || {};
+  // Pastikan faqDict juga diakses jika Faqcountry membutuhkannya
+  const faqDict = dictionary?.faq || {}; 
 
   const fetcher = useCallback(async (url) => {
     console.log('ClientPage (Country) SWR Fetcher: Fetching URL:', url); // DEBUGGING SWR FETCH
@@ -43,9 +50,6 @@ export default function ClientPage({ categoryslug, countryslug, dictionary, curr
     return response.json();
   }, [commonDict.failedToLoadHotelList]);
 
-  // Pastikan Anda memanggil API yang benar di sini.
-  // Jika API Anda mengharapkan slug yang sudah disanitasi, gunakan sanitizedCategory/sanitizedCountry jika Anda sudah punya di sini.
-  // Untuk saat ini, asumsikan API Anda bisa menangani slug yang sama seperti yang diteruskan dari page.jsx.
   const apiUrlForSWR = `/api/${categoryslug}/${countryslug}?page=${page}`;
   console.log('ClientPage (Country) SWR API URL:', apiUrlForSWR);
 
@@ -113,7 +117,8 @@ export default function ClientPage({ categoryslug, countryslug, dictionary, curr
   console.log('ClientPage (Country): Rendering content with hotels data.');
   return (
     <>
-              <Header11 dictionary={dictionary} currentLang={currentLang} />
+      {/* Panggil DynamicHeader11 */}
+      <DynamicHeader11 dictionary={dictionary} currentLang={currentLang} />
 
       <div className="header-margin"></div>
       <section className="section-bg pt-40 pb-40 relative z-5">
@@ -141,14 +146,15 @@ export default function ClientPage({ categoryslug, countryslug, dictionary, curr
         </div>
       </section>
 
+      {/* TopBreadCrumbCountry sudah dinamis */}
       <TopBreadCrumbCountry categoryslug={categoryslug} countryslug={countryslug} dictionary={dictionary} currentLang={currentLang} />
 
       <section className="layout-pt-md">
         <div className="container">
           <div className="row">
             <div className="col-12">
-                            <MainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
-
+              {/* Panggil DynamicMainFilterSearchBox */}
+              <DynamicMainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
             </div>
           </div>
         </div>
@@ -157,14 +163,16 @@ export default function ClientPage({ categoryslug, countryslug, dictionary, curr
       <section className="layout-pt-md layout-pb-lg">
         <div className="container">
           <div className="row">
-            <HotelProperties88 hotels={hotels} dictionary={dictionary} currentLang={currentLang} />
+            {/* Panggil DynamicHotelProperties88 */}
+            <DynamicHotelProperties88 hotels={hotels} dictionary={dictionary} currentLang={currentLang} />
           </div>
         </div>
       </section>
 
       {pagination.totalPages > 1 && (
         <div style={{ display: 'flex', justifyContent: 'center', transform: 'translateY(-60px)', marginTop: '5%' }}>
-          <PaginationComponent
+          {/* Panggil DynamicPaginationComponent */}
+          <DynamicPaginationComponent
             pageCount={pagination.totalPages}
             onPageChange={handlePageClick}
             containerClassName="pagination"
@@ -180,7 +188,8 @@ export default function ClientPage({ categoryslug, countryslug, dictionary, curr
 
       <div className="pt-40 sm:pt-20 item_gap-x30">
         {relatedcountry.length > 0 ? (
-          <Relatedcountry88 relatedcountry={relatedcountry} categoryslug={categoryslug} countryslug={countryslug} dictionary={dictionary} currentLang={currentLang} />
+          // Panggil DynamicRelatedcountry88
+          <DynamicRelatedcountry88 relatedcountry={relatedcountry} categoryslug={categoryslug} countryslug={countryslug} dictionary={dictionary} currentLang={currentLang} />
         ) : (
           <p>{commonDict.noRelatedCountriesFound || 'No related countries found.'}</p>
         )}
@@ -197,6 +206,7 @@ export default function ClientPage({ categoryslug, countryslug, dictionary, curr
               </div>
               <div className="col-lg-8 offset-lg-2">
                 <div className="accordion -simple row y-gap-20 js-accordion">
+                  {/* Panggil Faqcountry (yang sudah dinamis) */}
                   <Faqcountry country={displayCountry} dictionary={dictionary} currentLang={currentLang} />
                 </div>
               </div>
@@ -204,9 +214,11 @@ export default function ClientPage({ categoryslug, countryslug, dictionary, curr
           </div>
         </div>
       </section>
-      <CallToActions dictionary={dictionary} currentLang={currentLang} />
+      {/* Panggil DynamicCallToActions */}
+      <DynamicCallToActions dictionary={dictionary} currentLang={currentLang} />
 
-      <Footer dictionary={dictionary} currentLang={currentLang} />
+      {/* Panggil DynamicFooter */}
+      <DynamicFooter dictionary={dictionary} currentLang={currentLang} />
     </>
   );
 }

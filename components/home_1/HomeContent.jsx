@@ -1,32 +1,69 @@
 // components/home_1/HomeContent.jsx
 "use client";
 
-import Hero1 from "@/components/hero/hero-1";
-import BlockGuide from "@/components/block/BlockGuide";
-import Destinations from "@/components/home/home-1/Destinations";
-import Testimonial from "@/components/home/home-1/Testimonial";
-import TestimonialLeftCol from "@/components/home/home-1/TestimonialLeftCol";
-import Footer from "@/components/footer";
-import CallToActions from "@/components/common/CallToActions";
-import Header11 from "@/components/header/header-11"; // Import Header11
+// --- MODIFIKASI: Impor Komponen Secara Dinamis (next/dynamic) ---
+import dynamic from 'next/dynamic';
+
+const DynamicHero1 = dynamic(() => import("@/components/hero/hero-1"), {
+  ssr: false, // Jika komponen ini hanya berinteraksi di client
+  loading: () => <p>Loading hero section...</p>,
+});
+
+const DynamicBlockGuide = dynamic(() => import("@/components/block/BlockGuide"), {
+  ssr: false, // Mungkin memiliki interaksi atau SVG besar
+  loading: () => <p>Loading guide blocks...</p>,
+});
+
+const DynamicDestinations = dynamic(() => import("@/components/home/home-1/Destinations"), {
+  ssr: false, // Komponen daftar destinasi seringkali interaktif/punya banyak gambar
+  loading: () => <p>Loading destinations...</p>,
+});
+
+const DynamicTestimonial = dynamic(() => import("@/components/home/home-1/Testimonial"), {
+  ssr: false, // Komponen testimonial bisa punya carousel/slider
+  loading: () => <p>Loading testimonials...</p>,
+});
+
+const DynamicTestimonialLeftCol = dynamic(() => import("@/components/home/home-1/TestimonialLeftCol"), {
+  ssr: false, // Bagian lain dari testimonial
+  loading: () => <p>Loading testimonial details...</p>,
+});
+
+const DynamicFooter = dynamic(() => import("@/components/footer"), {
+  ssr: false, // Footer seringkali statis, tapi bisa jadi punya JS besar
+  loading: () => <p>Loading footer...</p>,
+});
+
+const DynamicCallToActions = dynamic(() => import("@/components/common/CallToActions"), {
+  ssr: false, // Mungkin punya interaksi JS
+  loading: () => <p>Loading call to action...</p>,
+});
+
+const DynamicHeader11 = dynamic(() => import("@/components/header/header-11"), {
+  ssr: false, // Header seringkali punya JS interaktif (misal dropdown, navigasi)
+  loading: () => <p>Loading header...</p>,
+});
+// --- AKHIR MODIFIKASI next/dynamic ---
 
 const HomeContent = ({ dictionary, currentLang }) => { // currentLang is received as a prop
   const commonDict = dictionary?.common || {};
   const homepageDict = dictionary?.homepage || {};
   const blockGuideDict = dictionary?.blockGuide || {};
-  const mainFilterSearchBoxDict = dictionary?.mainFilterSearchBox || {};
+  const mainFilterSearchBoxDict = dictionary?.mainFilterSearchBox || {}; // Meskipun tidak digunakan langsung di HomeContent, mungkin relevan di komponen anak.
 
   return (
     <>
-      {/* Change 'lang' to 'currentLang' here */}
-      <Header11 dictionary={dictionary} currentLang={currentLang} />
+      {/* Ganti Header11 dengan DynamicHeader11 */}
+      <DynamicHeader11 dictionary={dictionary} currentLang={currentLang} />
 
-      <Hero1 dictionary={dictionary} currentLang={currentLang} />
+      {/* Ganti Hero1 dengan DynamicHero1 */}
+      <DynamicHero1 dictionary={dictionary} currentLang={currentLang} />
 
       <section className="layout-pt-md layout-pb-md">
         <div className="container">
           <div className="row y-gap-20 justify-between">
-            <BlockGuide blockGuide={blockGuideDict} />
+            {/* Ganti BlockGuide dengan DynamicBlockGuide */}
+            <DynamicBlockGuide blockGuide={blockGuideDict} />
           </div>
         </div>
       </section>
@@ -35,7 +72,8 @@ const HomeContent = ({ dictionary, currentLang }) => { // currentLang is receive
         <div className="container">
           <div className="row y-gap-40 justify-between">
             <div className="col-xl-5 col-lg-6" data-aos="fade-up">
-              <TestimonialLeftCol dictionary={{ homepage: homepageDict }} />
+              {/* Ganti TestimonialLeftCol dengan DynamicTestimonialLeftCol */}
+              <DynamicTestimonialLeftCol dictionary={{ homepage: homepageDict }} />
             </div>
             <div className="col-lg-6">
               <div
@@ -43,7 +81,8 @@ const HomeContent = ({ dictionary, currentLang }) => { // currentLang is receive
                 data-aos="fade-up"
                 data-aos-delay="50"
               >
-                <Testimonial dictionary={dictionary}/>
+                {/* Ganti Testimonial dengan DynamicTestimonial */}
+                <DynamicTestimonial dictionary={dictionary}/>
               </div>
             </div>
           </div>
@@ -63,15 +102,17 @@ const HomeContent = ({ dictionary, currentLang }) => { // currentLang is receive
             </div>
           </div>
           <div className="tabs -pills pt-40 js-tabs">
-            <Destinations dictionary={{ common: commonDict }} locale={currentLang} />
+            {/* Ganti Destinations dengan DynamicDestinations */}
+            <DynamicDestinations dictionary={{ common: commonDict }} locale={currentLang} />
           </div>
         </div>
       </section>
 
-      <CallToActions dictionary={dictionary} currentLang={currentLang} />
+      {/* Ganti CallToActions dengan DynamicCallToActions */}
+      <DynamicCallToActions dictionary={dictionary} currentLang={currentLang} />
 
-      {/* Change 'lang' to 'currentLang' here */}
-      <Footer dictionary={dictionary} currentLang={currentLang} />
+      {/* Ganti Footer dengan DynamicFooter */}
+      <DynamicFooter dictionary={dictionary} currentLang={currentLang} />
     </>
   );
 };

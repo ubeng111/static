@@ -4,15 +4,45 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useCurrency } from '@/components/CurrencyContext';
-import { useLanguage } from '@/components/header/LanguageContext'; // Import useLanguage
-import HotelProperties2 from "@/components/hotel-list/hotel-list-v5/HotelProperties2";
-import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox";
-import Footer from "@/components/footer";
-import CallToActions from "@/components/common/CallToActions";
-import Header11 from "@/components/header/header-11"; // Import Header11
+import { useLanguage } from '@/components/header/LanguageContext';
 
 import React from 'react';
-import Faqlandmark from '@/components/faq/faqlandmark'; // <-- BARIS IMPOR INI HARUS ADA!
+
+// --- MODIFIKASI: Impor Komponen Secara Dinamis (next/dynamic) ---
+import dynamic from 'next/dynamic';
+
+// Komponen-komponen yang diimpor secara dinamis untuk mengurangi ukuran bundle awal
+// Memperhatikan komponen yang mungkin besar atau tidak langsung terlihat/interaktif saat load
+const DynamicHotelProperties2 = dynamic(() => import("@/components/hotel-list/hotel-list-v5/HotelProperties2"), {
+  ssr: false, // Penting jika komponen ini hanya berinteraksi di client
+  loading: () => <p>Loading hotel properties...</p>, // Opsional: fallback saat memuat
+});
+
+const DynamicMainFilterSearchBox = dynamic(() => import("@/components/hotel-list/common/MainFilterSearchBox"), {
+  ssr: false, // Karena ini komponen interaktif
+  loading: () => <p>Loading search box...</p>,
+});
+
+const DynamicFooter = dynamic(() => import("@/components/footer"), {
+  ssr: false, // Footer seringkali statis, tapi bisa jadi punya JS besar. Opsional.
+  loading: () => <p>Loading footer...</p>,
+});
+
+const DynamicCallToActions = dynamic(() => import("@/components/common/CallToActions"), {
+  ssr: false, // Mungkin punya interaksi JS
+  loading: () => <p>Loading call to action...</p>,
+});
+
+const DynamicHeader11 = dynamic(() => import("@/components/header/header-11"), {
+  ssr: false, // Header seringkali punya JS interaktif (misal dropdown, navigasi)
+  loading: () => <p>Loading header...</p>,
+});
+
+const DynamicFaqlandmark = dynamic(() => import('@/components/faq/faqlandmark'), {
+  ssr: false, // Faqlandmark kemungkinan punya logika interaktif (collapse/expand)
+  loading: () => <p>Loading FAQs...</p>,
+});
+// --- AKHIR MODIFIKASI next/dynamic ---
 
 // Menerima dictionary dan currentLang sebagai prop dari server component
 export default function LandmarkClient({ landmarkSlug, dictionary, currentLang }) {
@@ -31,7 +61,7 @@ export default function LandmarkClient({ landmarkSlug, dictionary, currentLang }
   const commonDict = dictionary?.common || {};
   const landmarkPageDict = dictionary?.landmarkPage || {};
   const headerDict = dictionary?.header || {};
-  const faqDict = dictionary?.faq || {}; // Ini juga harus ada untuk FAQ
+  const faqDict = dictionary?.faq || {};
 
   useEffect(() => {
     console.log('CLIENT DEBUG [LandmarkClient]: Received landmarkSlug prop:', landmarkSlug);
@@ -108,7 +138,9 @@ export default function LandmarkClient({ landmarkSlug, dictionary, currentLang }
 
   return (
     <>
-      <Header11 dictionary={dictionary} currentLang={currentLang} />
+      {/* --- PANGGILAN KOMPONEN DINAMIS --- */}
+      {/* Ganti Header11 dengan DynamicHeader11 */}
+      <DynamicHeader11 dictionary={dictionary} currentLang={currentLang} />
 
       <section className="section-bg pt-40 pb-40 relative z-5">
         <div className="section-bg__item col-12">
@@ -151,7 +183,8 @@ export default function LandmarkClient({ landmarkSlug, dictionary, currentLang }
         <div className="container">
           <div className="row">
             <div className="col-12">
-         <MainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
+            {/* Ganti MainFilterSearchBox dengan DynamicMainFilterSearchBox */}
+            <DynamicMainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
             </div>
           </div>
         </div>
@@ -216,7 +249,8 @@ export default function LandmarkClient({ landmarkSlug, dictionary, currentLang }
                     />
                   </React.Fragment>
                 ))}
-                <HotelProperties2 hotels={hotels} cityName={cityName} dictionary={dictionary} currentLang={currentLang}/>
+                {/* Ganti HotelProperties2 dengan DynamicHotelProperties2 */}
+                <DynamicHotelProperties2 hotels={hotels} cityName={cityName} dictionary={dictionary} currentLang={currentLang}/>
               </>
             )}
           </div>
@@ -235,15 +269,17 @@ export default function LandmarkClient({ landmarkSlug, dictionary, currentLang }
             </div>
           </div>
           <div className="row y-gap-30 pt-40 sm:pt-20">
-            <Faqlandmark landmark={landmarkName} hotels={hotels} dictionary={dictionary}/> {/* PANGGILAN INI HARUS ADA! */}
+            {/* Ganti Faqlandmark dengan DynamicFaqlandmark */}
+            <DynamicFaqlandmark landmark={landmarkName} hotels={hotels} dictionary={dictionary}/>
           </div>
         </div>
       </section>
 
+      {/* Ganti CallToActions dengan DynamicCallToActions */}
+      <DynamicCallToActions dictionary={dictionary} currentLang={currentLang} />
 
-      <CallToActions dictionary={dictionary} currentLang={currentLang} />
-
-      <Footer dictionary={dictionary} currentLang={currentLang} />
+      {/* Ganti Footer dengan DynamicFooter */}
+      <DynamicFooter dictionary={dictionary} currentLang={currentLang} />
     </>
   );
 }

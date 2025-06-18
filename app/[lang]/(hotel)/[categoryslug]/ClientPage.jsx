@@ -3,22 +3,52 @@
 
 import { useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic'; // Pastikan dynamic sudah diimpor
 import useSWR from 'swr';
 
-import Relatedcategory88 from '@/components/hotel-single/Relatedcategory88';
-import HotelProperties88 from '@/components/hotel-list/hotel-list-v5/HotelProperties88';
-import PaginationComponent from '@/components/hotel-list/hotel-list-v5/PaginationComponent';
-import Footer from "@/components/footer";
-import CallToActions from "@/components/common/CallToActions";
-import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox";
-import Header11 from "@/components/header/header-11";
+// --- MODIFIKASI: Impor Komponen Secara Dinamis (next/dynamic) ---
+
+// Komponen yang sudah dinamis:
+const TopBreadCrumbCategory = dynamic(() => import('@/components/hotel-list/hotel-list-v5/TopBreadCrumbCategory'), { ssr: false });
+
+// Tambahkan dynamic import untuk komponen-komponen lain:
+const DynamicRelatedcategory88 = dynamic(() => import('@/components/hotel-single/Relatedcategory88'), {
+  ssr: false,
+  loading: () => <p>Loading related categories...</p>,
+});
+const DynamicHotelProperties88 = dynamic(() => import('@/components/hotel-list/hotel-list-v5/HotelProperties88'), {
+  ssr: false,
+  loading: () => <p>Loading hotel properties...</p>,
+});
+const DynamicPaginationComponent = dynamic(() => import('@/components/hotel-list/hotel-list-v5/PaginationComponent'), {
+  ssr: false,
+  loading: () => <p>Loading pagination...</p>,
+});
+const DynamicFooter = dynamic(() => import("@/components/footer"), {
+  ssr: false,
+  loading: () => <p>Loading footer...</p>,
+});
+const DynamicCallToActions = dynamic(() => import("@/components/common/CallToActions"), {
+  ssr: false,
+  loading: () => <p>Loading call to actions...</p>,
+});
+const DynamicMainFilterSearchBox = dynamic(() => import("@/components/hotel-list/common/MainFilterSearchBox"), {
+  ssr: false,
+  loading: () => <p>Loading search box...</p>,
+});
+const DynamicHeader11 = dynamic(() => import("@/components/header/header-11"), {
+  ssr: false,
+  loading: () => <p>Loading header...</p>,
+});
 
 // IMPORT FaqCategory DI SINI
-import FaqCategory from '@/components/faq/Faqcategory'; // Pastikan path ini benar
+const DynamicFaqCategory = dynamic(() => import('@/components/faq/Faqcategory'), {
+  ssr: false, // Pastikan path ini benar dan set ssr ke false jika ada interaktivitas klien
+  loading: () => <p>Loading FAQs...</p>,
+});
 
+// --- AKHIR MODIFIKASI next/dynamic ---
 
-const TopBreadCrumbCategory = dynamic(() => import('@/components/hotel-list/hotel-list-v5/TopBreadCrumbCategory'), { ssr: false });
 
 // Pastikan `ClientPage` menerima `categoryslug` dan `currentLang`
 // Jika Anda perlu `countryslug`, `stateslug`, `cityslug` di sini
@@ -32,6 +62,7 @@ export default function ClientPage({ categoryslug, dictionary, currentLang }) {
   const commonDict = dictionary?.common || {};
   const categoryPageDict = dictionary?.categoryPage || {};
   const headerDict = dictionary?.header || {};
+  const faqDict = dictionary?.faq || {}; // Pastikan ini juga diakses dari dictionary jika FAQ punya teks sendiri
 
   const fetcher = useCallback(async (url) => {
     const response = await fetch(url);
@@ -96,7 +127,8 @@ export default function ClientPage({ categoryslug, dictionary, currentLang }) {
 
   return (
     <>
-      <Header11 dictionary={dictionary} currentLang={currentLang} />
+      {/* Ganti Header11 dengan DynamicHeader11 */}
+      <DynamicHeader11 dictionary={dictionary} currentLang={currentLang} />
 
       <div className="header-margin"></div>
 
@@ -125,13 +157,15 @@ export default function ClientPage({ categoryslug, dictionary, currentLang }) {
         </div>
       </section>
 
+      {/* TopBreadCrumbCategory sudah dinamis, biarkan seperti ini */}
       <TopBreadCrumbCategory categoryslug={categoryslug} dictionary={dictionary} />
 
       <section className="layout-pt-md">
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <MainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
+              {/* Ganti MainFilterSearchBox dengan DynamicMainFilterSearchBox */}
+              <DynamicMainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
             </div>
           </div>
         </div>
@@ -140,14 +174,16 @@ export default function ClientPage({ categoryslug, dictionary, currentLang }) {
       <section className="layout-pt-md layout-pb-lg">
         <div className="container">
           <div className="row">
-            <HotelProperties88 hotels={hotels} dictionary={dictionary} currentLang={currentLang} />
+            {/* Ganti HotelProperties88 dengan DynamicHotelProperties88 */}
+            <DynamicHotelProperties88 hotels={hotels} dictionary={dictionary} currentLang={currentLang} />
           </div>
         </div>
       </section>
 
       {pagination.totalPages > 1 && (
         <div style={{ display: 'flex', justifyContent: 'center', transform: 'translateY(-60px)', marginTop: '5%' }}>
-          <PaginationComponent
+          {/* Ganti PaginationComponent dengan DynamicPaginationComponent */}
+          <DynamicPaginationComponent
             pageCount={pagination.totalPages}
             onPageChange={handlePageClick}
             containerClassName="pagination"
@@ -163,7 +199,8 @@ export default function ClientPage({ categoryslug, dictionary, currentLang }) {
 
       <div className="pt-40 sm:pt-20 item_gap-x30">
         {relatedcategory.length > 0 ? (
-          <Relatedcategory88 relatedcategory={relatedcategory} categoryslug={categoryslug} dictionary={dictionary} currentLang={currentLang} />
+          // Pastikan komentar di luar ekspresi JSX
+          <DynamicRelatedcategory88 relatedcategory={relatedcategory} categoryslug={categoryslug} dictionary={dictionary} currentLang={currentLang} />
         ) : (
           <p>{commonDict.noRelatedCategoriesFound || 'No related categories found.'}</p>
         )}
@@ -181,7 +218,8 @@ export default function ClientPage({ categoryslug, dictionary, currentLang }) {
               <div className="col-lg-8 offset-lg-2">
                 <div className="accordion -simple row y-gap-20 js-accordion">
                   {/* MENGGUNAKAN KOMPONEN FAQCATEGORY DI SINI */}
-                  <FaqCategory
+                  {/* Ganti FaqCategory dengan DynamicFaqCategory */}
+                  <DynamicFaqCategory
                     category={formattedCategory} // Menggunakan kategori yang sudah diformat
                     items={topRatedHotelsForFAQ} // Meneruskan hotel teratas untuk ditampilkan di FAQ
                     currentLang={currentLang}    // Meneruskan bahasa saat ini
@@ -194,9 +232,11 @@ export default function ClientPage({ categoryslug, dictionary, currentLang }) {
           </div>
         </div>
       </section>
-      <CallToActions dictionary={dictionary} currentLang={currentLang} />
+      {/* Ganti CallToActions dengan DynamicCallToActions */}
+      <DynamicCallToActions dictionary={dictionary} currentLang={currentLang} />
 
-      <Footer dictionary={dictionary} currentLang={currentLang} />
+      {/* Ganti Footer dengan DynamicFooter */}
+      <DynamicFooter dictionary={dictionary} currentLang={currentLang} />
 
     </>
   );

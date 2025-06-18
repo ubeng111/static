@@ -3,15 +3,37 @@
 
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
-import PaginationComponent from '@/components/hotel-list/hotel-list-v5/PaginationComponent';
-import HotelProperties88 from "@/components/hotel-list/hotel-list-v5/HotelProperties88";
-import Faqcity from "@/components/faq/Faqcity";
-import { useEffect, useState } from "react";
-import Footer from "@/components/footer";
-import CallToActions from "@/components/common/CallToActions";
-import Header11 from "@/components/header/header-11"; // Import Header11
+import { useEffect, useState, useCallback } from "react"; // Tambahkan useCallback
 
+// --- MODIFIKASI: Impor Komponen Secara Dinamis (next/dynamic) ---
+import dynamic from 'next/dynamic';
 
+const DynamicPaginationComponent = dynamic(() => import('@/components/hotel-list/hotel-list-v5/PaginationComponent'), {
+  ssr: false,
+  loading: () => <p>Loading pagination...</p>,
+});
+const DynamicHotelProperties88 = dynamic(() => import("@/components/hotel-list/hotel-list-v5/HotelProperties88"), {
+  ssr: false,
+  loading: () => <p>Loading hotel properties...</p>,
+});
+const DynamicFaqcity = dynamic(() => import("@/components/faq/Faqcity"), {
+  ssr: false,
+  loading: () => <p>Loading FAQs...</p>,
+});
+const DynamicFooter = dynamic(() => import("@/components/footer"), {
+  ssr: false,
+  loading: () => <p>Loading footer...</p>,
+});
+const DynamicCallToActions = dynamic(() => import("@/components/common/CallToActions"), {
+  ssr: false,
+  loading: () => <p>Loading call to actions...</p>,
+});
+const DynamicHeader11 = dynamic(() => import("@/components/header/header-11"), {
+  ssr: false,
+  loading: () => <p>Loading header...</p>,
+});
+
+// --- AKHIR MODIFIKASI next/dynamic ---
 
 
 // SWR fetcher function
@@ -25,7 +47,7 @@ const fetcher = async (url) => {
 };
 
 // Menerima initialCityId, initialPage, dictionary, dan currentLang sebagai props
-export default function CityContent({ initialCityId, initialPage, dictionary, currentLang }) { // ADD dictionary and currentLang here
+export default function CityContent({ initialCityId, initialPage, dictionary, currentLang }) {
   // Gunakan state lokal untuk cityId dan page yang akan diupdate oleh useSearchParams
   const [currentCityId, setCurrentCityId] = useState(initialCityId);
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -63,7 +85,7 @@ export default function CityContent({ initialCityId, initialPage, dictionary, cu
   const hotels = data?.hotels || [];
   const pagination = data?.pagination || { page: currentPage, totalPages: 1, totalHotels: 0 }; // Gunakan currentPage di pagination
 
-  const handlePageClick = (event) => {
+  const handlePageClick = useCallback((event) => { // Gunakan useCallback
     const newPage = event.selected + 1;
     if (newPage === pagination.page) return; // Prevent unnecessary updates
 
@@ -72,7 +94,7 @@ export default function CityContent({ initialCityId, initialPage, dictionary, cu
     window.history.pushState({}, "", newUrl.toString()); // Gunakan newUrl.toString()
     setCurrentPage(newPage); // Update state lokal juga
     window.scrollTo(0, 0);
-  };
+  }, [pagination.page]); // Dependensi pagination.page
 
   // Safe access to city name
   const cityName = hotels.length > 0 ? hotels[0].city : "Kota";
@@ -101,19 +123,19 @@ export default function CityContent({ initialCityId, initialPage, dictionary, cu
 
   return (
     <>
-          <Header11 dictionary={dictionary} currentLang={currentLang} />
+      <DynamicHeader11 dictionary={dictionary} currentLang={currentLang} />
 
       <section className="layout-pt-md layout-pb-lg">
         <div className="container">
           <div className="row">
-            <HotelProperties88 hotels={hotels} dictionary={dictionary} currentLang={currentLang} />
+            <DynamicHotelProperties88 hotels={hotels} dictionary={dictionary} currentLang={currentLang} />
           </div>
         </div>
       </section>
 
       {pagination.totalPages > 1 && (
         <div style={{ display: 'flex', justifyContent: 'center', transform: 'translateY(-60px)', marginTop: '5%' }}>
-        <PaginationComponent
+        <DynamicPaginationComponent
           pageCount={pagination.totalPages}
           onPageChange={handlePageClick}
           containerClassName="pagination"
@@ -138,16 +160,16 @@ export default function CityContent({ initialCityId, initialPage, dictionary, cu
               </div>
               <div className="col-lg-8 offset-lg-2">
                 <div className="accordion -simple row y-gap-20 js-accordion">
-                  <Faqcity city={cityName} dictionary={dictionary} />
+                  <DynamicFaqcity city={cityName} dictionary={dictionary} currentLang={currentLang} />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-       <CallToActions dictionary={dictionary} currentLang={currentLang} />
+      <DynamicCallToActions dictionary={dictionary} currentLang={currentLang} />
 
-      <Footer dictionary={dictionary} currentLang={currentLang} />
+      <DynamicFooter dictionary={dictionary} currentLang={currentLang} />
     </>
   );
 }
