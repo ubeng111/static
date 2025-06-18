@@ -2,9 +2,5 @@
 name = "gotrip" # Ganti dengan nama unik proyek Pages Anda di Cloudflare
 compatibility_date = "2025-06-17" # Pertahankan tanggal hari ini
 
-# Pastikan bagian [assets] atau [pages_build_output] DIHAPUS atau DIKOMENTARI
-# [assets]
-# directory = "out"
-
 [observability.logs]
 enabled = true
