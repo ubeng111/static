@@ -1,31 +1,25 @@
+// ClientPage.jsx (Hotel Single Page Detail)
 'use client';
 
 import { useState } from 'react';
-import dynamic from 'next/dynamic'; // <<< Import kembali 'dynamic'
+import dynamic from 'next/dynamic';
 
-// --- MODIFIKASI: Impor Komponen Secara Dinamis (next/dynamic) ---
+import GalleryTwo from '@/components/hotel-single/GalleryTwo';
+import TopBreadCrumb88 from '@/components/hotel-single/TopBreadCrumb88';
+import Footer from "@/components/footer";
+import CallToActions from "@/components/common/CallToActions";
+import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox";
+import Header11 from "@/components/header/header-11"; // Import Header11
 
-// Komponen-komponen yang diimpor secara dinamis
-// Catatan: Jika ada komponen yang selalu dibutuhkan di tampilan awal,
-// Anda bisa mempertimbangkan untuk mengimpornya secara langsung
-// daripada dinamis untuk menghindari loading state.
 
-const GalleryTwo = dynamic(() => import('@/components/hotel-single/GalleryTwo'), { ssr: false });
-const TopBreadCrumb88 = dynamic(() => import('@/components/hotel-single/TopBreadCrumb88'), { ssr: false });
-const Footer = dynamic(() => import('@/components/footer'), { ssr: false });
-const CallToActions = dynamic(() => import('@/components/common/CallToActions'), { ssr: false });
-const MainFilterSearchBox = dynamic(() => import('@/components/hotel-list/common/MainFilterSearchBox'), { ssr: false });
-const Header11 = dynamic(() => import('@/components/header/header-11'), { ssr: false });
+// Dynamic imports, sebagian besar untuk client-side only jika tidak ada kebutuhan khusus untuk SSR
 
-// Komponen-komponen yang sudah Anda buat dinamis sebelumnya
 const MapComponent = dynamic(() => import('@/components/hotel-single/MapComponent'), { ssr: false });
 const Facilities = dynamic(() => import('@/components/hotel-single/Facilities'), { ssr: false });
 const Hotels2 = dynamic(() => import('@/components/hotels/Hotels2'), { ssr: false });
 const LandmarkList = dynamic(() => import('@/components/hotel-single/LandmarkList'), { ssr: false });
 const RelatedHotels = dynamic(() => import('@/components/hotel-single/RelatedHotels'), { ssr: false });
 const Faq = dynamic(() => import('@/components/faq/Faq'), { ssr: false });
-
-// --- AKHIR MODIFIKASI next/dynamic ---
 
 // AccordionItem Component (dibuat di sini agar bisa menggunakan dictionary dari parent ClientPage)
 const AccordionItem = ({ id, icon, title, isOpen, toggle, ariaLabel, children }) => (
@@ -59,8 +53,8 @@ export default function ClientPage({
   countryslug,
   stateslug,
   cityslug,
-  dictionary,
-  currentLang,
+  dictionary, // <-- Tambahkan dictionary sebagai prop
+  currentLang, // <-- Tambahkan currentLang sebagai prop
 }) {
   const [openSections, setOpenSections] = useState({
     facilities: true,
@@ -91,8 +85,8 @@ export default function ClientPage({
 
   return (
     <>
-      {/* Menggunakan kembali komponen dinamis dengan prefix yang sesuai */}
       <Header11 dictionary={dictionary} currentLang={currentLang} />
+
 
       <style jsx global>{`
         .accordion-item .accordion-header {
@@ -149,7 +143,8 @@ export default function ClientPage({
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <MainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
+   <MainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
+
             </div>
           </div>
         </div>
@@ -197,14 +192,17 @@ export default function ClientPage({
               <AccordionItem
                 id="relatedHotelsCollapse"
                 icon="fas fa-hotel"
+                // Perubahan di sini: Menggabungkan string secara eksplisit untuk title AccordionItem
                 title={`${hotelSinglePageDict.relatedHotels || "Popular properties similar to"} ${hotel?.title || "this hotel"}`}
                 isOpen={openSections.relatedHotels}
                 toggle={() => toggleSection('relatedHotels')}
+                // Perubahan di sini: Menggabungkan string secara eksplisit untuk ariaLabel
                 ariaLabel={`${hotelSinglePageDict.toggleRelatedHotels || "Toggle Popular properties similar to"} ${hotel?.title || "this hotel"}`}
               >
                 <div className="row justify-center text-center">
                   <div className="col-auto">
                     <h2 style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>
+                      {/* PERUBAHAN UTAMA: Menggabungkan string di sini */}
                       {`${hotelSinglePageDict.relatedHotels || "Popular properties similar to"} ${hotel?.title || "this hotel"}`}
                     </h2>
                     <p style={{ fontSize: '14px', marginTop: '14px' }}>
