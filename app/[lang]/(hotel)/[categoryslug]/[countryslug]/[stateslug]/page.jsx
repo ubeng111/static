@@ -1,13 +1,17 @@
-// app/[lang]/(hotel)/[categoryslug]/[countryslug]/[stateslug]/page.jsx
+// page.jsx (State)
+import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
-import { getdictionary } from '@/dictionaries/get-dictionary';
-import ClientPage from './ClientPage';
+import { getdictionary } from '@/dictionaries/get-dictionary'; // Menggunakan alias
 
+// Helper function to sanitize slugs
 const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
+
+// Helper function to format slugs
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
+// Function to fetch state data
 async function getStateData(categoryslug, countryslug, stateslug) {
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
@@ -21,7 +25,7 @@ async function getStateData(categoryslug, countryslug, stateslug) {
   const apiUrl = `${baseUrl}/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
 
   try {
-    const response = await fetch(apiUrl, { next: { revalidate: 86400 } });
+    const response = await fetch(apiUrl, { cache: 'no-store' });
     if (!response.ok) {
       console.error(`Failed to fetch state data for ${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}. Status: ${response.status}`);
       return null;
@@ -33,12 +37,13 @@ async function getStateData(categoryslug, countryslug, stateslug) {
   }
 }
 
-export async function generateStaticParams() {
-  return [];
-}
+const ClientPage = dynamic(() => import('./ClientPage'));
 
 export async function generateMetadata({ params }) {
-  const { categoryslug, countryslug, stateslug, lang: locale } = await params;
+  // --- MULAI PERUBAHAN UNTUK generateMetadata ---
+  const awaitedParams = await params; // <--- AWAIT PARAMS DI SINI
+  const { categoryslug, countryslug, stateslug, lang: locale } = awaitedParams; // <--- GUNAKAN awaitedParams
+  // --- AKHIR PERUBAHAN UNTUK generateMetadata ---
 
   const dictionary = await getdictionary(locale);
   const metadataDict = dictionary?.metadata || {};
@@ -70,37 +75,42 @@ export async function generateMetadata({ params }) {
   const currentYear = new Date().getFullYear();
 
   return {
-    title: (metadataDict.statePageTitleTemplate || `Cheap ${formattedCategory} in ${formattedState}, ${formattedCountry} ${currentYear} - Book Now! | Hoteloza`)
+    title: (metadataDict.statePageTitleTemplate || `Cheap {formattedCategory} in {formattedState}, {formattedCountry} {currentYear} - Book Now! | Hoteloza`)
       .replace('{formattedCategory}', formattedCategory)
       .replace('{formattedState}', formattedState)
       .replace('{formattedCountry}', formattedCountry)
       .replace('{currentYear}', currentYear),
-    description: (metadataDict.statePageDescriptionTemplate || `Find the best ${formattedCategory.toLowerCase()} in ${formattedState}, ${formattedCountry} for ${currentYear} on Hoteloza. Exclusive deals, great prices, and top-notch facilities. Book your unforgettable stay!`)
+    description: (metadataDict.statePageDescriptionTemplate || `Find the best {formattedCategory} in {formattedState}, {formattedCountry} for {currentYear} on Hoteloza. Exclusive deals, great prices, and top-notch facilities. Book your unforgettable stay!`)
       .replace('{formattedCategory}', formattedCategory.toLowerCase())
       .replace('{formattedState}', formattedState)
       .replace('{formattedCountry}', formattedCountry)
       .replace('{currentYear}', currentYear),
     openGraph: {
-      title: (metadataDict.stateOgTitleTemplate || `Best ${formattedCategory} in ${formattedState}, ${formattedCountry} ${currentYear} | Hoteloza`)
+      title: (metadataDict.stateOgTitleTemplate || `Best {formattedCategory} in {formattedState}, {formattedCountry} {currentYear} | Hoteloza`)
         .replace('{formattedCategory}', formattedCategory)
         .replace('{formattedState}', formattedState)
         .replace('{formattedCountry}', formattedCountry)
         .replace('{currentYear}', currentYear),
-      description: (metadataDict.stateOgDescriptionTemplate || `Discover top ${formattedCategory.toLowerCase()} in ${formattedState}, ${formattedCountry} for ${currentYear} on Hoteloza. Book now for exclusive deals and premium facilities!`)
+      description: (metadataDict.stateOgDescriptionTemplate || `Discover top {formattedCategory} in {formattedState}, {formattedCountry} for {currentYear} on Hoteloza. Book now for exclusive deals and premium facilities!`)
         .replace('{formattedCategory}', formattedCategory.toLowerCase())
         .replace('{formattedState}', formattedState)
         .replace('{formattedCountry}', formattedCountry)
         .replace('{currentYear}', currentYear),
-      url: `https://hoteloza.com/${locale}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`,
+      url: `https://hoteloza.com/${locale}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`, // URL OpenGraph dengan lang
       type: 'website',
     },
   };
 }
 
 export default async function Page({ params }) {
-  const { categoryslug, countryslug, stateslug, lang: locale } = await params;
+  // --- MULAI PERUBAHAN UNTUK KOMPONEN Page ---
+  const awaitedParams = await params; // <--- AWAIT PARAMS DI SINI
+  const { categoryslug, countryslug, stateslug, lang: locale } = awaitedParams; // <--- GUNAKAN awaitedParams
+  // --- AKHIR PERUBAHAN UNTUK KOMPONEN Page ---
+
   const dictionary = await getdictionary(locale);
-  const currentLang = locale;
+
+  const currentLang = locale; // Lang saat ini
 
   const commonDict = dictionary?.common || {};
   const statePageDict = dictionary?.statePage || {};
@@ -125,18 +135,18 @@ export default async function Page({ params }) {
   const formattedCategory = formatSlug(sanitizedCategory) || (statePageDict.categoryDefault || 'Category');
   const currentYear = new Date().getFullYear();
   const baseUrl = 'https://hoteloza.com';
-  const currentUrl = `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
+  const currentUrl = `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`; // URL dasar dengan lang
 
   const schemas = [
     {
       '@context': 'https://schema.org',
       '@type': 'WebPage',
-      name: (metadataDict.statePageTitleTemplate || `Best ${formattedCategory} in ${formattedState}, ${formattedCountry} ${currentYear}`)
+      name: (metadataDict.statePageTitleTemplate || `Best {formattedCategory} in {formattedState}, {formattedCountry} {currentYear}`)
         .replace('{formattedCategory}', formattedCategory)
         .replace('{formattedState}', formattedState)
         .replace('{formattedCountry}', formattedCountry)
         .replace('{currentYear}', currentYear),
-      description: (metadataDict.statePageDescriptionTemplate || `Discover the best ${formattedCategory.toLowerCase()} in ${formattedState}, ${formattedCountry} for ${currentYear} on Hoteloza. Book your perfect stay with top amenities and exclusive offers.`)
+      description: (metadataDict.statePageDescriptionTemplate || `Discover the best {formattedCategory} in {formattedState}, {formattedCountry} for {currentYear} on Hoteloza. Book your perfect stay with top amenities and exclusive offers.`)
         .replace('{formattedCategory}', formattedCategory.toLowerCase())
         .replace('{formattedState}', formattedState)
         .replace('{formattedCountry}', formattedCountry)
@@ -152,21 +162,21 @@ export default async function Page({ params }) {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: navigationDict.home || 'Home', item: `${baseUrl}/${currentLang}` },
-        { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${currentLang}/${sanitizedCategory}` },
-        { '@type': 'ListItem', position: 3, name: formattedCountry, item: `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}` },
+        { '@type': 'ListItem', position: 1, name: navigationDict.home || 'Home', item: `${baseUrl}/${currentLang}` }, // URL Home dengan lang
+        { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${currentLang}/${sanitizedCategory}` }, // URL Category dengan lang
+        { '@type': 'ListItem', position: 3, name: formattedCountry, item: `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}` }, // URL Country dengan lang
         { '@type': 'ListItem', position: 4, name: formattedState, item: currentUrl },
       ],
     },
     {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
-      name: (metadataDict.stateOgTitleTemplate || `Top ${formattedCategory} in ${formattedState}, ${formattedCountry} ${currentYear}`)
+      name: (metadataDict.stateOgTitleTemplate || `Top {formattedCategory} in {formattedState}, {formattedCountry} {currentYear}`)
         .replace('{formattedCategory}', formattedCategory)
         .replace('{formattedState}', formattedState)
         .replace('{formattedCountry}', formattedCountry)
         .replace('{currentYear}', currentYear),
-      description: (metadataDict.stateOgDescriptionTemplate || `A list of top ${formattedCategory.toLowerCase()} in ${formattedState}, ${formattedCountry} for ${currentYear} on Hoteloza.`)
+      description: (metadataDict.stateOgDescriptionTemplate || `A list of top {formattedCategory} in {formattedState}, {formattedCountry} for {currentYear} on Hoteloza.`)
         .replace('{formattedCategory}', formattedCategory.toLowerCase())
         .replace('{formattedState}', formattedState)
         .replace('{formattedCountry}', formattedCountry)
@@ -178,7 +188,7 @@ export default async function Page({ params }) {
           '@type': 'Hotel',
           name: hotel.title || hotel.name || commonDict.unnamedHotel || 'Unnamed Hotel',
           url: hotel.hotelslug && hotel.cityslug
-            ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${hotel.cityslug}/${hotel.hotelslug}`
+            ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${hotel.cityslug}/${hotel.hotelslug}` // URL hotel detail dengan lang
             : `${currentUrl}/${hotel.id || index + 1}`,
           image: hotel.img || hotel.slideimg || '',
           address: {
@@ -201,13 +211,7 @@ export default async function Page({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
       />
-      <ClientPage
-        categoryslug={sanitizedCategory}
-        countryslug={sanitizedCountry}
-        stateslug={sanitizedState}
-        dictionary={dictionary}
-        currentLang={currentLang}
-      />
+      <ClientPage categoryslug={sanitizedCategory} countryslug={sanitizedCountry} stateslug={sanitizedState} dictionary={dictionary} currentLang={currentLang} />
     </>
   );
 }

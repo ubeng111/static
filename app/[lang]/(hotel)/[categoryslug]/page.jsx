@@ -1,8 +1,8 @@
 // app/[lang]/(hotel)/[categoryslug]/page.jsx
+import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { getdictionary } from '@/dictionaries/get-dictionary';
-import ClientPage from './ClientPage';
 
 const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
 const formatSlug = (slug) =>
@@ -19,7 +19,7 @@ async function getCategoryData(categoryslug) {
   const apiUrl = `${baseUrl}/api/${sanitizedCategory}`;
 
   try {
-    const response = await fetch(apiUrl, { next: { revalidate: 86400 } }); // ISR: Revalidate every 24 hours
+    const response = await fetch(apiUrl, { cache: 'no-store' });
     if (!response.ok) {
       console.error(`Failed to fetch category data for ${sanitizedCategory}. Status: ${response.status}`);
       return null;
@@ -31,12 +31,11 @@ async function getCategoryData(categoryslug) {
   }
 }
 
-export async function generateStaticParams() {
-  return []; // Empty array; pages generated on-demand with fallback: 'blocking' behavior
-}
+const ClientPage = dynamic(() => import('./ClientPage'));
 
 export async function generateMetadata({ params }) {
-  const { categoryslug, lang: locale } = await params;
+  const awaitedParams = await params;
+  const { categoryslug, lang: locale } = awaitedParams;
 
   const dictionary = await getdictionary(locale);
   const metadataDict = dictionary?.metadata || {};
@@ -84,9 +83,13 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-  const { categoryslug, lang: locale } = await params;
+  const awaitedParams = await params;
+  const { categoryslug, lang: locale } = awaitedParams;
+
   const dictionary = await getdictionary(locale);
+
   const currentLang = locale;
+
   const sanitizedCategory = sanitizeSlug(categoryslug);
 
   if (!sanitizedCategory) {
@@ -151,19 +154,19 @@ export default async function Page({ params }) {
         position: index + 1,
         item: {
           '@type': 'Hotel',
-          name: hotel.title || hotel.name || 'Unnamed Hotel',
+          name: hotel.title || hotel.name || 'Unnamed Hotel', // No dict fallback here, only literal
           url: hotel.hotelslug && hotel.countryslug && hotel.stateslug && hotel.cityslug
             ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${hotel.countryslug}/${hotel.stateslug}/${hotel.cityslug}/${hotel.hotelslug}`
             : `${currentUrl}/${hotel.id || index + 1}`,
-          image: hotel.img || (Array.isArray(hotel.slideImg) && hotel.slideImg.length > 0 ? hotel.slideImg[0] : ''),
+          image: hotel.img || (Array.isArray(hotel.slideImg) && hotel.slideImg.length > 0 ? hotel.slideImg[0] : ''), // Corrected: access first element of slideImg if array
           address: {
             '@type': 'PostalAddress',
-            streetAddress: hotel.location || 'Unknown Address',
-            addressLocality: hotel.city ? formatSlug(hotel.city) : 'Unknown City',
-            addressRegion: hotel.state ? formatSlug(hotel.state) : 'Unknown Region',
-            addressCountry: hotel.country ? formatSlug(hotel.country) : 'Unknown Country',
+            streetAddress: hotel.location || 'Unknown Address', // Corrected: use hotel.location, no dict fallback
+            addressLocality: hotel.city ? formatSlug(hotel.city) : 'Unknown City', // Corrected: use hotel.city, no dict fallback
+            addressRegion: hotel.state ? formatSlug(hotel.state) : 'Unknown Region', // Corrected: use hotel.state, no dict fallback
+            addressCountry: hotel.country ? formatSlug(hotel.country) : 'Unknown Country', // Corrected: use hotel.country, no dict fallback
           },
-          description: hotel.overview || `A ${formattedCategory.toLowerCase()} in ${hotel.city ? formatSlug(hotel.city) : 'unknown location'}.`,
+          description: hotel.overview || `A ${formattedCategory.toLowerCase()} in ${hotel.city ? formatSlug(hotel.city) : 'unknown location'}.`, // Corrected: prioritize overview, literal fallback
         },
       })),
     },
@@ -176,6 +179,7 @@ export default async function Page({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
       />
+      {/* Meneruskan currentLang sebagai prop ke ClientPage */}
       <ClientPage categoryslug={sanitizedCategory} dictionary={dictionary} currentLang={currentLang} />
     </>
   );

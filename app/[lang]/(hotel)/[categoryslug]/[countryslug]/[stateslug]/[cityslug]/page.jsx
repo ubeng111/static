@@ -1,13 +1,17 @@
-// app/[lang]/(hotel)/[categoryslug]/[countryslug]/[stateslug]/[cityslug]/page.jsx
+// page.jsx (City)
+import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
-import { getdictionary } from '@/dictionaries/get-dictionary';
-import ClientPage from './ClientPage';
+import { getdictionary } from '@/dictionaries/get-dictionary'; // Menggunakan alias
 
+// Helper function to sanitize slugs
 const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
+
+// Helper function to format slugs
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
+// Function to fetch city data
 async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
@@ -22,7 +26,7 @@ async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
   const apiUrl = `${baseUrl}/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`;
 
   try {
-    const response = await fetch(apiUrl, { next: { revalidate: 86400 } });
+    const response = await fetch(apiUrl, { cache: 'no-store' });
     if (!response.ok) {
       console.error(`Failed to fetch city data for ${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}. Status: ${response.status}`);
       return null;
@@ -34,12 +38,13 @@ async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
   }
 }
 
-export async function generateStaticParams() {
-  return [];
-}
+const ClientPage = dynamic(() => import('./ClientPage'));
 
 export async function generateMetadata({ params }) {
-  const { categoryslug, countryslug, stateslug, cityslug, lang: locale } = await params;
+  // --- MULAI PERUBAHAN UNTUK generateMetadata ---
+  const awaitedParams = await params; // <--- AWAIT PARAMS DI SINI
+  const { categoryslug, countryslug, stateslug, cityslug, lang: locale } = awaitedParams; // <--- GUNAKAN awaitedParams
+  // --- AKHIR PERUBAHAN ---
   const dictionary = await getdictionary(locale);
   const metadataDict = dictionary?.metadata || {};
   const cityPageDict = dictionary?.cityPage || {};
@@ -72,41 +77,45 @@ export async function generateMetadata({ params }) {
   const currentYear = new Date().getFullYear();
 
   return {
-    title: (metadataDict.cityPageTitleTemplate || `Cheap ${formattedCategory} in ${formattedCity}, ${formattedState}, ${formattedCountry} ${currentYear} - Big Discounts! | Hoteloza`)
+    title: (metadataDict.cityPageTitleTemplate || `Cheap {formattedCategory} in {formattedCity}, {formattedState}, {formattedCountry} {currentYear} - Big Discounts! | Hoteloza`)
       .replace('{formattedCategory}', formattedCategory)
       .replace('{formattedCity}', formattedCity)
       .replace('{formattedState}', formattedState)
       .replace('{formattedCountry}', formattedCountry)
       .replace('{currentYear}', currentYear),
-    description: (metadataDict.cityPageDescriptionTemplate || `Find the best ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState}, ${formattedCountry} for ${currentYear} on Hoteloza. Exclusive discounts, top facilities, and unbeatable prices. Book your dream stay now!`)
+    description: (metadataDict.cityPageDescriptionTemplate || `Find the best {formattedCategory} in {formattedCity}, {formattedState}, {formattedCountry} for {currentYear} on Hoteloza. Exclusive discounts, top facilities, and unbeatable prices. Book your dream stay now!`)
       .replace('{formattedCategory}', formattedCategory.toLowerCase())
       .replace('{formattedCity}', formattedCity)
       .replace('{formattedState}', formattedState)
       .replace('{formattedCountry}', formattedCountry)
       .replace('{currentYear}', currentYear),
     openGraph: {
-      title: (metadataDict.cityOgTitleTemplate || `Best ${formattedCategory} in ${formattedCity}, ${formattedState}, ${formattedCountry} ${currentYear} | Hoteloza`)
+      title: (metadataDict.cityOgTitleTemplate || `Best {formattedCategory} in {formattedCity}, {formattedState}, {formattedCountry} {currentYear} | Hoteloza`)
         .replace('{formattedCategory}', formattedCategory)
         .replace('{formattedCity}', formattedCity)
         .replace('{formattedState}', formattedState)
         .replace('{formattedCountry}', formattedCountry)
         .replace('{currentYear}', currentYear),
-      description: (metadataDict.cityOgDescriptionTemplate || `Discover top ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState}, ${formattedCountry} for ${currentYear} on Hoteloza. Book now for exclusive deals and premium facilities!`)
+      description: (metadataDict.cityOgDescriptionTemplate || `Discover top {formattedCategory} in {formattedCity}, {formattedState}, {formattedCountry} for {currentYear} on Hoteloza. Book now for exclusive deals and premium facilities!`)
         .replace('{formattedCategory}', formattedCategory.toLowerCase())
         .replace('{formattedCity}', formattedCity)
         .replace('{formattedState}', formattedState)
         .replace('{formattedCountry}', formattedCountry)
         .replace('{currentYear}', currentYear),
-      url: `https://hoteloza.com/${locale}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`,
+      url: `https://hoteloza.com/${locale}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`, // URL OpenGraph dengan lang
       type: 'website',
     },
   };
 }
 
 export default async function Page({ params }) {
-  const { categoryslug, countryslug, stateslug, cityslug, lang: locale } = await params;
+  // --- MULAI PERUBAHAN UNTUK KOMPONEN Page ---
+  const awaitedParams = await params; // <--- AWAIT PARAMS DI SINI
+  const { categoryslug, countryslug, stateslug, cityslug, lang: locale } = awaitedParams; // <--- GUNAKAN awaitedParams
+  // --- AKHIR PERUBAHAN ---
   const dictionary = await getdictionary(locale);
-  const currentLang = locale;
+
+  const currentLang = locale; // Lang saat ini
 
   const commonDict = dictionary?.common || {};
   const cityPageDict = dictionary?.cityPage || {};
@@ -134,26 +143,25 @@ export default async function Page({ params }) {
   const currentYear = new Date().getFullYear();
 
   const baseUrl = 'https://hoteloza.com';
-  const currentUrl = `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`;
+  const currentUrl = `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`; // URL dasar dengan lang
 
   const hotelItems = data.hotels.map((hotel, index) => ({
     '@type': 'ListItem',
     position: index + 1,
     item: {
       '@type': 'Hotel',
-      name: hotel.title || hotel.name || 'Unnamed Hotel',
+      name: hotel.name || hotel.title || commonDict.unnamedHotel || 'Unnamed Hotel',
       url: hotel.hotelslug
-        ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}/${hotel.hotelslug}`
+        ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}/${hotel.hotelslug}` // URL hotel detail dengan lang
         : `${currentUrl}/${hotel.id || index + 1}`,
-      image: hotel.img || (Array.isArray(hotel.slideImg) && hotel.slideImg.length > 0 ? hotel.slideImg[0] : ''),
       address: {
         '@type': 'PostalAddress',
-        streetAddress: hotel.location || 'Unknown Address',
-        addressLocality: hotel.city ? formatSlug(hotel.city) : 'Unknown City',
-        addressRegion: hotel.state ? formatSlug(hotel.state) : 'Unknown Region',
-        addressCountry: hotel.country ? formatSlug(hotel.country) : 'Unknown Country',
+        streetAddress: hotel.lokasi || commonDict.unknownAddress || 'Unknown Address',
+        addressLocality: hotel.kota ? formatSlug(hotel.kota) : formattedCity || commonDict.unknownCity || 'Unknown City',
+        addressRegion: hotel['negara bagian'] ? formatSlug(hotel['negara bagian']) : formattedState || commonDict.unknownRegion || 'Unknown Region',
+        addressCountry: hotel.country ? formatSlug(hotel.country) : formattedCountry || commonDict.unknownCountry || 'Unknown Country',
       },
-      description: hotel.overview || `A ${formattedCategory.toLowerCase()} in ${hotel.city ? formatSlug(hotel.city) : 'unknown location'}, ${hotel.state ? formatSlug(hotel.state) : 'unknown state'}.`,
+      description: hotel.description || hotel.overview || `A ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState}.`,
     },
   }));
 
@@ -163,12 +171,12 @@ export default async function Page({ params }) {
       {
         '@type': 'WebPage',
         url: currentUrl,
-        name: (metadataDict.cityOgTitleTemplate || `Top ${formattedCategory} in ${formattedCity}, ${formattedState} ${currentYear}`)
+        name: (metadataDict.cityOgTitleTemplate || `Top {formattedCategory} in {formattedCity}, {formattedState} {currentYear}`)
           .replace('{formattedCategory}', formattedCategory)
           .replace('{formattedCity}', formattedCity)
           .replace('{formattedState}', formattedState)
           .replace('{currentYear}', currentYear),
-        description: (metadataDict.cityOgDescriptionTemplate || `Book top ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState} for ${currentYear} on Hoteloza with exclusive deals and amenities.`)
+        description: (metadataDict.cityOgDescriptionTemplate || `Book top {formattedCategory} in {formattedCity}, {formattedState} for {currentYear} on Hoteloza with exclusive deals and amenities.`)
           .replace('{formattedCategory}', formattedCategory.toLowerCase())
           .replace('{formattedCity}', formattedCity)
           .replace('{formattedState}', formattedState)
@@ -182,20 +190,20 @@ export default async function Page({ params }) {
       {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: navigationDict.home || 'Home', item: `${baseUrl}/${currentLang}` },
-          { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${currentLang}/${sanitizedCategory}` },
-          { '@type': 'ListItem', position: 3, name: formattedCountry, item: `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}` },
-          { '@type': 'ListItem', position: 4, name: formattedState, item: `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}` },
+          { '@type': 'ListItem', position: 1, name: navigationDict.home || 'Home', item: `${baseUrl}/${currentLang}` }, // URL Home dengan lang
+          { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${currentLang}/${sanitizedCategory}` }, // URL Category dengan lang
+          { '@type': 'ListItem', position: 3, name: formattedCountry, item: `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}` }, // URL Country dengan lang
+          { '@type': 'ListItem', position: 4, name: formattedState, item: `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}` }, // URL State dengan lang
           { '@type': 'ListItem', position: 5, name: formattedCity, item: currentUrl },
         ],
       },
       {
         '@type': 'ItemList',
-        name: (metadataDict.cityOgTitleTemplate || `Top ${formattedCategory} in ${formattedCity}, ${formattedState}`)
+        name: (metadataDict.cityOgTitleTemplate || `Top {formattedCategory} in {formattedCity}, {formattedState}`)
           .replace('{formattedCategory}', formattedCategory)
           .replace('{formattedCity}', formattedCity)
           .replace('{formattedState}', formattedState),
-        description: (metadataDict.cityOgDescriptionTemplate || `A list of top ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState} for ${currentYear} on Hoteloza.`)
+        description: (metadataDict.cityOgDescriptionTemplate || `A list of top {formattedCategory} in {formattedCity}, {formattedState} for {currentYear} on Hoteloza.`)
           .replace('{formattedCategory}', formattedCategory.toLowerCase())
           .replace('{formattedCity}', formattedCity)
           .replace('{formattedState}', formattedState)
@@ -207,17 +215,14 @@ export default async function Page({ params }) {
 
   return (
     <>
-      <Script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }} />
       <ClientPage
         categoryslug={sanitizedCategory}
         countryslug={sanitizedCountry}
         stateslug={sanitizedState}
         cityslug={sanitizedCity}
         dictionary={dictionary}
-        currentLang={currentLang}
+        currentLang={currentLang} // Teruskan currentLang
       />
     </>
   );
