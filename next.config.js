@@ -1,5 +1,10 @@
 const path = require('path');
 
+// Hapus atau komentari baris ini setelah analisis selesai
+// const withBundleAnalyzer = require('@next/bundle-analyzer')({
+//   enabled: process.env.ANALYZE === 'true',
+// });
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -19,6 +24,8 @@ const nextConfig = {
     config.resolve.alias['@components'] = path.join(__dirname, 'components');
     return config;
   },
+  output: 'standalone', // Tetap pertahankan ini
 };
 
-module.exports = nextConfig;
+// Ubah kembali cara export
+module.exports = nextConfig; // Kembali ke nextConfig secara langsung
