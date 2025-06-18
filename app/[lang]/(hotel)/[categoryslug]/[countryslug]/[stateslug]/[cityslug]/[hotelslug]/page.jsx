@@ -1,15 +1,50 @@
-// page.jsx (Hotel Single Page Detail)
+// app/[lang]/(hotel)/[categoryslug]/[countryslug]/[stateslug]/[cityslug]/[hotelslug]/page.jsx
 import { notFound } from 'next/navigation';
 import BookNow from '@/components/hotel-single/BookNow';
-import ClientPage from './ClientPage'; // Ini adalah Client Component yang berisi UI
+import ClientPage from './ClientPage';
 import Script from 'next/script';
 import { getdictionary } from '@/dictionaries/get-dictionary';
 
-// Helper function to format slugs for display purposes
+export const dynamic = 'force-static';
+export const revalidate = 3600;
+
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
-// Function to fetch hotel data for both metadata and page content
+async function fetchAllCategoryCountryStateCityHotels() {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+  try {
+    const response = await fetch(`${baseUrl}/api/categories/countries/states/cities/hotels`, { next: { revalidate: 3600 } });
+    if (!response.ok) return [];
+    const data = await response.json();
+    return data.map(({ categorySlug, countrySlug, stateSlug, citySlug, hotelSlug }) => ({
+      categorySlug,
+      countrySlug,
+      stateSlug,
+      citySlug,
+      hotelSlug,
+    }));
+  } catch (error) {
+    console.error('Error fetching category country state city hotels:', error);
+    return [];
+  }
+}
+
+export async function generateStaticParams() {
+  const categoryCountryStateCityHotels = await fetchAllCategoryCountryStateCityHotels();
+  const supportedLanguages = ['en', 'id', 'es'];
+  return categoryCountryStateCityHotels.flatMap(({ categorySlug, countrySlug, stateSlug, citySlug, hotelSlug }) =>
+    supportedLanguages.map((lang) => ({
+      lang,
+      categoryslug: categorySlug,
+      countryslug: countrySlug,
+      stateslug: stateSlug,
+      cityslug: citySlug,
+      hotelslug: hotelSlug,
+    }))
+  );
+}
+
 async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, hotelslug }) {
   const sanitizedParams = {
     categoryslug: categoryslug?.replace(/[^a-zA-Z0-9-]/g, '') || '',
@@ -35,11 +70,7 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
   console.log('Constructed API URL in getHotelData:', apiUrl);
 
   try {
-    // --- PERBAIKAN: Untuk SSR MURNI, gunakan cache: 'no-store' atau biarkan default (dynamically rendered) ---
-    // Pastikan tidak ada { next: { revalidate: X } } atau { cache: 'force-cache' } jika ingin SSR murni
-    const response = await fetch(apiUrl, { cache: 'no-store' }); // Ini akan memaksa SSR
-    // --- AKHIR PERBAIKAN ---
-
+    const response = await fetch(apiUrl, { next: { revalidate: 3600 } });
     if (!response.ok) {
       console.error(
         `Failed to fetch hotel data from API. Status: ${response.status} - ${response.statusText}`
@@ -60,13 +91,6 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
     return null;
   }
 }
-
-// --- PERBAIKAN: HAPUS FUNGSI generateStaticParams() INI SECARA KESELURUHAN ---
-// export async function generateStaticParams() {
-//   return []; // Hapus atau kembalikan array kosong jika tetap ada tapi tidak digunakan
-// }
-// --- AKHIR PERBAIKAN ---
-
 
 export async function generateMetadata({ params }) {
   const resolvedParams = params;
@@ -145,10 +169,8 @@ export default async function HotelDetailPage({ params }) {
 
   const currentLang = locale;
 
-  // --- PERBAIKAN: Penanganan defensif untuk dictionary di sini juga ---
   const commonDict = dictionary?.common || {};
   const navigationDict = dictionary?.navigation || {};
-  // --- AKHIR PERBAIKAN ---
 
   if (!data || !data.hotel) {
     console.error('Hotel data is missing or null in HotelDetailPage. Calling notFound(). Data:', data);

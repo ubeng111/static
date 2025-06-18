@@ -1,17 +1,52 @@
-// page.jsx (City)
-import dynamic from 'next/dynamic';
+// app/[lang]/(hotel)/[categoryslug]/[countryslug]/[stateslug]/[cityslug]/page.jsx
+import dynamicImport from 'next/dynamic'; // <-- Perbaikan di sini: ganti 'dynamic' menjadi 'dynamicImport'
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
-import { getdictionary } from '@/dictionaries/get-dictionary'; // Menggunakan alias
+import { getdictionary } from '@/dictionaries/get-dictionary';
 
-// Helper function to sanitize slugs
+export const dynamic = 'force-static'; // Ini adalah konfigurasi halaman Next.js
+export const revalidate = 3600;
+
 const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
 
-// Helper function to format slugs
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
-// Function to fetch city data
+async function fetchAllCategoryCountryStateCities() {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+  try {
+    const response = await fetch(`${baseUrl}/api/categories/countries/states/cities`, { next: { revalidate: 3600 } });
+    if (!response.ok) {
+      console.error(`Failed to fetch category country state cities. Status: ${response.status}`);
+      return [];
+    }
+    const data = await response.json();
+    return data.map(({ categorySlug, countrySlug, stateSlug, citySlug }) => ({
+      categorySlug,
+      countrySlug,
+      stateSlug,
+      citySlug,
+    }));
+  } catch (error) {
+    console.error('Error fetching category country state cities:', error);
+    return [];
+  }
+}
+
+export async function generateStaticParams() {
+  const categoryCountryStateCities = await fetchAllCategoryCountryStateCities();
+  const supportedLanguages = ['en', 'id', 'es'];
+  return categoryCountryStateCities.flatMap(({ categorySlug, countrySlug, stateSlug, citySlug }) =>
+    supportedLanguages.map((lang) => ({
+      lang,
+      categoryslug: categorySlug,
+      countryslug: countrySlug,
+      stateslug: stateSlug,
+      cityslug: citySlug,
+    }))
+  );
+}
+
 async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
@@ -26,7 +61,7 @@ async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
   const apiUrl = `${baseUrl}/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`;
 
   try {
-    const response = await fetch(apiUrl, { cache: 'no-store' });
+    const response = await fetch(apiUrl, { next: { revalidate: 3600 } });
     if (!response.ok) {
       console.error(`Failed to fetch city data for ${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}. Status: ${response.status}`);
       return null;
@@ -38,13 +73,11 @@ async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
   }
 }
 
-const ClientPage = dynamic(() => import('./ClientPage'));
+const ClientPage = dynamicImport(() => import('./ClientPage')); // <-- Perbaikan di sini: gunakan 'dynamicImport'
 
 export async function generateMetadata({ params }) {
-  // --- MULAI PERUBAHAN UNTUK generateMetadata ---
-  const awaitedParams = await params; // <--- AWAIT PARAMS DI SINI
-  const { categoryslug, countryslug, stateslug, cityslug, lang: locale } = awaitedParams; // <--- GUNAKAN awaitedParams
-  // --- AKHIR PERUBAHAN ---
+  const awaitedParams = await params;
+  const { categoryslug, countryslug, stateslug, cityslug, lang: locale } = awaitedParams;
   const dictionary = await getdictionary(locale);
   const metadataDict = dictionary?.metadata || {};
   const cityPageDict = dictionary?.cityPage || {};
@@ -102,20 +135,18 @@ export async function generateMetadata({ params }) {
         .replace('{formattedState}', formattedState)
         .replace('{formattedCountry}', formattedCountry)
         .replace('{currentYear}', currentYear),
-      url: `https://hoteloza.com/${locale}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`, // URL OpenGraph dengan lang
+      url: `https://hoteloza.com/${locale}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`,
       type: 'website',
     },
   };
 }
 
 export default async function Page({ params }) {
-  // --- MULAI PERUBAHAN UNTUK KOMPONEN Page ---
-  const awaitedParams = await params; // <--- AWAIT PARAMS DI SINI
-  const { categoryslug, countryslug, stateslug, cityslug, lang: locale } = awaitedParams; // <--- GUNAKAN awaitedParams
-  // --- AKHIR PERUBAHAN ---
+  const awaitedParams = await params;
+  const { categoryslug, countryslug, stateslug, cityslug, lang: locale } = awaitedParams;
   const dictionary = await getdictionary(locale);
 
-  const currentLang = locale; // Lang saat ini
+  const currentLang = locale;
 
   const commonDict = dictionary?.common || {};
   const cityPageDict = dictionary?.cityPage || {};
@@ -143,7 +174,7 @@ export default async function Page({ params }) {
   const currentYear = new Date().getFullYear();
 
   const baseUrl = 'https://hoteloza.com';
-  const currentUrl = `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`; // URL dasar dengan lang
+  const currentUrl = `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`;
 
   const hotelItems = data.hotels.map((hotel, index) => ({
     '@type': 'ListItem',
@@ -152,7 +183,7 @@ export default async function Page({ params }) {
       '@type': 'Hotel',
       name: hotel.name || hotel.title || commonDict.unnamedHotel || 'Unnamed Hotel',
       url: hotel.hotelslug
-        ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}/${hotel.hotelslug}` // URL hotel detail dengan lang
+        ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}/${hotel.hotelslug}`
         : `${currentUrl}/${hotel.id || index + 1}`,
       address: {
         '@type': 'PostalAddress',
@@ -190,10 +221,10 @@ export default async function Page({ params }) {
       {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: navigationDict.home || 'Home', item: `${baseUrl}/${currentLang}` }, // URL Home dengan lang
-          { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${currentLang}/${sanitizedCategory}` }, // URL Category dengan lang
-          { '@type': 'ListItem', position: 3, name: formattedCountry, item: `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}` }, // URL Country dengan lang
-          { '@type': 'ListItem', position: 4, name: formattedState, item: `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}` }, // URL State dengan lang
+          { '@type': 'ListItem', position: 1, name: navigationDict.home || 'Home', item: `${baseUrl}/${currentLang}` },
+          { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${currentLang}/${sanitizedCategory}` },
+          { '@type': 'ListItem', position: 3, name: formattedCountry, item: `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}` },
+          { '@type': 'ListItem', position: 4, name: formattedState, item: `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}` },
           { '@type': 'ListItem', position: 5, name: formattedCity, item: currentUrl },
         ],
       },
@@ -215,14 +246,18 @@ export default async function Page({ params }) {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }} />
+      <Script
+        id="city-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
+      />
       <ClientPage
         categoryslug={sanitizedCategory}
         countryslug={sanitizedCountry}
         stateslug={sanitizedState}
         cityslug={sanitizedCity}
         dictionary={dictionary}
-        currentLang={currentLang} // Teruskan currentLang
+        currentLang={currentLang}
       />
     </>
   );

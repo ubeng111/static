@@ -1,12 +1,36 @@
 // app/[lang]/(hotel)/[categoryslug]/page.jsx
-import dynamic from 'next/dynamic';
+import dynamicImport from 'next/dynamic'; // <-- Perbaikan di sini: ganti 'dynamic' menjadi 'dynamicImport'
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { getdictionary } from '@/dictionaries/get-dictionary';
 
+export const dynamic = 'force-static'; // Ini adalah konfigurasi halaman Next.js
+export const revalidate = 3600;
+
 const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
+
+async function fetchAllCategories() {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+  try {
+    const response = await fetch(`${baseUrl}/api/categories`, { next: { revalidate: 3600 } });
+    if (!response.ok) return [];
+    const data = await response.json();
+    return data.categories?.map((cat) => cat.slug) || [];
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    return [];
+  }
+}
+
+export async function generateStaticParams() {
+  const categories = await fetchAllCategories();
+  const supportedLanguages = ['en', 'id', 'es'];
+  return categories.flatMap((categoryslug) =>
+    supportedLanguages.map((lang) => ({ lang, categoryslug }))
+  );
+}
 
 async function getCategoryData(categoryslug) {
   const sanitizedCategory = sanitizeSlug(categoryslug);
@@ -19,7 +43,7 @@ async function getCategoryData(categoryslug) {
   const apiUrl = `${baseUrl}/api/${sanitizedCategory}`;
 
   try {
-    const response = await fetch(apiUrl, { cache: 'no-store' });
+    const response = await fetch(apiUrl, { next: { revalidate: 3600 } });
     if (!response.ok) {
       console.error(`Failed to fetch category data for ${sanitizedCategory}. Status: ${response.status}`);
       return null;
@@ -31,7 +55,7 @@ async function getCategoryData(categoryslug) {
   }
 }
 
-const ClientPage = dynamic(() => import('./ClientPage'));
+const ClientPage = dynamicImport(() => import('./ClientPage')); // <-- Perbaikan di sini: gunakan 'dynamicImport'
 
 export async function generateMetadata({ params }) {
   const awaitedParams = await params;
@@ -66,7 +90,7 @@ export async function generateMetadata({ params }) {
     title: (metadataDict.categoryPageTitleTemplate || `Best {formattedCategory} Discounts {currentYear} - Save Big on Hoteloza!`)
       .replace('{formattedCategory}', formattedCategory)
       .replace('{currentYear}', currentYear),
-    description: (metadataDict.categoryPageDescriptionTemplate || `Find the best {formattedCategory} in {currentYear} with Hoteloza. Enjoy exclusive discounts, great prices, and premium amenities. Book now for an unforgettable stay!.`)
+    description: (metadataDict.categoryPageDescriptionTemplate || `Find the best {formattedCategory} in {currentYear} with Hoteloza. Enjoy exclusive discounts, great prices, and premium amenities. Book now for an unforgettable stay!`)
       .replace('{formattedCategory}', formattedCategory.toLowerCase())
       .replace('{currentYear}', currentYear),
     openGraph: {
@@ -154,19 +178,19 @@ export default async function Page({ params }) {
         position: index + 1,
         item: {
           '@type': 'Hotel',
-          name: hotel.title || hotel.name || 'Unnamed Hotel', // No dict fallback here, only literal
+          name: hotel.title || hotel.name || 'Unnamed Hotel',
           url: hotel.hotelslug && hotel.countryslug && hotel.stateslug && hotel.cityslug
             ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${hotel.countryslug}/${hotel.stateslug}/${hotel.cityslug}/${hotel.hotelslug}`
             : `${currentUrl}/${hotel.id || index + 1}`,
-          image: hotel.img || (Array.isArray(hotel.slideImg) && hotel.slideImg.length > 0 ? hotel.slideImg[0] : ''), // Corrected: access first element of slideImg if array
+          image: hotel.img || (Array.isArray(hotel.slideImg) && hotel.slideImg.length > 0 ? hotel.slideImg[0] : ''),
           address: {
             '@type': 'PostalAddress',
-            streetAddress: hotel.location || 'Unknown Address', // Corrected: use hotel.location, no dict fallback
-            addressLocality: hotel.city ? formatSlug(hotel.city) : 'Unknown City', // Corrected: use hotel.city, no dict fallback
-            addressRegion: hotel.state ? formatSlug(hotel.state) : 'Unknown Region', // Corrected: use hotel.state, no dict fallback
-            addressCountry: hotel.country ? formatSlug(hotel.country) : 'Unknown Country', // Corrected: use hotel.country, no dict fallback
+            streetAddress: hotel.location || 'Unknown Address',
+            addressLocality: hotel.city ? formatSlug(hotel.city) : 'Unknown City',
+            addressRegion: hotel.state ? formatSlug(hotel.state) : 'Unknown Region',
+            addressCountry: hotel.country ? formatSlug(hotel.country) : 'Unknown Country',
           },
-          description: hotel.overview || `A ${formattedCategory.toLowerCase()} in ${hotel.city ? formatSlug(hotel.city) : 'unknown location'}.`, // Corrected: prioritize overview, literal fallback
+          description: hotel.overview || `A ${formattedCategory.toLowerCase()} in ${hotel.city ? formatSlug(hotel.city) : 'unknown location'}.`,
         },
       })),
     },
@@ -179,7 +203,6 @@ export default async function Page({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
       />
-      {/* Meneruskan currentLang sebagai prop ke ClientPage */}
       <ClientPage categoryslug={sanitizedCategory} dictionary={dictionary} currentLang={currentLang} />
     </>
   );
