@@ -35,10 +35,10 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
   console.log('Constructed API URL in getHotelData:', apiUrl);
 
   try {
-    // --- PERBAIKAN: Untuk SSR MURNI, gunakan cache: 'no-store' atau biarkan default (dynamically rendered) ---
-    // Pastikan tidak ada { next: { revalidate: X } } atau { cache: 'force-cache' } jika ingin SSR murni
-    const response = await fetch(apiUrl, { cache: 'no-store' }); // Ini akan memaksa SSR
-    // --- AKHIR PERBAIKAN ---
+    // --- PERUBAHAN: Menggunakan ISR dengan revalidate 7 hari (604800 detik) ---
+    // Karena data sangat jarang berubah, revalidate setiap 7 hari akan sangat efisien.
+    const response = await fetch(apiUrl, { next: { revalidate: 604800 } });
+    // --- AKHIR PERUBAHAN ---
 
     if (!response.ok) {
       console.error(
