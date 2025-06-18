@@ -1,18 +1,21 @@
-// ClientPage.jsx (Hotel Single Page Detail)
 'use client';
 
 import { useState } from 'react';
-import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic'; // <<< Import kembali 'dynamic'
 
 // --- MODIFIKASI: Impor Komponen Secara Dinamis (next/dynamic) ---
 
 // Komponen-komponen yang diimpor secara dinamis
-const DynamicGalleryTwo = dynamic(() => import('@/components/hotel-single/GalleryTwo'), { ssr: false, loading: () => <p>Loading gallery...</p> });
-const DynamicTopBreadCrumb88 = dynamic(() => import('@/components/hotel-single/TopBreadCrumb88'), { ssr: false, loading: () => <p>Loading breadcrumbs...</p> });
-const DynamicFooter = dynamic(() => import("@/components/footer"), { ssr: false, loading: () => <p>Loading footer...</p> });
-const DynamicCallToActions = dynamic(() => import("@/components/common/CallToActions"), { ssr: false, loading: () => <p>Loading call to actions...</p> });
-const DynamicMainFilterSearchBox = dynamic(() => import("@/components/hotel-list/common/MainFilterSearchBox"), { ssr: false, loading: () => <p>Loading search box...</p> });
-const DynamicHeader11 = dynamic(() => import("@/components/header/header-11"), { ssr: false, loading: () => <p>Loading header...</p> });
+// Catatan: Jika ada komponen yang selalu dibutuhkan di tampilan awal,
+// Anda bisa mempertimbangkan untuk mengimpornya secara langsung
+// daripada dinamis untuk menghindari loading state.
+
+const GalleryTwo = dynamic(() => import('@/components/hotel-single/GalleryTwo'), { ssr: false });
+const TopBreadCrumb88 = dynamic(() => import('@/components/hotel-single/TopBreadCrumb88'), { ssr: false });
+const Footer = dynamic(() => import('@/components/footer'), { ssr: false });
+const CallToActions = dynamic(() => import('@/components/common/CallToActions'), { ssr: false });
+const MainFilterSearchBox = dynamic(() => import('@/components/hotel-list/common/MainFilterSearchBox'), { ssr: false });
+const Header11 = dynamic(() => import('@/components/header/header-11'), { ssr: false });
 
 // Komponen-komponen yang sudah Anda buat dinamis sebelumnya
 const MapComponent = dynamic(() => import('@/components/hotel-single/MapComponent'), { ssr: false });
@@ -88,7 +91,8 @@ export default function ClientPage({
 
   return (
     <>
-      <DynamicHeader11 dictionary={dictionary} currentLang={currentLang} />
+      {/* Menggunakan kembali komponen dinamis dengan prefix yang sesuai */}
+      <Header11 dictionary={dictionary} currentLang={currentLang} />
 
       <style jsx global>{`
         .accordion-item .accordion-header {
@@ -135,7 +139,7 @@ export default function ClientPage({
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <DynamicTopBreadCrumb88 hotel={hotel} dictionary={dictionary} currentLang={currentLang} />
+              <TopBreadCrumb88 hotel={hotel} dictionary={dictionary} currentLang={currentLang} />
             </div>
           </div>
         </div>
@@ -145,7 +149,7 @@ export default function ClientPage({
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <DynamicMainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
+              <MainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
             </div>
           </div>
         </div>
@@ -153,7 +157,7 @@ export default function ClientPage({
 
       <section className="mt-40" id="overview">
         <div className="container">
-          <DynamicGalleryTwo hotel={hotel} />
+          <GalleryTwo hotel={hotel} />
         </div>
       </section>
 
@@ -270,9 +274,9 @@ export default function ClientPage({
           </div>
         </div>
       </section>
-      <DynamicCallToActions dictionary={dictionary} currentLang={currentLang} />
+      <CallToActions dictionary={dictionary} currentLang={currentLang} />
 
-      <DynamicFooter dictionary={dictionary} currentLang={currentLang} />
+      <Footer dictionary={dictionary} currentLang={currentLang} />
     </>
   );
 }
