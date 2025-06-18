@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises'; // For file system access
 import path from 'path';     // For path manipulation
+export const dynamic = 'force-dynamic';
 
 // Path relatif ke file cities.json
 // Ini akan mencari file di direktori 'data' di dalam root proyek Next.js Anda

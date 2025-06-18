@@ -1,4 +1,5 @@
 // app/api/overpass/route.js
+export const dynamic = 'force-dynamic';
 import { gzipSync } from 'zlib';
 
 export async function GET(request) {
