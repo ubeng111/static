@@ -5,13 +5,16 @@ name: Deploy to Firebase Hosting on merge
 on:
   push:
     branches:
-      - main # Pastikan ini nama branch utama repositori GitHub kamu (misal: 'master')
+      - main # Pastikan ini nama branch utama repositori GitHub Anda (misal: 'master')
 
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4 # Memastikan Node.js versi 20 digunakan
+        with:
+          node-version: '20' # Sangat direkomendasikan Node.js 20 untuk stabilitas dengan Next.js dan Firebase
       - run: | # Ini adalah blok multi-baris untuk menjalankan perintah
           # Set environment variables untuk proses build Next.js (diambil dari GitHub Secrets)
           DATABASE_URL_SUBTLE_CUSCUS=${{ secrets.DATABASE_URL_SUBTLE_CUSCUS }} \
@@ -20,7 +23,7 @@ jobs:
           AGODA_API_KEY=${{ secrets.AGODA_API_KEY }} \
           NEXT_PUBLIC_API_BASE_URL=${{ secrets.NEXT_PUBLIC_API_BASE_URL }} \
           # Jalankan instalasi dependensi dan proses build Next.js
-          yarn install --immutable && yarn build # Perubahan di sini: --immutable
+          yarn install --immutable && yarn build # Menggunakan --immutable untuk konsistensi
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
