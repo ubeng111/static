@@ -49,7 +49,7 @@
     "react-photoswipe-gallery": "^2.2.7",
     "react-pro-sidebar": "^1.1.0-alpha.1",
     "react-redux": "^9.2.0",
-    "react-slick": "^0.29.0",
+    "react-slick": "^0.30.3",
     "react-tabs": "^6.0.2",
     "react-window": "^1.8.11",
     "redis": "^4.7.0",
