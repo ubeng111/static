@@ -1,8 +1,3 @@
-// config/i18n.js
-// Pastikan 'htmlLangCode' adalah kode BCP 47 yang valid untuk atribut 'lang' HTML
-// Mengikuti format: language-REGION (contoh: en-US, es-ES) atau hanya language (contoh: id, fr, de)
-// Jika localeCode adalah 'xx-yy', htmlLangCode cenderung 'xx-YY'.
-// Jika code adalah 'xx', htmlLangCode cenderung 'xx'.
 export const i18nConfig = [
     { code: 'us', name: 'English (US)', language: 'en', localeCode: 'en-us', htmlLangCode: 'en-US' },
     { code: 'es', name: 'Español (ES)', language: 'es', localeCode: 'es-es', htmlLangCode: 'es-ES' },
@@ -29,12 +24,19 @@ export const i18nConfig = [
     { code: 'kr', name: '한국어', language: 'ko', localeCode: 'ko-kr', htmlLangCode: 'ko-KR' }, // Korean (Republic of Korea)
     { code: 'jp', name: '日本語', language: 'ja', localeCode: 'ja-jp', htmlLangCode: 'ja-JP' }, // Japanese (Japan)
     { code: 'cn', name: '中文 (CN)', language: 'zh', localeCode: 'zh-cn', htmlLangCode: 'zh-CN' }, // Chinese (Simplified, China)
-    { code: 'in', name: 'English (IN)', language: 'en', localeCode: 'en-in', htmlLangCode: 'en-IN' }, // English (India)
-    { code: 'mx', name: 'Español (MX)', language: 'es', localeCode: 'es-mx', htmlLangCode: 'es-MX' }, // Spanish (Mexico)
-    { code: 'sa', name: 'العربية (SA)', language: 'ar', localeCode: 'ar-sa', htmlLangCode: 'ar-SA' }, // Arabic (Saudi Arabia)
-    { code: 'ch', name: 'Deutsch (CH)', language: 'de', localeCode: 'de-ch', htmlLangCode: 'de-CH' }, // German (Switzerland)
-    { code: 'za', name: 'English (ZA)', language: 'en', locale: 'en-za', htmlLangCode: 'en-ZA' }, // English (South Africa)
-    { code: 'eg', name: 'العربية (EG)', language: 'ar', localeCode: 'ar-eg', htmlLangCode: 'ar-EG' }, // Arabic (Egypt)
+    { code: 'en', name: 'English (Generic)', language: 'en', localeCode: 'en', htmlLangCode: 'en' },
+    { code: 'es', name: 'Español (Generic)', language: 'es', localeCode: 'es', htmlLangCode: 'es' },
+    { code: 'de', name: 'Deutsch (Generic)', language: 'de', localeCode: 'de', htmlLangCode: 'de' },
+    { code: 'ar', name: 'العربية (Generic)', language: 'ar', localeCode: 'ar', htmlLangCode: 'ar' },
+    { code: 'zh', name: '中文 (Generic)', language: 'zh', localeCode: 'zh', htmlLangCode: 'zh' },
+    { code: 'pt', name: 'Português (Generic)', language: 'pt', localeCode: 'pt', htmlLangCode: 'pt' }, // Jika Anda memiliki konten Portugis umum selain BR
+
+    { code: 'in', name: 'English (IN)', language: 'en', localeCode: 'en-in', htmlLangCode: 'en-IN' },
+    { code: 'mx', name: 'Español (MX)', language: 'es', localeCode: 'es-mx', htmlLangCode: 'es-MX' },
+    { code: 'sa', name: 'العربية (SA)', language: 'ar', localeCode: 'ar-sa', htmlLangCode: 'ar-SA' },
+    { code: 'ch', name: 'Deutsch (CH)', language: 'de', localeCode: 'de-ch', htmlLangCode: 'de-CH' },
+    { code: 'za', name: 'English (ZA)', language: 'en', locale: 'en-za', htmlLangCode: 'en-ZA' },
+    { code: 'eg', name: 'العربية (EG)', language: 'ar', localeCode: 'ar-eg', htmlLangCode: 'ar-EG' },
 ];
 
 export const locales = i18nConfig.map(config => config.code); // Tetap menggunakan 'code' untuk URL slug

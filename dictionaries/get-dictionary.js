@@ -28,12 +28,18 @@ const dictionaries = {
   'jp': () => import('./jp.json').then((module) => module.default),
   'cn': () => import('./cn.json').then((module) => module.default),
 
+  'en': () => import('./us.json').then((module) => module.default), // Menggunakan us.json sebagai kamus generik 'en'
+  'es': () => import('./es.json').then((module) => module.default), // Menggunakan es.json sebagai kamus generik 'es'
+  'de': () => import('./de.json').then((module) => module.default), // Menggunakan de.json sebagai kamus generik 'de'
+  'ar': () => import('./sa.json').then((module) => module.default), // Pilih salah satu kamus regional (misal: sa.json atau eg.json)
+  'zh': () => import('./cn.json').then((module) => module.default), // Pilih salah satu kamus regional (misal: cn.json atau hk.json)
+  'pt': () => import('./br.json').then((module) => module.default), // Menggunakan br.json sebagai kamus generik 'pt'
+
   'in': () => import('./in.json').then((module) => module.default),
   'mx': () => import('./mx.json').then((module) => module.default),
   'sa': () => import('./sa.json').then((module) => module.default),
   'ch': () => import('./ch.json').then((module) => module.default),
   'za': () => import('./za.json').then((module) => module.default),
-  // 'ar': () => import('./ar.json').then((module) => module.default), // Dihapus: Argentina
   'eg': () => import('./eg.json').then((module) => module.default),
 };
 
@@ -41,5 +47,12 @@ export const getdictionary = async (locale) => {
   if (dictionaries[locale]) {
     return dictionaries[locale]();
   }
+  // Fallback to the generic language if a specific locale is not found
+  const genericLocale = locale.split('-')[0];
+  if (dictionaries[genericLocale]) {
+      console.log(`Falling back to generic dictionary for: ${genericLocale}`);
+      return dictionaries[genericLocale]();
+  }
+  console.log(`No dictionary found for ${locale}, falling back to default 'us'.`);
   return dictionaries['us']();
 };
