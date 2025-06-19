@@ -1,18 +1,4 @@
-// config/i18n.js
 
-// Definisi konfigurasi untuk setiap bahasa/wilayah.
-// Setiap entri mewakili sebuah LOKALISASI SPESIFIK DENGAN URL SLUG KANONISNYA.
-// Properti:
-// - code: SLUG URL kanonis untuk lokalisasi ini (misal: 'us', 'sa', 'id').
-//         Ini juga akan digunakan untuk `initialLangSlug` di ClientProviders dan nama folder dictionary.
-// - htmlLangCode: Nilai untuk atribut `lang` di tag <html> dan `hreflang` di tag <link rel="alternate">.
-//                 Harus sesuai dengan standar BCP 47 (misal: 'en-US', 'ar-SA', 'id').
-// - name: Nama deskriptif untuk lokalisasi (untuk UI).
-// - defaultForLanguage: Opsional. Gunakan 'true' jika lokalisasi ini adalah default
-//                       ketika hanya bahasa umum yang diminta (misal: 'en-US' adalah default untuk 'en').
-//                       Ini akan digunakan oleh middleware untuk pengalihan generik.
-// - currency: Mata uang default untuk lokalisasi ini.
-// - flagLink: Link ke ikon bendera.
 
 export const i18nConfig = [
     // Bahasa Inggris
@@ -56,7 +42,8 @@ export const i18nConfig = [
     { code: 'sv', htmlLangCode: 'sv-SE', name: 'Svenska', currency: 'SEK', flagLink: 'https://flagcdn.com/se.svg', defaultForLanguage: true },
     { code: 'ro', htmlLangCode: 'ro-RO', name: 'Română', currency: 'RON', flagLink: 'https://flagcdn.com/ro.svg', defaultForLanguage: true },
     { code: 'tr', htmlLangCode: 'tr-TR', name: 'Türkçe', currency: 'TRY', flagLink: 'https://flagcdn.com/tr.svg', defaultForLanguage: true },
-    { code: 'ms', htmlLangCode: 'ms-MY', name: 'Bahasa Melayu', currency: 'MYR', flagLink: 'https://flagcdn.com/my.svg', defaultForLanguage: true },
+    // PERBAIKAN: Hapus 'defaultForLanguage: true' jika ms-MY adalah satu-satunya hreflang yang diinginkan untuk slug 'ms'.
+    { code: 'ms', htmlLangCode: 'ms-MY', name: 'Bahasa Melayu', currency: 'MYR', flagLink: 'https://flagcdn.com/my.svg' },
     { code: 'ru', htmlLangCode: 'ru-RU', name: 'Русский', currency: 'RUB', flagLink: 'https://flagcdn.com/ru.svg', defaultForLanguage: true },
     { code: 'id', htmlLangCode: 'id-ID', name: 'Bahasa Indonesia', currency: 'IDR', flagLink: 'https://flagcdn.com/id.svg', defaultForLanguage: true },
     { code: 'il', htmlLangCode: 'he-IL', name: 'עברית', currency: 'ILS', flagLink: 'https://flagcdn.com/il.svg', defaultForLanguage: true },
