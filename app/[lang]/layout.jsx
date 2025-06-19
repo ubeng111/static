@@ -26,18 +26,20 @@ export default async function RootLayout({ children, params }) {
   // Cek apakah urlLangSlug adalah kode bahasa yang valid dari i18nConfig
   const configByUrlSlug = i18nConfig.find(config => config.code === urlLangSlug);
 
-  if (configByUrlSlug) { // Jika urlLangSlug valid
+  if (configByUrlSlug) {
     determinedHtmlLang = configByUrlSlug.htmlLangCode;
     initialLangSlugForDictionary = configByUrlSlug.code;
   } else {
-    // Jika urlLangSlug tidak ada atau tidak valid (misal 'img'), fallback ke default
+    // Jika urlLangSlug tidak valid (misal 'img'), fallback ke default.
+    // Ini menangani kasus ketika aset statis salah diinterpretasikan sebagai rute bahasa.
+    console.warn(`[Layout Warn] Invalid urlLangSlug "${urlLangSlug}" detected. Falling back to default locale.`);
     determinedHtmlLang = defaultHtmlLang;
     initialLangSlugForDictionary = defaultLocale;
   }
 
   console.log('--- Layout Render Start ---');
-  console.log('Layout: Full params object:', params); // Log seluruh objek params
-  console.log('Layout: Raw params.slug:', params?.slug); // Log array slug mentah
+  console.log('Layout: Full params object:', params); // Lihat seluruh objek params
+  console.log('Layout: Raw params.slug:', params?.slug); // Lihat array slug mentah
   console.log('Layout: URL Lang Slug from params:', urlLangSlug);
   console.log('Layout: Accept-Language Header (raw):', acceptLanguage);
   console.log('Layout: Determined HTML Lang (for <html> lang attribute):', determinedHtmlLang);
@@ -47,18 +49,24 @@ export default async function RootLayout({ children, params }) {
   const dictionary = await getdictionary(initialLangSlugForDictionary);
 
   console.log('Layout: Loaded dictionary for:', initialLangSlugForDictionary);
+  // Pastikan dictionary.footer ada sebelum mencoba mengakses propertinya
   console.log('Layout: Footer section of dictionary (sample):', dictionary?.footer?.copyright);
 
   // === HREFLANG GENERATOR ===
-  const slugPath = params?.slug?.join('/') || '';
+  // Perbaiki slugPath dengan memastikan ia mencakup seluruh segmen path setelah [lang]
+  // params.slug harusnya berisi array sisa segmen path, misalnya ['hotel', 'kenya', 'nairobi', ...]
+  const slugArray = Array.isArray(params.slug) ? params.slug : []; // Pastikan ini array
+  const slugPath = slugArray.join('/'); // Tidak perlu `|| ''` karena `join('/')` pada array kosong menghasilkan ''
+
   const baseUrl = 'https://hoteloza.com';
 
-  console.log('Hreflang Generator: Generated slugPath:', slugPath);
+  console.log('Hreflang Generator: Generated slugPath:', slugPath); // Log slugPath yang dihasilkan
 
   const hreflangMap = new Map();
 
   // Tambahkan semua hreflang yang mungkin
   i18nConfig.forEach((config) => {
+    // Bangun URL lengkap termasuk slugPath
     const langHref = `${baseUrl}/${config.code}${slugPath ? `/${slugPath}` : ''}`;
     const genericLangCode = config.htmlLangCode.split('-')[0].toLowerCase();
 
@@ -66,7 +74,12 @@ export default async function RootLayout({ children, params }) {
     hreflangMap.set(config.htmlLangCode, langHref);
 
     // Jika ini adalah default untuk bahasanya, tambahkan juga hreflang generik
+    // Ini akan menimpa hreflang spesifik jika kode generik sama (misal 'en' timpa 'en-US' jika 'en-US' default)
+    // PENTING: Jika Anda ingin hanya menampilkan 'id' dan bukan 'id-ID' (misalnya)
+    // saat mereka menunjuk ke URL yang sama, Anda bisa memodifikasi logika ini lebih lanjut.
+    // Saat ini, ini akan menghasilkan keduanya jika mereka adalah kunci yang berbeda di Map.
     if (config.defaultForLanguage) {
+      // Hanya tambahkan generik jika belum ada atau jika menunjuk ke URL yang berbeda
       if (!hreflangMap.has(genericLangCode) || hreflangMap.get(genericLangCode) !== langHref) {
         hreflangMap.set(genericLangCode, langHref);
       }
@@ -75,10 +88,11 @@ export default async function RootLayout({ children, params }) {
 
   // Tambahkan x-default
   const defaultLocaleConfig = i18nConfig.find(config => config.code === defaultLocale);
+  // Pastikan xDefaultHref juga menggunakan slugPath yang benar
   const xDefaultHref = `${baseUrl}/${defaultLocaleConfig.code}${slugPath ? `/${slugPath}` : ''}`;
   hreflangMap.set("x-default", xDefaultHref);
 
-  console.log('Hreflang Generator: Final hreflangMap:', Object.fromEntries(hreflangMap));
+  console.log('Hreflang Generator: Final hreflangMap:', Object.fromEntries(hreflangMap)); //
 
   const hreflangLinks = Array.from(hreflangMap.entries()).map(([hreflangCode, hrefUrl]) => (
     <link
