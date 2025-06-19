@@ -61,7 +61,7 @@
     "swr": "^2.3.3"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.1.0", 
+    "@faker-js/faker": "^8.1.0",
     "@types/node": "22.15.21",
     "@types/react": "^19.1.8",
     "eslint": "^9.29.0",
