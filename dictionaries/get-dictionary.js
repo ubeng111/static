@@ -28,12 +28,34 @@ const dictionaries = {
   'jp': () => import('./jp.json').then((module) => module.default),
   'cn': () => import('./cn.json').then((module) => module.default),
 
-  'en': () => import('./us.json').then((module) => module.default), // Menggunakan us.json sebagai kamus generik 'en'
-  'es': () => import('./es.json').then((module) => module.default), // Menggunakan es.json sebagai kamus generik 'es'
-  'de': () => import('./de.json').then((module) => module.default), // Menggunakan de.json sebagai kamus generik 'de'
-  'ar': () => import('./sa.json').then((module) => module.default), // Pilih salah satu kamus regional (misal: sa.json atau eg.json)
-  'zh': () => import('./cn.json').then((module) => module.default), // Pilih salah satu kamus regional (misal: cn.json atau hk.json)
-  'pt': () => import('./br.json').then((module) => module.default), // Menggunakan br.json sebagai kamus generik 'pt'
+  // === KAMUS UNTUK BAHASA GENERIK ===
+  // Arahkan ke file JSON regional yang paling umum/default untuk bahasa tersebut.
+  'en': () => import('./us.json').then((module) => module.default), // Generic 'en' menggunakan kamus US
+  'es': () => import('./es.json').then((module) => module.default), // Generic 'es' menggunakan kamus ES
+  'de': () => import('./de.json').then((module) => module.default), // Generic 'de' menggunakan kamus DE
+  'pt': () => import('./br.json').then((module) => module.default), // Generic 'pt' menggunakan kamus BR
+  'ar': () => import('./sa.json').then((module) => module.default), // Generic 'ar' menggunakan kamus SA (atau eg.json)
+  'zh': () => import('./cn.json').then((module) => module.default), // Generic 'zh' menggunakan kamus CN (atau hk.json)
+  'bg': () => import('./bg.json').then((module) => module.default),
+  'cs': () => import('./cz.json').then((module) => module.default),
+  'da': () => import('./dk.json').then((module) => module.default),
+  'fr': () => import('./fr.json').then((module) => module.default),
+  'he': () => import('./il.json').then((module) => module.default),
+  'id': () => import('./id.json').then((module) => module.default),
+  'it': () => import('./it.json').then((module) => module.default),
+  'ja': () => import('./jp.json').then((module) => module.default),
+  'ko': () => import('./kr.json').then((module) => module.default),
+  'ms': () => import('./my.json').then((module) => module.default),
+  'nl': () => import('./nl.json').then((module) => module.default),
+  'no': () => import('./no.json').then((module) => module.default),
+  'pl': () => import('./pl.json').then((module) => module.default),
+  'ro': () => import('./ro.json').then((module) => module.default),
+  'ru': () => import('./ru.json').then((module) => module.default),
+  'sv': () => import('./se.json').then((module) => module.default),
+  'th': () => import('./th.json').then((module) => module.default),
+  'tr': () => import('./tr.json').then((module) => module.default),
+  'uk': () => import('./ua.json').then((module) => module.default),
+
 
   'in': () => import('./in.json').then((module) => module.default),
   'mx': () => import('./mx.json').then((module) => module.default),

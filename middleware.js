@@ -1,4 +1,5 @@
 // middleware.js
+// TIDAK ADA PERUBAHAN SIGNIFIKAN YANG DIPERLUKAN DI SINI, FOKUS PADA PEMAHAMAN PERILAKU 308
 import { NextResponse } from 'next/server';
 import { i18nConfig, defaultLocale } from './config/i18n';
 
@@ -15,9 +16,8 @@ export function middleware(request) {
 
   const rawSegments = pathname.split('/').filter(Boolean);
 
-  // Deklarasikan variabel sekali di awal fungsi
   let targetLocale = defaultLocale;
-  let pureContentSegments = []; // Initial declaration
+  let pureContentSegments = [];
   let foundInitialLocaleInPath = false;
 
   // DEBUG: Log awal permintaan
@@ -32,14 +32,13 @@ export function middleware(request) {
     foundInitialLocaleInPath = true;
     console.log('Middleware: Locale found in path:', targetLocale);
   } else {
-    // INI ADALAH PERBAIKANNYA: Tetapkan rawSegments ke pureContentSegments di sini
-    pureContentSegments = rawSegments; // <<< BARIS INI DITAMBAHKAN/DIPERBAIKI
+    // Jika tidak ada locale di URL path, rawSegments adalah pureContentSegments
+    pureContentSegments = rawSegments;
 
     // 2. Jika tidak ada locale di URL path, coba deteksi dari Accept-Language header
     const acceptLanguageHeader = request.headers.get('accept-language');
     let initialTargetLocale = defaultLocale;
 
-    // DEBUG: Log Accept-Language header
     console.log('Middleware: Accept-Language Header:', acceptLanguageHeader);
 
     if (acceptLanguageHeader) {
@@ -51,9 +50,8 @@ export function middleware(request) {
           const q = parts.length > 1 ? parseFloat(parts[1].split('=')[1]) : 1.0;
           return { code, q };
         })
-        .sort((a, b) => b.q - a.q); // Urutkan berdasarkan kualitas secara menurun
+        .sort((a, b) => b.q - a.q);
 
-      // DEBUG: Log parsed preferred languages
       console.log('Middleware: Parsed Preferred Languages:', preferredLanguages);
 
       for (const browserPref of preferredLanguages) {
@@ -62,18 +60,26 @@ export function middleware(request) {
         // Prioritas 1: Coba temukan kecocokan langsung dengan `localeCode` di i18nConfig
         let matchedConfig = i18nConfig.find(config => config.localeCode === langCode);
         if (matchedConfig) {
-          initialTargetLocale = matchedConfig.code; // Gunakan slug URL dari i18nConfig
+          initialTargetLocale = matchedConfig.code;
           console.log('Middleware: Match by localeCode:', langCode, '->', initialTargetLocale);
-          break; // Kecocokan terbaik ditemukan, gunakan ini
+          break;
         }
 
         // Prioritas 2: Jika tidak ada kecocokan `localeCode` yang tepat, coba temukan berdasarkan `language` generik
         const genericLang = langCode.split('-')[0];
+        // Pastikan kita mencari yang 'code' yang sesuai untuk bahasa generik
+        matchedConfig = i18nConfig.find(config => config.language === genericLang && config.localeCode === genericLang);
+        if (matchedConfig) { // Jika ditemukan konfigurasi untuk bahasa generik (misal code: 'en', localeCode: 'en')
+          initialTargetLocale = matchedConfig.code;
+          console.log('Middleware: Match by generic language:', genericLang, '->', initialTargetLocale);
+          break;
+        }
+        // Fallback untuk bahasa generik jika tidak ada entri eksplisit untuk bahasa generik
         matchedConfig = i18nConfig.find(config => config.language === genericLang);
         if (matchedConfig) {
-          initialTargetLocale = matchedConfig.code; // Gunakan slug URL dari i18nConfig
-          console.log('Middleware: Match by generic language:', genericLang, '->', initialTargetLocale);
-          break; // Kecocokan ditemukan, gunakan ini
+          initialTargetLocale = matchedConfig.code; // Ambil slug dari entri pertama yang cocok
+          console.log('Middleware: Fallback match by generic language (first config):', genericLang, '->', initialTargetLocale);
+          break;
         }
       }
     }
@@ -84,7 +90,6 @@ export function middleware(request) {
   // Bangun jalur URL yang dinormalisasi: /{targetLocale}/{pureContentPath}
   const normalizedPathname = `/${targetLocale}${pureContentSegments.length > 0 ? `/${pureContentSegments.join('/')}` : ''}`;
 
-  // DEBUG: Log hasil normalisasi
   console.log('Middleware: Normalized Pathname:', normalizedPathname);
   console.log('Middleware: Should Redirect:', pathname !== normalizedPathname);
 
@@ -92,7 +97,7 @@ export function middleware(request) {
     const newUrl = new URL(`${normalizedPathname}${search}`, request.url);
     console.log('Middleware: Redirecting to:', newUrl.toString());
     console.log('--- Middleware Request End (Redirect) ---');
-    return NextResponse.redirect(newUrl);
+    return NextResponse.redirect(newUrl); // Ini adalah sumber 308
   }
 
   console.log('Middleware: Continuing without redirect.');
