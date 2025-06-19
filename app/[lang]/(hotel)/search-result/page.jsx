@@ -1,7 +1,7 @@
 // app/search/page.jsx
 import { Suspense } from "react";
 import CityContent from "./CityContent";
-import { getdictionary } from '@/public/dictionaries/get-dictionary';
+import { getdictionary } from '@/dictionaries/get-dictionary';
 import { notFound } from 'next/navigation';
 import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox";
 

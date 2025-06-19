@@ -1,5 +1,5 @@
 // app/(others)/about/page.jsx
-import { getdictionary } from '@/public/dictionaries/get-dictionary';
+import { getdictionary } from '@/dictionaries/get-dictionary';
 import Client from "./Client"; // Import Client normally again
 
 export const metadata = {

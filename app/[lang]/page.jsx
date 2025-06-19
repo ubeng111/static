@@ -1,5 +1,5 @@
 // app/[lang]/page.jsx (Server Component for Home page)
-import { getdictionary } from '@/public/dictionaries/get-dictionary';
+import { getdictionary } from '@/dictionaries/get-dictionary';
 import HomeContent from '@/components/home_1/HomeContent'; // HomeContent tidak lagi merender Header11
 
 export async function generateMetadata({ params }) {

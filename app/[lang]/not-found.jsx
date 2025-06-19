@@ -2,7 +2,7 @@
 import Footer from "@/components/footer";
 import CallToActions from "@/components/common/CallToActions";
 import NotFound from "@/components/common/NotFound";
-import { getdictionary } from '@/public/dictionaries/get-dictionary'; 
+import { getdictionary } from '@/dictionaries/get-dictionary'; 
 
 export const metadata = {
   title: "404 || Hotelazo",

@@ -1,6 +1,6 @@
 // app/layout.jsx
 import ClientProviders from "@/components/ClientProviders";
-import { getdictionary } from '@/public/dictionaries/get-dictionary';
+import { getdictionary } from '@/dictionaries/get-dictionary';
 import { headers } from 'next/headers';
 import { locales, defaultLocale, i18nConfig } from '@/config/i18n'; // Import dari i18n.js
 
