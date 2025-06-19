@@ -1,38 +1,17 @@
-// app/[lang]/(hotel)/[categoryslug]/[countryslug]/[stateslug]/page.jsx
-import dynamicImport from 'next/dynamic'; // Renamed the import to dynamicImport
+// page.jsx (State)
+import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
-import { getdictionary } from '@/dictionaries/get-dictionary';
+import { getdictionary } from '@/dictionaries/get-dictionary'; // Menggunakan alias
 
-export const dynamic = 'force-static'; // This is the Next.js page config for ISR
-export const revalidate = 3600; // This sets the revalidation period for ISR
-
+// Helper function to sanitize slugs
 const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
 
+// Helper function to format slugs
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
-async function fetchAllCategoryCountryStates() {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
-  try {
-    const response = await fetch(`${baseUrl}/api/categories/countries/states`, { next: { revalidate: 3600 } });
-    if (!response.ok) return [];
-    const data = await response.json();
-    return data.map(({ categorySlug, countrySlug, stateSlug }) => ({ categorySlug, countrySlug, stateSlug }));
-  } catch (error) {
-    console.error('Error fetching category country states:', error);
-    return [];
-  }
-}
-
-export async function generateStaticParams() {
-  const categoryCountryStates = await fetchAllCategoryCountryStates();
-  const supportedLanguages = ['en', 'id', 'es'];
-  return categoryCountryStates.flatMap(({ categorySlug, countrySlug, stateSlug }) =>
-    supportedLanguages.map((lang) => ({ lang, categoryslug: categorySlug, countryslug: countrySlug, stateslug: stateSlug }))
-  );
-}
-
+// Function to fetch state data
 async function getStateData(categoryslug, countryslug, stateslug) {
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
@@ -46,7 +25,7 @@ async function getStateData(categoryslug, countryslug, stateslug) {
   const apiUrl = `${baseUrl}/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
 
   try {
-    const response = await fetch(apiUrl, { next: { revalidate: 3600 } });
+    const response = await fetch(apiUrl, { cache: 'no-store' });
     if (!response.ok) {
       console.error(`Failed to fetch state data for ${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}. Status: ${response.status}`);
       return null;
@@ -58,11 +37,13 @@ async function getStateData(categoryslug, countryslug, stateslug) {
   }
 }
 
-const ClientPage = dynamicImport(() => import('./ClientPage')); // Using the renamed import dynamicImport
+const ClientPage = dynamic(() => import('./ClientPage'));
 
 export async function generateMetadata({ params }) {
-  const awaitedParams = await params;
-  const { categoryslug, countryslug, stateslug, lang: locale } = awaitedParams;
+  // --- MULAI PERUBAHAN UNTUK generateMetadata ---
+  const awaitedParams = await params; // <--- AWAIT PARAMS DI SINI
+  const { categoryslug, countryslug, stateslug, lang: locale } = awaitedParams; // <--- GUNAKAN awaitedParams
+  // --- AKHIR PERUBAHAN UNTUK generateMetadata ---
 
   const dictionary = await getdictionary(locale);
   const metadataDict = dictionary?.metadata || {};
@@ -115,19 +96,21 @@ export async function generateMetadata({ params }) {
         .replace('{formattedState}', formattedState)
         .replace('{formattedCountry}', formattedCountry)
         .replace('{currentYear}', currentYear),
-      url: `https://hoteloza.com/${locale}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`,
+      url: `https://hoteloza.com/${locale}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`, // URL OpenGraph dengan lang
       type: 'website',
     },
   };
 }
 
 export default async function Page({ params }) {
-  const awaitedParams = await params;
-  const { categoryslug, countryslug, stateslug, lang: locale } = awaitedParams;
+  // --- MULAI PERUBAHAN UNTUK KOMPONEN Page ---
+  const awaitedParams = await params; // <--- AWAIT PARAMS DI SINI
+  const { categoryslug, countryslug, stateslug, lang: locale } = awaitedParams; // <--- GUNAKAN awaitedParams
+  // --- AKHIR PERUBAHAN UNTUK KOMPONEN Page ---
 
   const dictionary = await getdictionary(locale);
 
-  const currentLang = locale;
+  const currentLang = locale; // Lang saat ini
 
   const commonDict = dictionary?.common || {};
   const statePageDict = dictionary?.statePage || {};
@@ -152,7 +135,7 @@ export default async function Page({ params }) {
   const formattedCategory = formatSlug(sanitizedCategory) || (statePageDict.categoryDefault || 'Category');
   const currentYear = new Date().getFullYear();
   const baseUrl = 'https://hoteloza.com';
-  const currentUrl = `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
+  const currentUrl = `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`; // URL dasar dengan lang
 
   const schemas = [
     {
@@ -179,9 +162,9 @@ export default async function Page({ params }) {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: navigationDict.home || 'Home', item: `${baseUrl}/${currentLang}` },
-        { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${currentLang}/${sanitizedCategory}` },
-        { '@type': 'ListItem', position: 3, name: formattedCountry, item: `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}` },
+        { '@type': 'ListItem', position: 1, name: navigationDict.home || 'Home', item: `${baseUrl}/${currentLang}` }, // URL Home dengan lang
+        { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${currentLang}/${sanitizedCategory}` }, // URL Category dengan lang
+        { '@type': 'ListItem', position: 3, name: formattedCountry, item: `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}` }, // URL Country dengan lang
         { '@type': 'ListItem', position: 4, name: formattedState, item: currentUrl },
       ],
     },
@@ -205,7 +188,7 @@ export default async function Page({ params }) {
           '@type': 'Hotel',
           name: hotel.title || hotel.name || commonDict.unnamedHotel || 'Unnamed Hotel',
           url: hotel.hotelslug && hotel.cityslug
-            ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${hotel.cityslug}/${hotel.hotelslug}`
+            ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${hotel.cityslug}/${hotel.hotelslug}` // URL hotel detail dengan lang
             : `${currentUrl}/${hotel.id || index + 1}`,
           image: hotel.img || hotel.slideimg || '',
           address: {
