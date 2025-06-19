@@ -2780,13 +2780,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.27.2":
-  version: 3.43.0
-  resolution: "core-js@npm:3.43.0"
-  checksum: 10c0/9d4ad66296e60380777de51d019b5c3e6cce023b7999750a5094f9a4b0ea53bf3600beb4ef11c56548f2c8791d43d4056e270d1cf55ba87273011aa7d4597871
-  languageName: node
-  linkType: hard
-
 "cosmiconfig@npm:^7.0.0":
   version: 7.1.0
   resolution: "cosmiconfig@npm:7.1.0"
@@ -4251,7 +4244,6 @@ __metadata:
     react-i18next: "npm:^15.5.2"
     react-leaflet: "npm:^5.0.0"
     react-loading-skeleton: "npm:^3.5.0"
-    react-modal-video: "npm:^2.0.1"
     react-multi-date-picker: "npm:^4.3.2"
     react-paginate: "npm:^8.2.0"
     react-parallax: "npm:^3.5.1"
@@ -6282,19 +6274,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-modal-video@npm:^2.0.1":
-  version: 2.0.2
-  resolution: "react-modal-video@npm:2.0.2"
-  dependencies:
-    core-js: "npm:^3.27.2"
-    react-transition-group: "npm:^4.4.2"
-  peerDependencies:
-    react: ^17.0.0 || ^18.2.0
-    react-dom: ^17.0.0 || ^18.2.0
-  checksum: 10c0/5e88cb4ebef95232e9daa952b0f8094ca0eeed3a9fd2aa16300eeece159d320115fe9ceff55581f480a9a39b8342252c11b736fe8480f033def05d37df0e776d
-  languageName: node
-  linkType: hard
-
 "react-multi-date-picker@npm:^4.3.2":
   version: 4.5.2
   resolution: "react-multi-date-picker@npm:4.5.2"
@@ -6402,7 +6381,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-transition-group@npm:^4.4.2, react-transition-group@npm:^4.4.5":
+"react-transition-group@npm:^4.4.5":
   version: 4.4.5
   resolution: "react-transition-group@npm:4.4.5"
   dependencies:
