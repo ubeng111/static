@@ -1,7 +1,7 @@
 import ClientProviders from "@/components/ClientProviders";
 import { getdictionary } from '@/dictionaries/get-dictionary';
 import { headers } from 'next/headers';
-import { i18nConfig, defaultLocale, defaultHtmlLang, defaultLanguageMap } from '@/config/i18n'; // Import defaultLanguageMap
+import { i18nConfig, defaultLocale, defaultHtmlLang, defaultLanguageMap } from '@/config/i18n';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -49,8 +49,6 @@ export default async function RootLayout({ children, params }) {
 
     // 2. Jika 'defaultForLanguage' adalah true, tambahkan juga versi generik bahasa tersebut (contoh: 'en', 'ar', 'bg').
     //    Ini yang akan mengatasi peringatan "Missing region-independent link".
-    //    Namun, perlu diingat ini kemungkinan akan mengembalikan peringatan "dobel lang" di tool SEO Anda,
-    //    karena tool tersebut mungkin menganggap kombinasi spesifik dan generik sebagai duplikasi.
     if (config.defaultForLanguage) {
       const genericLangCode = config.htmlLangCode.split('-')[0].toLowerCase();
       // Hanya tambahkan jika versi generik belum ada di peta (untuk menghindari duplikasi di dalam peta itu sendiri)
@@ -69,10 +67,16 @@ export default async function RootLayout({ children, params }) {
     <link key={hreflangCode} rel="alternate" hrefLang={hreflangCode} href={hrefUrl} />
   ));
 
+  // --- Penambahan Tag Canonical ---
+  // Pastikan URL canonical menunjuk ke dirinya sendiri
+  const canonicalUrl = `${baseUrl}/${urlLangSlug}${finalSlugPath ? `/${finalSlugPath}` : ''}`;
+
   return (
     <html lang={determinedHtmlLang}>
       <head>
         {hreflangLinks}
+        {/* Tag Canonical ditambahkan di sini */}
+        <link rel="canonical" href={canonicalUrl} />
       </head>
       <body>
         <ClientProviders dictionary={dictionary} initialLang={initialLangSlugForDictionary}>
