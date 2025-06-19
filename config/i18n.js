@@ -16,8 +16,7 @@
 
 export const i18nConfig = [
     // Bahasa Inggris
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'en' ganda bersama 'en-US'.
-    { code: 'us', htmlLangCode: 'en-US', name: 'English (US)', currency: 'USD', flagLink: 'https://flagcdn.com/us.svg' },
+    { code: 'us', htmlLangCode: 'en-US', name: 'English (US)', currency: 'USD', flagLink: 'https://flagcdn.com/us.svg', defaultForLanguage: true },
     { code: 'gb', htmlLangCode: 'en-GB', name: 'English (UK)', currency: 'GBP', flagLink: 'https://flagcdn.com/gb.svg' },
     { code: 'au', htmlLangCode: 'en-AU', name: 'English (AU)', currency: 'AUD', flagLink: 'https://flagcdn.com/au.svg' },
     { code: 'ca', htmlLangCode: 'en-CA', name: 'English (CA)', currency: 'CAD', flagLink: 'https://flagcdn.com/ca.svg' },
@@ -27,76 +26,50 @@ export const i18nConfig = [
     { code: 'za', htmlLangCode: 'en-ZA', name: 'English (ZA)', currency: 'ZAR', flagLink: 'https://flagcdn.com/za.svg' },
 
     // Bahasa Arab
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'ar' ganda bersama 'ar-SA'.
-    { code: 'sa', htmlLangCode: 'ar-SA', name: 'العربية (السعودية)', currency: 'SAR', flagLink: 'https://flagcdn.com/sa.svg' },
+    { code: 'sa', htmlLangCode: 'ar-SA', name: 'العربية (السعودية)', currency: 'SAR', flagLink: 'https://flagcdn.com/sa.svg', defaultForLanguage: true }, // Default untuk bahasa Arab generik
     { code: 'eg', htmlLangCode: 'ar-EG', name: 'العربية (مصر)', currency: 'EGP', flagLink: 'https://flagcdn.com/eg.svg' },
 
     // Bahasa Cina
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'zh' ganda bersama 'zh-CN'.
-    { code: 'cn', htmlLangCode: 'zh-CN', name: '中文 (简体)', currency: 'CNY', flagLink: 'https://flagcdn.com/cn.svg' },
+    { code: 'cn', htmlLangCode: 'zh-CN', name: '中文 (简体)', currency: 'CNY', flagLink: 'https://flagcdn.com/cn.svg', defaultForLanguage: true }, // Default untuk bahasa Cina generik
     { code: 'hk', htmlLangCode: 'zh-HK', name: '中文 (香港)', currency: 'HKD', flagLink: 'https://flagcdn.com/hk.svg' },
     { code: 'tw', htmlLangCode: 'zh-TW', name: '中文 (台灣)', currency: 'TWD', flagLink: 'https://flagcdn.com/tw.svg' },
 
     // Bahasa Jerman
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'de' ganda bersama 'de-DE'.
-    { code: 'de', htmlLangCode: 'de-DE', name: 'Deutsch (DE)', currency: 'EUR', flagLink: 'https://flagcdn.com/de.svg' },
+    { code: 'de', htmlLangCode: 'de-DE', name: 'Deutsch (DE)', currency: 'EUR', flagLink: 'https://flagcdn.com/de.svg', defaultForLanguage: true },
     { code: 'ch', htmlLangCode: 'de-CH', name: 'Deutsch (CH)', currency: 'CHF', flagLink: 'https://flagcdn.com/ch.svg' },
 
     // Bahasa Spanyol
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'es' ganda bersama 'es-ES'.
-    { code: 'es', htmlLangCode: 'es-ES', name: 'Español (ES)', currency: 'EUR', flagLink: 'https://flagcdn.com/es.svg' },
+    { code: 'es', htmlLangCode: 'es-ES', name: 'Español (ES)', currency: 'EUR', flagLink: 'https://flagcdn.com/es.svg', defaultForLanguage: true },
     { code: 'mx', htmlLangCode: 'es-MX', name: 'Español (MX)', currency: 'MXN', flagLink: 'https://flagcdn.com/mx.svg' },
 
     // Bahasa Portugis
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'pt' ganda bersama 'pt-BR'.
-    { code: 'br', htmlLangCode: 'pt-BR', name: 'Português (BR)', currency: 'BRL', flagLink: 'https://flagcdn.com/br.svg' },
+    { code: 'br', htmlLangCode: 'pt-BR', name: 'Português (BR)', currency: 'BRL', flagLink: 'https://flagcdn.com/br.svg', defaultForLanguage: true },
 
     // Bahasa Lainnya (Pastikan 'code' dan 'htmlLangCode' selalu konsisten)
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'pl' ganda bersama 'pl-PL'.
-    { code: 'pl', htmlLangCode: 'pl-PL', name: 'Polski', currency: 'PLN', flagLink: 'https://flagcdn.com/pl.svg' },
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'bg' ganda bersama 'bg-BG'.
-    { code: 'bg', htmlLangCode: 'bg-BG', name: 'Български', currency: 'BGN', flagLink: 'https://flagcdn.com/bg.svg' },
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'th' ganda bersama 'th-TH'.
-    { code: 'th', htmlLangCode: 'th-TH', name: 'ไทย', currency: 'THB', flagLink: 'https://flagcdn.com/th.svg' },
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'uk' ganda bersama 'uk-UA'.
-    { code: 'uk', htmlLangCode: 'uk-UA', name: 'Українська', currency: 'UAH', flagLink: 'https://flagcdn.com/ua.svg' },
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'cs' ganda bersama 'cs-CZ'.
-    { code: 'cz', htmlLangCode: 'cs-CZ', name: 'Čeština', currency: 'CZK', flagLink: 'https://flagcdn.com/cz.svg' },
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'da' ganda bersama 'da-DK'.
-    { code: 'da', htmlLangCode: 'da-DK', name: 'Dansk', currency: 'DKK', flagLink: 'https://flagcdn.com/dk.svg' },
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'no' ganda bersama 'no-NO'.
-    { code: 'no', htmlLangCode: 'no-NO', name: 'Norsk', currency: 'NOK', flagLink: 'https://flagcdn.com/no.svg' },
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'sv' ganda bersama 'sv-SE'.
-    { code: 'sv', htmlLangCode: 'sv-SE', name: 'Svenska', currency: 'SEK', flagLink: 'https://flagcdn.com/se.svg' },
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'ro' ganda bersama 'ro-RO'.
-    { code: 'ro', htmlLangCode: 'ro-RO', name: 'Română', currency: 'RON', flagLink: 'https://flagcdn.com/ro.svg' },
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'tr' ganda bersama 'tr-TR'.
-    { code: 'tr', htmlLangCode: 'tr-TR', name: 'Türkçe', currency: 'TRY', flagLink: 'https://flagcdn.com/tr.svg' },
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'ms' ganda bersama 'ms-MY'.
-    { code: 'ms', htmlLangCode: 'ms-MY', name: 'Bahasa Melayu', currency: 'MYR', flagLink: 'https://flagcdn.com/my.svg' },
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'ru' ganda bersama 'ru-RU'.
-    { code: 'ru', htmlLangCode: 'ru-RU', name: 'Русский', currency: 'RUB', flagLink: 'https://flagcdn.com/ru.svg' },
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'id' ganda bersama 'id-ID'.
-    { code: 'id', htmlLangCode: 'id-ID', name: 'Bahasa Indonesia', currency: 'IDR', flagLink: 'https://flagcdn.com/id.svg' },
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'he' ganda bersama 'he-IL'.
-    { code: 'il', htmlLangCode: 'he-IL', name: 'עברית', currency: 'ILS', flagLink: 'https://flagcdn.com/il.svg' },
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'ko' ganda bersama 'ko-KR'.
-    { code: 'kr', htmlLangCode: 'ko-KR', name: '한국어', currency: 'KRW', flagLink: 'https://flagcdn.com/kr.svg' },
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'ja' ganda bersama 'ja-JP'.
-    { code: 'jp', htmlLangCode: 'ja-JP', name: 'Japanese', currency: 'JPY', flagLink: 'https://flagcdn.com/jp.svg' },
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'fr' ganda bersama 'fr-FR'.
-    { code: 'fr', htmlLangCode: 'fr-FR', name: 'Français', currency: 'EUR', flagLink: 'https://flagcdn.com/fr.svg' },
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'it' ganda bersama 'it-IT'.
-    { code: 'it', htmlLangCode: 'it-IT', name: 'Italiano', currency: 'EUR', flagLink: 'https://flagcdn.com/it.svg' },
-    // PERBAIKAN: Menghapus 'defaultForLanguage: true' untuk menghindari deklarasi hreflang 'nl' ganda bersama 'nl-NL'.
-    { code: 'nl', htmlLangCode: 'nl-NL', name: 'Nederlands', currency: 'EUR', flagLink: 'https://flagcdn.com/nl.svg' },
+    { code: 'pl', htmlLangCode: 'pl-PL', name: 'Polski', currency: 'PLN', flagLink: 'https://flagcdn.com/pl.svg', defaultForLanguage: true },
+    { code: 'bg', htmlLangCode: 'bg-BG', name: 'Български', currency: 'BGN', flagLink: 'https://flagcdn.com/bg.svg', defaultForLanguage: true }, // Dikembalikan ke true
+    { code: 'th', htmlLangCode: 'th-TH', name: 'ไทย', currency: 'THB', flagLink: 'https://flagcdn.com/th.svg', defaultForLanguage: true },
+    { code: 'uk', htmlLangCode: 'uk-UA', name: 'Українська', currency: 'UAH', flagLink: 'https://flagcdn.com/ua.svg', defaultForLanguage: true },
+    { code: 'cz', htmlLangCode: 'cs-CZ', name: 'Čeština', currency: 'CZK', flagLink: 'https://flagcdn.com/cz.svg', defaultForLanguage: true },
+    { code: 'da', htmlLangCode: 'da-DK', name: 'Dansk', currency: 'DKK', flagLink: 'https://flagcdn.com/da.svg', defaultForLanguage: true },
+    { code: 'no', htmlLangCode: 'no-NO', name: 'Norsk', currency: 'NOK', flagLink: 'https://flagcdn.com/no.svg', defaultForLanguage: true },
+    { code: 'sv', htmlLangCode: 'sv-SE', name: 'Svenska', currency: 'SEK', flagLink: 'https://flagcdn.com/se.svg', defaultForLanguage: true },
+    { code: 'ro', htmlLangCode: 'ro-RO', name: 'Română', currency: 'RON', flagLink: 'https://flagcdn.com/ro.svg', defaultForLanguage: true },
+    { code: 'tr', htmlLangCode: 'tr-TR', name: 'Türkçe', currency: 'TRY', flagLink: 'https://flagcdn.com/tr.svg', defaultForLanguage: true },
+    { code: 'ms', htmlLangCode: 'ms-MY', name: 'Bahasa Melayu', currency: 'MYR', flagLink: 'https://flagcdn.com/my.svg', defaultForLanguage: true }, // Dikembalikan ke true
+    { code: 'ru', htmlLangCode: 'ru-RU', name: 'Русский', currency: 'RUB', flagLink: 'https://flagcdn.com/ru.svg', defaultForLanguage: true },
+    { code: 'id', htmlLangCode: 'id-ID', name: 'Bahasa Indonesia', currency: 'IDR', flagLink: 'https://flagcdn.com/id.svg', defaultForLanguage: true },
+    { code: 'il', htmlLangCode: 'he-IL', name: 'עברית', currency: 'ILS', flagLink: 'https://flagcdn.com/il.svg', defaultForLanguage: true },
+    { code: 'kr', htmlLangCode: 'ko-KR', name: '한국어', currency: 'KRW', flagLink: 'https://flagcdn.com/kr.svg', defaultForLanguage: true },
+    { code: 'jp', htmlLangCode: 'ja-JP', name: 'Japanese', currency: 'JPY', flagLink: 'https://flagcdn.com/jp.svg', defaultForLanguage: true },
+    { code: 'fr', htmlLangCode: 'fr-FR', name: 'Français', currency: 'EUR', flagLink: 'https://flagcdn.com/fr.svg', defaultForLanguage: true },
+    { code: 'it', htmlLangCode: 'it-IT', name: 'Italiano', currency: 'EUR', flagLink: 'https://flagcdn.com/it.svg', defaultForLanguage: true },
+    { code: 'nl', htmlLangCode: 'nl-NL', name: 'Nederlands', currency: 'EUR', flagLink: 'https://flagcdn.com/nl.svg', defaultForLanguage: true },
 ];
 
 // Helper untuk menemukan konfigurasi default per bahasa generik (misal 'en' -> 'us')
 export const defaultLanguageMap = new Map();
 i18nConfig.forEach(config => {
-    // Logika ini akan tetap berfungsi jika 'defaultForLanguage' masih ada pada beberapa entri
-    // yang memang memerlukannya untuk tujuan selain hreflang duplikasi (misalnya middleware redirect).
     if (config.defaultForLanguage) {
         defaultLanguageMap.set(config.htmlLangCode.split('-')[0].toLowerCase(), config.code);
     }
