@@ -5,16 +5,27 @@ name: Deploy to Firebase Hosting on merge
 on:
   push:
     branches:
-      - main
+      - main # Pastikan ini nama branch utama repositori GitHub kamu (misal: 'master')
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: yarn install --frozen-lockfile && yarn build
+      - run: | # Ini adalah blok multi-baris untuk menjalankan perintah
+          # Set environment variables untuk proses build Next.js (diambil dari GitHub Secrets)
+          DATABASE_URL_SUBTLE_CUSCUS=${{ secrets.DATABASE_URL_SUBTLE_CUSCUS }} \
+          AGODA_API_URL=${{ secrets.AGODA_API_URL }} \
+          AGODA_SITE_ID=${{ secrets.AGODA_SITE_ID }} \
+          AGODA_API_KEY=${{ secrets.AGODA_API_KEY }} \
+          NEXT_PUBLIC_API_BASE_URL=${{ secrets.NEXT_PUBLIC_API_BASE_URL }} \
+          # Jalankan instalasi dependensi dan proses build Next.js
+          yarn install --frozen-lockfile && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_UBENG_A14EA }}
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_UBENG_A14EA }}' # Pastikan nama secret ini benar
           channelId: live
-          projectId: ubeng-a14ea
+          projectId: ubeng-a14ea # Pastikan ID proyek Firebase kamu benar
+        env: # Bagian ini untuk mengaktifkan fitur eksperimen 'webframeworks'
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
