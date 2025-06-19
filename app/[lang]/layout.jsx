@@ -60,7 +60,7 @@ export default async function RootLayout({ children, params }) {
   console.log('Layout: Footer section of dictionary (sample):', dictionary?.footer?.copyright);
 
   // === HREFLANG GENERATOR ===
-  const slugPath = params?.slug?.join('/') || ''; // adjust for dynamic segments
+  const slugPath = params?.slug?.join('/') || ''; // sesuaikan untuk segmen dinamis
   const hreflangLinks = i18nConfig.map((config) => {
     const langHref = `https://hoteloza.com/${config.code}/${slugPath}`;
     return (
@@ -73,7 +73,34 @@ export default async function RootLayout({ children, params }) {
     );
   });
 
-  // Optional: Add x-default
+  // Tambahkan tautan bahasa yang tidak bergantung pada wilayah
+  const uniqueLanguages = [...new Set(i18nConfig.map(config => config.language))];
+  uniqueLanguages.forEach(lang => {
+    // Temukan slug default untuk bahasa ini, prioritaskan 'us' untuk 'en'
+    let langCodeForSlug = i18nConfig.find(config => config.language === lang && config.code === lang)?.code;
+    if (!langCodeForSlug && lang === 'en') {
+      langCodeForSlug = 'us'; // Fallback untuk bahasa Inggris ke 'us' jika tidak ada slug 'en' langsung
+    }
+    if (!langCodeForSlug) {
+        // Fallback ke slug pertama yang tersedia untuk bahasa itu jika tidak ada kecocokan langsung atau 'us' untuk 'en'
+        langCodeForSlug = i18nConfig.find(config => config.language === lang)?.code;
+    }
+
+    if (langCodeForSlug) {
+      const langHref = `https://hoteloza.com/${langCodeForSlug}/${slugPath}`;
+      hreflangLinks.push(
+        <link
+          key={lang} // Gunakan kode bahasa sebagai key
+          rel="alternate"
+          hrefLang={lang} // Ini adalah hreflang khusus bahasa
+          href={langHref}
+        />
+      );
+    }
+  });
+
+
+  // Opsional: Tambahkan x-default
   hreflangLinks.push(
     <link
       key="x-default"
