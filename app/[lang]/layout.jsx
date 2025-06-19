@@ -2,7 +2,8 @@
 import ClientProviders from "@/components/ClientProviders";
 import { getdictionary } from '@/dictionaries/get-dictionary';
 import { headers } from 'next/headers';
-import { locales, defaultLocale, i18nConfig, defaultHtmlLang } from '@/config/i18n';
+// Import defaultLocale dan defaultHtmlLang langsung dari i18n
+import { i18nConfig, defaultLocale, defaultHtmlLang, defaultLanguageMap } from '@/config/i18n';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "swiper/css";
@@ -22,30 +23,24 @@ export default async function RootLayout({ children, params }) {
   let determinedHtmlLang = defaultHtmlLang;
   let initialLangSlugForDictionary = defaultLocale;
 
+  // Logika penentuan bahasa HTML dan dictionary tetap sama,
+  // memastikan bahwa fallback ke defaultLocale jika slug tidak valid.
   if (urlLangSlug) {
     const configByUrlSlug = i18nConfig.find(config => config.code === urlLangSlug);
     if (configByUrlSlug) {
       determinedHtmlLang = configByUrlSlug.htmlLangCode;
       initialLangSlugForDictionary = configByUrlSlug.code;
     } else {
+      // Jika URL slug tidak valid, fallback ke defaultLocale
       determinedHtmlLang = defaultHtmlLang;
       initialLangSlugForDictionary = defaultLocale;
     }
   } else {
-    const browserLangPref = acceptLanguage.split(',')[0].split('-')[0].toLowerCase();
-    const matchedBrowserLangConfig = i18nConfig.find(config =>
-      config.localeCode.startsWith(browserLangPref) ||
-      config.language === browserLangPref ||
-      config.code === browserLangPref // Ini juga bisa jadi masalah jika ada 'en' generik dan 'en-us'
-                                     // Perlu prioritas jika ada keduanya. Untuk saat ini, asumsikan aman.
-    );
-    if (matchedBrowserLangConfig) {
-      determinedHtmlLang = matchedBrowserLangConfig.htmlLangCode;
-      initialLangSlugForDictionary = matchedBrowserLangConfig.code;
-    } else {
-      determinedHtmlLang = defaultHtmlLang;
-      initialLangSlugForDictionary = defaultLocale;
-    }
+    // Ini seharusnya dihandle oleh middleware, jadi jika sampai sini tanpa slug,
+    // berarti ini adalah permintaan root yang belum dialihkan.
+    // Kita akan gunakan defaultLocale untuk dictionary.
+    determinedHtmlLang = defaultHtmlLang;
+    initialLangSlugForDictionary = defaultLocale;
   }
 
   console.log('--- Layout Render Start ---');
@@ -61,38 +56,59 @@ export default async function RootLayout({ children, params }) {
   console.log('Layout: Footer section of dictionary (sample):', dictionary?.footer?.copyright);
 
   // === HREFLANG GENERATOR ===
-  const slugPath = params?.slug?.join('/') || ''; // adjust for dynamic segments
-  const hreflangLinks = i18nConfig.map((config) => {
-    // Tentukan slug URL yang sebenarnya untuk hreflang
-    // Gunakan config.defaultRoute jika ada, jika tidak, gunakan config.code
-    const targetSlug = config.defaultRoute || config.code;
-    const langHref = `https://hoteloza.com/${targetSlug}/${slugPath}`; // Gunakan targetSlug di sini
+  const slugPath = params?.slug?.join('/') || '';
 
+  const hreflangLinks = i18nConfig.map((config) => {
+    // 'code' di i18nConfig kini adalah slug URL kanonis
+    const langHref = `https://hoteloza.com/${config.code}/${slugPath}`;
     return (
       <link
-        key={config.htmlLangCode} // Gunakan htmlLangCode sebagai key unik
+        key={config.code} // Gunakan code sebagai key unik
         rel="alternate"
-        hrefLang={config.htmlLangCode} // Ini adalah nilai untuk atribut hreflang
-        href={langHref} // Ini adalah URL yang mengarah ke halaman yang benar
+        hrefLang={config.htmlLangCode} // Ini adalah atribut hreflang (e.g., en-US, ar-SA)
+        href={langHref} // Ini adalah URL yang mengarah ke halaman yang benar (e.g., /us/, /sa/)
       />
     );
   });
 
-  // Optional: Add x-default
-  // Pastikan x-default mengarah ke defaultLocale yang benar dan tidak dialihkan
-  // Jika defaultLocale Anda (misalnya 'us') adalah target akhir untuk x-default,
-  // maka tidak perlu perubahan di sini.
-  // Jika defaultLocale adalah 'en' (generik) dan dialihkan ke 'us',
-  // maka x-default harus menunjuk ke 'us'
-  const xDefaultConfig = i18nConfig.find(config => config.code === defaultLocale);
-  const xDefaultTargetSlug = xDefaultConfig?.defaultRoute || defaultLocale;
+  // Tambahkan tag hreflang generik (misal: hreflang="en" -> /us/)
+  // Ini penting agar Google tahu bahwa /us/ adalah representasi untuk bahasa Inggris secara umum juga.
+  // Hanya tambahkan jika ada entri defaultForLanguage.
+  defaultLanguageMap.forEach((canonicalSlug, langCode) => {
+    // Cek apakah sudah ada tag hreflang spesifik untuk bahasa ini (misal en-US)
+    // Jika htmlLangCode dari config.code (ex: us) adalah en-US, maka hreflang="en-US" sudah ada.
+    // Kita ingin menambahkan hreflang="en" yang menunjuk ke lokasi yang sama.
+    const hasSpecificHreflang = hreflangLinks.some(link => link.props.hrefLang === langCode);
+
+    // Pastikan tidak menambahkan duplikat hreflang (e.g., hreflang="en" jika sudah ada hreflang="en")
+    // Dan pastikan ini adalah untuk bahasa generik (misal 'en', 'ar')
+    if (!hasSpecificHreflang && langCode.includes('-') === false) { // Pastikan langCode ini adalah bahasa generik (misal 'en')
+      const targetConfig = i18nConfig.find(config => config.code === canonicalSlug);
+      if (targetConfig) {
+         hreflangLinks.push(
+            <link
+                key={`generic-${langCode}`}
+                rel="alternate"
+                hrefLang={langCode} // Atribut hreflang generik (misal: en, ar)
+                href={`https://hoteloza.com/${targetConfig.code}/${slugPath}`} // URL kanonisnya
+            />
+         );
+      }
+    }
+  });
+
+
+  // Tambahkan x-default
+  // x-default harus menunjuk ke URL defaultLocale yang kanonis (misal /us/)
+  const defaultLocaleConfig = i18nConfig.find(config => config.code === defaultLocale);
+  const xDefaultHref = `https://hoteloza.com/${defaultLocaleConfig.code}/${slugPath}`;
 
   hreflangLinks.push(
     <link
       key="x-default"
       rel="alternate"
       hrefLang="x-default"
-      href={`https://hoteloza.com/${xDefaultTargetSlug}/${slugPath}`}
+      href={xDefaultHref}
     />
   );
 
