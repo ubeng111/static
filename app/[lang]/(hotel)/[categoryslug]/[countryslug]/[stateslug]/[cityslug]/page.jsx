@@ -2,7 +2,7 @@
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
-import { getdictionary } from '@/dictionaries/get-dictionary'; // Menggunakan alias
+import { getdictionary } from '@/public/dictionaries/get-dictionary'; // Menggunakan alias
 
 // Helper function to sanitize slugs
 const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');

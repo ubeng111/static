@@ -1,4 +1,5 @@
 // app/layout.jsx
+
 import ClientProviders from "@/components/ClientProviders";
 import { getdictionary } from '@/dictionaries/get-dictionary';
 import { headers } from 'next/headers';
@@ -22,23 +23,21 @@ export default async function RootLayout({ children, params }) {
   let determinedHtmlLang = defaultHtmlLang;
   let initialLangSlugForDictionary = defaultLocale;
 
-  if (urlLangSlug) {
-    const configByUrlSlug = i18nConfig.find(config => config.code === urlLangSlug);
-    if (configByUrlSlug) {
-      determinedHtmlLang = configByUrlSlug.htmlLangCode;
-      initialLangSlugForDictionary = configByUrlSlug.code;
-    } else {
-      // Jika urlLangSlug tidak valid, fallback ke default
-      determinedHtmlLang = defaultHtmlLang;
-      initialLangSlugForDictionary = defaultLocale;
-    }
+  // Cek apakah urlLangSlug adalah kode bahasa yang valid dari i18nConfig
+  const configByUrlSlug = i18nConfig.find(config => config.code === urlLangSlug);
+
+  if (configByUrlSlug) { // Jika urlLangSlug valid
+    determinedHtmlLang = configByUrlSlug.htmlLangCode;
+    initialLangSlugForDictionary = configByUrlSlug.code;
   } else {
-    // Jika tidak ada urlLangSlug (misal di root path '/'), gunakan default
+    // Jika urlLangSlug tidak ada atau tidak valid (misal 'img'), fallback ke default
     determinedHtmlLang = defaultHtmlLang;
     initialLangSlugForDictionary = defaultLocale;
   }
 
   console.log('--- Layout Render Start ---');
+  console.log('Layout: Full params object:', params); // Log seluruh objek params
+  console.log('Layout: Raw params.slug:', params?.slug); // Log array slug mentah
   console.log('Layout: URL Lang Slug from params:', urlLangSlug);
   console.log('Layout: Accept-Language Header (raw):', acceptLanguage);
   console.log('Layout: Determined HTML Lang (for <html> lang attribute):', determinedHtmlLang);
@@ -54,7 +53,9 @@ export default async function RootLayout({ children, params }) {
   const slugPath = params?.slug?.join('/') || '';
   const baseUrl = 'https://hoteloza.com';
 
-  const hreflangMap = new Map(); // Map<hreflangCode, url>
+  console.log('Hreflang Generator: Generated slugPath:', slugPath);
+
+  const hreflangMap = new Map();
 
   // Tambahkan semua hreflang yang mungkin
   i18nConfig.forEach((config) => {
@@ -65,7 +66,6 @@ export default async function RootLayout({ children, params }) {
     hreflangMap.set(config.htmlLangCode, langHref);
 
     // Jika ini adalah default untuk bahasanya, tambahkan juga hreflang generik
-    // kecuali jika hreflang generik sudah ditambahkan untuk URL yang sama
     if (config.defaultForLanguage) {
       if (!hreflangMap.has(genericLangCode) || hreflangMap.get(genericLangCode) !== langHref) {
         hreflangMap.set(genericLangCode, langHref);
@@ -78,7 +78,8 @@ export default async function RootLayout({ children, params }) {
   const xDefaultHref = `${baseUrl}/${defaultLocaleConfig.code}${slugPath ? `/${slugPath}` : ''}`;
   hreflangMap.set("x-default", xDefaultHref);
 
-  // Konversi Map menjadi array elemen <link>
+  console.log('Hreflang Generator: Final hreflangMap:', Object.fromEntries(hreflangMap));
+
   const hreflangLinks = Array.from(hreflangMap.entries()).map(([hreflangCode, hrefUrl]) => (
     <link
       key={hreflangCode}

@@ -6,7 +6,7 @@ import path from 'path';
 import 'dotenv/config';
 import LandmarkClient from './LandmarkClient';
 import Script from 'next/script';
-import { getdictionary } from '@/dictionaries/get-dictionary'; // Menggunakan alias
+import { getdictionary } from '@/public/dictionaries/get-dictionary'; // Menggunakan alias
 
 export const dynamic = 'force-dynamic';
 

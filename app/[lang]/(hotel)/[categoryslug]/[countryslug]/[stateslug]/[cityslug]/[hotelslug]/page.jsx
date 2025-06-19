@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import BookNow from '@/components/hotel-single/BookNow';
 import ClientPage from './ClientPage'; // Ini adalah Client Component yang berisi UI
 import Script from 'next/script';
-import { getdictionary } from '@/dictionaries/get-dictionary';
+import { getdictionary } from '@/public/dictionaries/get-dictionary';
 
 // Helper function to format slugs for display purposes
 const formatSlug = (slug) =>

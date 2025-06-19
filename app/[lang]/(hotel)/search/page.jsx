@@ -1,7 +1,7 @@
 // app/search/page.jsx
 import { Suspense } from 'react';
 import SearchClient from './SearchClient';
-import { getdictionary } from '@/dictionaries/get-dictionary'; // Import getdictionary
+import { getdictionary } from '@/public/dictionaries/get-dictionary'; // Import getdictionary
 
 export const dynamic = 'force-dynamic'; // Force dynamic rendering to handle query parameters
 
