@@ -1,7 +1,7 @@
 import ClientProviders from "@/components/ClientProviders";
 import { getdictionary } from '@/dictionaries/get-dictionary';
 import { headers } from 'next/headers';
-import { i18nConfig, defaultLocale, defaultHtmlLang } from '@/config/i18n';
+import { i18nConfig, defaultLocale, defaultHtmlLang, defaultLanguageMap } from '@/config/i18n'; // Import defaultLanguageMap
 import "bootstrap/dist/css/bootstrap.min.css";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -29,7 +29,7 @@ export default async function RootLayout({ children, params }) {
   // Muat dictionary lokal
   const dictionary = await getdictionary(initialLangSlugForDictionary);
 
-  // === HREFLANG LOGIC YANG DIPERBARUI ===
+  // === HREFLANG LOGIC (KEMBALI KE MENGATASI "MISSING REGION-INDEPENDENT LINK") ===
   const baseUrl = 'https://hoteloza.com';
 
   // Ambil path final dari header
@@ -42,20 +42,22 @@ export default async function RootLayout({ children, params }) {
 
   // Iterasi melalui semua konfigurasi bahasa yang tersedia
   i18nConfig.forEach((config) => {
-    // Bangun URL lengkap untuk setiap alternatif bahasa
     const langHref = `${baseUrl}/${config.code}${finalSlugPath ? `/${finalSlugPath}` : ''}`;
     
-    // Tambahkan hreflang menggunakan htmlLangCode yang paling spesifik (contoh: 'en-US', 'ar-SA', 'bg-BG').
-    // Ini secara langsung mengatasi masalah duplikasi dengan tag hreflang generik (seperti 'en', 'ar', 'bg')
-    // karena kita hanya menyertakan tag spesifik.
+    // 1. Selalu tambahkan hreflang menggunakan htmlLangCode yang paling spesifik (contoh: 'en-US', 'ar-SA', 'bg-BG').
     hreflangMap.set(config.htmlLangCode, langHref);
 
-    // CATATAN: Logika sebelumnya yang menambahkan versi generik (seperti 'en' dari 'en-US')
-    // jika `defaultForLanguage` adalah true telah DIHAPUS.
-    // Ini adalah sumber masalah 'dobel lang' dan tidak diperlukan jika tujuan utama adalah
-    // untuk menyediakan hreflang yang jelas dan spesifik per URL.
-    // Properti 'defaultForLanguage' di i18nConfig tetap ada dan bisa digunakan
-    // untuk tujuan lain (misalnya, logika middleware untuk pengalihan generik).
+    // 2. Jika 'defaultForLanguage' adalah true, tambahkan juga versi generik bahasa tersebut (contoh: 'en', 'ar', 'bg').
+    //    Ini yang akan mengatasi peringatan "Missing region-independent link".
+    //    Namun, perlu diingat ini kemungkinan akan mengembalikan peringatan "dobel lang" di tool SEO Anda,
+    //    karena tool tersebut mungkin menganggap kombinasi spesifik dan generik sebagai duplikasi.
+    if (config.defaultForLanguage) {
+      const genericLangCode = config.htmlLangCode.split('-')[0].toLowerCase();
+      // Hanya tambahkan jika versi generik belum ada di peta (untuk menghindari duplikasi di dalam peta itu sendiri)
+      if (!hreflangMap.has(genericLangCode)) {
+        hreflangMap.set(genericLangCode, langHref);
+      }
+    }
   });
 
   // Tambahkan x-default yang menunjuk ke URL default (biasanya bahasa Inggris US)

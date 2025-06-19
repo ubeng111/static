@@ -47,16 +47,16 @@ export const i18nConfig = [
 
     // Bahasa Lainnya (Pastikan 'code' dan 'htmlLangCode' selalu konsisten)
     { code: 'pl', htmlLangCode: 'pl-PL', name: 'Polski', currency: 'PLN', flagLink: 'https://flagcdn.com/pl.svg', defaultForLanguage: true },
-    { code: 'bg', htmlLangCode: 'bg-BG', name: 'Български', currency: 'BGN', flagLink: 'https://flagcdn.com/bg.svg', defaultForLanguage: true }, // Dikembalikan ke true
+    { code: 'bg', htmlLangCode: 'bg-BG', name: 'Български', currency: 'BGN', flagLink: 'https://flagcdn.com/bg.svg', defaultForLanguage: true },
     { code: 'th', htmlLangCode: 'th-TH', name: 'ไทย', currency: 'THB', flagLink: 'https://flagcdn.com/th.svg', defaultForLanguage: true },
     { code: 'uk', htmlLangCode: 'uk-UA', name: 'Українська', currency: 'UAH', flagLink: 'https://flagcdn.com/ua.svg', defaultForLanguage: true },
     { code: 'cz', htmlLangCode: 'cs-CZ', name: 'Čeština', currency: 'CZK', flagLink: 'https://flagcdn.com/cz.svg', defaultForLanguage: true },
-    { code: 'da', htmlLangCode: 'da-DK', name: 'Dansk', currency: 'DKK', flagLink: 'https://flagcdn.com/da.svg', defaultForLanguage: true },
+    { code: 'da', htmlLangCode: 'da-DK', name: 'Dansk', currency: 'DKK', flagLink: 'https://flagcdn.com/dk.svg', defaultForLanguage: true },
     { code: 'no', htmlLangCode: 'no-NO', name: 'Norsk', currency: 'NOK', flagLink: 'https://flagcdn.com/no.svg', defaultForLanguage: true },
     { code: 'sv', htmlLangCode: 'sv-SE', name: 'Svenska', currency: 'SEK', flagLink: 'https://flagcdn.com/se.svg', defaultForLanguage: true },
     { code: 'ro', htmlLangCode: 'ro-RO', name: 'Română', currency: 'RON', flagLink: 'https://flagcdn.com/ro.svg', defaultForLanguage: true },
     { code: 'tr', htmlLangCode: 'tr-TR', name: 'Türkçe', currency: 'TRY', flagLink: 'https://flagcdn.com/tr.svg', defaultForLanguage: true },
-    { code: 'ms', htmlLangCode: 'ms-MY', name: 'Bahasa Melayu', currency: 'MYR', flagLink: 'https://flagcdn.com/my.svg', defaultForLanguage: true }, // Dikembalikan ke true
+    { code: 'ms', htmlLangCode: 'ms-MY', name: 'Bahasa Melayu', currency: 'MYR', flagLink: 'https://flagcdn.com/my.svg', defaultForLanguage: true },
     { code: 'ru', htmlLangCode: 'ru-RU', name: 'Русский', currency: 'RUB', flagLink: 'https://flagcdn.com/ru.svg', defaultForLanguage: true },
     { code: 'id', htmlLangCode: 'id-ID', name: 'Bahasa Indonesia', currency: 'IDR', flagLink: 'https://flagcdn.com/id.svg', defaultForLanguage: true },
     { code: 'il', htmlLangCode: 'he-IL', name: 'עברית', currency: 'ILS', flagLink: 'https://flagcdn.com/il.svg', defaultForLanguage: true },
