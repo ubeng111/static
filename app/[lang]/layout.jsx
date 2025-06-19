@@ -36,7 +36,8 @@ export default async function RootLayout({ children, params }) {
     const matchedBrowserLangConfig = i18nConfig.find(config =>
       config.localeCode.startsWith(browserLangPref) ||
       config.language === browserLangPref ||
-      config.code === browserLangPref
+      config.code === browserLangPref // Ini juga bisa jadi masalah jika ada 'en' generik dan 'en-us'
+                                     // Perlu prioritas jika ada keduanya. Untuk saat ini, asumsikan aman.
     );
     if (matchedBrowserLangConfig) {
       determinedHtmlLang = matchedBrowserLangConfig.htmlLangCode;
@@ -62,24 +63,36 @@ export default async function RootLayout({ children, params }) {
   // === HREFLANG GENERATOR ===
   const slugPath = params?.slug?.join('/') || ''; // adjust for dynamic segments
   const hreflangLinks = i18nConfig.map((config) => {
-    const langHref = `https://hoteloza.com/${config.code}/${slugPath}`;
+    // Tentukan slug URL yang sebenarnya untuk hreflang
+    // Gunakan config.defaultRoute jika ada, jika tidak, gunakan config.code
+    const targetSlug = config.defaultRoute || config.code;
+    const langHref = `https://hoteloza.com/${targetSlug}/${slugPath}`; // Gunakan targetSlug di sini
+
     return (
       <link
-        key={config.htmlLangCode}
+        key={config.htmlLangCode} // Gunakan htmlLangCode sebagai key unik
         rel="alternate"
-        hrefLang={config.htmlLangCode}
-        href={langHref}
+        hrefLang={config.htmlLangCode} // Ini adalah nilai untuk atribut hreflang
+        href={langHref} // Ini adalah URL yang mengarah ke halaman yang benar
       />
     );
   });
 
   // Optional: Add x-default
+  // Pastikan x-default mengarah ke defaultLocale yang benar dan tidak dialihkan
+  // Jika defaultLocale Anda (misalnya 'us') adalah target akhir untuk x-default,
+  // maka tidak perlu perubahan di sini.
+  // Jika defaultLocale adalah 'en' (generik) dan dialihkan ke 'us',
+  // maka x-default harus menunjuk ke 'us'
+  const xDefaultConfig = i18nConfig.find(config => config.code === defaultLocale);
+  const xDefaultTargetSlug = xDefaultConfig?.defaultRoute || defaultLocale;
+
   hreflangLinks.push(
     <link
       key="x-default"
       rel="alternate"
       hrefLang="x-default"
-      href={`https://hoteloza.com/${defaultLocale}/${slugPath}`}
+      href={`https://hoteloza.com/${xDefaultTargetSlug}/${slugPath}`}
     />
   );
 
