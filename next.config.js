@@ -27,18 +27,9 @@ const nextConfig = {
   },
   webpack: (config, { isServer }) => {
     config.resolve.alias['@components'] = path.join(__dirname, 'components');
+    // ... (rest of webpack config)
     return config;
   },
-
-  // === HAPUS BLOK I18N INI ===
-  // i18n: {
-  //   locales: [...new Set(i18nConfig.map(config => config.htmlLangCode))],
-  //   defaultLocale: defaultHtmlLang,
-  //   // localeDetection: false,
-  // },
-
-  // Pertahankan ini karena ini tetap relevan untuk App Router
-  trailingSlash: false, // Atau true, sesuai pilihan Anda
 };
 
 module.exports = nextConfig;

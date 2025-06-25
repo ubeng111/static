@@ -1,85 +1,73 @@
+// app/layout.jsx
 import ClientProviders from "@/components/ClientProviders";
 import { getdictionary } from '@/dictionaries/get-dictionary';
 import { headers } from 'next/headers';
-import { i18nConfig, defaultLocale, defaultHtmlLang, defaultLanguageMap } from '@/config/i18n';
-import "bootstrap/dist/css/bootstrap.min.css";
+import { locales, defaultLocale, i18nConfig, defaultHtmlLang } from '@/config/i18n'; 
+
+import "bootstrap/dist/css/bootstrap.min.css"; 
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/scrollbar";
 import "swiper/css/effect-cards";
 import "aos/dist/aos.css";
-import "@/styles/index.scss";
+import "@/styles/index.scss"; 
 
 export default async function RootLayout({ children, params }) {
   const headersList = headers();
-  const urlLangSlug = params?.lang || defaultLocale;
-  let determinedHtmlLang = defaultHtmlLang;
-  let initialLangSlugForDictionary = defaultLocale;
+  const acceptLanguage = await headersList.get('accept-language') || 'en-US';
+  
+  const urlLangSlug = params.lang; 
 
-  // Tentukan konfigurasi berdasarkan slug URL
-  const configByUrlSlug = i18nConfig.find(config => config.code === urlLangSlug);
-  if (configByUrlSlug) {
-    determinedHtmlLang = configByUrlSlug.htmlLangCode;
-    initialLangSlugForDictionary = configByUrlSlug.code;
+  let determinedHtmlLang = defaultHtmlLang; 
+  let initialLangSlugForDictionary = defaultLocale; 
+
+  if (urlLangSlug) {
+      const configByUrlSlug = i18nConfig.find(config => config.code === urlLangSlug);
+      if (configByUrlSlug) {
+          determinedHtmlLang = configByUrlSlug.htmlLangCode;
+          initialLangSlugForDictionary = configByUrlSlug.code; 
+      } else {
+          determinedHtmlLang = defaultHtmlLang;
+          initialLangSlugForDictionary = defaultLocale;
+      }
   } else {
-    console.warn(`[Layout Warn] Invalid urlLangSlug "${urlLangSlug}". Falling back to default locale: ${defaultLocale}`);
+      const browserLangPref = acceptLanguage.split(',')[0].split('-')[0].toLowerCase();
+      const matchedBrowserLangConfig = i18nConfig.find(config =>
+          config.localeCode.startsWith(browserLangPref) || config.language === browserLangPref || config.code === browserLangPref
+      );
+      if (matchedBrowserLangConfig) {
+          determinedHtmlLang = matchedBrowserLangConfig.htmlLangCode;
+          initialLangSlugForDictionary = matchedBrowserLangConfig.code; 
+      } else {
+          determinedHtmlLang = defaultHtmlLang;
+          initialLangSlugForDictionary = defaultLocale;
+      }
   }
 
-  // Muat dictionary lokal
+  console.log('--- Layout Render Start ---');
+  console.log('Layout: URL Lang Slug from params:', urlLangSlug);
+  console.log('Layout: Accept-Language Header (raw):', acceptLanguage);
+  console.log('Layout: Determined HTML Lang (for <html> lang attribute):', determinedHtmlLang);
+  console.log('Layout: Initial Lang Slug for Dictionary/ClientProviders:', initialLangSlugForDictionary);
+  console.log('--- Layout Render End ---');
+
   const dictionary = await getdictionary(initialLangSlugForDictionary);
 
-  // === HREFLANG LOGIC (KEMBALI KE MENGATASI "MISSING REGION-INDEPENDENT LINK") ===
-  const baseUrl = 'https://hoteloza.com';
-
-  // Ambil path final dari header
-  const normalizedPath = headersList.get('x-normalized-path') || `/${urlLangSlug}`;
-  const pathSegments = normalizedPath.split('/').filter(Boolean);
-  const finalSlugPath = pathSegments.length > 1 ? pathSegments.slice(1).join('/') : '';
-
-  // Bangun map untuk hreflang
-  const hreflangMap = new Map();
-
-  // Iterasi melalui semua konfigurasi bahasa yang tersedia
-  i18nConfig.forEach((config) => {
-    const langHref = `${baseUrl}/${config.code}${finalSlugPath ? `/${finalSlugPath}` : ''}`;
-    
-    // 1. Selalu tambahkan hreflang menggunakan htmlLangCode yang paling spesifik (contoh: 'en-US', 'ar-SA', 'bg-BG').
-    hreflangMap.set(config.htmlLangCode, langHref);
-
-    // 2. Jika 'defaultForLanguage' adalah true, tambahkan juga versi generik bahasa tersebut (contoh: 'en', 'ar', 'bg').
-    //    Ini yang akan mengatasi peringatan "Missing region-independent link".
-    if (config.defaultForLanguage) {
-      const genericLangCode = config.htmlLangCode.split('-')[0].toLowerCase();
-      // Hanya tambahkan jika versi generik belum ada di peta (untuk menghindari duplikasi di dalam peta itu sendiri)
-      if (!hreflangMap.has(genericLangCode)) {
-        hreflangMap.set(genericLangCode, langHref);
-      }
-    }
-  });
-
-  // Tambahkan x-default yang menunjuk ke URL default (biasanya bahasa Inggris US)
-  const xDefaultHref = `${baseUrl}/${defaultLocale}${finalSlugPath ? `/${finalSlugPath}` : ''}`;
-  hreflangMap.set("x-default", xDefaultHref);
-
-  // Render tag <link rel="alternate"> dari hreflangMap
-  const hreflangLinks = Array.from(hreflangMap.entries()).map(([hreflangCode, hrefUrl]) => (
-    <link key={hreflangCode} rel="alternate" hrefLang={hreflangCode} href={hrefUrl} />
-  ));
-
-  // --- Penambahan Tag Canonical ---
-  // Pastikan URL canonical menunjuk ke dirinya sendiri
-  const canonicalUrl = `${baseUrl}/${urlLangSlug}${finalSlugPath ? `/${finalSlugPath}` : ''}`;
+  console.log('Layout: Loaded dictionary for:', initialLangSlugForDictionary);
+  console.log('Layout: Footer section of dictionary (sample):', dictionary?.footer?.copyright);
 
   return (
     <html lang={determinedHtmlLang}>
       <head>
-        {hreflangLinks}
-        {/* Tag Canonical ditambahkan di sini */}
-        <link rel="canonical" href={canonicalUrl} />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <meta
+          name="google-site-verification"
+          content="2CUKI9cYViNxYurFPrRO39L2Qg9DHlUUu6mJsskuVg"
+        />
       </head>
       <body>
-        <ClientProviders dictionary={dictionary} initialLang={initialLangSlugForDictionary}>
+        <ClientProviders dictionary={dictionary} initialLangSlug={initialLangSlugForDictionary}>
           {children}
         </ClientProviders>
       </body>

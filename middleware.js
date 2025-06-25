@@ -1,52 +1,46 @@
 // middleware.js
 import { NextResponse } from 'next/server';
-import { i18nConfig, defaultLocale, defaultLanguageMap, locales } from './config/i18n';
+import { i18nConfig, defaultLocale } from './config/i18n';
 
-// Memetakan htmlLangCode (e.g., en-US) ke slug kanonisnya (e.g., us)
-const htmlLangCodeToSlugMap = new Map();
-i18nConfig.forEach(config => {
-  htmlLangCodeToSlugMap.set(config.htmlLangCode.toLowerCase(), config.code);
-});
+const validLangSlugs = i18nConfig.map(config => config.code);
 
 export function middleware(request) {
   const { pathname, search } = request.nextUrl;
 
-  // Lewati untuk aset statis, API, dll.
+  // Lewati semua internal path Next.js (_next), file statis (misalnya /favicon.ico),
+  // dan API routes
   if (pathname.startsWith('/_next') || pathname.includes('.') || pathname.startsWith('/api')) {
     return NextResponse.next();
   }
 
   const rawSegments = pathname.split('/').filter(Boolean);
-  const currentPathSlug = rawSegments.length > 0 ? rawSegments[0] : null;
-  const pureContentSegments = rawSegments.slice(1);
 
-  let targetCanonicalSlug = defaultLocale;
-  let redirectNeeded = false;
+  // Deklarasikan variabel sekali di awal fungsi
+  let targetLocale = defaultLocale;
+  let pureContentSegments = []; // Initial declaration
+  let foundInitialLocaleInPath = false;
 
+  // DEBUG: Log awal permintaan
   console.log('--- Middleware Request Start ---');
   console.log('Middleware: Original Pathname:', pathname);
-  console.log('Middleware: Current Path Slug:', currentPathSlug);
+  console.log('Middleware: Raw Segments:', rawSegments);
 
-  // 1. Tentukan slug kanonis berdasarkan slug di path, atau deteksi browser, atau default
-  if (currentPathSlug) {
-    if (locales.includes(currentPathSlug)) {
-      targetCanonicalSlug = currentPathSlug;
-      console.log(`Middleware: Slug '${currentPathSlug}' found in path and is canonical.`);
-    } else {
-      const possibleGenericSlug = currentPathSlug.toLowerCase();
-      if (defaultLanguageMap.has(possibleGenericSlug)) {
-        targetCanonicalSlug = defaultLanguageMap.get(possibleGenericSlug);
-        redirectNeeded = true;
-        console.log(`Middleware: Generic slug '${currentPathSlug}' in path. Redirecting to canonical: '${targetCanonicalSlug}'`);
-      } else {
-        targetCanonicalSlug = defaultLocale;
-        redirectNeeded = true;
-        console.log(`Middleware: Invalid/unknown slug '${currentPathSlug}' in path. Redirecting to default: '${targetCanonicalSlug}'`);
-      }
-    }
+  // 1. Coba deteksi locale dari URL path terlebih dahulu
+  if (rawSegments.length > 0 && validLangSlugs.includes(rawSegments[0])) {
+    targetLocale = rawSegments[0];
+    pureContentSegments = rawSegments.slice(1);
+    foundInitialLocaleInPath = true;
+    console.log('Middleware: Locale found in path:', targetLocale);
   } else {
+    // INI ADALAH PERBAIKANNYA: Tetapkan rawSegments ke pureContentSegments di sini
+    pureContentSegments = rawSegments; // <<< BARIS INI DITAMBAHKAN/DIPERBAIKI
+
+    // 2. Jika tidak ada locale di URL path, coba deteksi dari Accept-Language header
     const acceptLanguageHeader = request.headers.get('accept-language');
-    let preferredCanonicalSlugFromBrowser = null;
+    let initialTargetLocale = defaultLocale;
+
+    // DEBUG: Log Accept-Language header
+    console.log('Middleware: Accept-Language Header:', acceptLanguageHeader);
 
     if (acceptLanguageHeader) {
       const preferredLanguages = acceptLanguageHeader
@@ -57,50 +51,53 @@ export function middleware(request) {
           const q = parts.length > 1 ? parseFloat(parts[1].split('=')[1]) : 1.0;
           return { code, q };
         })
-        .sort((a, b) => b.q - a.q);
+        .sort((a, b) => b.q - a.q); // Urutkan berdasarkan kualitas secara menurun
 
+      // DEBUG: Log parsed preferred languages
       console.log('Middleware: Parsed Preferred Languages:', preferredLanguages);
 
       for (const browserPref of preferredLanguages) {
         const langCode = browserPref.code;
-        let matchedSlug = htmlLangCodeToSlugMap.get(langCode);
-        if (matchedSlug) {
-          preferredCanonicalSlugFromBrowser = matchedSlug;
-          console.log(`Middleware: Match by htmlLangCode: '${langCode}' -> '${preferredCanonicalSlugFromBrowser}'`);
-          break;
+
+        // Prioritas 1: Coba temukan kecocokan langsung dengan `localeCode` di i18nConfig
+        let matchedConfig = i18nConfig.find(config => config.localeCode === langCode);
+        if (matchedConfig) {
+          initialTargetLocale = matchedConfig.code; // Gunakan slug URL dari i18nConfig
+          console.log('Middleware: Match by localeCode:', langCode, '->', initialTargetLocale);
+          break; // Kecocokan terbaik ditemukan, gunakan ini
         }
-        const genericLangCode = langCode.split('-')[0].toLowerCase();
-        if (defaultLanguageMap.has(genericLangCode)) {
-          preferredCanonicalSlugFromBrowser = defaultLanguageMap.get(genericLangCode);
-          console.log(`Middleware: Match by generic language: '${genericLangCode}' -> '${preferredCanonicalSlugFromBrowser}'`);
-          break;
+
+        // Prioritas 2: Jika tidak ada kecocokan `localeCode` yang tepat, coba temukan berdasarkan `language` generik
+        const genericLang = langCode.split('-')[0];
+        matchedConfig = i18nConfig.find(config => config.language === genericLang);
+        if (matchedConfig) {
+          initialTargetLocale = matchedConfig.code; // Gunakan slug URL dari i18nConfig
+          console.log('Middleware: Match by generic language:', genericLang, '->', initialTargetLocale);
+          break; // Kecocokan ditemukan, gunakan ini
         }
       }
     }
-
-    if (preferredCanonicalSlugFromBrowser && preferredCanonicalSlugFromBrowser !== defaultLocale) {
-      targetCanonicalSlug = preferredCanonicalSlugFromBrowser;
-      redirectNeeded = true;
-      console.log(`Middleware: From root, browser preferred '${preferredCanonicalSlugFromBrowser}'. Redirecting.`);
-    } else {
-      targetCanonicalSlug = defaultLocale;
-      console.log(`Middleware: From root, using default locale '${targetCanonicalSlug}'. No redirect.`);
-    }
+    targetLocale = initialTargetLocale;
+    console.log('Middleware: Final determined targetLocale (after Accept-Language check):', targetLocale);
   }
 
-  // Bangun jalur URL yang dinormalisasi
-  const normalizedPathname = `/${targetCanonicalSlug}${pureContentSegments.length > 0 ? `/${pureContentSegments.join('/')}` : ''}`;
-  console.log('Middleware: Calculated Normalized Pathname:', normalizedPathname);
+  // Bangun jalur URL yang dinormalisasi: /{targetLocale}/{pureContentPath}
+  const normalizedPathname = `/${targetLocale}${pureContentSegments.length > 0 ? `/${pureContentSegments.join('/')}` : ''}`;
 
-  // Tambahkan header kustom untuk menyimpan normalizedPathname
-  const response = redirectNeeded ? NextResponse.redirect(new URL(`${normalizedPathname}${search}`, request.url)) : NextResponse.next();
-  response.headers.set('x-normalized-path', normalizedPathname);
+  // DEBUG: Log hasil normalisasi
+  console.log('Middleware: Normalized Pathname:', normalizedPathname);
+  console.log('Middleware: Should Redirect:', pathname !== normalizedPathname);
 
-  console.log('Middleware: Set x-normalized-path header:', normalizedPathname);
-  console.log('Middleware: Redirect Needed:', redirectNeeded);
-  console.log('--- Middleware Request End ---');
+  if (pathname !== normalizedPathname) {
+    const newUrl = new URL(`${normalizedPathname}${search}`, request.url);
+    console.log('Middleware: Redirecting to:', newUrl.toString());
+    console.log('--- Middleware Request End (Redirect) ---');
+    return NextResponse.redirect(newUrl);
+  }
 
-  return response;
+  console.log('Middleware: Continuing without redirect.');
+  console.log('--- Middleware Request End (Continue) ---');
+  return NextResponse.next();
 }
 
 export const config = {

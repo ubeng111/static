@@ -1,83 +1,42 @@
 // config/i18n.js
-
-// Definisi konfigurasi untuk setiap bahasa/wilayah.
-// Setiap entri mewakili sebuah LOKALISASI SPESIFIK DENGAN URL SLUG KANONISNYA.
-// Properti:
-// - code: SLUG URL kanonis untuk lokalisasi ini (misal: 'us', 'sa', 'id').
-//         Ini juga akan digunakan untuk `initialLangSlug` di ClientProviders dan nama folder dictionary.
-// - htmlLangCode: Nilai untuk atribut `lang` di tag <html> dan `hreflang` di tag <link rel="alternate">.
-//                 Harus sesuai dengan standar BCP 47 (misal: 'en-US', 'ar-SA', 'id').
-// - name: Nama deskriptif untuk lokalisasi (untuk UI).
-// - defaultForLanguage: Opsional. Gunakan 'true' jika lokalisasi ini adalah default
-//                       ketika hanya bahasa umum yang diminta (misal: 'en-US' adalah default untuk 'en').
-//                       Ini akan digunakan oleh middleware untuk pengalihan generik.
-// - currency: Mata uang default untuk lokalisasi ini.
-// - flagLink: Link ke ikon bendera.
-
+// Pastikan 'htmlLangCode' adalah kode BCP 47 yang valid untuk atribut 'lang' HTML
+// Mengikuti format: language-REGION (contoh: en-US, es-ES) atau hanya language (contoh: id, fr, de)
+// Jika localeCode adalah 'xx-yy', htmlLangCode cenderung 'xx-YY'.
+// Jika code adalah 'xx', htmlLangCode cenderung 'xx'.
 export const i18nConfig = [
-    // Bahasa Inggris
-    { code: 'us', htmlLangCode: 'en-US', name: 'English (US)', currency: 'USD', flagLink: 'https://flagcdn.com/us.svg', defaultForLanguage: true },
-    { code: 'gb', htmlLangCode: 'en-GB', name: 'English (UK)', currency: 'GBP', flagLink: 'https://flagcdn.com/gb.svg' },
-    { code: 'au', htmlLangCode: 'en-AU', name: 'English (AU)', currency: 'AUD', flagLink: 'https://flagcdn.com/au.svg' },
-    { code: 'ca', htmlLangCode: 'en-CA', name: 'English (CA)', currency: 'CAD', flagLink: 'https://flagcdn.com/ca.svg' },
-    { code: 'nz', htmlLangCode: 'en-NZ', name: 'English (NZ)', currency: 'NZD', flagLink: 'https://flagcdn.com/nz.svg' },
-    { code: 'sg', htmlLangCode: 'en-SG', name: 'English (SG)', currency: 'SGD', flagLink: 'https://flagcdn.com/sg.svg' },
-    { code: 'in', htmlLangCode: 'en-IN', name: 'English (IN)', currency: 'INR', flagLink: 'https://flagcdn.com/in.svg' },
-    { code: 'za', htmlLangCode: 'en-ZA', name: 'English (ZA)', currency: 'ZAR', flagLink: 'https://flagcdn.com/za.svg' },
-
-    // Bahasa Arab
-    { code: 'sa', htmlLangCode: 'ar-SA', name: 'العربية (السعودية)', currency: 'SAR', flagLink: 'https://flagcdn.com/sa.svg', defaultForLanguage: true }, // Default untuk bahasa Arab generik
-    { code: 'eg', htmlLangCode: 'ar-EG', name: 'العربية (مصر)', currency: 'EGP', flagLink: 'https://flagcdn.com/eg.svg' },
-
-    // Bahasa Cina
-    { code: 'cn', htmlLangCode: 'zh-CN', name: '中文 (简体)', currency: 'CNY', flagLink: 'https://flagcdn.com/cn.svg', defaultForLanguage: true }, // Default untuk bahasa Cina generik
-    { code: 'hk', htmlLangCode: 'zh-HK', name: '中文 (香港)', currency: 'HKD', flagLink: 'https://flagcdn.com/hk.svg' },
-    { code: 'tw', htmlLangCode: 'zh-TW', name: '中文 (台灣)', currency: 'TWD', flagLink: 'https://flagcdn.com/tw.svg' },
-
-    // Bahasa Jerman
-    { code: 'de', htmlLangCode: 'de-DE', name: 'Deutsch (DE)', currency: 'EUR', flagLink: 'https://flagcdn.com/de.svg', defaultForLanguage: true },
-    { code: 'ch', htmlLangCode: 'de-CH', name: 'Deutsch (CH)', currency: 'CHF', flagLink: 'https://flagcdn.com/ch.svg' },
-
-    // Bahasa Spanyol
-    { code: 'es', htmlLangCode: 'es-ES', name: 'Español (ES)', currency: 'EUR', flagLink: 'https://flagcdn.com/es.svg', defaultForLanguage: true },
-    { code: 'mx', htmlLangCode: 'es-MX', name: 'Español (MX)', currency: 'MXN', flagLink: 'https://flagcdn.com/mx.svg' },
-
-    // Bahasa Portugis
-    { code: 'br', htmlLangCode: 'pt-BR', name: 'Português (BR)', currency: 'BRL', flagLink: 'https://flagcdn.com/br.svg', defaultForLanguage: true },
-
-    // Bahasa Lainnya (Pastikan 'code' dan 'htmlLangCode' selalu konsisten)
-    { code: 'pl', htmlLangCode: 'pl-PL', name: 'Polski', currency: 'PLN', flagLink: 'https://flagcdn.com/pl.svg', defaultForLanguage: true },
-    { code: 'bg', htmlLangCode: 'bg-BG', name: 'Български', currency: 'BGN', flagLink: 'https://flagcdn.com/bg.svg', defaultForLanguage: true },
-    { code: 'th', htmlLangCode: 'th-TH', name: 'ไทย', currency: 'THB', flagLink: 'https://flagcdn.com/th.svg', defaultForLanguage: true },
-    { code: 'uk', htmlLangCode: 'uk-UA', name: 'Українська', currency: 'UAH', flagLink: 'https://flagcdn.com/ua.svg', defaultForLanguage: true },
-    { code: 'cz', htmlLangCode: 'cs-CZ', name: 'Čeština', currency: 'CZK', flagLink: 'https://flagcdn.com/cz.svg', defaultForLanguage: true },
-    { code: 'da', htmlLangCode: 'da-DK', name: 'Dansk', currency: 'DKK', flagLink: 'https://flagcdn.com/dk.svg', defaultForLanguage: true },
-    { code: 'no', htmlLangCode: 'no-NO', name: 'Norsk', currency: 'NOK', flagLink: 'https://flagcdn.com/no.svg', defaultForLanguage: true },
-    { code: 'sv', htmlLangCode: 'sv-SE', name: 'Svenska', currency: 'SEK', flagLink: 'https://flagcdn.com/se.svg', defaultForLanguage: true },
-    { code: 'ro', htmlLangCode: 'ro-RO', name: 'Română', currency: 'RON', flagLink: 'https://flagcdn.com/ro.svg', defaultForLanguage: true },
-    { code: 'tr', htmlLangCode: 'tr-TR', name: 'Türkçe', currency: 'TRY', flagLink: 'https://flagcdn.com/tr.svg', defaultForLanguage: true },
-    { code: 'ms', htmlLangCode: 'ms-MY', name: 'Bahasa Melayu', currency: 'MYR', flagLink: 'https://flagcdn.com/my.svg', defaultForLanguage: true },
-    { code: 'ru', htmlLangCode: 'ru-RU', name: 'Русский', currency: 'RUB', flagLink: 'https://flagcdn.com/ru.svg', defaultForLanguage: true },
-    { code: 'id', htmlLangCode: 'id-ID', name: 'Bahasa Indonesia', currency: 'IDR', flagLink: 'https://flagcdn.com/id.svg', defaultForLanguage: true },
-    { code: 'il', htmlLangCode: 'he-IL', name: 'עברית', currency: 'ILS', flagLink: 'https://flagcdn.com/il.svg', defaultForLanguage: true },
-    { code: 'kr', htmlLangCode: 'ko-KR', name: '한국어', currency: 'KRW', flagLink: 'https://flagcdn.com/kr.svg', defaultForLanguage: true },
-    { code: 'jp', htmlLangCode: 'ja-JP', name: 'Japanese', currency: 'JPY', flagLink: 'https://flagcdn.com/jp.svg', defaultForLanguage: true },
-    { code: 'fr', htmlLangCode: 'fr-FR', name: 'Français', currency: 'EUR', flagLink: 'https://flagcdn.com/fr.svg', defaultForLanguage: true },
-    { code: 'it', htmlLangCode: 'it-IT', name: 'Italiano', currency: 'EUR', flagLink: 'https://flagcdn.com/it.svg', defaultForLanguage: true },
-    { code: 'nl', htmlLangCode: 'nl-NL', name: 'Nederlands', currency: 'EUR', flagLink: 'https://flagcdn.com/nl.svg', defaultForLanguage: true },
+    { code: 'us', name: 'English (US)', language: 'en', localeCode: 'en-us', htmlLangCode: 'en-US' },
+    { code: 'es', name: 'Español (ES)', language: 'es', localeCode: 'es-es', htmlLangCode: 'es-ES' },
+    { code: 'fr', name: 'Français', language: 'fr', localeCode: 'fr-fr', htmlLangCode: 'fr-FR' },
+    { code: 'it', name: 'Italiano', language: 'it', localeCode: 'it-it', htmlLangCode: 'it-IT' },
+    { code: 'nl', name: 'Nederlands', language: 'nl', localeCode: 'nl-nl', htmlLangCode: 'nl-NL' },
+    { code: 'de', name: 'Deutsch (DE)', language: 'de', localeCode: 'de-de', htmlLangCode: 'de-DE' },
+    { code: 'pl', name: 'Polski', language: 'pl', localeCode: 'pl-pl', htmlLangCode: 'pl-PL' },
+    { code: 'bg', name: 'Български', language: 'bg', localeCode: 'bg-bg', htmlLangCode: 'bg-BG' },
+    { code: 'th', name: 'ไทย', language: 'th', localeCode: 'th-th', htmlLangCode: 'th-TH' },
+    { code: 'hk', name: '中文 (HK)', language: 'zh', localeCode: 'zh-hk', htmlLangCode: 'zh-HK' }, // Chinese (Traditional, Hong Kong)
+    { code: 'ua', name: 'Українська', language: 'uk', localeCode: 'uk-ua', htmlLangCode: 'uk-UA' },
+    { code: 'cz', name: 'Čeština', language: 'cs', localeCode: 'cs-cz', htmlLangCode: 'cs-CZ' },
+    { code: 'dk', name: 'Dansk', language: 'da', localeCode: 'da-dk', htmlLangCode: 'da-DK' },
+    { code: 'no', name: 'Norsk', language: 'no', localeCode: 'no-no', htmlLangCode: 'no-NO' },
+    { code: 'se', name: 'Svenska', language: 'sv', localeCode: 'sv-se', htmlLangCode: 'sv-SE' },
+    { code: 'ro', name: 'Română', language: 'ro', localeCode: 'ro-ro', htmlLangCode: 'ro-RO' },
+    { code: 'tr', name: 'Türkçe', language: 'tr', localeCode: 'tr-tr', htmlLangCode: 'tr-TR' },
+    { code: 'br', name: 'Português (BR)', language: 'pt', localeCode: 'pt-br', htmlLangCode: 'pt-BR' }, // Portuguese (Brazil)
+    { code: 'my', name: 'Bahasa Melayu', language: 'ms', localeCode: 'ms-my', htmlLangCode: 'ms-MY' },
+    { code: 'ru', name: 'Русский', language: 'ru', localeCode: 'ru-ru', htmlLangCode: 'ru-RU' },
+    { code: 'id', name: 'Bahasa Indonesia', language: 'id', localeCode: 'id-id', htmlLangCode: 'id-ID' },
+    { code: 'il', name: 'עברית', language: 'he', localeCode: 'he-il', htmlLangCode: 'he-IL' }, // Hebrew (Israel)
+    { code: 'kr', name: '한국어', language: 'ko', localeCode: 'ko-kr', htmlLangCode: 'ko-KR' }, // Korean (Republic of Korea)
+    { code: 'jp', name: '日本語', language: 'ja', localeCode: 'ja-jp', htmlLangCode: 'ja-JP' }, // Japanese (Japan)
+    { code: 'cn', name: '中文 (CN)', language: 'zh', localeCode: 'zh-cn', htmlLangCode: 'zh-CN' }, // Chinese (Simplified, China)
+    { code: 'in', name: 'English (IN)', language: 'en', localeCode: 'en-in', htmlLangCode: 'en-IN' }, // English (India)
+    { code: 'mx', name: 'Español (MX)', language: 'es', localeCode: 'es-mx', htmlLangCode: 'es-MX' }, // Spanish (Mexico)
+    { code: 'sa', name: 'العربية (SA)', language: 'ar', localeCode: 'ar-sa', htmlLangCode: 'ar-SA' }, // Arabic (Saudi Arabia)
+    { code: 'ch', name: 'Deutsch (CH)', language: 'de', localeCode: 'de-ch', htmlLangCode: 'de-CH' }, // German (Switzerland)
+    { code: 'za', name: 'English (ZA)', language: 'en', locale: 'en-za', htmlLangCode: 'en-ZA' }, // English (South Africa)
+    { code: 'eg', name: 'العربية (EG)', language: 'ar', localeCode: 'ar-eg', htmlLangCode: 'ar-EG' }, // Arabic (Egypt)
 ];
 
-// Helper untuk menemukan konfigurasi default per bahasa generik (misal 'en' -> 'us')
-export const defaultLanguageMap = new Map();
-i18nConfig.forEach(config => {
-    if (config.defaultForLanguage) {
-        defaultLanguageMap.set(config.htmlLangCode.split('-')[0].toLowerCase(), config.code);
-    }
-});
-
-// DEFAULT LOKALISASI: Harus menunjuk ke salah satu 'code' yang ada di i18nConfig
-export const defaultLocale = 'us'; // Ini adalah slug URL default, misal: hoteloza.com/us/
-export const defaultHtmlLang = 'en-US'; // Ini adalah htmlLangCode default, misal: en-US
-
-// Semua slug URL yang valid
-export const locales = i18nConfig.map(config => config.code);
+export const locales = i18nConfig.map(config => config.code); // Tetap menggunakan 'code' untuk URL slug
+export const defaultLocale = 'us'; // Tetap 'us' agar URL default tidak berubah
+export const defaultHtmlLang = 'en-US'; // Default cadangan untuk atribut lang HTML jika tidak ada kecocokan
