@@ -135,46 +135,15 @@ export async function generateMetadata({ params }) {
 
 // generateStaticParams untuk SSG (Static Site Generation)
 // Next.js akan memanggil ini di waktu build untuk menentukan rute mana yang harus dibuat statis.
+// --- PERBAIKAN KRITIS DI SINI ---
+// Mengembalikan array kosong untuk menghindari "Maximum call stack size exceeded"
+// karena jumlah slug yang terlalu besar.
+// Halaman akan dirender on-demand (SSR/ISR) saat permintaan pertama.
 export async function generateStaticParams() {
-  // Anda harus mengembalikan daftar semua slug landmark yang ingin Anda buat statis.
-  // Ini bisa datang dari database atau sumber statis lainnya.
-  // PENTING: Jika database Anda sangat besar, jangan fetch semua data di sini
-  // karena akan memperlambat build atau melebihi batas memori.
-  // Pertimbangkan pendekatan incremental jika data sangat besar, atau kosongkan ini
-  // dan biarkan halaman dirender on-demand (SSR/ISR) dengan `revalidate`.
-
-  try {
-    const client = await pool.connect();
-    try {
-      const slugsResult = await client.query('SELECT slug FROM landmarks');
-      const landmarkSlugs = slugsResult.rows.map(row => row.slug);
-      console.log('SERVER INFO: Fetched slugs for generateStaticParams:', landmarkSlugs);
-
-      // Anda juga perlu mengkombinasikan dengan bahasa yang didukung
-      const supportedLangs = ['en', 'id', 'us']; // Ganti dengan daftar bahasa yang sebenarnya
-      const params = [];
-      for (const lang of supportedLangs) {
-        for (const slug of landmarkSlugs) {
-          params.push({ lang: lang, slug: slug });
-        }
-      }
-      return params;
-    } finally {
-      client.release();
-    }
-  } catch (error) {
-    console.error('SERVER ERROR: Failed to fetch slugs for generateStaticParams:', error);
-    // Fallback jika database tidak dapat dijangkau atau error saat build
-    // Anda harus menyediakan setidaknya satu kombinasi yang masuk akal
-    // agar build tidak gagal sepenuhnya jika generateStaticParams wajib.
-    // Atau, jika Anda ingin semua halaman dirender on-demand, kembalikan array kosong.
-    return [
-      { lang: 'en', slug: 'eiffel-tower' },
-      { lang: 'id', slug: 'monas' },
-      { lang: 'us', slug: 'statue-of-liberty' },
-    ];
-  }
+  console.warn("SERVER WARN: generateStaticParams for landmarks returning empty array to prevent 'Maximum call stack size exceeded' due to large dataset. Pages will be rendered on-demand.");
+  return []; // Ini akan mencegah Next.js mencoba membangun semua halaman ini secara statis.
 }
+
 
 // Komponen halaman utama
 export default async function LandmarkSlugPage({ params }) {
