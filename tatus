@@ -1,0 +1,258 @@
+[33m7fa1789f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Revert "Simpan perubahan lokal sebelum melakukan revert"
+[33m1212d334[m Simpan perubahan lokal sebelum melakukan revert
+[33mc46f46ec[m[33m ([m[1;31morigin/main[m[33m)[m first commit
+[33mbe2f7c25[m first commit
+[33m076a2ec1[m first commit
+[33m290e5814[m first commit
+[33me781e83b[m first commit
+[33ma32a191a[m first commit
+[33m633aee6f[m first commit
+[33mb1fde997[m first commit
+[33m57860945[m first commit
+[33mf1cc2cc3[m first commit
+[33m997dd8c2[m first commit
+[33me9997e7f[m first commit
+[33m0bb5f8dc[m first commit
+[33mcbd56841[m first commit
+[33m324c1147[m first commit
+[33me434d64e[m first commit
+[33m2f426ab8[m first commit
+[33m7806b139[m first commit
+[33m3414a60b[m first commit
+[33m979c3643[m first commit
+[33md153b502[m first commit
+[33m3f9eaf5e[m first commit
+[33m5a24a41f[m first commit
+[33m260b268f[m first commit
+[33m00632d51[m first commit
+[33m1a356de6[m first commit
+[33m70b0333c[m first commit
+[33m778ba985[m first commit
+[33m3bb74117[m first commit
+[33ma66ad090[m first commit
+[33m9b812bb4[m first commit
+[33m24599b40[m first commit
+[33m7041e5e7[m lPI
+[33m28e98069[m lPI
+[33mafd5f620[m lPI
+[33mc6283233[m lPI
+[33m7352856e[m lPI
+[33ma37d9e82[m l API
+[33m2e20dc4a[m l API
+[33md3bea5f0[m l API
+[33m795e5050[m l API
+[33maa9c80ea[m l API
+[33mab269cc9[m l API
+[33m74202c1a[m l API
+[33maaf17ba9[m l API
+[33m8a35ce61[m l API
+[33m3d7945e2[m l API
+[33m040fc666[m first commit
+[33mb5839e5b[m first commit
+[33m0f19a4f6[m first commit
+[33mcb3c95ab[m first commit
+[33m425e6766[m first commit
+[33m1ecc9fc2[m first commit
+[33mc4d29bad[m first commit
+[33m2ec38a1c[m Configure Yarn Berry and synchronize lockfile for Cloud Worker compatibility
+[33m5ced1f47[m Configure Yarn Berry and synchronize lockfile for Cloud Worker compatibility
+[33m3df67cc3[m Configure Yarn Berry and synchronize lockfile for Cloud Worker compatibility
+[33mdcfd3643[m Configure Yarn Berry and synchronize lockfile for Cloud Worker compatibility
+[33md7157382[m Configure Yarn Berry and synchronize lockfile for Cloud Worker compatibility
+[33md459349d[m Configure Yarn Berry and synchronize lockfile for Cloud Worker compatibility
+[33mba4f5eb6[m Configure Yarn Berry and synchronize lockfile for Cloud Worker compatibility
+[33m9f1aed72[m Configure Yarn Berry and synchronize lockfile for Cloud Worker compatibility
+[33mb3da5dc7[m Configure Yarn Berry and synchronize lockfile for Cloud Worker compatibility
+[33m3575f64c[m Configure Yarn Berry and synchronize lockfile for Cloud Worker compatibility
+[33mc5e5a968[m Configure Yarn Berry and synchronize lockfile for Cloud Worker compatibility
+[33m76b29f41[m Configure Yarn Berry and synchronize lockfile for Cloud Worker compatibility
+[33mb5e764a6[m Configure Yarn Berry and synchronize lockfile for Cloud Worker compatibility
+[33m70b068c8[m Configure Yarn Berry and synchronize lockfile for Cloud Worker compatibility
+[33m1e85a822[m Configure Yarn Berry and synchronize lockfile for Cloud Worker compatibility
+[33mb5ae6104[m first commit
+[33mb022d54b[m first commit
+[33m3a433fac[m first commit
+[33m26d3d7ca[m first commit
+[33m3780ab44[m first commit
+[33mc3619336[m first commit
+[33mea4bd63b[m Add generated sitemaps folder with all files
+[33m9e0fb264[m Add generated sitemaps folder with all files
+[33m042a5613[m Add generated sitemaps folder with all files
+[33m6a9b0a3f[m Add generated sitemaps folder with all files
+[33mefbfab97[m Add generated sitemaps folder with all files
+[33me3175fcf[m Add generated sitemaps folder with all files
+[33m2e2d74d8[m Initial commit of generated sitemaps
+[33m00d4481b[m Initial commit of generated sitemaps
+[33m207c4d8b[m Initial commit of generated sitemaps
+[33m473180bf[m Initial commit of generated sitemaps
+[33m4da193c7[m Initial commit of generated sitemaps
+[33m5daf5f30[m Initial commit of generated sitemaps
+[33m434807b3[m Initial commit of generated sitemaps
+[33m8431a1c5[m Initial commit of generated sitemaps
+[33m3133ddf8[m Initial commit of generated sitemaps
+[33mccef77ea[m Initial commit of generated sitemaps
+[33md9308862[m Initial commit of generated sitemaps
+[33mc251c1d7[m Initial commit of generated sitemaps
+[33m9d74c763[m Initial commit of generated sitemaps
+[33m1d73651f[m Initial commit of generated sitemaps
+[33m440542b8[m Add generated sitemaps folder with all files
+[33m7fcd403a[m kkt
+[33ma1988386[m kkt
+[33m76237da5[m kkt
+[33m400bec27[m kkt
+[33m4221620c[m kkt
+[33m367e3254[m kkt
+[33mb5276c5f[m kkt
+[33m31356307[m kkt
+[33m9783bbef[m kkt
+[33mff644103[m kkt
+[33meb2d2dc7[m kkt
+[33m3c467365[m kkt
+[33m919066b4[m kkt
+[33m807ab2ca[m kkt
+[33m950daf42[m kkt
+[33mafff8493[m kkt
+[33m0fcb9719[m kkt
+[33m0f9b92ef[m kkt
+[33me94f3903[m kkt
+[33m33f9798d[m kkt
+[33m9291d0e3[m kkt
+[33m65c455e5[m kkt
+[33m250e0744[m kkt
+[33m5f4e57c6[m kkt
+[33m6358614a[m kkt
+[33m8cf64363[m kkt
+[33me70d052c[m kkt
+[33m2aae57ed[m kkt
+[33m6aa655c1[m kkt
+[33me5da8e15[m kkt
+[33mcd614fba[m kkt
+[33m4ffe05e0[m kkt
+[33m756d4a94[m kkt
+[33mcaba9845[m kkt
+[33m9781b257[m kkt
+[33m9189034b[m kkt
+[33m360f69dc[m kkt
+[33m9451c5d3[m kkt
+[33m51c85dad[m kkt
+[33m0d419bda[m kkt
+[33m61836ca4[m kkt
+[33m33d4d952[m kkt
+[33mc15f330b[m kkt
+[33mae7ce9b8[m kkt
+[33mbcc19a05[m kkt
+[33m23f83ac7[m kkt
+[33m2a0a88b8[m kkt
+[33m8e01cba0[m kkt
+[33me2d4c26d[m kkt
+[33m4a8de536[m kkt
+[33m26e66b0c[m kkt
+[33m29289259[m kkt
+[33mad2ca42c[m kkt
+[33m930a4415[m kkt
+[33mea09cdea[m kkt
+[33m4c9a4491[m kkt
+[33md3bdbc94[m kkt
+[33mcd07713d[m kkt
+[33m4b4c4fea[m kkt
+[33mdc6c9deb[m kkt
+[33m53d723a0[m kkt
+[33m1dbc2452[m kkt
+[33m7b3f0b91[m kkt
+[33mfc3f8f02[m kkt
+[33m0b7e9952[m kkt
+[33mf423fd14[m kkt
+[33mc64a794e[m kkt
+[33m496c9510[m kkt
+[33md451b3e3[m kkt
+[33m21bc11f9[m kkt
+[33m5b8c5096[m kkt
+[33m60614895[m kkt
+[33mb7e2a077[m kkt
+[33m90c5c537[m kkt
+[33m410d2bb9[m kkt
+[33m4dce5d9f[m kkt
+[33m22c5e432[m kkt
+[33ma5e93688[m kkt
+[33mb6fa2a29[m kkt
+[33m921ad61d[m kkt
+[33m0d5114b0[m kkt
+[33ma2278764[m Iikkkkt
+[33mf89e51bf[m Iikkkkt
+[33m9b940d22[m kkt
+[33me5452f17[m Iikkkt
+[33m44faaa05[m kkt
+[33m3d8cbdbf[m Iikkkt
+[33m75938248[m Iikkkkt
+[33m904cfa0b[m Iikkkkkkkkkt
+[33me4540a7e[m Iit
+[33mf94beeee[m Iit
+[33mca5e3cca[m Iit
+[33m031a92f0[m Iit
+[33m8de37927[m Iit
+[33md0d8d543[m Iit
+[33m7950d5f5[m Iit
+[33mf31646ea[m Iit
+[33m1f632290[m Iit
+[33mfd98a697[m Iit
+[33ma31dda8f[m Iit
+[33m177eaaeb[m Iit
+[33m6cf4b44a[m Iit
+[33m092d31c6[m Iit
+[33mc0a8ac15[m Iit
+[33m4e957805[m Iasasast
+[33mb291d7b1[m Iasasast
+[33m86539459[m Iasasast
+[33m470b07b0[m Iasasast
+[33me96a2829[m Iit
+[33mfe5056f8[m Iit
+[33m5b5c1083[m Iit
+[33m7cadd303[m Iit
+[33m62eba5cc[m Isaaat
+[33mf8cf4e42[m Isaaat
+[33m357ed47d[m Isaaat
+[33me79cae96[m Isaaat
+[33m685bd909[m It
+[33mfa7c5664[m It
+[33m65d94791[m It
+[33mdd72e38d[m It
+[33m58e757bf[m Iit
+[33m0ac4a60e[m Inmit
+[33mce209d58[m Inmit
+[33m88f18131[m Initial commit
+[33mbc24b9d7[m Initial commit
+[33mf7958205[m Initial commit
+[33m8af0c6ac[m Initial commit
+[33m42f0891e[m Initial commit
+[33meab2a64f[m Initial commit
+[33ma3e6c3bd[m Figg gin
+[33m025de47d[m Figg gin
+[33m97480267[m Initial commit
+[33m6c8676fc[m Initial commit
+[33m479f4b7f[m Figg gin
+[33m23ae064b[m Figg gin
+[33m0d8e5373[m Figg gin
+[33md17dfd60[m Figg gin
+[33m57fad622[m Figg gin
+[33m43a111cb[m Figg gin
+[33m36640f90[m Figg gin
+[33m3bbc90cd[m Figg gin
+[33mb12e9fd4[m Figg gin
+[33m26de3f9f[m Figg gin
+[33m5cc5ca7f[m Figg gin
+[33mbba7ad5e[m Figg gin
+[33m37565010[m Figg gin
+[33m1c39f6f4[m Figg gin
+[33m5e595908[m Figg gin
+[33m513b4bca[m Figg gin
+[33m0877b307[m Figg gin
+[33m5ba6fd7e[m Figg gin
+[33mfddcf271[m Figg gin
+[33m64812ab2[m Figg gin
+[33m8051830a[m Figg gin
+[33me6092e26[m Initial commit
+[33m5374c1a3[m Initial commit
+[33m97d2cb9d[m Initial commit
+[33m6778b0d6[m Initial commit
+[33m51dbb628[m Initial commit
+[33m07dfacf0

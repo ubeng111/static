@@ -1,13 +1,13 @@
 // components/header/CurrencyMenu.jsx
 'use client';
 
-import { useCurrency } from '../CurrencyContext'; // Asumsi CurrencyContext menyediakan currency dan setCurrency
-import { currencyContent } from '@/config/currency';
 import { useState, useRef, useEffect } from 'react';
+import { useCurrency } from '../CurrencyContext';
+import { currencyContent } from '@/config/currency';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 const CurrencyMenu = ({ textClass }) => {
-  const { currency, setCurrency } = useCurrency(); // 'currency' di sini adalah objek {id, currency, language, ...}
+  const { currency, setCurrency } = useCurrency();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -15,13 +15,12 @@ const CurrencyMenu = ({ textClass }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // --- LOGIKA BARU UNTUK MENDAPATKAN MATA UANG UNIK ---
   const getUniqueCurrencies = () => {
     const seenCurrencyCodes = new Set();
     const uniqueCurrenciesList = [];
 
     for (const item of currencyContent) {
-      if (!seenCurrencyCodes.has(item.currency)) { // Memeriksa kode mata uang (USD, EUR, dll.)
+      if (!seenCurrencyCodes.has(item.currency)) {
         uniqueCurrenciesList.push(item);
         seenCurrencyCodes.add(item.currency);
       }
@@ -30,30 +29,25 @@ const CurrencyMenu = ({ textClass }) => {
   };
 
   const uniqueCurrencies = getUniqueCurrencies();
-  // --- AKHIR LOGIKA MATA UANG UNIK ---
 
   const handleItemClick = (item) => {
-    setCurrency(item); // Update context dengan item mata uang lengkap
+    setCurrency(item);
     setIsOpen(false);
 
-    // Buat objek URLSearchParams baru dari searchParams yang ada
     const currentSearchParams = new URLSearchParams(searchParams.toString());
-    currentSearchParams.set('currency', item.currency); // Set currency baru ke URL params (kode 3 huruf)
+    currentSearchParams.set('currency', item.currency);
 
-    // Dapatkan language saat ini dari URL query, agar tidak hilang saat navigasi
-    // Kita tidak akan mengubah 'language' param di sini.
-    // Pastikan path tetap sama, hanya query params yang berubah.
     const newPath = `${pathname.split('?')[0]}?${currentSearchParams.toString()}`;
 
-    router.replace(newPath); // Gunakan router.replace untuk tidak menambahkan ke history browser
+    router.replace(newPath);
   };
 
   useEffect(() => {
-    function handleClickOutside(event) {
+    const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpen(false);
       }
-    }
+    };
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -63,17 +57,15 @@ const CurrencyMenu = ({ textClass }) => {
   return (
     <div className={`custom-currency-menu ${textClass}`} ref={dropdownRef}>
       <div className="selected-option" onClick={() => setIsOpen(!isOpen)}>
-        {/* Tampilkan kode mata uang dari konteks (misal: "USD", "EUR") */}
         {currency?.currency || 'USD'}
         <i className={`arrow-icon ${isOpen ? 'up' : 'down'}`}>&#9660;</i>
       </div>
 
       {isOpen && (
         <ul className="options-list">
-          {/* Render daftar mata uang yang sudah unik */}
           {uniqueCurrencies.map((item) => (
             <li
-              key={item.id} // Tetap gunakan ID unik asli dari item pertama yang ditemukan
+              key={item.id}
               onClick={() => handleItemClick(item)}
               className={item.currency === currency?.currency ? 'active' : ''}
             >
@@ -83,20 +75,20 @@ const CurrencyMenu = ({ textClass }) => {
         </ul>
       )}
 
-      {/* Gaya tetap sama */}
       <style jsx>{`
         .custom-currency-menu {
           position: relative;
           display: inline-block;
           font-size: 14px;
-          min-width: 80px;
-          max-width: 80px;
+          min-width: 80px; /* Default desktop width */
+          max-width: 80px; /* Default desktop width */
           border: 1px solid #ccc;
           border-radius: 4px;
           background-color: #fff;
           cursor: pointer;
           user-select: none;
           z-index: 999;
+          flex-shrink: 0;
         }
 
         .selected-option {
@@ -154,33 +146,48 @@ const CurrencyMenu = ({ textClass }) => {
 
         @media (max-width: 767px) {
           .custom-currency-menu {
-            min-width: 65px;
-            max-width: 75px;
-            font-size: 11px;
+            min-width: 60px;
+            max-width: 70px;
+            font-size: 12px;
+            height: 32px;
           }
           .selected-option {
-            height: 30px;
+            height: 32px;
             padding: 0 6px;
           }
           .options-list li {
-            height: 30px;
+            height: 32px;
             padding: 0 6px;
+            font-size: 12px;
           }
         }
 
-        @media (max-width: 479px) {
+        @media (max-width: 479px) { /* iPhone SE specific overrides */
           .custom-currency-menu {
-            min-width: 55px;
-            max-width: 65px;
-            font-size: 10px;
+            min-width: 50px; /* Slightly larger than previous attempt */
+            max-width: 55px; /* Allow a bit more space */
+            font-size: 11px; /* Optimal small font */
+            height: 28px; /* Consistent with new Search input height */
+            border: 1px solid #777; /* For better visibility */
           }
           .selected-option {
-            height: 25px;
-            padding: 0 4px;
+            height: 28px;
+            padding: 0 4px; /* Minimal padding */
+            justify-content: center; /* Center content */
+          }
+          .arrow-icon {
+            font-size: 8px;
+            margin-left: 2px;
+          }
+          .options-list {
+            min-width: 100%; /* Make dropdown match parent width */
+            left: auto;
+            right: 0; /* Align to right if placed at end of header-right-group */
           }
           .options-list li {
-            height: 25px;
-            padding: 0 4px;
+            height: 28px;
+            padding: 0 6px;
+            font-size: 11px;
           }
         }
       `}</style>

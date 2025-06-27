@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 const LocationSearch = ({ onCitySelect, dictionary }) => {
   const [searchValue, setSearchValue] = useState('');
@@ -12,8 +12,8 @@ const LocationSearch = ({ onCitySelect, dictionary }) => {
   const dropdownRef = useRef(null);
   const isFetching = useRef(false);
 
-  const mainFilterSearchBoxDict = dictionary?.mainFilterSearchBox || {};
-  const commonDict = dictionary?.common || {};
+  const mainFilterSearchBoxDict = dictionary.mainFilterSearchBox; // Tanpa fallback
+  const commonDict = dictionary.common; // Tanpa fallback
 
   useEffect(() => {
     if (searchValue.length < 2 || selectedItem) {
@@ -41,14 +41,14 @@ const LocationSearch = ({ onCitySelect, dictionary }) => {
     return () => clearTimeout(debounce);
   }, [searchValue, selectedItem]);
 
-  const handleOptionClick = (item) => {
+  const handleOptionClick = useCallback((item) => {
     setSearchValue(item.city);
     setSelectedItem({ city: item.city, city_id: item.city_id });
     setCities([]);
     setIsOpen(false);
     if (onCitySelect) onCitySelect({ city: item.city, city_id: item.city_id });
     inputRef.current.blur();
-  };
+  }, [onCitySelect]);
 
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -74,12 +74,16 @@ const LocationSearch = ({ onCitySelect, dictionary }) => {
 
   return (
     <div className="searchMenu-loc search-field">
-      <label>{mainFilterSearchBoxDict.locationLabel || 'Location'}</label>
+      <label htmlFor="locationInput">
+        {mainFilterSearchBoxDict.destinationPlaceholder}
+      </label>
       <input
         ref={inputRef}
+        id="locationInput"
+        name="city"
         autoComplete="off"
         type="search"
-        placeholder={mainFilterSearchBoxDict.destinationPlaceholder || "Where are you going?"}
+        placeholder={mainFilterSearchBoxDict.destinationPlaceholder}
         value={searchValue}
         onChange={handleInputChange}
         onFocus={() => setIsOpen(true)}
@@ -88,7 +92,7 @@ const LocationSearch = ({ onCitySelect, dictionary }) => {
       {isOpen && (searchValue.length >= 2 || cities.length > 0) && (
         <div className="dropdown -is-active" ref={dropdownRef}>
           {cities.length === 0 && searchValue.length >= 2 && !selectedItem ? (
-            <div className="dropdown-item">{commonDict.cityNotFound || 'City not found'}</div>
+            <div className="dropdown-item">{commonDict.cityNotFound}</div>
           ) : (
             cities.map((item) => (
               <div
@@ -104,6 +108,8 @@ const LocationSearch = ({ onCitySelect, dictionary }) => {
         </div>
       )}
 
+      {/* Perbaikan untuk style jsx errors */}
+      {/* Pastikan tidak ada kurung kurawal atau karakter yang salah di sini */}
       <style jsx>{`
         .searchMenu-loc {
           position: relative;

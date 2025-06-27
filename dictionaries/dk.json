@@ -32,7 +32,8 @@
     "unknownLocation": "Ukendt placering",
     "failedToLoadHotelData": "Kunne ikke hente hoteldata",
     "errorWithMessage": "Fejl: {error}",
-    "night": "Nat"
+    "night": "Nat",
+    "cityNotFound": "By ikke fundet"
   },
   "header": {
     "luxuryBackgroundImageAlt": "Luksus baggrundsbillede"
@@ -42,7 +43,8 @@
     "searchResultPropertiesIn": "Ejendomme fundet i",
     "selectedCity": "Valgt by",
     "unknownLocation": "Ukendt placering",
-    "searchParametersIncomplete": "Søgeparametre ufuldstændige."
+    "searchParametersIncomplete": "Søgeparametre ufuldstændige.",
+    "checkInCheckOut": "Check-in - Check-ud"
   },
   "categoryPage": {
     "discoverLuxeStaysIn": "Oplev luksusophold i",
@@ -158,7 +160,20 @@
     "adultsLabel": "Voksne",
     "childrenLabel": "Børn",
     "roomsLabel": "Værelser",
-    "searchButton": "Søg"
+    "searchButton": "Søg",
+    "selectGuestsAndRooms": "Vælg gæster og værelser",
+    "guestLabels": {
+        "adults": "Voksne",
+        "children": "Børn",
+        "rooms": "Værelser",
+        "adultsSingular": "Voksen",
+        "adultsPlural": "Voksne",
+        "childrenSingular": "Barn",
+        "childrenPlural": "Børn",
+        "roomsSingular": "Værelse",
+        "roomsPlural": "Værelser",
+        "childrenAgeRange": "0-17"
+    }
   },
   "footer": {
     "popularStays": "Populære ophold",
@@ -235,7 +250,7 @@
     "description": "{category} {landmarkName} tilbyder den bedste indkvartering i {cityName}, med gode tilbud og faciliteter som gratis WiFi.",
     "loadingHotel": "Indlæser hotel...",
     "errorLoadingHotel": "Fejl: {error}",
-    "hotelNotFound": "Hotel ikke fundet.",
+    "hotelNotFound": "Хотелът не е намерен.",
     "serverErrorFetchingData": "Serverfejl ved hentning af hoteldata."
   },
   "navigation": {
@@ -413,7 +428,7 @@
         "id": 5,
         "meta": "Ocean View Resort",
         "avatar": "/img/testimonials/2/5.png",
-        "name": "Noah Thompson",
+        "name": "Noa Thompson",
         "designation": "Kunstner",
         "text": "\"Inspiration kommer fra alle steder, og dette resort er fyldt med fantastisk naturlig skønhed. Jeg malede meget her. Kan varmt anbefales til kunstnere eller enhver, der søger inspiration.\""
       }
@@ -486,7 +501,7 @@
       "attractionsNearHotelsQuestion": "Hvilke attraktioner er der i nærheden af hoteller tæt på {landmark}?",
       "attractionsNearHotelsAnswer": "Hoteller nær {landmark} tilbyder uovertruffen bekvemmelighed for at besøge selve landemærket. Desuden er de ofte strategisk placeret tæt på andre populære attraktioner, museer, spisesteder og underholdningssteder, hvilket gør din udforskning ubesværet.",
       "hotelsWithPoolsQuestion": "Er der hoteller med pools nær {landmark}?",
-      "hotelsWithPoolsAnswer": "Ja, mange hoteller beliggende nær {landmark} har forfriskende swimmingpools, perfekte til afslapning efter en dag med sightseeing. Nogle kan endda prale af tagterrasser med swimmingpools med fantastisk udsigt over landemærket eller byens skyline.",
+      "hotelsWithPoolsAnswer": "Ja, mange hoteller beliggende nær {landmark} har forfriskende swimmingpools, ideelle til afslapning efter en dag med sightseeing. Nogle kan endda prale af tagterrasser med swimmingpools med fantastisk udsigt over landemærket eller byens skyline.",
       "bestRatedHotelsQuestion": "Hvad er de bedst bedømte hoteller nær {landmark}?",
       "bestRatedHotelsAnswerDefault": "I øjeblikket har vi ingen specifikke bedst bedømte data tilgængelige for hoteller lige i nærheden af {landmark}. Du kan dog gennemse en række højt bedømte muligheder i det bredere område.",
       "bestRatedHotelsAnswerWithData": "Baseret på gæsteanmeldelser omfatter nogle af de bedst bedømte hoteller nær {landmark}:"

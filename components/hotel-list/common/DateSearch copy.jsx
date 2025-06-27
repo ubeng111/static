@@ -3,17 +3,20 @@
 import React, { useState, useEffect } from 'react';
 import DatePicker, { DateObject } from 'react-multi-date-picker';
 
-const DateSearch = ({ onDateChange }) => {
+const DateSearch = ({ onDateChange, dictionary }) => {
   const [dates, setDates] = useState([
     new DateObject(), // Default check-in: hari ini
     new DateObject().add(1, 'day'), // Default check-out: besok
   ]);
 
+  const searchDict = dictionary?.search || {};
+  const commonDict = dictionary?.common || {};
+
   useEffect(() => {
     if (onDateChange && dates.length === 2) {
       onDateChange(dates);
     }
-  }, []); // Hanya jalankan sekali saat komponen dimuat
+  }, []);
 
   const handleDateChange = (newDates) => {
     if (newDates && newDates.length === 2) {
@@ -36,6 +39,7 @@ const DateSearch = ({ onDateChange }) => {
         range
         format="MMMM DD"
         minDate={new Date()}
+        placeholder={searchDict.checkInCheckOut || 'Check-in - Check-out'}
       />
     </div>
   );

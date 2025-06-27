@@ -4,16 +4,16 @@
     "loadingCityContent": "도시 콘텐츠 로드 중...",
     "loadingHotel": "호텔 상세 정보 로드 중...",
     "hotelNotFound": "호텔을 찾을 수 없습니다.",
-    "errorServer": "서버 오류가 발생했습니다.",
+    "errorServer": "서버 오류가 발생했습니다",
     "preloaderTitle": "Hoteloza..",
     "failedToLoadHotelList": "호텔 목록을 로드하지 못했습니다. 다시 시도해 주세요.",
-    "cityIdRequired": "도시 ID는 필수입니다.",
-    "callToActionsDescription": "좋은 아이디어는 오래 가지 않습니다. 지금 Hoteloza 여행을 예약하세요!",
-    "errorLoadingData": "데이터 로드 중 오류가 발생했습니다. 나중에 다시 시도해 주세요.",
+    "cityIdRequired": "도시 ID가 필요합니다.",
+    "callToActionsDescription": "좋은 아이디어는 오래 가지 않습니다. 지금 Hoteloza에서 여행을 예약하세요!",
+    "errorLoadingData": "데이터를 로드하는 중 오류가 발생했습니다. 나중에 다시 시도해 주세요.",
     "noHotelsFound": "이 카테고리에 해당하는 호텔을 찾을 수 없습니다.",
     "noRelatedCategoriesFound": "관련 카테고리를 찾을 수 없습니다.",
     "noRelatedCountriesFound": "관련 국가를 찾을 수 없습니다.",
-    "noRelatedStatesFound": "관련 지역을 찾을 수 없습니다.",
+    "noRelatedStatesFound": "관련 주를 찾을 수 없습니다.",
     "noRelatedCitiesFound": "관련 도시를 찾을 수 없습니다.",
     "noRelatedHotelsFound": "관련 호텔을 찾을 수 없습니다.",
     "unknownAddress": "알 수 없는 주소",
@@ -23,67 +23,69 @@
     "unnamedHotel": "이름 없는 호텔",
     "reserveNow": "지금 예약",
     "unknownCategory": "알 수 없는 카테고리",
-    "unknownState": "알 수 없는 지역",
+    "unknownState": "알 수 없는 주",
     "errorLandmarkNotFound": "오류: URL에서 랜드마크를 찾을 수 없습니다. 로드할 수 없습니다.",
     "properties": "숙소",
-    "noDestinationsFound": "이 지역에 사용 가능한 목적지가 없습니다.",
-    "topRecommendedHotelsTitle": "{city}에서 가장 추천하는 {category}",
-    "findTopRatedStays": "목적지 근처에서 유사한 혜택을 제공하는 최고 평점 숙소를 찾아보세요",
+    "noDestinationsFound": "이 지역에는 이용 가능한 목적지가 없습니다.",
+    "topRecommendedHotelsTitle": "{city}의 최고 추천 {category}",
+    "findTopRatedStays": "목적지 근처에서 유사한 혜택을 제공하는 최고 평점 숙소 찾기",
     "unknownLocation": "알 수 없는 위치",
-    "failedToLoadHotelData": "호텔 데이터를 불러오지 못했습니다.",
+    "failedToLoadHotelData": "호텔 데이터 가져오기 실패",
     "errorWithMessage": "오류: {error}",
-    "night": "박"
+    "night": "박",
+    "cityNotFound": "도시를 찾을 수 없습니다"
   },
   "header": {
-    "luxuryBackgroundImageAlt": "고급스러운 배경 이미지"
+    "luxuryBackgroundImageAlt": "럭셔리 배경 이미지"
   },
   "search": {
-    "searchResultAccommodationIn": "{cityName} 숙소 검색 결과",
-    "searchResultPropertiesIn": "찾은 숙소:",
-    "selectedCity": "선택한 도시",
+    "searchResultAccommodationIn": "{cityName}의 숙소 검색 결과",
+    "searchResultPropertiesIn": "에서 찾은 숙소",
+    "selectedCity": "선택된 도시",
     "unknownLocation": "알 수 없는 위치",
-    "searchParametersIncomplete": "검색 매개변수가 불완전합니다."
+    "searchParametersIncomplete": "검색 매개변수가 불완전합니다.",
+    "checkInCheckOut": "체크인 - 체크아웃"
   },
   "categoryPage": {
-    "discoverLuxeStaysIn": "다음에서 럭셔리 숙소 찾기:",
-    "faqsAboutHotels": "{formattedCategory}에 대한 자주 묻는 질문",
+    "discoverLuxeStaysIn": "에서 럭셔리 숙소 발견",
+    "faqsAboutHotels": "자주 묻는 질문 {formattedCategory}",
     "categoryDefault": "카테고리",
-    "defaultItemListDescription": "Hoteloza에서 {currentYear}년 최고 {formattedCategory} 목록."
+    "defaultItemListDescription": "Hoteloza의 {currentYear}년 최고 {formattedCategory} 목록."
   },
   "countryPage": {
-    "discoverStaysIn": "{displayCountry}에서 숙소 찾기",
-    "faqsAboutCountryHotels": "{displayCountry} 호텔에 대한 자주 묻는 질문",
+    "discoverStaysIn": "{displayCountry}에서 숙소 발견",
+    "faqsAboutCountryHotels": "{displayCountry}의 호텔에 대한 자주 묻는 질문",
     "countryDefault": "국가",
     "noHotelsFoundForCountry": "이 국가에 해당하는 호텔을 찾을 수 없습니다."
   },
   "statePage": {
-    "discoverStaysInState": "{formattedState}에서 숙소 찾기",
-    "faqsAboutStateHotels": "{displayState} 호텔에 대한 자주 묻는 질문",
-    "stateDefault": "지역",
-    "noHotelsFoundForState": "이 지역에 해당하는 호텔을 찾을 수 없습니다."
+    "discoverStaysInState": "{formattedState}에서 숙소 발견",
+    "faqsAboutStateHotels": "{displayState}의 호텔에 대한 자주 묻는 질문",
+    "stateDefault": "주",
+    "noHotelsFoundForState": "이 주에 해당하는 호텔을 찾을 수 없습니다."
   },
   "cityPage": {
-    "discoverStaysInCity": "{formattedCity}에서 숙소 찾기",
-    "faqsAboutCityHotels": "{displayCity} 호텔에 대한 자주 묻는 질문",
+    "discoverStaysInCity": "{formattedCity}에서 숙소 발견",
+    "faqsAboutCityHotels": "{displayCity}의 호텔에 대한 자주 묻는 질문",
     "cityDefault": "도시",
     "noHotelsFoundForCity": "이 도시에 해당하는 호텔을 찾을 수 없습니다."
   },
   "hotelSinglePage": {
-    "aboutThisHotel": "이 호텔에 대해",
+    "aboutThisHotel": "이 호텔 정보",
     "facilitiesAndServices": "시설 및 서비스",
     "attractionsNearby": "인근 명소",
     "reviews": "리뷰",
     "faq": "자주 묻는 질문",
     "locationMap": "위치 지도",
     "frequentlyAskedQuestions": "자주 묻는 질문",
-    "toggleFrequentlyAskedQuestions": "자주 묻는 질문 토글",
-    "toggleLocationMap": "위치 지도 토글",
-    "relatedHotels": "다음과 유사한 인기 숙소:",
-    "toggleFacilities": "시설 토글",
-    "toggleLandmarks": "인근 랜드마크 토글",
-    "toggleRelatedHotels": "다음과 유사한 인기 숙소 토글",
-    "defaultSchemaDescription": "Hoteloza에서 {currentYear}년 {formattedCity}에 위치한 럭셔리 호텔 {formattedHotel}을(를) 예약하세요.",
-    "exceptionalReviewText": "훌륭함"
+    "toggleFrequentlyAskedQuestions": "자주 묻는 질문 전환",
+    "toggleLocationMap": "위치 지도 전환",
+    "relatedHotels": "다음과 유사한 인기 숙소",
+    "toggleFacilities": "시설 전환",
+    "toggleLandmarks": "인근 랜드마크 전환",
+    "toggleRelatedHotels": "다음과 유사한 인기 숙소 전환",
+    "defaultSchemaDescription": "Hoteloza에서 {currentYear}년 {formattedCity}의 럭셔리 호텔 {formattedHotel}을 예약하세요.",
+    "exceptionalReviewText": "탁월함"
   },
   "bookNow": {
     "reserveNowButton": "지금 예약"
@@ -91,7 +93,7 @@
   "facilities": {
     "bathroom": "욕실",
     "towels": "수건",
-    "bathOrShower": "욕조 또는 샤워 시설",
+    "bathOrShower": "욕조 또는 샤워실",
     "privateBathroom": "전용 욕실",
     "toilet": "화장실",
     "freeToiletries": "무료 세면도구",
@@ -99,10 +101,10 @@
     "bath": "욕조",
     "bedroom": "침실",
     "linen": "린넨",
-    "wardrobeOrCloset": "옷장",
+    "wardrobeOrCloset": "옷장 또는 찬장",
     "receptionServices": "리셉션 서비스",
     "invoiceProvided": "송장 제공",
-    "privateCheckInCheckOut": "개인 체크인/체크아웃",
+    "privateCheckInCheckOut": "사설 체크인/체크아웃",
     "luggageStorage": "수하물 보관소",
     "twentyFourHourFrontDesk": "24시간 프런트 데스크",
     "mediaTechnology": "미디어 및 기술",
@@ -111,22 +113,22 @@
     "radio": "라디오",
     "telephone": "전화",
     "tv": "TV",
-    "foodDrink": "음식 및 음료",
+    "foodDrink": "식음료",
     "kidMeals": "어린이 식사",
     "specialDietMenusOnRequest": "특별 식단 메뉴 (요청 시)",
     "breakfastInTheRoom": "객실 내 조식",
     "cleaningServices": "청소 서비스",
-    "dailyHousekeeping": "매일 하우스키핑",
-    "dryCleaning": "드라이클리닝",
+    "dailyHousekeeping": "일일 하우스키핑",
+    "dryCleaning": "드라이 클리닝",
     "laundry": "세탁",
     "safetySecurity": "안전 및 보안",
     "fireExtinguishers": "소화기",
-    "cctvInCommonAreas": "공용 공간 CCTV",
-    "smokeAlarms": "화재 경보기",
+    "cctvInCommonAreas": "공용 공간에 CCTV",
+    "smokeAlarms": "연기 감지기",
     "twentyFourHourSecurity": "24시간 보안"
   },
   "landmarkList": {
-    "noNearbyPlacesFound": "{radius}km 이내에 주변 장소를 찾을 수 없습니다.",
+    "noNearbyPlacesFound": "{radius}km 반경 내에 주변 장소를 찾을 수 없습니다.",
     "nearbyEssentialAndTouristSpots": "🗺️ 인근 필수 및 관광 명소"
   },
   "mapComponent": {
@@ -136,29 +138,38 @@
     "countriesIn": "🏨 {formattedCategory}의 국가"
   },
   "relatedCities": {
-    "noRelatedCitiesFound": "관련 도시를 찾을 수 없습니다.",
+    "noRelatedCitiesFound": "관련 도시를 찾을 수 없습니다",
     "bestRelatedCitiesIn": "🏨 {formattedState}의 최고 관련 도시"
   },
   "relatedCountries": {
-    "noRelatedStatesFound": "관련 지역을 찾을 수 없습니다.",
-    "statesIn": "🏨 {formattedCountry}의 지역"
-  },
-  "relatedStates": {
-    "noRelatedCitiesFound": "관련 도시를 찾을 수 없습니다.",
-    "citiesIn": "🏨 {formattedState}의 도시"
+    "noRelatedStatesFound": "관련 주를 찾을 수 없습니다",
+    "statesIn": "🏨 {formattedCountry}의 주"
   },
   "city": {
     "city": "도시",
     "faq": "자주 묻는 질문"
   },
   "mainFilterSearchBox": {
-    "destinationPlaceholder": "목적지는 어디인가요?",
+    "destinationPlaceholder": "목적지는 어디입니까?",
     "checkInPlaceholder": "체크인 날짜",
     "checkOutPlaceholder": "체크아웃 날짜",
     "adultsLabel": "성인",
     "childrenLabel": "어린이",
     "roomsLabel": "객실",
-    "searchButton": "검색"
+    "searchButton": "검색",
+    "selectGuestsAndRooms": "손님 및 객실 선택",
+    "guestLabels": {
+        "adults": "성인",
+        "children": "어린이",
+        "rooms": "객실",
+        "adultsSingular": "성인",
+        "adultsPlural": "성인",
+        "childrenSingular": "어린이",
+        "childrenPlural": "어린이",
+        "roomsSingular": "객실",
+        "roomsPlural": "객실",
+        "childrenAgeRange": "0-17"
+    }
   },
   "footer": {
     "popularStays": "인기 숙소",
@@ -176,63 +187,63 @@
     "traditionalStays": "전통 숙소",
     "ryokan": "료칸",
     "machiya": "마치야",
-    "countryHouse": "컨트리 하우스",
+    "countryHouse": "시골집",
     "haveli": "하벨리",
     "riad": "리아드",
     "heritageHotel": "헤리티지 호텔",
-    "adventureStays": "어드벤처 숙소",
+    "adventureStays": "모험 숙소",
     "farmStay": "팜스테이",
-    "cabin": "캐빈",
+    "cabin": "오두막",
     "chalet": "샬레",
     "boat": "보트",
     "houseboat": "하우스보트",
-    "hotelozaFooterText": "Hoteloza는 쉽고 원활한 호텔 예약을 위한 선도적인 플랫폼입니다. 아늑한 호텔부터 럭셔리 리조트까지 다양한 숙소를 제공하여 완벽한 숙소를 찾는 과정을 간소화합니다. 편리한 예약, 독점적인 거래 및 여행 요구 사항에 맞춰진 맞춤형 서비스를 즐기십시오. Hoteloza와 함께 예약하고 잊지 못할 여행을 현실로 만드십시오.",
+    "hotelozaFooterText": "Hoteloza는 쉽고 번거롭지 않은 호텔 예약을 위한 선도적인 플랫폼입니다. 아늑한 호텔부터 럭셔리 리조트까지 다양한 숙소 옵션을 제공하여 완벽한 숙소를 찾는 데 도움이 됩니다. 편리한 예약, 독점적인 제안, 여행 요구에 맞는 맞춤형 서비스를 즐기세요. Hoteloza와 함께 예약하고 잊지 못할 여행을 현실로 만드세요.",
     "hotelozaAllRightsReserved": "© {year} Hoteloza. 모든 권리 보유."
   },
   "metadata": {
-    "homePageTitle": "Hoteloza - 당신의 꿈의 호텔을 찾아보세요",
+    "homePageTitle": "Hoteloza - 꿈의 호텔을 찾으세요",
     "homePageDescription": "다음 여행을 위한 최고의 호텔과 숙소를 찾아보세요. 지금 Hoteloza에서 예약하세요!",
-    "searchResultPageTitle": "{cityName} 호텔 - Hoteloza 검색 결과",
-    "searchResultPageDescription": "{cityName}의 호텔을 검색하고 예약하세요. 최고의 숙박을 위해 가격과 시설을 비교하세요.",
-    "cityPageTitle": "{cityName} 호텔 - Hoteloza와 함께 {cityName}를 발견하세요",
-    "cityPageDescription": "{cityName}에서 최고의 호텔을 발견하고 Hoteloza와 함께 잊지 못할 여행을 위한 최고의 거래를 찾아보세요.",
+    "searchResultPageTitle": "{cityName}의 호텔 - Hoteloza 검색 결과",
+    "searchResultPageDescription": "{cityName}의 호텔을 검색하고 예약하세요. 최고의 숙소를 위해 가격과 편의 시설을 비교하세요.",
+    "cityPageTitle": "{cityName}의 호텔 - Hoteloza로 {cityName}을(를) 발견하세요",
+    "cityPageDescription": "{cityName}의 최고의 호텔을 발견하고 Hoteloza로 잊지 못할 여행을 위한 최고의 제안을 찾으세요.",
     "categoryNotFoundTitle": "카테고리를 찾을 수 없습니다 | Hoteloza",
-    "categoryNotFoundDescription": "찾고 있는 카테고리를 Hoteloza에서 찾을 수 없습니다.",
-    "categoryPageTitleTemplate": "{currentYear}년 최고의 {formattedCategory} 할인 - Hoteloza에서 크게 절약하세요!",
-    "categoryPageDescriptionTemplate": "Hoteloza에서 {currentYear}년 최고의 {formattedCategory}을(를) 만나보세요. 독점 할인, 좋은 가격 및 최고 수준의 시설을 즐기십시오. 잊지 못할 숙박을 위해 지금 예약하세요!",
-    "categoryOgTitleTemplate": "최고의 {formattedCategory} 특가 {currentYear} | Hoteloza",
-    "categoryOgDescriptionTemplate": "Hoteloza에서 {currentYear}년 최고의 {formattedCategory}을(를) 탐색하세요. 독점 할인 및 프리미엄 시설을 위해 지금 예약하세요!",
-    "categoryWebPageNameTemplate": "최고의 {formattedCategory} 특가 {currentYear}",
-    "categoryWebPageDescriptionTemplate": "Hoteloza에서 {currentYear}년 최고의 {formattedCategory}을(를) 독점 할인 및 프리미엄 시설과 함께 발견하세요.",
+    "categoryNotFoundDescription": "찾으시는 카테고리를 Hoteloza에서 찾을 수 없습니다.",
+    "categoryPageTitleTemplate": "{currentYear}년 {formattedCategory} 최저 할인 - Hoteloza로 대박 할인!",
+    "categoryPageDescriptionTemplate": "Hoteloza에서 {currentYear}년 최고의 {formattedCategory}을(를) 발견하세요. 독점 할인, 환상적인 가격, 프리미엄 편의 시설을 즐기세요. 잊지 못할 숙소를 위해 지금 예약하세요!",
+    "categoryOgTitleTemplate": "{currentYear}년 {formattedCategory} 최상위 상품 | Hoteloza",
+    "categoryOgDescriptionTemplate": "Hoteloza에서 {currentYear}년 최고의 {formattedCategory}을(를) 탐색하세요. 독점 할인 및 프리미엄 편의 시설을 위해 지금 예약하세요!",
+    "categoryWebPageNameTemplate": "{currentYear}년 {formattedCategory} 최상위 상품",
+    "categoryWebPageDescriptionTemplate": "Hoteloza에서 {currentYear}년 최고의 {formattedCategory}을(를) 독점 할인 및 프리미엄 편의 시설로 발견하세요.",
     "countryNotFoundTitle": "페이지를 찾을 수 없습니다 | Hoteloza",
-    "countryNotFoundDescription": "찾고 있는 카테고리, 국가 또는 지역을 Hoteloza에서 찾을 수 없습니다.",
+    "countryNotFoundDescription": "찾으시는 카테고리, 국가 또는 주를 Hoteloza에서 찾을 수 없습니다.",
     "countryPageTitleTemplate": "{currentYear}년 {formattedCountry}의 저렴한 {formattedCategory} - 놓치지 마세요! | Hoteloza",
-    "countryPageDescriptionTemplate": "Hoteloza에서 {currentYear}년 {formattedCountry}에서 최고의 {formattedCategory}을(를) 만나보세요. 독점 할인, 저렴한 가격 및 최고 수준의 시설을 즐기십시오. 한정된 제안 – 오늘 숙박을 예약하세요!",
+    "countryPageDescriptionTemplate": "Hoteloza에서 {currentYear}년 {formattedCountry}의 최고의 {formattedCategory}을(를) 만나보세요. 독점 할인, 합리적인 가격, 프리미엄 편의 시설을 즐기세요. 한정된 제안 – 오늘 숙소를 예약하세요!",
     "countryOgTitleTemplate": "{currentYear}년 {formattedCountry}의 최고 {formattedCategory} | Hoteloza",
-    "countryOgDescriptionTemplate": "Hoteloza에서 {currentYear}년 {formattedCountry}에서 최고의 {formattedCategory}을(를) 찾아보세요. 최고급 호텔 및 독점 할인을 위해 지금 예약하세요!",
+    "countryOgDescriptionTemplate": "Hoteloza에서 {currentYear}년 {formattedCountry}의 최고 {formattedCategory}을(를) 찾으세요. 최고의 호텔과 독점 할인을 위해 지금 예약하세요!",
     "stateNotFoundTitle": "페이지를 찾을 수 없습니다 | Hoteloza",
-    "stateNotFoundDescription": "찾고 있는 카테고리, 국가 또는 지역을 Hoteloza에서 찾을 수 없습니다.",
-    "statePageTitleTemplate": "{currentYear}년 {formattedCountry} {formattedState}의 저렴한 {formattedCategory} - 지금 예약하세요! | Hoteloza",
-    "statePageDescriptionTemplate": "Hoteloza에서 {currentYear}년 {formattedState}, {formattedCountry}에서 최고의 {formattedCategory}을(를) 찾아보세요. 독점 할인, 좋은 가격 및 최고 수준의 시설. 잊지 못할 숙박을 예약하세요!",
-    "stateOgTitleTemplate": "{currentYear}년 {formattedCountry} {formattedState}의 최고 {formattedCategory} | Hoteloza",
-    "stateOgDescriptionTemplate": "Hoteloza에서 {currentYear}년 {formattedState}, {formattedCountry}의 최고 {formattedCategory}을(를) 발견하세요. 독점 할인 및 프리미엄 시설을 위해 지금 예약하세요!",
+    "stateNotFoundDescription": "찾으시는 카테고리, 국가 또는 주를 Hoteloza에서 찾을 수 없습니다.",
+    "statePageTitleTemplate": "{currentYear}년 {formattedState}, {formattedCountry}의 저렴한 {formattedCategory} - 지금 예약하세요! | Hoteloza",
+    "statePageDescriptionTemplate": "Hoteloza에서 {currentYear}년 {formattedState}, {formattedCountry}의 최고의 {formattedCategory}을(를) 찾으세요. 독점 할인, 환상적인 가격, 프리미엄 편의 시설. 잊지 못할 숙소를 예약하세요!",
+    "stateOgTitleTemplate": "{currentYear}년 {formattedState}, {formattedCountry}의 최고 {formattedCategory} | Hoteloza",
+    "stateOgDescriptionTemplate": "Hoteloza에서 {currentYear}년 {formattedState}, {formattedCountry}의 최고 {formattedCategory}을(를) 발견하세요. 독점 할인 및 프리미엄 편의 시설을 위해 지금 예약하세요!",
     "cityNotFoundTitle": "페이지를 찾을 수 없습니다 | Hoteloza",
-    "cityNotFoundDescription": "찾고 있는 카테고리, 국가, 지역 또는 도시를 Hoteloza에서 찾을 수 없습니다.",
-    "cityPageTitleTemplate": "{currentYear}년 {formattedCountry} {formattedState} {formattedCity}의 저렴한 {formattedCategory} - 큰 할인! | Hoteloza",
-    "cityPageDescriptionTemplate": "Hoteloza에서 {currentYear}년 {formattedCity}, {formattedState}, {formattedCountry}에서 최고의 {formattedCategory}을(를) 찾아보세요. 독점 할인, 최고 수준의 시설 및 unbeatable 가격. 지금 꿈의 숙박을 예약하세요!",
-    "cityOgTitleTemplate": "{currentYear}년 {formattedCountry} {formattedState} {formattedCity}의 최고 {formattedCategory} | Hoteloza",
-    "cityOgDescriptionTemplate": "Hoteloza에서 {currentYear}년 {formattedCity}, {formattedState}, {formattedCountry}의 최고 {formattedCategory}을(를) 발견하세요. 독점 할인 및 프리미엄 시설을 위해 지금 예약하세요!",
+    "cityNotFoundDescription": "찾으시는 카테고리, 국가, 주 또는 도시를 Hoteloza에서 찾을 수 없습니다.",
+    "cityPageTitleTemplate": "{currentYear}년 {formattedCity}, {formattedState}, {formattedCountry}의 저렴한 {formattedCategory} - 큰 할인! | Hoteloza",
+    "cityPageDescriptionTemplate": "Hoteloza에서 {currentYear}년 {formattedCity}, {formattedState}, {formattedCountry}의 최고의 {formattedCategory}을(를) 찾으세요. 독점 할인, 프리미엄 편의 시설, unbeatable 가격. 꿈의 숙소를 지금 예약하세요!",
+    "cityOgTitleTemplate": "{currentYear}년 {formattedCity}, {formattedState}, {formattedCountry}의 최고 {formattedCategory} | Hoteloza",
+    "cityOgDescriptionTemplate": "Hoteloza에서 {currentYear}년 {formattedCity}, {formattedState}, {formattedCountry}의 최고 {formattedCategory}을(를) 발견하세요. 독점 할인 및 프리미엄 편의 시설을 위해 지금 예약하세요!",
     "hotelNotFoundTitle": "호텔을 찾을 수 없습니다 | Hoteloza",
-    "hotelNotFoundDescription": "찾고 있는 호텔을 찾을 수 없습니다.",
+    "hotelNotFoundDescription": "찾으시는 호텔을 찾을 수 없습니다.",
     "hotelPageTitleTemplate": "{hotelTitle} - Hoteloza에서 지금 예약하세요!",
-    "hotelPageDescriptionTemplate": "{city}, {state}, {country}에 위치한 {hotelTitle}에서 숙박을 예약하세요. Hoteloza와 함께 잊지 못할 경험을 위한 최고의 거래, 시설 및 리뷰를 찾아보세요.",
+    "hotelPageDescriptionTemplate": "{city}, {state}, {country}의 {hotelTitle}에서 숙소를 예약하세요. Hoteloza로 잊지 못할 경험을 위한 최고의 제안, 편의 시설 및 리뷰를 찾으세요.",
     "hotelOgTitleTemplate": "{hotelTitle} | Hoteloza",
-    "hotelOgDescriptionTemplate": "Hoteloza에서 {hotelTitle}의 최고 거래를 찾아보세요."
+    "hotelOgDescriptionTemplate": "Hoteloza로 {hotelTitle}의 최고의 제안을 찾으세요."
   },
   "landmarkPage": {
     "topHotelsNear": "{landmarkName} 근처 저렴한 {category}",
     "landmarkPageTitleTemplate": "{landmarkName} 근처 저렴한 {category}",
-    "description": "{category} {landmarkName}은(는) {cityName}에서 무료 WiFi와 같은 훌륭한 거래 및 편의 시설을 갖춘 최고의 숙소를 제공합니다.",
+    "description": "{category} {landmarkName}은(는) {cityName}에서 무료 WiFi와 같은 훌륭한 제안과 편의 시설을 갖춘 최고의 숙박 시설을 제공합니다.",
     "loadingHotel": "호텔 로드 중...",
     "errorLoadingHotel": "오류: {error}",
     "hotelNotFound": "호텔을 찾을 수 없습니다.",
@@ -241,58 +252,58 @@
   "navigation": {
     "home": "홈",
     "about": "회사 소개",
-    "contact": "문의"
+    "contact": "문의하기"
   },
   "homepage": {
     "dreamDestinations": "꿈의 목적지",
-    "unforgettableSpots": "몇 번이고 다시 탐험하고 싶을 잊지 못할 장소들",
-    "whatOurGuestsTrulyLoveAboutUs": "고객들이 저희를 정말 좋아하는 이유",
-    "experienceTheMagic": "수백만 명을 다시 찾게 만드는 마법을 경험하세요. Hoteloza는 쉽고 세심하며 탁월한 서비스로 모든 숙박을 잊지 못할 경험으로 만들기 위해 최선을 다합니다.",
-    "hotelozaHeroTitle": "Hoteloza로 검색, 예약, 휴식을 즐기세요",
-    "hotelozaHeroSubtitle": "Hoteloza로 전 세계 수천 개의 호텔을 탐험하세요",
-    "delightedGuests": "기뻐하는 고객",
+    "unforgettableSpots": "계속해서 탐험하고 싶은 잊지 못할 장소",
+    "whatOurGuestsTrulyLoveAboutUs": "우리 고객들이 정말 좋아하는 점",
+    "experienceTheMagic": "수백만 명을 다시 찾게 하는 마법을 경험하세요. Hoteloza는 편리함, 배려, 탁월한 서비스로 모든 숙소를 잊지 못할 추억으로 만들기 위해 최선을 다하고 있습니다.",
+    "hotelozaHeroTitle": "Hoteloza로 찾고, 예약하고, 휴식을 취하세요",
+    "hotelozaHeroSubtitle": "Hoteloza로 전 세계 수천 개의 호텔을 탐색하세요",
+    "delightedGuests": "만족한 손님",
     "guestSatisfactionScore": "고객 만족도 점수",
     "happyPeople": "행복한 사람들",
-    "overallRating": "전반적인 평가"
+    "overallRating": "종합 평점"
   },
   "about": {
-    "lookingForJoy": "즐거움을 찾고 계신가요?",
-    "trustedTripCompanion": "당신의 신뢰할 수 있는 여행 동반자",
+    "lookingForJoy": "즐거움을 찾고 계십니까?",
+    "trustedTripCompanion": "귀하의 믿음직한 여행 동반자",
     "whyChooseUs": "저희를 선택하는 이유",
-    "popularDestinationsOffer": "이 인기 있는 목적지들은 많은 것을 제공합니다",
-    "overheardFromTravelers": "여행객들로부터 들은 이야기",
-    "aboutHotelozaTitle": "Hoteloza 소개",
+    "popularDestinationsOffer": "이 인기 있는 목적지는 많은 것을 제공합니다",
+    "overheardFromTravelers": "여행자들로부터 들은 이야기",
+    "aboutHotelozaTitle": "Hoteloza 정보",
     "aboutHotelozaSubtitle": "편안함과 우아함의 세계를 발견하세요",
-    "aboutHotelozaParagraph1": "Hoteloza는 활기 넘치는 목적지의 중심에서 타의 추종을 불허하는 환대를 제공하는 럭셔리한 안식처입니다. 저희 호텔은 현대적인 우아함과 시대를 초월한 편안함을 결합하여 모든 숙박이 잊지 못할 경험이 되도록 합니다.",
-    "aboutHotelozaParagraph2": "고요한 스파에서 절묘한 식사에 이르기까지 세계적 수준의 편의 시설을 만끽하고, 모든 방문을 잊지 못할 추억으로 만드는 인근 명소를 탐험하세요. 비즈니스든 레저든, Hoteloza는 집과 같은 편안함을 선사합니다."
+    "aboutHotelozaParagraph1": "Hoteloza는 활기찬 목적지의 중심에서 비할 데 없는 환대를 제공하는 귀하의 럭셔리한 안식처입니다. 저희 호텔은 현대적인 우아함과 시대를 초월한 편안함을 결합하여 모든 숙소가 잊을 수 없는 경험이 되도록 보장합니다.",
+    "aboutHotelozaParagraph2": "평온한 스파부터 절묘한 식당까지 세계적으로 유명한 시설에 푹 빠져보고, 모든 방문을 기억에 남게 하는 인근 명소를 탐험해 보세요. 비즈니스든 즐거움을 위한 것이든, Hoteloza는 집과 같은 편안함을 제공합니다."
   },
   "blockGuide": {
     "bestPriceGuarantee": "최저가 보장",
-    "bestPriceGuaranteeText": "최고의 숙소를 최적의 가격으로 찾아보세요 – 보장됩니다. 숨겨진 수수료 없이, 예약할 때마다 실제 절약 효과를 누리세요.",
+    "bestPriceGuaranteeText": "가능한 최고의 가격으로 완벽한 숙소를 찾으세요 – 보장합니다. 숨겨진 수수료 없이, 예약할 때마다 실제 절약이 가능합니다.",
     "easyQuickBooking": "쉽고 빠른 예약",
-    "easyQuickBookingText": "몇 번의 클릭만으로 꿈의 호텔을 예약하세요. 빠르고, 간단하며, 번거로움 없이 – 다음 여행은 여기에서 시작됩니다.",
-    "customerSupport": "24/7 고객 지원",
-    "customerSupportText": "도움이 필요하세요? 저희 지원팀은 24시간 내내 언제 어디서든 도움을 드릴 준비가 되어 있습니다."
+    "easyQuickBookingText": "몇 번의 클릭만으로 꿈의 호텔을 예약하세요. 빠르고, 쉽고, 번거로움 없이 – 다음 탈출은 여기에서 시작됩니다.",
+    "customerSupport": "24시간 연중무휴 고객 지원",
+    "customerSupportText": "도움이 필요하십니까? 저희 지원팀은 24시간 내내 언제 어디서든 귀하를 도울 준비가 되어 있습니다."
   },
   "contactPage": {
     "heroTitle": "문의하기",
-    "heroSubtitle": "저희는 여러분을 돕고 궁금한 점에 답변해 드릴 준비가 되어 있습니다.",
+    "heroSubtitle": "저희는 귀하를 돕고 모든 질문에 답변하기 위해 여기에 있습니다.",
     "getInTouchTitle": "문의하기",
-    "getInTouchDescription": "궁금한 점이나 우려 사항이 있으면 언제든지 문의해 주세요. 저희 팀은 항상 기꺼이 도와드릴 준비가 되어 있습니다.",
+    "getInTouchDescription": "궁금한 점이나 우려 사항이 있으시면 언제든지 저희에게 연락해 주십시오. 저희 팀은 항상 귀하를 도울 준비가 되어 있습니다.",
     "addressLabel": "주소",
-    "addressValue": "Hoteloza가, 123번지, 456호, 도시, 국가",
+    "addressValue": "Hoteloza Street 123, Apartment 456, City, Country",
     "emailLabel": "이메일",
     "emailValue": "info@hoteloza.com",
     "workingHoursLabel": "영업 시간",
-    "workingHoursValue": "월요일 - 금요일: 오전 9:00 - 오후 5:00 (현지 시간)"
+    "workingHoursValue": "월요일 - 금요일: 오전 9시 - 오후 5시 (현지 시간)"
   },
   "callToActions": {
-    "subscribeHere": "여기에서 구독하기",
-    "yourEmail": "이메일 주소",
+    "subscribeHere": "여기에서 구독하세요",
+    "yourEmail": "귀하의 이메일",
     "subscribeButton": "구독"
   },
   "testimonials": {
-    "sarahMQuote": "Hoteloza는 판도를 바꾸는 서비스입니다! 저는 여기에서 꾸준히 최고의 호텔 특가를 찾았습니다. 정말로 전 세계 최고의 호텔 제휴 웹사이트입니다.",
+    "sarahMQuote": "Hoteloza는 게임 체인저입니다! 저는 항상 여기에서 최고의 호텔 상품을 찾습니다. 전 세계적으로 정말 최고의 호텔 파트너 웹사이트입니다.",
     "sarahMName": "사라 M.",
     "sarahMDesignation": "여행 애호가",
     "data": [
@@ -301,7 +312,7 @@
         "avatar": "/img/avatars/testimonials/1.jpg",
         "name": "사라 밀러",
         "designation": "여행 블로거",
-        "text": "여기에서의 숙박은 정말 믿을 수 없었습니다! 위치가 전략적이며, 객실은 깨끗하고 편안했으며, 직원들의 서비스는 매우 친절했습니다. 가족 여행에 강력히 추천합니다.",
+        "text": "여기에서의 숙박은 정말 놀라웠습니다! 위치는 전략적이고, 방은 깨끗하고 편안했으며, 직원들의 서비스는 매우 친절했습니다. 가족 휴가에 강력히 추천합니다.",
         "dealyAnimation": "100"
       },
       {
@@ -309,7 +320,7 @@
         "avatar": "/img/avatars/testimonials/2.png",
         "name": "존 데이비스",
         "designation": "사업가",
-        "text": "이 호텔은 출장으로 완벽한 선택이었습니다. 완벽한 시설, 빠른 Wi-Fi, 그리고 시내 중심가와 가깝습니다. 매우 효율적이고 편안합니다.",
+        "text": "이 호텔은 내 출장에 완벽한 선택이었습니다. 완벽한 시설, 빠른 Wi-Fi, 그리고 시내 중심가와 가깝습니다. 매우 효율적이고 편리합니다.",
         "dealyAnimation": "200"
       },
       {
@@ -317,7 +328,7 @@
         "avatar": "/img/avatars/testimonials/3.png",
         "name": "에밀리 화이트",
         "designation": "학생",
-        "text": "모던하고 인스타 감성 가득한 인테리어가 정말 마음에 들어요! 친구들과의 스테이케이션에 완벽합니다. 가격도 이렇게 훌륭한 품질에 비해 합리적입니다.",
+        "text": "현대적이고 인스타그램에 올리기 좋은 인테리어 디자인이 너무 마음에 들어요! 친구들과의 숙박에 이상적입니다. 이런 훌륭한 품질에 가격도 합리적입니다.",
         "dealyAnimation": "300"
       },
       {
@@ -325,7 +336,7 @@
         "avatar": "/img/avatars/testimonials/1.png",
         "name": "데이비드 리",
         "designation": "사진작가",
-        "text": "방에서 보는 경치가 정말 멋졌어요! 멋진 사진을 많이 찍을 수 있었어요. 직원들도 관광 명소 추천에 매우 도움이 되었습니다.",
+        "text": "방에서 바라보는 경치가 정말 멋졌어요! 멋진 사진을 많이 찍을 수 있었습니다. 직원들도 매우 친절하고 관광 명소를 추천해 주었습니다.",
         "dealyAnimation": "400"
       }
     ],
@@ -336,7 +347,7 @@
         "avatar": "/img/avatars/testimonials/1.png",
         "name": "올리비아 그레이스",
         "designation": "작가",
-        "text": "\"이 호텔은 평화롭고 조용한 곳을 찾는 데 완벽합니다. 고요한 분위기, 조용한 객실, 그리고 응답이 빠른 직원 덕분에 방해받지 않고 글쓰기에 집중할 수 있었습니다. 강력히 추천합니다.\"",
+        "text": "\"이 호텔은 평화와 고요함을 찾기에 완벽합니다. 평온한 분위기, 조용한 객실, 그리고 반응이 빠른 직원들 덕분에 방해 없이 글쓰기에 집중할 수 있었습니다. 강력히 추천합니다.\"",
         "dealyAnimation": "100"
       },
       {
@@ -345,7 +356,7 @@
         "avatar": "/img/avatars/testimonials/2.png",
         "name": "다니엘 김",
         "designation": "디지털 노마드",
-        "text": "\"안정적인 인터넷 연결과 편안한 작업 공간은 이곳의 큰 장점입니다. 일과 휴가를 동시에 즐길 수 있었습니다. 위치도 많은 카페와 가깝습니다.\"",
+        "text": "\"안정적인 인터넷 연결과 편안한 작업 공간은 이곳의 큰 장점입니다. 동시에 일도 하고 쉴 수도 있었습니다. 위치도 많은 카페와 가깝습니다.\"",
         "dealyAnimation": "200"
       },
       {
@@ -354,7 +365,7 @@
         "avatar": "/img/avatars/testimonials/3.png",
         "name": "소피아 브라운",
         "designation": "은퇴자",
-        "text": "\"친절한 서비스와 노인 친화적인 시설 덕분에 매우 편안하게 지낼 수 있었습니다. 아침 식사도 맛있고 다양했습니다. 꼭 다시 올 거예요.\"",
+        "text": "\"친절한 서비스와 노인 친화적인 시설 덕분에 매우 편안하게 지낼 수 있었습니다. 아침 식사도 맛있고 다양했습니다. 확실히 다시 올 것입니다.\"",
         "dealyAnimation": "300"
       },
       {
@@ -363,7 +374,7 @@
         "avatar": "/img/avatars/testimonials/4.png",
         "name": "마이클 첸",
         "designation": "요리사",
-        "text": "\"요리사로서 이 호텔 레스토랑의 음식 품질을 정말 높이 평가합니다. 요리는 맛있고 메뉴 옵션도 다양합니다. 정말 놀라운 미식 경험입니다!\"",
+        "text": "\"요리사로서 이 호텔 레스토랑의 음식 품질을 정말 높이 평가합니다. 요리는 맛있고 메뉴 선택도 다양합니다. 정말 놀라운 미식 경험입니다!\"",
         "dealyAnimation": "400"
       },
       {
@@ -372,7 +383,7 @@
         "avatar": "/img/avatars/testimonials/5.png",
         "name": "클로이 윌슨",
         "designation": "그래픽 디자이너",
-        "text": "\"호텔의 미학적인 인테리어 디자인과 좋은 조명이 제 창의력을 정말 잘 뒷받침해 주었습니다. 흥미로운 포토존이 많아요! 방도 매우 깨끗했습니다.\"",
+        "text": "\"호텔의 미학적인 인테리어 디자인과 좋은 조명은 정말 저의 창의성을 높여주었습니다. 사진을 찍을 재미있는 장소가 많아요! 방도 매우 깨끗했습니다.\"",
         "dealyAnimation": "500"
       }
     ],
@@ -383,23 +394,23 @@
         "avatar": "/img/testimonials/2/1.png",
         "name": "제임스 테일러",
         "designation": "사업가",
-        "text": "\"이 리조트는 환상적인 바다 전망을 자랑합니다. 일상에서 벗어나 휴식을 취하기에 완벽합니다. 인피니티 풀 시설도 숨 막히게 아름답습니다.\""
+        "text": "\"이 리조트는 믿을 수 없는 바다 전망을 가지고 있습니다. 일상에서 벗어나 휴식을 취하기에 완벽합니다. 인피니티 풀을 갖춘 시설도 숨 막힐 듯 아름답습니다.\""
       },
       {
         "id": 2,
         "meta": "오션 뷰 리조트",
-        "avatar": "/img/testimonials/2/2.png",
+        "avatar": "/img/avatars/testimonials/2/2.png",
         "name": "이사벨라 로드리게스",
         "designation": "교사",
-        "text": "\"저희 가족 여행은 정말 기억에 남습니다. 아이들을 위한 활동도 많았고, 직원들도 매우 친절하고 도움이 되었습니다. 아이들은 전용 해변에서 노는 것을 정말 좋아했습니다.\""
+        "text": "\"여기에서의 우리 가족 휴가는 매우 기억에 남았습니다. 아이들을 위한 활동이 많았고, 직원들도 매우 친절하고 도움이 되었습니다. 아이들은 전용 해변에서 노는 것을 정말 좋아했습니다.\""
       },
       {
         "id": 3,
         "meta": "오션 뷰 리조트",
-        "avatar": "/img/testimonials/2/3.png",
+        "avatar": "/img/avatars/testimonials/2/3.png",
         "name": "리암 가르시아",
         "designation": "의사",
-        "text": "\"이곳은 휴식을 위한 완벽한 도피처입니다. 편안한 스파 서비스와 평화로운 분위기 덕분에 완전히 상쾌해졌습니다.\""
+        "text": "\"이곳은 휴식을 위한 완벽한 도피처입니다. 편안한 스파 서비스와 고요한 분위기는 저를 완전히 상쾌하게 만들었습니다.\""
       },
       {
         "id": 4,
@@ -407,7 +418,7 @@
         "avatar": "/img/avatars/testimonials/2/4.png",
         "name": "미아 마르티네즈",
         "designation": "컨설턴트",
-        "text": "\"저는 출장이 잦은데, 이 리조트는 집처럼 편안함을 제공합니다. 룸서비스도 빠르고 전문적입니다. 분명히 제 단골 선택이 될 것입니다.\""
+        "text": "\"저는 업무상 자주 여행을 다니는데, 이 리조트는 집과 같은 편안함을 제공합니다. 룸서비스는 빠르고 전문적입니다. 확실히 저의 단골 선택이 될 것입니다.\""
       },
       {
         "id": 5,
@@ -415,93 +426,93 @@
         "avatar": "/img/avatars/testimonials/2/5.png",
         "name": "노아 톰슨",
         "designation": "예술가",
-        "text": "\"영감은 어디에서나 오지만, 이 리조트는 숨 막히는 자연의 아름다움으로 가득합니다. 여기서 그림을 많이 그렸습니다. 예술가나 영감을 찾는 모든 분께 강력히 추천합니다.\""
+        "text": "\"영감은 어디에서나 오는데, 이 리조트는 숨 막힐 듯 아름다운 자연으로 가득합니다. 저는 여기서 그림을 많이 그렸습니다. 예술가나 영감을 찾는 모든 분께 강력히 추천합니다.\""
       }
     ]
   },
   "faqContent": {
     "hotel": {
-      "facilitiesQuestion": "{title}에 어떤 시설이 포함되어 있나요?",
-      "facilitiesAnswer": "{title}의 시설로는 무료 Wi-Fi, 수영장, 주차장 등이 있습니다. 모든 편의 시설 목록은 숙소에 문의하십시오.",
-      "breakfastQuestion": "{title}에 조식이 포함되어 있나요?",
-      "breakfastAnswer": "네, {title}에 숙박하시면 조식이 포함되어 있습니다.",
+      "facilitiesQuestion": "{title}에는 어떤 편의 시설이 포함되어 있나요?",
+      "facilitiesAnswer": "{title}의 편의 시설에는 무료 Wi-Fi, 수영장, 주차장 등이 포함됩니다. 모든 편의 시설 목록은 숙소에 문의하세요.",
+      "breakfastQuestion": "{title}에는 조식이 포함되어 있나요?",
+      "breakfastAnswer": "네, {title}에서의 숙박에는 조식이 포함되어 있습니다.",
       "checkInCheckOutQuestion": "{title}의 체크인 및 체크아웃 시간은 어떻게 되나요?",
-      "checkInCheckOutAnswer": "{title}의 체크인 시간은 오후 2시부터이며, 체크아웃은 정오 12시까지입니다.",
-      "petsAllowedQuestion": "{title}에 반려동물 동반이 가능한가요?",
+      "checkInCheckOutAnswer": "체크인 시간은 14:00부터이며, 체크아웃 시간은 {title}에서 12:00까지입니다.",
+      "petsAllowedQuestion": "{title}에서 반려동물 동반이 가능한가요?",
       "petsAllowedAnswer": "{title}에서는 반려동물 동반이 허용되지 않습니다.",
       "parkingFacilityQuestion": "{title}에 주차 시설이 있나요?",
-      "parkingFacilityAnswer": "네, {title}에는 투숙객을 위한 주차 시설이 있습니다.",
-      "smokingAllowedQuestion": "{title}에서 흡연이 가능한가요?",
+      "parkingFacilityAnswer": "네, {title} 투숙객을 위한 주차장이 마련되어 있습니다.",
+      "smokingAllowedQuestion": "{title}에서 흡연이 허용되나요?",
       "smokingAllowedAnswer": "아니요, {title}의 모든 구역에서는 흡연이 금지됩니다.",
       "airportTransportationQuestion": "{title}에서 공항 교통편을 제공하나요?",
-      "airportTransportationAnswer": "네, {title}에서는 추가 요금으로 공항 교통편을 arranging할 수 있습니다.",
+      "airportTransportationAnswer": "네, {title}에서는 추가 요금으로 공항 교통편을 예약할 수 있습니다.",
       "cancellationPolicyQuestion": "{title}의 취소 정책은 무엇인가요?",
       "cancellationPolicyAnswer": "체크인 24시간 전까지는 무료로 취소할 수 있습니다.",
-      "meetingFacilitiesQuestion": "{title}에 회의 시설이 있나요?",
-      "meetingFacilitiesAnswer": "네, {title}에는 예약 가능한 완벽한 회의실이 있습니다.",
-      "attractionsNearQuestion": "{title} 근처에는 어떤 명소가 있나요?",
-      "attractionsNearAnswer": "{title} 근처의 인기 명소로는 [명소 목록]이(가) 있습니다."
+      "meetingFacilitiesQuestion": "{title}에 회의실이 있나요?",
+      "meetingFacilitiesAnswer": "네, {title}에는 예약 가능한 완비된 회의실이 있습니다.",
+      "attractionsNearQuestion": "{title} 근처에 어떤 명소가 있나요?",
+      "attractionsNearAnswer": "{title} 근처의 인기 명소로는 [명소 목록]이 있습니다."
     },
     "category": {
-      "offeringsQuestion": "{category} 카테고리에는 어떤 유형의 상품이 있나요?",
-      "offeringsAnswer": "다양한 옵션을 탐색할 준비가 되셨나요? {category} 카테고리에는 독점적인 프리미엄 경험부터 스마트하고 저렴한 솔루션까지 모든 것이 있습니다. 여행의 꿈이나 특정 요구 사항을 충족하는 완벽한 제품을 찾아보세요!",
-      "familyFriendlyQuestion": "저희 {category} 셀렉션에 가족 친화적인 선택지가 있나요?",
-      "familyFriendlyAnswer": "네, 물론입니다! 저희는 고객님의 니즈를 이해하고 있습니다. 사랑하는 사람들과의 순간을 더욱 기억에 남고 편안하게 만들 수 있도록 설계된 시설과 활동을 갖춘, 가족에게 강력히 추천하는 수많은 {category} 옵션을 만나보세요.",
-      "mainAttractionsQuestion": "이러한 {category} 상품 근처의 주요 명소 또는 가장 인기 있는 목적지는 어디인가요?",
-      "mainAttractionsAnswer": "저희 {category} 상품은 단순히 상품/서비스뿐만 아니라 위치도 중요합니다! 상징적인 관광 명소, 흥미진진한 엔터테인먼트 허브, 꼭 먹어봐야 할 미식 명소에 쉽게 접근할 수 있습니다. 반둥, 서자와 또는 선택한 {category}가 이끄는 모든 곳에서 최고의 경험을 만끽하세요!",
-      "luxuryAmenitiesQuestion": "일부 {category} 옵션에서 럭셔리 편의시설이나 특별 기능을 제공하나요?",
-      "luxuryAmenitiesAnswer": "네, 그렇습니다! 편안함과 럭셔리에 푹 빠져보세요. 저희의 많은 {category} 상품은 전용 인피니티 풀, 홀리스틱 스파 서비스, 최첨단 피트니스 센터 등 5성급 편의시설을 갖추고 있습니다. 잊지 못할 경험을 만끽하세요!",
-      "topRatedQuestion": "최고의 고객 리뷰를 받은 {category} 옵션 중 최고 등급은 무엇인가요?",
-      "topRatedAnswer": "최고를 찾고 계신가요? 다음은 저희 커뮤니티에서 사랑받는 최고 등급 {category} 옵션 목록입니다. 실제 사용자 후기를 바탕으로 품질과 만족을 보장합니다!"
+      "offeringsQuestion": "{category} 카테고리에는 어떤 종류의 상품이 있나요?",
+      "offeringsAnswer": "다양한 옵션을 살펴볼 준비가 되셨나요? 저희 {category} 카테고리에는 독점적인 프리미엄 경험부터 스마트하고 예산 친화적인 솔루션까지 모든 것이 포함되어 있습니다. 여행의 꿈이나 특정 요구 사항을 충족할 완벽한 솔루션을 찾아보세요!",
+      "familyFriendlyQuestion": "저희 {category} 컬렉션에 가족 친화적인 옵션이 있나요?",
+      "familyFriendlyAnswer": "물론입니다! 저희는 귀하의 필요를 이해합니다. 가족에게 적극 추천하는 많은 {category} 옵션을 찾아보세요. 사랑하는 사람들과의 순간을 더욱 기억에 남고 편안하게 만들도록 설계된 편의 시설과 활동이 있습니다.",
+      "mainAttractionsQuestion": "이 {category} 상품 근처의 주요 명소 또는 가장 인기 있는 목적지는 무엇인가요?",
+      "mainAttractionsAnswer": "저희 {category} 컬렉션은 제품/서비스에 관한 것만이 아닙니다. 위치도 중요합니다! 상징적인 관광지, 흥미진진한 엔터테인먼트 허브, 꼭 맛봐야 할 미식의 즐거움에 쉽게 접근할 수 있습니다. 반둥, 서부 자바 또는 선택한 {category}가 이끄는 곳이라면 어디든 귀하의 경험을 극대화하세요!",
+      "luxuryAmenitiesQuestion": "일부 {category} 옵션은 고급 편의 시설이나 특별 기능을 제공하나요?",
+      "luxuryAmenitiesAnswer": "물론입니다! 편안함과 고급스러움에 푹 빠져보세요. 저희 {category} 상품 중 다수는 전용 인피니티 풀, 통합 스파 서비스, 최첨단 피트니스 센터 등 5성급 편의 시설을 갖추고 있습니다. 잊지 못할 경험을 즐기세요!",
+      "topRatedQuestion": "최고 고객 리뷰를 받은 {category} 옵션 중 가장 높은 평점을 받은 것은 무엇인가요?",
+      "topRatedAnswer": "최고를 찾고 계십니까? 저희 커뮤니티에서 사랑받는 최고 등급의 {category} 옵션 목록을 여기에 제시합니다. 실제 사용자 추천을 통해 품질과 만족도를 보장하세요!"
     },
     "city": {
       "typesOfHotelsQuestion": "{city}에는 어떤 종류의 호텔이 있나요?",
-      "typesOfHotelsAnswer": "{city}에는 럭셔리 호텔부터 저예산 옵션까지 다양한 호텔이 있습니다.",
-      "familyFriendlyHotelsQuestion": "{city}에는 가족에게 적합한 호텔이 있나요?",
-      "familyFriendlyHotelsAnswer": "네, {city}에는 가족에게 적합한 호텔이 많이 있습니다.",
-      "attractionsNearHotelsQuestion": "{city}의 호텔 근처에는 어떤 명소가 있나요?",
+      "typesOfHotelsAnswer": "{city}에서는 럭셔리 호텔부터 저렴한 옵션까지 다양한 호텔을 탐색할 수 있습니다.",
+      "familyFriendlyHotelsQuestion": "{city}에는 가족 친화적인 호텔이 있나요?",
+      "familyFriendlyHotelsAnswer": "네, {city}에는 가족 친화적인 호텔이 많이 있습니다.",
+      "attractionsNearHotelsQuestion": "{city}의 호텔 근처에 어떤 명소가 있나요?",
       "attractionsNearHotelsAnswer": "{city}의 호텔은 다양한 인기 명소와 가깝습니다.",
       "hotelsWithPoolsQuestion": "{city}에는 수영장이 있는 호텔이 있나요?",
-      "hotelsWithPoolsAnswer": "네, {city}의 많은 호텔에는 수영장과 기타 시설이 있습니다.",
-      "bestRatedHotelsQuestion": "{city}에서 가장 좋은 평가를 받은 호텔은 어디인가요?",
-      "bestRatedHotelsAnswer": "다음은 {city}에서 가장 좋은 평가를 받은 호텔들입니다."
+      "hotelsWithPoolsAnswer": "네, {city}의 많은 호텔에는 수영장 및 기타 편의 시설이 있습니다.",
+      "bestRatedHotelsQuestion": "{city}에서 가장 평점이 높은 호텔은 무엇인가요?",
+      "bestRatedHotelsAnswer": "{city}에서 가장 평점이 높은 호텔은 다음과 같습니다."
     },
     "country": {
       "typesOfHotelsQuestion": "{country}에는 어떤 종류의 호텔이 있나요?",
-      "typesOfHotelsAnswer": "{country}에는 럭셔리 호텔부터 저예산 옵션까지 다양한 호텔이 있습니다.",
-      "familyFriendlyHotelsQuestion": "{country}에는 가족에게 적합한 호텔이 있나요?",
-      "familyFriendlyHotelsAnswer": "네, {country}에는 가족에게 적합한 호텔이 많이 있습니다.",
-      "attractionsNearHotelsQuestion": "{country}의 호텔 근처에는 어떤 명소가 있나요?",
+      "typesOfHotelsAnswer": "{country}에서는 럭셔리 호텔부터 저렴한 옵션까지 다양한 호텔을 탐색할 수 있습니다.",
+      "familyFriendlyHotelsQuestion": "{country}에는 가족 친화적인 호텔이 있나요?",
+      "familyFriendlyHotelsAnswer": "네, {country}에는 가족 친화적인 호텔이 많이 있습니다.",
+      "attractionsNearHotelsQuestion": "{country}의 호텔 근처에 어떤 명소가 있나요?",
       "attractionsNearHotelsAnswer": "{country}의 호텔은 다양한 인기 명소와 가깝습니다.",
       "hotelsWithPoolsQuestion": "{country}에는 수영장이 있는 호텔이 있나요?",
-      "hotelsWithPoolsAnswer": "네, {country}의 많은 호텔에는 수영장과 기타 시설이 있습니다.",
-      "bestRatedHotelsQuestion": "{country}에서 가장 좋은 평가를 받은 호텔은 어디인가요?",
-      "bestRatedHotelsAnswer": "다음은 {country}에서 가장 좋은 평가를 받은 호텔들입니다."
+      "hotelsWithPoolsAnswer": "네, {country}의 많은 호텔에는 수영장 및 기타 편의 시설이 있습니다.",
+      "bestRatedHotelsQuestion": "{country}에서 가장 평점이 높은 호텔은 무엇인가요?",
+      "bestRatedHotelsAnswer": "{country}에서 가장 평점이 높은 호텔은 다음과 같습니다."
     },
     "landmark": {
       "typesOfHotelsQuestion": "{landmark} 근처에는 어떤 종류의 호텔이 있나요?",
-      "typesOfHotelsAnswer": "{landmark} 근처에는 럭셔리 부티크 호텔부터 편안하고 저렴한 숙소까지 다양한 숙박 옵션이 있습니다. 짧은 방문이든 장기적인 탐험이든, 모든 취향에 맞는 완벽한 호텔이 있습니다.",
-      "familyFriendlyHotelsQuestion": "{landmark} 근처에 가족에게 적합한 호텔이 있나요?",
-      "familyFriendlyHotelsAnswer": "네, 물론입니다! {landmark} 근처의 많은 호텔은 넓은 가족실, 어린이 클럽, 수영장과 같은 편의 시설을 갖추고 있어 가족에게 적합합니다. 가족과 함께 랜드마크와 주변 지역을 탐험하기 위한 편안한 기지가 됩니다.",
-      "attractionsNearHotelsQuestion": "{landmark} 근처 호텔 근처에는 어떤 명소가 있나요?",
-      "attractionsNearHotelsAnswer": "{landmark} 근처 호텔은 랜드마크 자체를 방문하는 데 탁월한 편의성을 제공합니다. 또한, 다른 인기 명소, 박물관, 식당 및 엔터테인먼트 장소와 전략적으로 가깝게 위치하여 탐험을 쉽게 할 수 있습니다.",
+      "typesOfHotelsAnswer": "{landmark} 근처에서는 고급 부티크 호텔부터 편리하고 저렴한 숙소까지 다양한 숙박 옵션을 찾을 수 있습니다. 짧은 방문이든 장기 탐험이든, 모든 취향에 맞는 완벽한 호텔이 있습니다.",
+      "familyFriendlyHotelsQuestion": "{landmark} 근처에 가족 친화적인 호텔이 있나요?",
+      "familyFriendlyHotelsAnswer": "물론입니다! {landmark} 근처의 많은 호텔은 가족을 위해 잘 갖추어져 있으며, 넓은 가족 객실, 어린이 클럽, 수영장과 같은 편의 시설을 제공합니다. 사랑하는 사람들과 랜드마크와 주변 지역을 탐험하기 위한 편안한 기반을 제공합니다.",
+      "attractionsNearHotelsQuestion": "{landmark} 근처 호텔 근처에 어떤 명소가 있나요?",
+      "attractionsNearHotelsAnswer": "{landmark} 근처의 호텔은 랜드마크 자체를 방문하는 데 비할 데 없는 편리함을 제공합니다. 또한, 다른 인기 있는 명소, 박물관, 식당 및 엔터테인먼트 옵션과 전략적으로 가까이 위치하여 탐험을 원활하게 합니다.",
       "hotelsWithPoolsQuestion": "{landmark} 근처에 수영장이 있는 호텔이 있나요?",
-      "hotelsWithPoolsAnswer": "네, {landmark} 근처에 위치한 많은 호텔에는 상쾌한 수영장이 있어 하루 종일 관광 후 휴식을 취하기에 완벽합니다. 일부 호텔은 랜드마크나 도시 스카이라인의 멋진 전망을 자랑하는 옥상 수영장을 갖추고 있기도 합니다.",
-      "bestRatedHotelsQuestion": "{landmark} 근처에서 가장 좋은 평가를 받은 호텔은 어디인가요?",
-      "bestRatedHotelsAnswerDefault": "현재 {landmark} 바로 근처의 호텔에 대한 특정 최고 평점 데이터는 없습니다. 하지만 더 넓은 지역에서 다양한 고평점 옵션을 찾아볼 수 있습니다.",
-      "bestRatedHotelsAnswerWithData": "고객 리뷰에 따르면, {landmark} 근처에서 가장 좋은 평가를 받은 호텔은 다음과 같습니다."
+      "hotelsWithPoolsAnswer": "네, {landmark} 근처에 위치한 많은 호텔에는 상쾌한 수영장이 있어 관광을 마친 후 휴식을 취하기에 좋습니다. 일부는 랜드마크 또는 도시 스카이라인의 놀라운 전망을 감상할 수 있는 옥상 수영장도 자랑합니다.",
+      "bestRatedHotelsQuestion": "{landmark} 근처에서 가장 평점이 높은 호텔은 무엇인가요?",
+      "bestRatedHotelsAnswerDefault": "현재 {landmark} 바로 근처에 있는 최고 평점 호텔에 대한 구체적인 데이터는 없습니다. 하지만 더 넓은 지역에서 다양한 고평가 옵션을 탐색할 수 있습니다.",
+      "bestRatedHotelsAnswerWithData": "손님들의 리뷰에 따르면, {landmark} 근처에서 가장 평점이 높은 호텔은 다음과 같습니다."
     },
     "state": {
       "typesOfHotelsQuestion": "{state}에는 어떤 종류의 호텔이 있나요?",
-      "typesOfHotelsAnswer": "{state}에는 럭셔리 호텔부터 저예산 옵션까지 다양한 호텔이 있습니다.",
-      "familyFriendlyHotelsQuestion": "{state}에는 가족에게 적합한 호텔이 있나요?",
-      "familyFriendlyHotelsAnswer": "네, {state}에는 가족에게 적합한 호텔이 많이 있습니다.",
-      "attractionsNearHotelsQuestion": "{state}의 호텔 근처에는 어떤 명소가 있나요?",
+      "typesOfHotelsAnswer": "{state}에서는 럭셔리 호텔부터 저렴한 옵션까지 다양한 호텔을 탐색할 수 있습니다.",
+      "familyFriendlyHotelsQuestion": "{state}에는 가족 친화적인 호텔이 있나요?",
+      "familyFriendlyHotelsAnswer": "네, {state}에는 가족 친화적인 호텔이 많이 있습니다.",
+      "attractionsNearHotelsQuestion": "{state}의 호텔 근처에 어떤 명소가 있나요?",
       "attractionsNearHotelsAnswer": "{state}의 호텔은 다양한 인기 명소와 가깝습니다.",
       "hotelsWithPoolsQuestion": "{state}에는 수영장이 있는 호텔이 있나요?",
-      "hotelsWithPoolsAnswer": "네, {state}의 많은 호텔에는 수영장과 기타 시설이 있습니다.",
-      "bestRatedHotelsQuestion": "{state}에서 가장 좋은 평가를 받은 호텔은 어디인가요?",
-      "bestRatedHotelsAnswer": "다음은 {state}에서 가장 좋은 평가를 받은 호텔들입니다."
+      "hotelsWithPoolsAnswer": "네, {state}의 많은 호텔에는 수영장 및 기타 편의 시설이 있습니다.",
+      "bestRatedHotelsQuestion": "{state}에서 가장 평점이 높은 호텔은 무엇인가요?",
+      "bestRatedHotelsAnswer": "{state}에서 가장 평점이 높은 호텔은 다음과 같습니다."
     }
   }
 }

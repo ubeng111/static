@@ -32,7 +32,8 @@
     "unknownLocation": "未知位置",
     "failedToLoadHotelData": "無法檢索飯店資料",
     "errorWithMessage": "錯誤：{error}",
-    "night": "晚"
+    "night": "晚",
+    "cityNotFound": "找不到城市"
   },
   "header": {
     "luxuryBackgroundImageAlt": "奢華背景圖片"
@@ -42,7 +43,8 @@
     "searchResultPropertiesIn": "在以下地點找到的物業",
     "selectedCity": "所選城市",
     "unknownLocation": "未知位置",
-    "searchParametersIncomplete": "搜尋參數不完整。"
+    "searchParametersIncomplete": "搜尋參數不完整。",
+    "checkInCheckOut": "入住 - 退房"
   },
   "categoryPage": {
     "discoverLuxeStaysIn": "探索奢華住宿於",
@@ -158,7 +160,20 @@
     "adultsLabel": "成人",
     "childrenLabel": "兒童",
     "roomsLabel": "房間",
-    "searchButton": "搜尋"
+    "searchButton": "搜尋",
+    "selectGuestsAndRooms": "選擇客人和房間",
+    "guestLabels": {
+        "adults": "成人",
+        "children": "兒童",
+        "rooms": "房間",
+        "adultsSingular": "成人",
+        "adultsPlural": "成人",
+        "childrenSingular": "兒童",
+        "childrenPlural": "兒童",
+        "roomsSingular": "房間",
+        "roomsPlural": "房間",
+        "childrenAgeRange": "0-17"
+    }
   },
   "footer": {
     "popularStays": "熱門住宿",
@@ -200,9 +215,9 @@
     "categoryNotFoundDescription": "您正在尋找的類別未在 Hoteloza 上找到。",
     "categoryPageTitleTemplate": "{currentYear} 最佳 {formattedCategory} 折扣 - 在 Hoteloza 大省一筆！",
     "categoryPageDescriptionTemplate": "透過 Hoteloza 探索 {currentYear} 年最棒的 {formattedCategory}。享受獨家折扣、超值價格和一流設施。立即預訂，享受難忘的住宿體驗！",
-    "categoryOgTitleTemplate": "{currentYear} 頂級 {formattedCategory} 優惠 | Hoteloza",
+    "categoryOgTitleTemplate": "頂級 {formattedCategory} 優惠 {currentYear} | Hoteloza",
     "categoryOgDescriptionTemplate": "在 Hoteloza 探索 {currentYear} 年最受歡迎的 {formattedCategory}。立即預訂，享受獨家優惠和優質設施！",
-    "categoryWebPageNameTemplate": "{currentYear} 頂級 {formattedCategory} 優惠",
+    "categoryWebPageNameTemplate": "頂級 {formattedCategory} 優惠 {currentYear}",
     "categoryWebPageDescriptionTemplate": "在 Hoteloza 探索 {currentYear} 年最受歡迎的 {formattedCategory}，享受獨家優惠和優質設施。",
     "countryNotFoundTitle": "頁面未找到 | Hoteloza",
     "countryNotFoundDescription": "您正在尋找的類別、國家或省份未在 Hoteloza 上找到。",
@@ -422,17 +437,17 @@
   "faqContent": {
     "hotel": {
       "facilitiesQuestion": "{title} 包含哪些設施？",
-      "facilitiesAnswer": "{title} 的設施包括免費 Wi-Fi、游泳池、停車場等。請聯絡住宿以獲取完整設施列表。",
+      "facilitiesAnswer": "設施在 {title} 包括免費 Wi-Fi、游泳池、停車場等。請聯絡住宿以獲取完整設施列表。",
       "breakfastQuestion": "{title} 包含早餐嗎？",
-      "breakfastAnswer": "是的，{title} 的住宿包含早餐。",
+      "breakfastAnswer": "是的，早餐包含在您 {title} 的住宿費用中。",
       "checkInCheckOutQuestion": "{title} 的入住和退房時間是幾點？",
-      "checkInCheckOutAnswer": "{title} 的入住時間為下午 2 點起，退房時間為中午 12 點前。",
+      "checkInCheckOutAnswer": "入住時間為下午 2 點起，退房時間為中午 12 點前，在 {title}。",
       "petsAllowedQuestion": "{title} 允許攜帶寵物嗎？",
-      "petsAllowedAnswer": "{title} 不允許攜帶寵物。",
+      "petsAllowedAnswer": "不允許攜帶寵物，在 {title}。",
       "parkingFacilityQuestion": "{title} 有停車設施嗎？",
-      "parkingFacilityAnswer": "是的，{title} 為住客提供停車位。",
+      "parkingFacilityAnswer": "是的，停車位可供 {title} 的住客使用。",
       "smokingAllowedQuestion": "{title} 允許吸煙嗎？",
-      "smokingAllowedAnswer": "不，{title} 的所有區域都禁止吸煙。",
+      "smokingAllowedAnswer": "不，所有區域都禁止吸煙，在 {title}。",
       "airportTransportationQuestion": "{title} 提供機場接送服務嗎？",
       "airportTransportationAnswer": "是的，{title} 可安排機場接送服務，需額外付費。",
       "cancellationPolicyQuestion": "{title} 的取消政策是什麼？",
@@ -446,7 +461,7 @@
       "offeringsQuestion": "{category} 類別中有哪些類型的產品？",
       "offeringsAnswer": "準備好探索廣泛的選擇了嗎？我們的 {category} 類別提供從獨家高級體驗到智慧、預算友善的解決方案。找到完美的選擇，滿足您的旅行夢想或特定需求！",
       "familyFriendlyQuestion": "我們的 {category} 精選中有適合家庭的選擇嗎？",
-      "familyFriendlyAnswer": "當然！我們了解您的需求。發現許多強烈推薦給家庭的 {category} 選項，配備設施和活動，旨在讓您與親人共度的時光更加難忘和舒適。",
+      "familyFriendlyAnswer": "當然！我們了解您的需求。探索許多強烈推薦給家庭的 {category} 選項，配備設施和活動，旨在讓您與親人共度的時光更加難忘和舒適！",
       "mainAttractionsQuestion": "這些 {category} 產品附近的主要景點或最受歡迎的目的地是什麼？",
       "mainAttractionsAnswer": "我們的 {category} 精選不僅關乎產品/服務；也關乎地點！輕鬆前往標誌性旅遊景點、刺激的娛樂中心和必嚐的美食。無論您的 {category} 帶您到萬隆、西爪哇還是其他地方，都能最大化您的體驗！",
       "luxuryAmenitiesQuestion": "是否有任何 {category} 選項提供豪華設施或特殊功能？",
@@ -460,9 +475,9 @@
       "familyFriendlyHotelsQuestion": "{city} 有適合家庭入住的飯店嗎？",
       "familyFriendlyHotelsAnswer": "是的，{city} 有很多適合家庭入住的飯店。",
       "attractionsNearHotelsQuestion": "{city} 的飯店附近有哪些景點？",
-      "attractionsNearHotelsAnswer": "{city} 的飯店靠近各種熱門景點。",
+      "attractionsNearHotelsAnswer": " {city} 的飯店靠近各種熱門景點。",
       "hotelsWithPoolsQuestion": "{city} 有帶游泳池的飯店嗎？",
-      "hotelsWithPoolsAnswer": "是的，{city} 的許多飯店都設有游泳池和其他設施。",
+      "hotelsWithPoolsAnswer": "是的， {city} 的許多飯店都設有游泳池和其他設施。",
       "bestRatedHotelsQuestion": "{city} 評分最高的飯店有哪些？",
       "bestRatedHotelsAnswer": "以下是 {city} 評分最高的飯店： "
     },
@@ -470,17 +485,17 @@
       "typesOfHotelsQuestion": "{country} 有哪些類型的飯店？",
       "typesOfHotelsAnswer": "探索 {country} 各種類型的飯店，從豪華飯店到經濟型選擇。",
       "familyFriendlyHotelsQuestion": "{country} 有適合家庭入住的飯店嗎？",
-      "familyFriendlyHotelsAnswer": "是的，{country} 有很多適合家庭入住的飯店。",
+      "familyFriendlyHotelsAnswer": "是的， {country} 有很多適合家庭入住的飯店。",
       "attractionsNearHotelsQuestion": "{country} 的飯店附近有哪些景點？",
-      "attractionsNearHotelsAnswer": "{country} 的飯店靠近各種熱門景點。",
+      "attractionsNearHotelsAnswer": " {country} 的飯店靠近各種熱門景點。",
       "hotelsWithPoolsQuestion": "{country} 有帶游泳池的飯店嗎？",
-      "hotelsWithPoolsAnswer": "是的，{country} 的許多飯店都設有游泳池和其他設施。",
+      "hotelsWithPoolsAnswer": "是的， {country} 的許多飯店都設有游泳池和其他設施。",
       "bestRatedHotelsQuestion": "{country} 評分最高的飯店有哪些？",
       "bestRatedHotelsAnswer": "以下是 {country} 評分最高的飯店： "
     },
     "landmark": {
       "typesOfHotelsQuestion": "{landmark} 附近有哪些類型的飯店？",
-      "typesOfHotelsAnswer": "{landmark} 附近有各種住宿選擇，從豪華精品飯店到舒適實惠的住宿。無論您是尋求短期拜訪還是長期探索，都能找到適合各種喜好的完美飯店。",
+      "typesOfHotelsAnswer": " {landmark} 附近有各種住宿選擇，從豪華精品飯店到舒適實惠的住宿。無論您是尋求短期拜訪還是長期探索，都能找到適合各種喜好的完美飯店。",
       "familyFriendlyHotelsQuestion": "{landmark} 附近有適合家庭入住的飯店嗎？",
       "familyFriendlyHotelsAnswer": "當然！ {landmark} 附近的許多飯店都配備完善，適合家庭入住，提供寬敞的家庭房、兒童俱樂部和游泳池等設施。它們是與親人一同探索地標及其周邊地區的舒適基地。",
       "attractionsNearHotelsQuestion": "靠近 {landmark} 的飯店附近有哪些景點？",
@@ -495,11 +510,11 @@
       "typesOfHotelsQuestion": "{state} 有哪些類型的飯店？",
       "typesOfHotelsAnswer": "探索 {state} 各種類型的飯店，從豪華飯店到經濟型選擇。",
       "familyFriendlyHotelsQuestion": "{state} 有適合家庭入住的飯店嗎？",
-      "familyFriendlyHotelsAnswer": "是的，{state} 有很多適合家庭入住的飯店。",
+      "familyFriendlyHotelsAnswer": "是的， {state} 有很多適合家庭入住的飯店。",
       "attractionsNearHotelsQuestion": "{state} 的飯店附近有哪些景點？",
-      "attractionsNearHotelsAnswer": "{state} 的飯店靠近各種熱門景點。",
+      "attractionsNearHotelsAnswer": " {state} 的飯店靠近各種熱門景點。",
       "hotelsWithPoolsQuestion": "{state} 有帶游泳池的飯店嗎？",
-      "hotelsWithPoolsAnswer": "是的，{state} 的許多飯店都設有游泳池和其他設施。",
+      "hotelsWithPoolsAnswer": "是的， {state} 的許多飯店都設有游泳池和其他設施。",
       "bestRatedHotelsQuestion": "{state} 評分最高的飯店有哪些？",
       "bestRatedHotelsAnswer": "以下是 {state} 評分最高的飯店： "
     }

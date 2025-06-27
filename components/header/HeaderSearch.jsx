@@ -1,7 +1,6 @@
-// components/hotel-list/common/HeaderSearch.jsx
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
 const HeaderSearch = ({ dictionary, currentLang }) => {
@@ -14,100 +13,157 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
   const dropdownRef = useRef(null);
   const searchInputRef = useRef(null);
 
-  const searchDict = dictionary?.search || {};
-  const commonDict = dictionary?.common || {};
+  // Akses properti kamus dengan aman, menyediakan fallback jika tidak ada.
+  // Menggunakan 'mainFilterSearchBox' sesuai dengan struktur kamus yang Anda berikan.
+  const mainFilterSearchBoxDict = dictionary?.mainFilterSearchBox || {};
+  const searchPlaceholder = mainFilterSearchBoxDict.searchButton || "Cari..."; // Menggunakan searchButton sebagai placeholder
+  const searchButtonLabel = mainFilterSearchBoxDict.searchButton || "Cari hotel atau destinasi";
+  const closeButtonLabel = mainFilterSearchBoxDict.closeButton || "Tutup"; // Asumsi ada di kamus Anda atau fallback
+  const submitSearchLabel = mainFilterSearchBoxDict.submitSearch || "Kirim pencarian"; // Asumsi ada di kamus Anda atau fallback
 
+
+  /**
+   * Effect untuk menentukan apakah perangkat adalah mobile berdasarkan lebar jendela.
+   * Berjalan sekali saat mount dan saat jendela diubah ukurannya.
+   */
   useEffect(() => {
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth <= 767);
     };
-    checkIsMobile();
+
+    checkIsMobile(); // Pengecekan awal
     window.addEventListener('resize', checkIsMobile);
+
     return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
 
+  /**
+   * Effect untuk memfokuskan input pencarian saat overlay mobile terbuka.
+   */
   useEffect(() => {
     if (isOverlayOpen && searchInputRef.current) {
       searchInputRef.current.focus();
     }
   }, [isOverlayOpen]);
 
-  const fetchCities = async (searchTerm) => {
+  /**
+   * Mengambil saran kota berdasarkan istilah pencarian.
+   * Menggunakan useCallback untuk memoize fungsi dan mencegah re-render yang tidak perlu.
+   * @param {string} searchTerm - Nilai saat ini dari input pencarian.
+   */
+  const fetchCities = useCallback(async (searchTerm) => {
     if (!searchTerm.trim()) {
       setSuggestions([]);
       return;
     }
+
     try {
       const response = await fetch(`/api/city-id?city=${encodeURIComponent(searchTerm)}`);
       if (!response.ok) {
-        console.error('Failed to fetch cities:', response.status);
+        console.error('Gagal mengambil kota:', response.status, response.statusText);
         setSuggestions([]);
         return;
       }
       const data = await response.json();
       setSuggestions(data.cities || []);
     } catch (error) {
-      console.error('Error fetching cities:', error);
+      console.error('Error saat mengambil kota:', error);
       setSuggestions([]);
     }
-  };
+  }, []); // Tidak ada dependensi karena menggunakan `setSuggestions` secara langsung
 
+  /**
+   * Menangani perubahan pada bidang input pencarian.
+   * Memperbarui status kueri dan mengambil saran kota.
+   * @param {Event} e - Event perubahan input.
+   */
   const handleInputChange = (e) => {
-    const value = e.target.value;
+    const { value } = e.target;
     setQuery(value);
     fetchCities(value);
   };
 
+  /**
+   * Menangani pengiriman formulir pencarian.
+   * Jika saran ada, navigasi ke halaman hasil pencarian menggunakan saran pertama.
+   * @param {Event} e - Event pengiriman formulir.
+   */
   const handleSearch = (e) => {
     e.preventDefault();
-    if (suggestions.length >= 1) {
-      const selectedCityId = suggestions[0].city_id;
-      const selectedCityName = suggestions[0].city;
-      router.push(`/${currentLang}/search-result?city_id=${encodeURIComponent(selectedCityId)}&city=${encodeURIComponent(selectedCityName)}`);
-      setQuery('');
-      setSuggestions([]);
-      setIsOverlayOpen(false);
+    if (suggestions.length > 0) {
+      const selectedCity = suggestions[0];
+      navigateToSearchResult(selectedCity);
     }
+    // Hapus status terlepas dari navigasi untuk mengatur ulang komponen pencarian
+    resetSearchState();
   };
 
+  /**
+   * Menangani klik pada saran kota.
+   * Navigasi ke halaman hasil pencarian untuk kota yang dipilih.
+   * @param {Object} city - Objek kota yang dipilih.
+   */
   const handleSuggestionClick = (city) => {
-    router.push(`/${currentLang}/search-result?city_id=${encodeURIComponent(city.city_id)}&city=${encodeURIComponent(city.city)}`);
+    navigateToSearchResult(city);
+    resetSearchState();
+  };
+
+  /**
+   * Fungsi pembantu untuk navigasi ke halaman hasil pencarian.
+   * @param {Object} city - Objek kota yang berisi city_id dan nama kota.
+   */
+  const navigateToSearchResult = (city) => {
+    const langPrefix = currentLang ? `/${currentLang}` : '';
+    router.push(`${langPrefix}/search-result?city_id=${encodeURIComponent(city.city_id)}&city=${encodeURIComponent(city.city)}`);
+  };
+
+  /**
+   * Fungsi pembantu untuk mengatur ulang input pencarian dan status saran.
+   */
+  const resetSearchState = () => {
     setQuery('');
     setSuggestions([]);
     setIsOverlayOpen(false);
   };
 
+  /**
+   * Effect untuk menangani klik di luar input/dropdown pencarian (desktop) atau overlay (mobile).
+   */
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (!isMobile && dropdownRef.current && !dropdownRef.current.contains(event.target) && searchInputRef.current && !searchInputRef.current.contains(event.target)) {
+      // Desktop: Tutup saran jika klik di luar input dan dropdown
+      if (!isMobile && dropdownRef.current && searchInputRef.current &&
+          !dropdownRef.current.contains(event.target) &&
+          !searchInputRef.current.contains(event.target)) {
         setSuggestions([]);
       }
 
-      if (isMobile && isOverlayOpen && event.target.closest('.search-overlay-content') === null) {
-          if (event.target.closest('.mobile-search-toggle') === null) {
-             setIsOverlayOpen(false);
-             setQuery('');
-             setSuggestions([]);
-          }
+      // Mobile: Tutup overlay jika klik di luar konten overlay dan bukan pada tombol toggle
+      if (isMobile && isOverlayOpen &&
+          !event.target.closest('.search-overlay-content') &&
+          !event.target.closest('.mobile-search-toggle')) {
+        resetSearchState();
       }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [dropdownRef, isOverlayOpen, isMobile, searchInputRef]);
-
+  }, [dropdownRef, isOverlayOpen, isMobile, searchInputRef, resetSearchState]);
 
   return (
     <>
-      {/* Desktop Search Input - Displayed only on desktop */}
+      {/* Input Pencarian Desktop - Ditampilkan hanya di desktop */}
       {!isMobile && (
         <div className="header-search-container">
           <form onSubmit={handleSearch}>
-            <label htmlFor="hotel-search-input-desktop" className="sr-only">Search for hotels or destinations</label>
+            <label htmlFor="hotel-search-input-desktop" className="sr-only">
+              {searchButtonLabel}
+            </label>
             <input
               id="hotel-search-input-desktop"
               ref={searchInputRef}
               type="text"
-              placeholder={searchDict.destinationPlaceholder || "Search..."}
+              placeholder={searchPlaceholder}
               value={query}
               onChange={handleInputChange}
               style={{
@@ -121,11 +177,16 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
                 color: '#000',
                 boxSizing: 'border-box'
               }}
+              aria-autocomplete="list"
+              aria-controls="desktop-suggestions-list"
+              aria-expanded={suggestions.length > 0}
             />
           </form>
           {query && suggestions.length > 0 && (
             <ul
+              id="desktop-suggestions-list"
               ref={dropdownRef}
+              role="listbox"
               style={{
                 position: 'absolute',
                 top: '100%',
@@ -155,6 +216,7 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
                   }}
                   onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f0f0f0')}
                   onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#fff')}
+                  role="option"
                 >
                   {city.city}, {city.country}
                 </li>
@@ -164,12 +226,12 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
         </div>
       )}
 
-      {/* Mobile Search Icon - Displayed only on mobile */}
+      {/* Ikon Pencarian Mobile - Ditampilkan hanya di mobile */}
       {isMobile && (
         <button
           className="mobile-search-toggle"
           onClick={() => setIsOverlayOpen(true)}
-          aria-label="Search"
+          aria-label={searchButtonLabel}
         >
           <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
             <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
@@ -177,22 +239,27 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
         </button>
       )}
 
-      {/* Mobile Search Overlay - Displayed when isOverlayOpen is true */}
+      {/* Overlay Pencarian Mobile - Ditampilkan saat isOverlayOpen bernilai true */}
       {isOverlayOpen && (
         <div className="search-overlay">
           <div className="search-overlay-content">
             <form onSubmit={handleSearch} className="overlay-search-form">
-              <label htmlFor="hotel-search-input-mobile" className="sr-only">Search for hotels or destinations</label>
+              <label htmlFor="hotel-search-input-mobile" className="sr-only">
+                {searchButtonLabel}
+              </label>
               <input
                 id="hotel-search-input-mobile"
                 ref={searchInputRef}
                 type="text"
-                placeholder={searchDict.destinationPlaceholder || "Search..."}
+                placeholder={searchPlaceholder}
                 value={query}
                 onChange={handleInputChange}
                 className="overlay-search-input"
+                aria-autocomplete="list"
+                aria-controls="mobile-suggestions-list"
+                aria-expanded={suggestions.length > 0}
               />
-              <button type="submit" className="overlay-search-submit" aria-label="Submit search">
+              <button type="submit" className="overlay-search-submit" aria-label={submitSearchLabel}>
                 <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
                 </svg>
@@ -200,12 +267,8 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
             </form>
             <button
               className="overlay-close-button"
-              onClick={() => {
-                setIsOverlayOpen(false);
-                setQuery('');
-                setSuggestions([]);
-              }}
-              aria-label="Close search"
+              onClick={resetSearchState}
+              aria-label={closeButtonLabel}
             >
               <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
@@ -213,11 +276,12 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
             </button>
 
             {query && suggestions.length > 0 && (
-              <ul className="overlay-suggestions-list" ref={dropdownRef}>
+              <ul className="overlay-suggestions-list" ref={dropdownRef} role="listbox" id="mobile-suggestions-list">
                 {suggestions.map((city) => (
                   <li
                     key={city.city_id}
                     onClick={() => handleSuggestionClick(city)}
+                    role="option"
                   >
                     {city.city}, {city.country}
                   </li>
@@ -245,10 +309,8 @@ const HeaderSearch = ({ dictionary, currentLang }) => {
         .header-search-container {
           position: relative;
           flex: 1 1 auto;
-          /* --- Perubahan di sini untuk mencegah 'panjang sejenak' --- */
-          min-width: 150px; /* Memberikan lebar minimum yang cukup */
-          max-width: 220px; /* Batas lebar maksimum tetap */
-          /* --- Akhir Perubahan --- */
+          min-width: 150px;
+          max-width: 220px;
           box-sizing: border-box;
           flex-shrink: 1;
         }

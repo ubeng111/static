@@ -1,8 +1,11 @@
-// page.jsx (State)
+// app/[lang]/(hotel)/[categoryslug]/[countryslug]/[stateslug]/page.jsx
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { getdictionary } from '@/dictionaries/get-dictionary'; // Menggunakan alias
+
+// **TAMBAHKAN INI UNTUK ISR 1 TAHUN**
+export const revalidate = 31536000; // 1 tahun dalam detik (60 * 60 * 24 * 365)
 
 // Helper function to sanitize slugs
 const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
@@ -25,7 +28,10 @@ async function getStateData(categoryslug, countryslug, stateslug) {
   const apiUrl = `${baseUrl}/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
 
   try {
-    const response = await fetch(apiUrl, { cache: 'no-store' });
+    // **Pastikan fetch() di sini adalah yang Native Web Fetch API**
+    // Next.js akan secara otomatis mengaplikasikan `revalidate` yang diekspor di atas
+    // ke panggilan fetch ini.
+    const response = await fetch(apiUrl);
     if (!response.ok) {
       console.error(`Failed to fetch state data for ${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}. Status: ${response.status}`);
       return null;
@@ -40,10 +46,10 @@ async function getStateData(categoryslug, countryslug, stateslug) {
 const ClientPage = dynamic(() => import('./ClientPage'));
 
 export async function generateMetadata({ params }) {
-  // --- MULAI PERUBAHAN UNTUK generateMetadata ---
-  const awaitedParams = await params; // <--- AWAIT PARAMS DI SINI
-  const { categoryslug, countryslug, stateslug, lang: locale } = awaitedParams; // <--- GUNAKAN awaitedParams
-  // --- AKHIR PERUBAHAN UNTUK generateMetadata ---
+  // --- PERBAIKI PENGGUNAAN PARAMS DI generateMetadata ---
+  // `params` sudah objek langsung di App Router, tidak perlu await params
+  const { categoryslug, countryslug, stateslug, lang: locale } = params;
+  // --- AKHIR PERBAIKAN ---
 
   const dictionary = await getdictionary(locale);
   const metadataDict = dictionary?.metadata || {};
@@ -61,6 +67,7 @@ export async function generateMetadata({ params }) {
     };
   }
 
+  // Data ini juga akan di-cache sesuai `revalidate` yang diekspor di atas.
   const data = await getStateData(categoryslug, countryslug, stateslug);
   if (!data || !data.hotels || data.hotels.length === 0) {
     return {
@@ -103,10 +110,10 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-  // --- MULAI PERUBAHAN UNTUK KOMPONEN Page ---
-  const awaitedParams = await params; // <--- AWAIT PARAMS DI SINI
-  const { categoryslug, countryslug, stateslug, lang: locale } = awaitedParams; // <--- GUNAKAN awaitedParams
-  // --- AKHIR PERUBAHAN UNTUK KOMPONEN Page ---
+  // --- PERBAIKI PENGGUNAAN PARAMS DI KOMPONEN Page ---
+  // `params` sudah objek langsung di App Router, tidak perlu await params
+  const { categoryslug, countryslug, stateslug, lang: locale } = params;
+  // --- AKHIR PERBAIKAN ---
 
   const dictionary = await getdictionary(locale);
 
@@ -125,6 +132,7 @@ export default async function Page({ params }) {
     notFound();
   }
 
+  // Data ini juga akan di-cache sesuai `revalidate` yang diekspor di atas.
   const data = await getStateData(categoryslug, countryslug, stateslug);
   if (!data || !data.hotels || data.hotels.length === 0) {
     notFound();
@@ -214,4 +222,42 @@ export default async function Page({ params }) {
       <ClientPage categoryslug={sanitizedCategory} countryslug={sanitizedCountry} stateslug={sanitizedState} dictionary={dictionary} currentLang={currentLang} />
     </>
   );
+}
+
+// **Penting untuk Dynamic Routes di App Router:**
+// Anda harus mengembalikan semua kombinasi `lang`, `categoryslug`, `countryslug`, dan `stateslug` yang mungkin
+// untuk dibangun secara statis saat waktu build.
+// Jika Anda memiliki terlalu banyak kombinasi, Anda bisa mengembalikan daftar kosong atau sebagian kecil,
+// dan Next.js akan merender halaman secara on-demand (SSR atau ISR tergantung pada konfigurasi `revalidate`).
+export async function generateStaticParams() {
+  // Contoh: Mengambil daftar kategori, negara, dan provinsi/negara bagian yang didukung.
+  // Ini harus diganti dengan panggilan API aktual yang mengembalikan semua slug
+  // yang valid dari backend Anda.
+  const allCategories = ['hotel-discounts', 'luxury-hotels']; // Contoh slug kategori
+  const allCountries = ['indonesia', 'malaysia']; // Contoh slug negara
+  const allStates = ['bali', 'jakarta']; // Contoh slug provinsi/negara bagian untuk Indonesia
+
+  const supportedLangs = ['en', 'us', 'id']; // Bahasa yang Anda dukung
+
+  const params = [];
+  for (const lang of supportedLangs) {
+    for (const category of allCategories) {
+      for (const country of allCountries) {
+        // Asumsi stateslug hanya relevan untuk kombinasi kategori/negara tertentu
+        // Jika Anda memiliki data yang lebih kompleks, sesuaikan logika ini
+        for (const state of allStates) {
+          params.push({ lang: lang, categoryslug: category, countryslug: country, stateslug: state });
+        }
+      }
+    }
+  }
+  return params;
+
+  // Catatan: Jika Anda memiliki jutaan kombinasi, mengembalikan daftar kosong dari
+  // generateStaticParams (`return [];`) akan membuat Next.js tidak membangun halaman ini saat build time.
+  // Halaman akan dirender secara on-demand saat permintaan pertama.
+  // Pastikan `revalidate` diekspor di level `page.jsx` agar on-demand render tersebut
+  // tetap memanfaatkan caching dan revalidasi Next.js.
+  // Contoh:
+  // return [];
 }

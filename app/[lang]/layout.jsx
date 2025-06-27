@@ -1,76 +1,63 @@
-// app/layout.jsx
-import ClientProviders from "@/components/ClientProviders";
-import { getdictionary } from '@/dictionaries/get-dictionary';
+// app/[lang]/layout.jsx - KODE PERBAIKAN
+
 import { headers } from 'next/headers';
-import { locales, defaultLocale, i18nConfig, defaultHtmlLang } from '@/config/i18n'; 
+import { i18nConfig, defaultLocale, defaultDictionaryCode, defaultHtmlLang, genericLanguages } from '@/config/i18n';
+import { Analytics } from "@vercel/analytics/next";
 
-import "bootstrap/dist/css/bootstrap.min.css"; 
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import "swiper/css/scrollbar";
-import "swiper/css/effect-cards";
-import "aos/dist/aos.css";
-import "@/styles/index.scss"; 
+// 1. Pindahkan semua logika metadata ke dalam fungsi `generateMetadata`
+export async function generateMetadata({ params }) {
+  const currentLocale = params.lang || defaultLocale;
+  const contentPathFromHeader = headers().get('x-content-pathname') || '';
+  const baseUrl = 'https://hoteloza.com';
+  const canonicalUrlToUse = `${baseUrl}/${currentLocale}${contentPathFromHeader.startsWith('/') ? contentPathFromHeader : (contentPathFromHeader ? `/${contentPathFromHeader}` : '')}`;
 
-export default async function RootLayout({ children, params }) {
-  const headersList = headers();
-  const acceptLanguage = await headersList.get('accept-language') || 'en-US';
-  
-  const urlLangSlug = params.lang; 
+  const hreflangMap = new Map();
 
-  let determinedHtmlLang = defaultHtmlLang; 
-  let initialLangSlugForDictionary = defaultLocale; 
+  // Tambahkan hreflang untuk locale spesifik wilayah
+  i18nConfig.forEach((config) => {
+    const pathSuffix = contentPathFromHeader.startsWith('/') ? contentPathFromHeader : (contentPathFromHeader ? `/${contentPathFromHeader}` : '');
+    const langHref = `${baseUrl}/${config.code}${pathSuffix}`;
+    hreflangMap.set(config.htmlLangCode, langHref);
+  });
 
-  if (urlLangSlug) {
-      const configByUrlSlug = i18nConfig.find(config => config.code === urlLangSlug);
-      if (configByUrlSlug) {
-          determinedHtmlLang = configByUrlSlug.htmlLangCode;
-          initialLangSlugForDictionary = configByUrlSlug.code; 
-      } else {
-          determinedHtmlLang = defaultHtmlLang;
-          initialLangSlugForDictionary = defaultLocale;
-      }
-  } else {
-      const browserLangPref = acceptLanguage.split(',')[0].split('-')[0].toLowerCase();
-      const matchedBrowserLangConfig = i18nConfig.find(config =>
-          config.localeCode.startsWith(browserLangPref) || config.language === browserLangPref || config.code === browserLangPref
-      );
-      if (matchedBrowserLangConfig) {
-          determinedHtmlLang = matchedBrowserLangConfig.htmlLangCode;
-          initialLangSlugForDictionary = matchedBrowserLangConfig.code; 
-      } else {
-          determinedHtmlLang = defaultHtmlLang;
-          initialLangSlugForDictionary = defaultLocale;
-      }
-  }
+  // Tambahkan hreflang untuk bahasa generik
+  genericLanguages.forEach((genericLang) => {
+    const pathSuffix = contentPathFromHeader.startsWith('/') ? contentPathFromHeader : (contentPathFromHeader ? `/${contentPathFromHeader}` : '');
+    const langHref = `${baseUrl}/${genericLang.defaultRegional}${pathSuffix}`;
+    if (!hreflangMap.has(genericLang.langCode)) {
+      hreflangMap.set(genericLang.langCode, langHref);
+    }
+  });
 
-  console.log('--- Layout Render Start ---');
-  console.log('Layout: URL Lang Slug from params:', urlLangSlug);
-  console.log('Layout: Accept-Language Header (raw):', acceptLanguage);
-  console.log('Layout: Determined HTML Lang (for <html> lang attribute):', determinedHtmlLang);
-  console.log('Layout: Initial Lang Slug for Dictionary/ClientProviders:', initialLangSlugForDictionary);
-  console.log('--- Layout Render End ---');
+  // Siapkan objek 'alternates' untuk metadata
+  const alternates = {
+    canonical: canonicalUrlToUse,
+    languages: {},
+  };
 
-  const dictionary = await getdictionary(initialLangSlugForDictionary);
+  hreflangMap.forEach((href, lang) => {
+    alternates.languages[lang] = href;
+  });
 
-  console.log('Layout: Loaded dictionary for:', initialLangSlugForDictionary);
-  console.log('Layout: Footer section of dictionary (sample):', dictionary?.footer?.copyright);
+  // Tambahkan x-default secara spesifik
+  const pathSuffixXDefault = contentPathFromHeader.startsWith('/') ? contentPathFromHeader : (contentPathFromHeader ? `/${contentPathFromHeader}` : '');
+  alternates.languages['x-default'] = `${baseUrl}/${defaultLocale}${pathSuffixXDefault}`;
 
+  return {
+    metadataBase: new URL(baseUrl),
+    alternates,
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
+
+export default function LanguageLayout({ children }) {
   return (
-    <html lang={determinedHtmlLang}>
-      <head>
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <meta
-          name="google-site-verification"
-          content="2CUKI9cYViNxYurFPrRO39L2Qg9DHlUUu6mJsskuVg"
-        />
-      </head>
-      <body>
-        <ClientProviders dictionary={dictionary} initialLangSlug={initialLangSlugForDictionary}>
-          {children}
-        </ClientProviders>
-      </body>
-    </html>
+    <>
+      <Analytics />
+      {children}
+    </>
   );
 }

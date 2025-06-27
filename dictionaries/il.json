@@ -32,7 +32,8 @@
     "unknownLocation": "מיקום לא ידוע",
     "failedToLoadHotelData": "טעינת נתוני מלון נכשלה",
     "errorWithMessage": "שגיאה: {error}",
-    "night": "לילה"
+    "night": "לילה",
+    "cityNotFound": "העיר לא נמצאה"
   },
   "header": {
     "luxuryBackgroundImageAlt": "תמונת רקע יוקרתית"
@@ -40,9 +41,11 @@
   "search": {
     "searchResultAccommodationIn": "תוצאות חיפוש לינה ב{cityName}",
     "searchResultPropertiesIn": "נכסים שנמצאו ב",
+
     "selectedCity": "עיר נבחרת",
     "unknownLocation": "מיקום לא ידוע",
-    "searchParametersIncomplete": "פרמטרי חיפוש חלקיים."
+    "searchParametersIncomplete": "פרמטרי חיפוש חלקיים.",
+    "checkInCheckOut": "צ'ק-אין - צ'ק-אאוט"
   },
   "categoryPage": {
     "discoverLuxeStaysIn": "גלו שהיות יוקרתיות ב",
@@ -158,7 +161,20 @@
     "adultsLabel": "מבוגרים",
     "childrenLabel": "ילדים",
     "roomsLabel": "חדרים",
-    "searchButton": "חיפוש"
+    "searchButton": "חיפוש",
+    "selectGuestsAndRooms": "בחר אורחים וחדרים",
+    "guestLabels": {
+        "adults": "מבוגרים",
+        "children": "ילדים",
+        "rooms": "חדרים",
+        "adultsSingular": "מבוגר",
+        "adultsPlural": "מבוגרים",
+        "childrenSingular": "ילד",
+        "childrenPlural": "ילדים",
+        "roomsSingular": "חדר",
+        "roomsPlural": "חדרים",
+        "childrenAgeRange": "0-17"
+    }
   },
   "footer": {
     "popularStays": "שהיות פופולריות",

@@ -5,13 +5,20 @@ import { getdictionary } from '@/dictionaries/get-dictionary';
 import { notFound } from 'next/navigation';
 import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox";
 
-export const dynamic = 'force-dynamic';
+// **TAMBAHKAN INI UNTUK ISR 1 TAHUN (dan gantikan 'force-dynamic')**
+export const revalidate = 31536000; // 1 tahun dalam detik (60 * 60 * 24 * 365)
+
+// Hapus baris ini:
+// export const dynamic = 'force-dynamic';
+// Karena `revalidate` akan secara implisit mengatur rute ini menjadi dinamis
+// tetapi dengan caching untuk fetched data.
 
 export default async function SearchPage({ searchParams, params }) {
   const cityId = searchParams.city_id;
   const page = parseInt(searchParams.page) || 1;
   const locale = params.lang || 'en';
 
+  // Data dari getdictionary akan di-cache sesuai `revalidate` yang diekspor di atas.
   const dictionary = await getdictionary(locale);
   if (!dictionary) {
     notFound();

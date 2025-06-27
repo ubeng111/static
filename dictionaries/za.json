@@ -32,7 +32,8 @@
     "unknownLocation": "Indawo Engaziwa",
     "failedToLoadHotelData": "Yehlulekile ukuthola idatha yehhotela",
     "errorWithMessage": "Iphutha: {error}",
-    "night": "Ubusuku"
+    "night": "Ubusuku",
+    "cityNotFound": "Idolobha alitholakali"
   },
   "header": {
     "luxuryBackgroundImageAlt": "Isithombe sangemuva sokunethezeka"
@@ -42,7 +43,8 @@
     "searchResultPropertiesIn": "Izakhiwo ezitholakele ku",
     "selectedCity": "Idolobha Elikhethiwe",
     "unknownLocation": "Indawo Engaziwa",
-    "searchParametersIncomplete": "Amapharamitha osesho awaphelele."
+    "searchParametersIncomplete": "Amapharamitha osesho awaphelele.",
+    "checkInCheckOut": "Ukungena - Ukuphuma"
   },
   "categoryPage": {
     "discoverLuxeStaysIn": "Thola Izindawo Zokuhlala Zobunethezeka ku",
@@ -158,7 +160,20 @@
     "adultsLabel": "Abadala",
     "childrenLabel": "Izingane",
     "roomsLabel": "Amagumbi",
-    "searchButton": "Sesha"
+    "searchButton": "Sesha",
+    "selectGuestsAndRooms": "Khetha Izivakashi Namagumbi",
+    "guestLabels": {
+        "adults": "Abadala",
+        "children": "Izingane",
+        "rooms": "Amagumbi",
+        "adultsSingular": "Umdala",
+        "adultsPlural": "Abadala",
+        "childrenSingular": "Ingane",
+        "childrenPlural": "Izingane",
+        "roomsSingular": "Igumbi",
+        "roomsPlural": "Amagumbi",
+        "childrenAgeRange": "0-17"
+    }
   },
   "footer": {
     "popularStays": "Izindawo Zokuhlala Ezidumile",
@@ -260,7 +275,7 @@
     "trustedTripCompanion": "Umngane Wakho Othembekile Wokuhamba",
     "whyChooseUs": "Kungani Usikhetha",
     "popularDestinationsOffer": "Lezi zindawo ezidumile zokuhamba ziningi ezikunikezayo",
-    "overheardFromTravelers": "Okuzwakale Kubahambi",
+    "overheardFromTravellers": "Okuzwakale Kubahambi",
     "aboutHotelozaTitle": "Mayelana NeHoteloza",
     "aboutHotelozaSubtitle": "Thola umhlaba wokunethezeka nobuhle",
     "aboutHotelozaParagraph1": "I-Hoteloza iyindawo yakho yokunethezeka, enikeza ukwamukela okungenakuqhathaniswa enhliziyweni yezindawo ezimnandi. Amahhotela ethu ahlanganisa ubuhle besimanje nokunethezeka okungapheli, aqinisekisa ukuthi konke ukuhlala kuyinto engasoze yalibaleka.",

@@ -1,12 +1,12 @@
-// components/hero/hero-1/index.jsx
+// File: components/hero/hero-1/index.jsx
+// HAPUS 'use client' dari sini juga
+
+import { Suspense } from 'react'; // <-- WAJIB: Impor Suspense
 import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox";
 
-// Komponen Hero pertama, menerima dictionary dan currentLang sebagai prop
-const Hero1 = ({ dictionary, currentLang }) => { // <--- Tambahkan currentLang di sini
-  // Mengakses bagian dictionary yang relevan, menyediakan objek kosong sebagai fallback
+// Ini sekarang adalah Server Component
+const Hero1 = ({ dictionary, currentLang }) => {
   const homepageDict = dictionary?.homepage || {};
-  // mainFilterSearchBoxDict tidak perlu dibuat terpisah di sini jika dictionary utuh diteruskan
-  // const mainFilterSearchBoxDict = dictionary?.mainFilterSearchBox || {};
 
   return (
     <section className="masthead -type-1 z-5 py-12">
@@ -21,7 +21,6 @@ const Hero1 = ({ dictionary, currentLang }) => { // <--- Tambahkan currentLang d
                 className="text-40 lg:text-40 md:text-30 text-white"
                 data-aos="fade-up"
               >
-                {/* Menggunakan teks dari dictionary untuk judul hero */}
                 {homepageDict.hotelozaHeroTitle || "Find, Book, and Relax with Hoteloza"}
               </h1>
               <p
@@ -29,7 +28,6 @@ const Hero1 = ({ dictionary, currentLang }) => { // <--- Tambahkan currentLang d
                 data-aos="fade-up"
                 data-aos-delay="100"
               >
-                {/* Menggunakan teks dari dictionary untuk subjudul hero */}
                 {homepageDict.hotelozaHeroSubtitle || "Explore thousands of hotels worldwide with Hoteloza"}
               </p>
             </div>
@@ -39,8 +37,12 @@ const Hero1 = ({ dictionary, currentLang }) => { // <--- Tambahkan currentLang d
               data-aos="fade-up"
               data-aos-delay="200"
             >
-              {/* Meneruskan dictionary UTUH dan currentLang */}
-              <MainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
+              {/* === INI BAGIAN PALING PENTING === */}
+              {/* Bungkus komponen klien dengan Suspense */}
+              <Suspense fallback={<div className="text-white text-center p-5">Loading Search Form...</div>}>
+                <MainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
+              </Suspense>
+              
             </div>
           </div>
         </div>

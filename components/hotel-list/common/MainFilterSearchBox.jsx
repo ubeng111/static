@@ -4,18 +4,17 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCurrency } from '../../CurrencyContext';
-import { useLanguage } from '../../header/LanguageContext'; // Path yang benar
+import { useLanguage } from '../../header/LanguageContext';
 import DateSearch from './DateSearch';
 import GuestSearch from './GuestSearch';
 import LocationSearch from './LocationSearch';
 
-const MainFilterSearchBox = ({ dictionary, currentLang: propCurrentLang }) => { // Ganti nama prop untuk menghindari konflik
+const MainFilterSearchBox = ({ dictionary, currentLang: propCurrentLang }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { currency } = useCurrency();
   const { language } = useLanguage();
 
-  // State untuk bahasa yang aktif, dengan fallback 'us'
   const [activeLang, setActiveLang] = useState(propCurrentLang || language || 'us');
 
   const [params, setParams] = useState(() => {
@@ -33,12 +32,11 @@ const MainFilterSearchBox = ({ dictionary, currentLang: propCurrentLang }) => { 
     return initialParams;
   });
 
-  // Akses dictionary
-  const searchDict = dictionary?.search || {};
-  const commonDict = dictionary?.common || {};
+  const searchDict = dictionary.search;
+  const commonDict = dictionary.common;
+  const mainFilterSearchBoxDict = dictionary.mainFilterSearchBox;
 
   useEffect(() => {
-    // Update currency dan language dari searchParams atau context
     setParams((prev) => {
         const newCurrency = searchParams.get('currency') || currency.currency;
         const newLanguage = searchParams.get('language') || language;
@@ -49,17 +47,18 @@ const MainFilterSearchBox = ({ dictionary, currentLang: propCurrentLang }) => { 
         };
     });
 
-    // Update activeLang jika propCurrentLang berubah
     if (propCurrentLang) {
       setActiveLang(propCurrentLang);
     } else {
-      // Fallback jika propCurrentLang tidak tersedia (misal di halaman non-[lang] atau saat loading)
-      const pathLang = window.location.pathname.split('/')[1]; // Coba ambil dari path URL
+      const pathLang = typeof window !== 'undefined' ? window.location.pathname.split('/')[1] : null;
       setActiveLang(pathLang || language || 'us');
     }
 
-    console.log('MainFilterSearchBox useEffect: currentLang prop:', propCurrentLang, 'Active Lang (state):', activeLang); // DEBUGGING
-  }, [searchParams, currency.currency, currency.language, language, propCurrentLang, activeLang]); // Tambahkan activeLang ke dep. array
+    if (process.env.NODE_ENV === 'development') { //
+      console.log('MainFilterSearchBox useEffect: currentLang prop:', propCurrentLang, 'Active Lang (state):', activeLang); //
+    }
+
+  }, [searchParams, currency.currency, language, propCurrentLang, activeLang]);
 
   const updateCity = useCallback((cityData) => {
     setParams((prev) => ({
@@ -90,7 +89,7 @@ const MainFilterSearchBox = ({ dictionary, currentLang: propCurrentLang }) => { 
 
   const handleSearch = () => {
     if (!params.city_id || !params.checkInDate || !params.checkOutDate) {
-      alert(searchDict.searchParametersIncomplete || 'Please select city and dates.');
+      alert(searchDict.searchParametersIncomplete);
       return;
     }
 
@@ -106,14 +105,12 @@ const MainFilterSearchBox = ({ dictionary, currentLang: propCurrentLang }) => { 
       language: params.language,
     }).toString();
 
-    // Pastikan activeLang selalu memiliki nilai yang valid
-    const finalLang = activeLang || 'us'; // Fallback final jika activeLang masih kosong
+    const finalLang = activeLang || 'us';
 
-    console.log('MainFilterSearchBox handleSearch: Final Language:', finalLang); // DEBUGGING
-    console.log('MainFilterSearchBox handleSearch: Query string:', query);     // DEBUGGING
-    console.log('MainFilterSearchBox handleSearch: Full URL to push:', `/${finalLang}/search?${query}`); // DEBUGGING
+    console.log('MainFilterSearchBox handleSearch: Final Language:', finalLang);
+    console.log('MainFilterSearchBox handleSearch: Query string:', query);
+    console.log('MainFilterSearchBox handleSearch: Full URL to push:', `/${finalLang}/search?${query}`);
 
-    // Mengarahkan ke rute pencarian yang benar
     router.push(`/${finalLang}/search?${query}`);
   };
 
@@ -124,7 +121,7 @@ const MainFilterSearchBox = ({ dictionary, currentLang: propCurrentLang }) => { 
         <DateSearch onDateChange={updateDates} dictionary={dictionary} />
         <GuestSearch onGuestChange={updateGuests} dictionary={dictionary} />
         <button className="search-button" onClick={handleSearch}>
-          {commonDict.search || 'Search'}
+          {mainFilterSearchBoxDict.searchButton}
         </button>
       </div>
     </div>

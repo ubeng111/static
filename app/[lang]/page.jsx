@@ -1,13 +1,14 @@
 // app/[lang]/page.jsx (Server Component for Home page)
 import { getdictionary } from '@/dictionaries/get-dictionary';
-import HomeContent from '@/components/home_1/HomeContent'; // HomeContent tidak lagi merender Header11
+import HomeContent from '@/components/home_1/HomeContent';
+
+// Jika Anda ingin mengontrol revalidasi di level halaman ini,
+// Anda bisa mengekspor konfigurasi revalidate.
+// Ini akan memengaruhi data fetching dalam komponen ini.
+export const revalidate = 31536000; // 1 tahun dalam detik
 
 export async function generateMetadata({ params }) {
-  // Terapkan pola await untuk params sesuai rekomendasi Next.js
-  // Meskipun params.lang mungkin langsung tersedia, meng-await memastikan konsistensi
-  // di berbagai lingkungan runtime atau future updates Next.js.
-  const awaitedParams = await params; // Ini adalah penyesuaian utama
-  const lang = awaitedParams.lang || 'us'; // Akses properti setelah await
+  const lang = params.lang || 'us'; // params sudah aman diakses langsung di metadata
   const dictionary = await getdictionary(lang);
 
   return {
@@ -48,19 +49,21 @@ export async function generateMetadata({ params }) {
 
 // Komponen halaman beranda utama (Ini adalah Server Component)
 export default async function HomePage({ params }) {
-  const lang = await params.lang || 'us';
-  const dictionary = await getdictionary(lang);
+  const lang = params.lang || 'us';
+  const dictionary = await getdictionary(lang); // Asumsikan getdictionary mengambil data dengan fetch() yang memiliki opsi revalidate
 
   return (
     <>
-      {/* Panggil Header11 langsung di sini. Karena ia "use client",
-          ia akan dihidrasi sebagai bagian dari ClientProviders.
-          Catatan: Berdasarkan diskusi sebelumnya, Header11 seharusnya dirender di ClientProviders
-          untuk cakupan global, bukan di setiap page.jsx.
-          Jika Header11 ada di ClientProviders, Anda tidak perlu memanggilnya di sini.
-      */}
-      {/* HomeContent sekarang hanya merender bagian body halaman */}
       <HomeContent dictionary={dictionary} currentLang={lang} />
     </>
   );
+}
+
+// Untuk `[lang]`, Anda perlu memberi tahu Next.js bahasa apa saja yang harus dibuat secara statis.
+// Ini mirip dengan getStaticPaths di Pages Router.
+export async function generateStaticParams() {
+  const languages = ['en', 'us', 'id']; // Daftar bahasa yang didukung Hoteloza
+  return languages.map((lang) => ({
+    lang: lang,
+  }));
 }

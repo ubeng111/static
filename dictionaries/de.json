@@ -32,7 +32,8 @@
     "unknownLocation": "Unbekannter Ort",
     "failedToLoadHotelData": "Fehler beim Abrufen der Hoteldaten",
     "errorWithMessage": "Fehler: {error}",
-    "night": "Nacht"
+    "night": "Nacht",
+    "cityNotFound": "Stadt nicht gefunden"
   },
   "header": {
     "luxuryBackgroundImageAlt": "Luxuriöses Hintergrundbild"
@@ -42,7 +43,8 @@
     "searchResultPropertiesIn": "Gefundene Unterkünfte in",
     "selectedCity": "Ausgewählte Stadt",
     "unknownLocation": "Unbekannter Ort",
-    "searchParametersIncomplete": "Suchparameter unvollständig."
+    "searchParametersIncomplete": "Suchparameter unvollständig.",
+    "checkInCheckOut": "Check-in - Check-out"
   },
   "categoryPage": {
     "discoverLuxeStaysIn": "Entdecken Sie Luxusunterkünfte in",
@@ -158,7 +160,20 @@
     "adultsLabel": "Erwachsene",
     "childrenLabel": "Kinder",
     "roomsLabel": "Zimmer",
-    "searchButton": "Suchen"
+    "searchButton": "Suchen",
+    "selectGuestsAndRooms": "Gäste & Zimmer auswählen",
+    "guestLabels": {
+        "adults": "Erwachsene",
+        "children": "Kinder",
+        "rooms": "Zimmer",
+        "adultsSingular": "Erwachsener",
+        "adultsPlural": "Erwachsene",
+        "childrenSingular": "Kind",
+        "childrenPlural": "Kinder",
+        "roomsSingular": "Zimmer",
+        "roomsPlural": "Zimmer",
+        "childrenAgeRange": "0-17"
+    }
   },
   "footer": {
     "popularStays": "Beliebte Unterkünfte",
@@ -486,7 +501,7 @@
       "attractionsNearHotelsQuestion": "Welche Attraktionen befinden sich in der Nähe von Hotels in der Nähe von {landmark}?",
       "attractionsNearHotelsAnswer": "Hotels in der Nähe von {landmark} bieten unübertroffenen Komfort für den Besuch des Wahrzeichens selbst. Darüber hinaus sind sie oft strategisch günstig in der Nähe anderer beliebter Attraktionen, Museen, Restaurants und Unterhaltungsmöglichkeiten gelegen, was Ihre Erkundung mühelos macht.",
       "hotelsWithPoolsQuestion": "Gibt es Hotels mit Pools in der Nähe von {landmark}?",
-      "hotelsWithPoolsAnswer": "Ja, viele Hotels in der Nähe von {landmark} verfügen über erfrischende Swimmingpools, die perfekt zum Entspannen nach einem Sightseeing-Tag sind. Einige bieten sogar Dachterrassenpools mit atemberaubendem Blick auf das Wahrzeichen oder die Skyline der Stadt.",
+      "hotelsWithPoolsAnswer": "Ja, viele Hotels in der Nähe von {landmark} verfügen über erfrischende Swimmingpools, ideal zum Entspannen nach einem Sightseeing-Tag sind. Einige bieten sogar Dachterrassenpools mit atemberaubendem Blick auf das Wahrzeichen oder die Skyline der Stadt.",
       "bestRatedHotelsQuestion": "Was sind die am besten bewerteten Hotels in der Nähe von {landmark}?",
       "bestRatedHotelsAnswerDefault": "Derzeit liegen uns keine spezifischen Daten zu den am besten bewerteten Hotels direkt in der Nähe von {landmark} vor. Sie können jedoch eine Vielzahl von hoch bewerteten Optionen in der weiteren Umgebung durchsuchen.",
       "bestRatedHotelsAnswerWithData": "Basierend auf Gästebewertungen gehören zu den am besten bewerteten Hotels in der Nähe von {landmark}:"

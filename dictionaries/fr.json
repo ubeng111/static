@@ -32,7 +32,8 @@
     "unknownLocation": "Lieu inconnu",
     "failedToLoadHotelData": "Échec de la récupération des données de l'hôtel",
     "errorWithMessage": "Erreur : {error}",
-    "night": "Nuit"
+    "night": "Nuit",
+    "cityNotFound": "Ville introuvable"
   },
   "header": {
     "luxuryBackgroundImageAlt": "Image de fond de luxe"
@@ -42,7 +43,8 @@
     "searchResultPropertiesIn": "Propriétés trouvées à",
     "selectedCity": "Ville sélectionnée",
     "unknownLocation": "Lieu inconnu",
-    "searchParametersIncomplete": "Paramètres de recherche incomplets."
+    "searchParametersIncomplete": "Paramètres de recherche incomplets.",
+    "checkInCheckOut": "Arrivée - Départ"
   },
   "categoryPage": {
     "discoverLuxeStaysIn": "Découvrez des séjours de luxe à",
@@ -158,7 +160,20 @@
     "adultsLabel": "Adultes",
     "childrenLabel": "Enfants",
     "roomsLabel": "Chambres",
-    "searchButton": "Rechercher"
+    "searchButton": "Rechercher",
+    "selectGuestsAndRooms": "Sélectionner les invités et les chambres",
+    "guestLabels": {
+        "adults": "Adultes",
+        "children": "Enfants",
+        "rooms": "Chambres",
+        "adultsSingular": "Adulte",
+        "adultsPlural": "Adultes",
+        "childrenSingular": "Enfant",
+        "childrenPlural": "Enfants",
+        "roomsSingular": "Chambre",
+        "roomsPlural": "Chambres",
+        "childrenAgeRange": "0-17"
+    }
   },
   "footer": {
     "popularStays": "Séjours Populaires",
@@ -372,7 +387,7 @@
         "avatar": "/img/avatars/testimonials/5.png",
         "name": "Chloe Wilson",
         "designation": "Graphiste",
-        "text": "\"Le design intérieur esthétique de l'hôtel et le bon éclairage ont vraiment soutenu ma créativité. De nombreux endroits intéressants pour les photos ! La chambre était également très propre.\"",
+        "text": "\"Le design intérieur esthetique de l'hôtel et le bon éclairage ont vraiment soutenu ma créativité. De nombreux endroits intéressants pour les photos ! La chambre était également très propre.\"",
         "dealyAnimation": "500"
       }
     ],
@@ -399,7 +414,7 @@
         "avatar": "/img/testimonials/2/3.png",
         "name": "Liam Garcia",
         "designation": "Médecin",
-        "text": "\"Cet endroit est l'évasion parfaite pour la relaxation. Les services de spa apaisants et l'atmosphère paisible m'ont fait sentir complètement rafraîchi.\""
+        "text": "\"Cet endroit est l'évasion parfaite pour la relaxation. Les services de spa apaisants et l'atmosphère paisible me firent sentir complètement rafraîchi.\""
       },
       {
         "id": 4,
@@ -415,7 +430,7 @@
         "avatar": "/img/testimonials/2/5.png",
         "name": "Noah Thompson",
         "designation": "Artiste",
-        "text": "\"L'inspiration vient de partout, et ce complexe regorge d'une beauté naturelle époustouflante. J'ai beaucoup peint ici. Fortement recommandé pour les artistes ou toute personne en quête d'inspiration.\""
+        "text": "\"L'inspiration vient de toutes parts, et ce complexe regorge d'une beauté naturelle impressionnante. J'ai beaucoup peint ici. Fortement recommandé pour les artistes ou quiconque cherche l'inspiration.\""
       }
     ]
   },

@@ -32,7 +32,8 @@
     "unknownLocation": "Neznámá poloha",
     "failedToLoadHotelData": "Nepodařilo se získat data hotelu",
     "errorWithMessage": "Chyba: {error}",
-    "night": "Noc"
+    "night": "Noc",
+    "cityNotFound": "Město nenalezeno"
   },
   "header": {
     "luxuryBackgroundImageAlt": "Luxusní obrázek na pozadí"
@@ -42,7 +43,8 @@
     "searchResultPropertiesIn": "Nalezené nemovitosti v",
     "selectedCity": "Vybrané město",
     "unknownLocation": "Neznámá poloha",
-    "searchParametersIncomplete": "Parametry vyhledávání neúplné."
+    "searchParametersIncomplete": "Parametry vyhledávání neúplné.",
+    "checkInCheckOut": "Příjezd - Odjezd"
   },
   "categoryPage": {
     "discoverLuxeStaysIn": "Objevte luxusní pobyty v",
@@ -158,7 +160,20 @@
     "adultsLabel": "Dospělí",
     "childrenLabel": "Děti",
     "roomsLabel": "Pokoje",
-    "searchButton": "Hledat"
+    "searchButton": "Hledat",
+    "selectGuestsAndRooms": "Vybrat hosty a pokoje",
+    "guestLabels": {
+        "adults": "Dospělí",
+        "children": "Děti",
+        "rooms": "Pokoje",
+        "adultsSingular": "Dospělý",
+        "adultsPlural": "Dospělí",
+        "childrenSingular": "Dítě",
+        "childrenPlural": "Děti",
+        "roomsSingular": "Pokoj",
+        "roomsPlural": "Pokoje",
+        "childrenAgeRange": "0-17"
+    }
   },
   "footer": {
     "popularStays": "Oblíbené pobyty",

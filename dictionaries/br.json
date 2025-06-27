@@ -32,7 +32,8 @@
     "unknownLocation": "Localização Desconhecida",
     "failedToLoadHotelData": "Falha ao recuperar dados do hotel",
     "errorWithMessage": "Erro: {error}",
-    "night": "Noite"
+    "night": "Noite",
+    "cityNotFound": "Cidade não encontrada"
   },
   "header": {
     "luxuryBackgroundImageAlt": "Imagem de fundo de luxo"
@@ -42,7 +43,8 @@
     "searchResultPropertiesIn": "Propriedades encontradas em",
     "selectedCity": "Cidade Selecionada",
     "unknownLocation": "Localização Desconhecida",
-    "searchParametersIncomplete": "Parâmetros de pesquisa incompletos."
+    "searchParametersIncomplete": "Parâmetros de pesquisa incompletos.",
+    "checkInCheckOut": "Check-in - Check-out"
   },
   "categoryPage": {
     "discoverLuxeStaysIn": "Descubra Estadias de Luxo em",
@@ -158,7 +160,20 @@
     "adultsLabel": "Adultos",
     "childrenLabel": "Crianças",
     "roomsLabel": "Quartos",
-    "searchButton": "Pesquisar"
+    "searchButton": "Pesquisar",
+    "selectGuestsAndRooms": "Selecionar Hóspedes e Quartos",
+    "guestLabels": {
+        "adults": "Adultos",
+        "children": "Crianças",
+        "rooms": "Quartos",
+        "adultsSingular": "Adulto",
+        "adultsPlural": "Adultos",
+        "childrenSingular": "Criança",
+        "childrenPlural": "Crianças",
+        "roomsSingular": "Quarto",
+        "roomsPlural": "Quartos",
+        "childrenAgeRange": "0-17"
+    }
   },
   "footer": {
     "popularStays": "Estadias Populares",

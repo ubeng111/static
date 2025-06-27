@@ -32,7 +32,8 @@
     "unknownLocation": "未知地点",
     "failedToLoadHotelData": "未能检索酒店数据",
     "errorWithMessage": "错误：{error}",
-    "night": "晚"
+    "night": "晚",
+    "cityNotFound": "未找到城市"
   },
   "header": {
     "luxuryBackgroundImageAlt": "豪华背景图片"
@@ -42,7 +43,8 @@
     "searchResultPropertiesIn": "在以下地点找到的房产",
     "selectedCity": "已选城市",
     "unknownLocation": "未知地点",
-    "searchParametersIncomplete": "搜索参数不完整。"
+    "searchParametersIncomplete": "搜索参数不完整。",
+    "checkInCheckOut": "入住 - 退房"
   },
   "categoryPage": {
     "discoverLuxeStaysIn": "探索豪华住宿于",
@@ -158,7 +160,20 @@
     "adultsLabel": "成人",
     "childrenLabel": "儿童",
     "roomsLabel": "房间",
-    "searchButton": "搜索"
+    "searchButton": "搜索",
+    "selectGuestsAndRooms": "选择客人和房间",
+    "guestLabels": {
+      "adults": "成人",
+      "children": "儿童",
+      "rooms": "房间",
+      "adultsSingular": "成人",
+      "adultsPlural": "成人",
+      "childrenSingular": "儿童",
+      "childrenPlural": "儿童",
+      "roomsSingular": "房间",
+      "roomsPlural": "房间",
+      "childrenAgeRange": "0-17"
+    }
   },
   "footer": {
     "popularStays": "热门住宿",

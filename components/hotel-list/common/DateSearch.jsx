@@ -9,8 +9,7 @@ const DateSearch = ({ onDateChange, dictionary }) => {
     new DateObject().add(1, 'day'), // Default check-out: besok
   ]);
 
-  const searchDict = dictionary?.search || {};
-  const commonDict = dictionary?.common || {};
+  const searchDict = dictionary.search; // Tanpa fallback
 
   useEffect(() => {
     if (onDateChange && dates.length === 2) {
@@ -39,7 +38,10 @@ const DateSearch = ({ onDateChange, dictionary }) => {
         range
         format="MMMM DD"
         minDate={new Date()}
-        placeholder={searchDict.checkInCheckOut || 'Check-in - Check-out'}
+        placeholder={searchDict.checkInCheckOut} // Baris 42
+        inputClass="rmdp-input"
+        id="checkinCheckoutInput"
+        name="checkin_checkout_dates"
       />
     </div>
   );

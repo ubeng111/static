@@ -32,7 +32,8 @@
     "unknownLocation": "موقع غير معروف",
     "failedToLoadHotelData": "فشل في استرداد بيانات الفندق",
     "errorWithMessage": "خطأ: {error}",
-    "night": "ليلة"
+    "night": "ليلة",
+    "cityNotFound": "لم يتم العثور على مدينة"
   },
   "header": {
     "luxuryBackgroundImageAlt": "صورة خلفية فاخرة"
@@ -42,7 +43,8 @@
     "searchResultPropertiesIn": "تم العثور على عقارات في",
     "selectedCity": "المدينة المختارة",
     "unknownLocation": "موقع غير معروف",
-    "searchParametersIncomplete": "معايير البحث غير مكتملة."
+    "searchParametersIncomplete": "معايير البحث غير مكتملة.",
+    "checkInCheckOut": "تسجيل الدخول - تسجيل الخروج"
   },
   "categoryPage": {
     "discoverLuxeStaysIn": "اكتشف إقامات فاخرة في",
@@ -158,7 +160,20 @@
     "adultsLabel": "بالغون",
     "childrenLabel": "أطفال",
     "roomsLabel": "غرف",
-    "searchButton": "بحث"
+    "searchButton": "بحث",
+    "selectGuestsAndRooms": "اختر الضيوف والغرف",
+    "guestLabels": {
+        "adults": "بالغون",
+        "children": "أطفال",
+        "rooms": "غرف",
+        "adultsSingular": "بالغ",
+        "adultsPlural": "بالغون",
+        "childrenSingular": "طفل",
+        "childrenPlural": "أطفال",
+        "roomsSingular": "غرفة",
+        "roomsPlural": "غرف",
+        "childrenAgeRange": "0-17"
+    }
   },
   "footer": {
     "popularStays": "إقامات شعبية",
@@ -493,11 +508,6 @@
     },
     "state": {
       "typesOfHotelsQuestion": "إيه أنواع الفنادق المتاحة في {state}؟",
-      "typesOfHotelsAnswer": "استكشف مجموعة متنوعة من الفنادق في {state}، من فنادق فاخرة لخيارات اقتصادية.",
-      "familyFriendlyHotelsQuestion": "هل يوجد فنادق مناسبة للعائلات في {state}؟",
-      "familyFriendlyHotelsAnswer": "أيوه، يوجد الكثير من الفنادق المناسبة للعائلات في {state}.",
-      "attractionsNearHotelsQuestion": "إيه أماكن الجذب القريبة من الفنادق في {state}؟",
-      "attractionsNearHotelsAnswer": "الفنادق في {state} قريبة من أماكن جذب شعبية مختلفة.",
       "hotelsWithPoolsQuestion": "هل يوجد فنادق بحمامات سباحة في {state}؟",
       "hotelsWithPoolsAnswer": "أيوه، العديد من الفنادق في {state} بتضم حمامات سباحة ومرافق أخرى.",
       "bestRatedHotelsQuestion": "إيه هي أفضل الفنادق تقييماً في {state}؟",

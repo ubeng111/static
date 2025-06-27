@@ -2,13 +2,13 @@
   "common": {
     "loadingSearchResults": "Zoekresultaten laden...",
     "loadingCityContent": "Stadsinhoud laden...",
-    "loadingHotel": "Hotelgegevens laden...",
+    "loadingHotel": "Hoteldetails laden...",
     "hotelNotFound": "Hotel niet gevonden.",
     "errorServer": "Er is een serverfout opgetreden",
     "preloaderTitle": "Hoteloza..",
-    "failedToLoadHotelList": "Laden van hotellijst mislukt. Probeer het opnieuw.",
-    "cityIdRequired": "Stads-ID is vereist.",
-    "callToActionsDescription": "Goede ideeën duren niet lang. Boek vandaag nog uw Hoteloza reis!",
+    "failedToLoadHotelList": "Laden hotellijst mislukt. Probeer het opnieuw.",
+    "cityIdRequired": "Stads-ID vereist.",
+    "callToActionsDescription": "Goede ideeën duren niet lang. Boek uw reis vandaag nog met Hoteloza!",
     "errorLoadingData": "Er is een fout opgetreden bij het laden van gegevens. Probeer het later opnieuw.",
     "noHotelsFound": "Geen hotels gevonden voor deze categorie.",
     "noRelatedCategoriesFound": "Geen gerelateerde categorieën gevonden.",
@@ -24,64 +24,66 @@
     "reserveNow": "Reserveer nu",
     "unknownCategory": "Onbekende categorie",
     "unknownState": "Onbekende provincie",
-    "errorLandmarkNotFound": "Fout: Oriëntatiepunt niet gevonden in URL. Kan niet laden.",
-    "properties": "accommodaties",
+    "errorLandmarkNotFound": "Fout: Oriëntatiepunt niet gevonden in de URL. Kan niet laden.",
+    "properties": "eigenschappen",
     "noDestinationsFound": "Geen bestemmingen beschikbaar voor deze regio.",
-    "topRecommendedHotelsTitle": "Best beoordeelde {category} in {city}",
-    "findTopRatedStays": "Vind top-rated verblijven met vergelijkbare voordelen in de buurt van uw bestemming",
+    "topRecommendedHotelsTitle": "Best aanbevolen {category} in {city}",
+    "findTopRatedStays": "Vind topbeoordeelde verblijven met vergelijkbare voordelen in de buurt van uw bestemming",
     "unknownLocation": "Onbekende locatie",
-    "failedToLoadHotelData": "Laden van hotelgegevens mislukt",
+    "failedToLoadHotelData": "Gegevens van hotel ophalen mislukt",
     "errorWithMessage": "Fout: {error}",
-    "night": "Nacht"
+    "night": "Nacht",
+    "cityNotFound": "Stad niet gevonden"
   },
   "header": {
     "luxuryBackgroundImageAlt": "Luxe achtergrondafbeelding"
   },
   "search": {
-    "searchResultAccommodationIn": "Zoekresultaat voor accommodatie in {cityName}",
+    "searchResultAccommodationIn": "Zoekresultaten voor accommodatie in {cityName}",
     "searchResultPropertiesIn": "Gevonden accommodaties in",
     "selectedCity": "Geselecteerde stad",
     "unknownLocation": "Onbekende locatie",
-    "searchParametersIncomplete": "Zoekparameters onvolledig."
+    "searchParametersIncomplete": "Zoekparameters onvolledig.",
+    "checkInCheckOut": "Inchecken - Uitchecken"
   },
   "categoryPage": {
-    "discoverLuxeStaysIn": "Ontdek Luxe Verblijven in",
-    "faqsAboutHotels": "Veelgestelde vragen over {formattedCategory}",
+    "discoverLuxeStaysIn": "Ontdek luxe verblijven in",
+    "faqsAboutHotels": "Veelgestelde vragen {formattedCategory}",
     "categoryDefault": "Categorie",
-    "defaultItemListDescription": "Een lijst met top {formattedCategory} voor {currentYear} op Hoteloza."
+    "defaultItemListDescription": "Lijst van de beste {formattedCategory} voor {currentYear} op Hoteloza."
   },
   "countryPage": {
-    "discoverStaysIn": "Ontdek Verblijven in {displayCountry}",
+    "discoverStaysIn": "Ontdek verblijven in {displayCountry}",
     "faqsAboutCountryHotels": "Veelgestelde vragen hotels in {displayCountry}",
     "countryDefault": "Land",
     "noHotelsFoundForCountry": "Geen hotels gevonden voor dit land."
   },
   "statePage": {
-    "discoverStaysInState": "Ontdek Verblijven in {formattedState}",
+    "discoverStaysInState": "Ontdek verblijven in {formattedState}",
     "faqsAboutStateHotels": "Veelgestelde vragen hotels in {displayState}",
     "stateDefault": "Provincie",
     "noHotelsFoundForState": "Geen hotels gevonden voor deze provincie."
   },
   "cityPage": {
-    "discoverStaysInCity": "Ontdek Verblijven in {formattedCity}",
+    "discoverStaysInCity": "Ontdek verblijven in {formattedCity}",
     "faqsAboutCityHotels": "Veelgestelde vragen hotels in {displayCity}",
     "cityDefault": "Stad",
     "noHotelsFoundForCity": "Geen hotels gevonden voor deze stad."
   },
   "hotelSinglePage": {
     "aboutThisHotel": "Over dit hotel",
-    "facilitiesAndServices": "Faciliteiten & Diensten",
+    "facilitiesAndServices": "Faciliteiten en diensten",
     "attractionsNearby": "Attracties in de buurt",
-    "reviews": "Beoordelingen",
+    "reviews": "Recensies",
     "faq": "Veelgestelde vragen",
     "locationMap": "Locatiekaart",
     "frequentlyAskedQuestions": "Veelgestelde vragen",
-    "toggleFrequentlyAskedQuestions": "Veelgestelde vragen openen/sluiten",
-    "toggleLocationMap": "Locatiekaart openen/sluiten",
+    "toggleFrequentlyAskedQuestions": "Veelgestelde vragen in-/uitschakelen",
+    "toggleLocationMap": "Locatiekaart in-/uitschakelen",
     "relatedHotels": "Populaire accommodaties vergelijkbaar met",
-    "toggleFacilities": "Faciliteiten openen/sluiten",
-    "toggleLandmarks": "Bezienswaardigheden in de buurt openen/sluiten",
-    "toggleRelatedHotels": "Populaire accommodaties vergelijkbaar met openen/sluiten",
+    "toggleFacilities": "Faciliteiten in-/uitschakelen",
+    "toggleLandmarks": "Oriëntatiepunten in de buurt in-/uitschakelen",
+    "toggleRelatedHotels": "Populaire accommodaties vergelijkbaar met in-/uitschakelen",
     "defaultSchemaDescription": "Boek {formattedHotel}, een luxe hotel in {formattedCity} voor {currentYear} op Hoteloza.",
     "exceptionalReviewText": "Uitmuntend"
   },
@@ -92,42 +94,42 @@
     "bathroom": "Badkamer",
     "towels": "Handdoeken",
     "bathOrShower": "Bad of douche",
-    "privateBathroom": "Eigen badkamer",
+    "privateBathroom": "Privébadkamer",
     "toilet": "Toilet",
     "freeToiletries": "Gratis toiletartikelen",
-    "hairdryer": "Haardroger",
+    "hairdryer": "Föhn",
     "bath": "Bad",
     "bedroom": "Slaapkamer",
-    "linen": "Beddengoed",
-    "wardrobeOrCloset": "Kledingkast",
+    "linen": "Linnen",
+    "wardrobeOrCloset": "Kledingkast of kledingkast",
     "receptionServices": "Receptiediensten",
     "invoiceProvided": "Factuur verstrekt",
-    "privateCheckInCheckOut": "Privé inchecken/uitchecken",
+    "privateCheckInCheckOut": "Privé in-/uitchecken",
     "luggageStorage": "Bagageopslag",
     "twentyFourHourFrontDesk": "24-uursreceptie",
-    "mediaTechnology": "Media & Technologie",
+    "mediaTechnology": "Media en technologie",
     "flatScreenTV": "Flatscreen-tv",
-    "satelliteChannels": "Satellietkanalen",
+    "satelliteChannels": "Satellietzenders",
     "radio": "Radio",
     "telephone": "Telefoon",
     "tv": "Tv",
-    "foodDrink": "Eten & Drinken",
-    "kidMeals": "Kindermenu's",
+    "foodDrink": "Eten en drinken",
+    "kidMeals": "Kindermaaltijden",
     "specialDietMenusOnRequest": "Speciale dieetmenu's (op aanvraag)",
     "breakfastInTheRoom": "Ontbijt op de kamer",
     "cleaningServices": "Schoonmaakdiensten",
     "dailyHousekeeping": "Dagelijkse schoonmaak",
     "dryCleaning": "Stomerij",
     "laundry": "Wasserij",
-    "safetySecurity": "Veiligheid & Beveiliging",
+    "safetySecurity": "Veiligheid en beveiliging",
     "fireExtinguishers": "Brandblussers",
-    "cctvInCommonAreas": "CCTV in gemeenschappelijke ruimtes",
+    "cctvInCommonAreas": "Cameratoezicht in gemeenschappelijke ruimtes",
     "smokeAlarms": "Rookmelders",
     "twentyFourHourSecurity": "24-uursbeveiliging"
   },
   "landmarkList": {
-    "noNearbyPlacesFound": "Geen plaatsen in de buurt gevonden binnen {radius} km.",
-    "nearbyEssentialAndTouristSpots": "🗺️ Essentiële & toeristische plekken in de buurt"
+    "noNearbyPlacesFound": "Geen plaatsen in de buurt gevonden binnen een straal van {radius} km.",
+    "nearbyEssentialAndTouristSpots": "🗺️ Essentiële en toeristische plekken in de buurt"
   },
   "mapComponent": {
     "mapTitle": "🗺️ Kaart {title}"
@@ -143,10 +145,6 @@
     "noRelatedStatesFound": "Geen gerelateerde provincies gevonden",
     "statesIn": "🏨 Provincies in {formattedCountry}"
   },
-  "relatedStates": {
-    "noRelatedCitiesFound": "Geen gerelateerde steden gevonden",
-    "citiesIn": "🏨 Steden in {formattedState}"
-  },
   "city": {
     "city": "Stad",
     "faq": "Veelgestelde vragen"
@@ -158,7 +156,20 @@
     "adultsLabel": "Volwassenen",
     "childrenLabel": "Kinderen",
     "roomsLabel": "Kamers",
-    "searchButton": "Zoeken"
+    "searchButton": "Zoeken",
+    "selectGuestsAndRooms": "Gasten en kamers selecteren",
+    "guestLabels": {
+        "adults": "Volwassenen",
+        "children": "Kinderen",
+        "rooms": "Kamers",
+        "adultsSingular": "Volwassene",
+        "adultsPlural": "Volwassenen",
+        "childrenSingular": "Kind",
+        "childrenPlural": "Kinderen",
+        "roomsSingular": "Kamer",
+        "roomsPlural": "Kamers",
+        "childrenAgeRange": "0-17"
+    }
   },
   "footer": {
     "popularStays": "Populaire verblijven",
@@ -186,53 +197,53 @@
     "chalet": "Chalet",
     "boat": "Boot",
     "houseboat": "Woonboot",
-    "hotelozaFooterText": "Hoteloza is een toonaangevend platform voor eenvoudige en naadloze hotelboekingen. Wij vereenvoudigen uw zoektocht naar de perfecte accommodatie en bieden een diverse selectie van verblijven, van gezellige hotels tot luxe resorts. Geniet van het gemak van boeken, exclusieve aanbiedingen en gepersonaliseerde services, afgestemd op uw reisbehoeften. Boek met Hoteloza en maak onvergetelijke reizen werkelijkheid.",
+    "hotelozaFooterText": "Hoteloza is een toonaangevend platform voor eenvoudige en probleemloze hotelboekingen. Wij vereenvoudigen uw zoektocht naar de perfecte accommodatie, met een diverse selectie van verblijven, van gezellige hotels tot luxe resorts. Geniet van het gemak van boeken, exclusieve aanbiedingen en gepersonaliseerde diensten afgestemd op uw reisbehoeften. Boek met Hoteloza en maak onvergetelijke reizen werkelijkheid.",
     "hotelozaAllRightsReserved": "© {year} Hoteloza. Alle rechten voorbehouden."
   },
   "metadata": {
-    "homePageTitle": "Hoteloza - Vind Uw Droomhotel",
-    "homePageDescription": "Vind de beste hotels en accommodatie voor uw volgende reis. Boek nu met Hoteloza!",
-    "searchResultPageTitle": "Hotels in {cityName} - Hoteloza Zoekresultaten",
+    "homePageTitle": "Hoteloza - Vind uw droomhotel",
+    "homePageDescription": "Vind de beste hotels en accommodaties voor uw volgende reis. Boek nu met Hoteloza!",
+    "searchResultPageTitle": "Hotels in {cityName} - Zoekresultaten Hoteloza",
     "searchResultPageDescription": "Zoek en boek hotels in {cityName}. Vergelijk prijzen en faciliteiten voor uw beste verblijf.",
     "cityPageTitle": "Hotels in {cityName} - Ontdek {cityName} met Hoteloza",
-    "cityPageDescription": "Ontdek de beste hotels in {cityName} en vind de beste deals voor uw onvergetelijke reis met Hoteloza.",
+    "cityPageDescription": "Ontdek de beste hotels in {cityName} en vind de beste aanbiedingen voor uw onvergetelijke reis met Hoteloza.",
     "categoryNotFoundTitle": "Categorie niet gevonden | Hoteloza",
-    "categoryNotFoundDescription": "De categorie die u zoekt is niet gevonden op Hoteloza.",
-    "categoryPageTitleTemplate": "Beste {formattedCategory} Kortingen {currentYear} - Bespaar veel bij Hoteloza!",
-    "categoryPageDescriptionTemplate": "Ontdek de beste {formattedCategory} in {currentYear} met Hoteloza. Geniet van exclusieve kortingen, geweldige prijzen en topfaciliteiten. Boek nu voor een onvergetelijk verblijf!",
-    "categoryOgTitleTemplate": "Top {formattedCategory} Deals {currentYear} | Hoteloza",
-    "categoryOgDescriptionTemplate": "Ontdek top {formattedCategory} voor {currentYear} op Hoteloza. Boek nu voor exclusieve deals en premium faciliteiten!",
-    "categoryWebPageNameTemplate": "Top {formattedCategory} Deals {currentYear}",
-    "categoryWebPageDescriptionTemplate": "Ontdek top {formattedCategory} voor {currentYear} op Hoteloza met exclusieve deals en premium faciliteiten.",
+    "categoryNotFoundDescription": "De categorie die u zoekt, is niet gevonden in Hoteloza.",
+    "categoryPageTitleTemplate": "Beste {formattedCategory} kortingen {currentYear} - Bespaar veel met Hoteloza!",
+    "categoryPageDescriptionTemplate": "Ontdek de beste {formattedCategory} in {currentYear} met Hoteloza. Geniet van exclusieve kortingen, fantastische prijzen en eersteklas faciliteiten. Boek nu voor een onvergetelijk verblijf!",
+    "categoryOgTitleTemplate": "Topaanbiedingen {formattedCategory} {currentYear} | Hoteloza",
+    "categoryOgDescriptionTemplate": "Ontdek de top {formattedCategory} voor {currentYear} op Hoteloza. Boek nu voor exclusieve aanbiedingen en eersteklas faciliteiten!",
+    "categoryWebPageNameTemplate": "Topaanbiedingen {formattedCategory} {currentYear}",
+    "categoryWebPageDescriptionTemplate": "Ontdek de top {formattedCategory} voor {currentYear} op Hoteloza met exclusieve aanbiedingen en eersteklas faciliteiten.",
     "countryNotFoundTitle": "Pagina niet gevonden | Hoteloza",
-    "countryNotFoundDescription": "De categorie, het land of de provincie die u zoekt is niet gevonden op Hoteloza.",
+    "countryNotFoundDescription": "De categorie, het land of de provincie die u zoekt, is niet gevonden in Hoteloza.",
     "countryPageTitleTemplate": "Goedkope {formattedCategory} in {formattedCountry} {currentYear} - Mis het niet! | Hoteloza",
-    "countryPageDescriptionTemplate": "Ontvang de beste {formattedCategory} in {formattedCountry} voor {currentYear} op Hoteloza. Geniet van exclusieve aanbiedingen, betaalbare prijzen en topfaciliteiten. Beperkte aanbiedingen – boek uw verblijf vandaag nog!",
+    "countryPageDescriptionTemplate": "Krijg de beste {formattedCategory} in {formattedCountry} voor {currentYear} op Hoteloza. Geniet van exclusieve aanbiedingen, betaalbare prijzen en eersteklas faciliteiten. Beperkte aanbiedingen – boek uw verblijf vandaag nog!",
     "countryOgTitleTemplate": "Beste {formattedCategory} in {formattedCountry} {currentYear} | Hoteloza",
-    "countryOgDescriptionTemplate": "Vind de beste {formattedCategory} in {formattedCountry} voor {currentYear} op Hoteloza. Boek nu voor tophotels en exclusieve deals!",
+    "countryOgDescriptionTemplate": "Vind de beste {formattedCategory} in {formattedCountry} voor {currentYear} op Hoteloza. Boek nu voor tophotels en exclusieve aanbiedingen!",
     "stateNotFoundTitle": "Pagina niet gevonden | Hoteloza",
-    "stateNotFoundDescription": "De categorie, het land of de provincie die u zoekt is niet gevonden op Hoteloza.",
+    "stateNotFoundDescription": "De categorie, het land of de provincie die u zoekt, is niet gevonden in Hoteloza.",
     "statePageTitleTemplate": "Goedkope {formattedCategory} in {formattedState}, {formattedCountry} {currentYear} - Boek nu! | Hoteloza",
-    "statePageDescriptionTemplate": "Vind de beste {formattedCategory} in {formattedState}, {formattedCountry} voor {currentYear} op Hoteloza. Exclusieve deals, geweldige prijzen en topfaciliteiten. Boek uw onvergetelijke verblijf!",
+    "statePageDescriptionTemplate": "Vind de beste {formattedCategory} in {formattedState}, {formattedCountry} voor {currentYear} op Hoteloza. Exclusieve aanbiedingen, fantastische prijzen en eersteklas faciliteiten. Boek uw onvergetelijke verblijf!",
     "stateOgTitleTemplate": "Beste {formattedCategory} in {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
-    "stateOgDescriptionTemplate": "Ontdek top {formattedCategory} in {formattedState}, {formattedCountry} voor {currentYear} op Hoteloza. Boek nu voor exclusieve deals en premium faciliteiten!",
+    "stateOgDescriptionTemplate": "Ontdek de top {formattedCategory} in {formattedState}, {formattedCountry} voor {currentYear} op Hoteloza. Boek nu voor exclusieve aanbiedingen en eersteklas faciliteiten!",
     "cityNotFoundTitle": "Pagina niet gevonden | Hoteloza",
-    "cityNotFoundDescription": "De categorie, het land, de provincie of de stad die u zoekt is niet gevonden op Hoteloza.",
+    "cityNotFoundDescription": "De categorie, het land, de provincie of de stad die u zoekt, is niet gevonden in Hoteloza.",
     "cityPageTitleTemplate": "Goedkope {formattedCategory} in {formattedCity}, {formattedState}, {formattedCountry} {currentYear} - Grote kortingen! | Hoteloza",
-    "cityPageDescriptionTemplate": "Vind de beste {formattedCategory} in {formattedCity}, {formattedState}, {formattedCountry} voor {currentYear} op Hoteloza. Exclusieve kortingen, topfaciliteiten en onverslaanbare prijzen. Boek nu uw droomverblijf!",
+    "cityPageDescriptionTemplate": "Vind de beste {formattedCategory} in {formattedCity}, {formattedState}, {formattedCountry} voor {currentYear} op Hoteloza. Exclusieve kortingen, eersteklas faciliteiten en onverslaanbare prijzen. Boek nu uw droomverblijf!",
     "cityOgTitleTemplate": "Beste {formattedCategory} in {formattedCity}, {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
-    "cityOgDescriptionTemplate": "Ontdek top {formattedCategory} in {formattedCity}, {formattedState}, {formattedCountry} voor {currentYear} op Hoteloza. Boek nu voor exclusieve deals en premium faciliteiten!",
+    "cityOgDescriptionTemplate": "Ontdek de top {formattedCategory} in {formattedCity}, {formattedState}, {formattedCountry} voor {currentYear} op Hoteloza. Boek nu voor exclusieve aanbiedingen en eersteklas faciliteiten!",
     "hotelNotFoundTitle": "Hotel niet gevonden | Hoteloza",
-    "hotelNotFoundDescription": "Het hotel dat u zoekt kon niet worden gevonden.",
+    "hotelNotFoundDescription": "Het hotel dat u zoekt, is niet gevonden.",
     "hotelPageTitleTemplate": "{hotelTitle} - Boek nu op Hoteloza!",
-    "hotelPageDescriptionTemplate": "Boek uw verblijf in {hotelTitle} in {city}, {state}, {country}. Vind de beste deals, faciliteiten en beoordelingen voor een onvergetelijke ervaring met Hoteloza.",
+    "hotelPageDescriptionTemplate": "Boek uw verblijf in {hotelTitle} in {city}, {state}, {country}. Vind de beste aanbiedingen, faciliteiten en recensies voor een onvergetelijke ervaring met Hoteloza.",
     "hotelOgTitleTemplate": "{hotelTitle} | Hoteloza",
-    "hotelOgDescriptionTemplate": "Vind de beste deals bij {hotelTitle} met Hoteloza."
+    "hotelOgDescriptionTemplate": "Vind de beste aanbiedingen in {hotelTitle} met Hoteloza."
   },
   "landmarkPage": {
     "topHotelsNear": "Goedkope {category} in de buurt van {landmarkName}",
     "landmarkPageTitleTemplate": "Goedkope {category} in de buurt van {landmarkName}",
-    "description": "{category} {landmarkName} biedt de beste accommodatie in {cityName}, met geweldige deals en voorzieningen zoals gratis WiFi.",
+    "description": "{category} {landmarkName} biedt de beste accommodatie in {cityName}, met geweldige aanbiedingen en faciliteiten zoals gratis WiFi.",
     "loadingHotel": "Hotel laden...",
     "errorLoadingHotel": "Fout: {error}",
     "hotelNotFound": "Hotel niet gevonden.",
@@ -247,32 +258,32 @@
     "dreamDestinations": "Droombestemmingen",
     "unforgettableSpots": "Onvergetelijke plekken die u keer op keer wilt verkennen",
     "whatOurGuestsTrulyLoveAboutUs": "Wat onze gasten echt waarderen aan ons",
-    "experienceTheMagic": "Ervaar de magie die miljoenen doet terugkomen. Bij Hoteloza zetten we ons in om elk verblijf onvergetelijk te maken, met gemak, zorg en uitzonderlijke service.",
-    "hotelozaHeroTitle": "Vinden, Boeken en Ontspannen met Hoteloza",
+    "experienceTheMagic": "Ervaar de magie die miljoenen doet terugkeren. Bij Hoteloza zetten we ons in om elk verblijf onvergetelijk te maken, met gemak, zorg en uitzonderlijke service.",
+    "hotelozaHeroTitle": "Vind, boek en ontspan met Hoteloza",
     "hotelozaHeroSubtitle": "Ontdek duizenden hotels wereldwijd met Hoteloza",
     "delightedGuests": "Tevreden gasten",
     "guestSatisfactionScore": "Klanttevredenheidsscore",
-    "happyPeople": "Blĳe mensen",
+    "happyPeople": "Gelukkige mensen",
     "overallRating": "Algemene beoordeling"
   },
   "about": {
-    "lookingForJoy": "Op zoek naar plezier?",
-    "trustedTripCompanion": "Uw Betrouwbare Reisgenoot",
+    "lookingForJoy": "Op zoek naar vreugde?",
+    "trustedTripCompanion": "Uw vertrouwde reisgenoot",
     "whyChooseUs": "Waarom voor ons kiezen",
-    "popularDestinationsOffer": "Deze populaire bestemmingen hebben veel te bieden",
+    "popularDestinationsOffer": "Deze populaire bestemmingen bieden veel",
     "overheardFromTravelers": "Gehoord van reizigers",
     "aboutHotelozaTitle": "Over Hoteloza",
     "aboutHotelozaSubtitle": "Ontdek een wereld van comfort en elegantie",
-    "aboutHotelozaParagraph1": "Hoteloza is uw toevluchtsoord van luxe, en biedt ongeëvenaarde gastvrijheid in het hart van bruisende bestemmingen. Onze hotels combineren moderne elegantie met tijdloos comfort, zodat elk verblijf een memorabele ervaring wordt.",
-    "aboutHotelozaParagraph2": "Dompel uzelf onder in onze voorzieningen van wereldklasse, van serene spa's tot exquise eetgelegenheden, en verken nabijgelegen attracties die elk bezoek onvergetelijk maken. Of het nu voor zaken of plezier is, Hoteloza is uw thuis weg van huis."
+    "aboutHotelozaParagraph1": "Hoteloza is uw toevluchtsoord van luxe en biedt ongeëvenaarde gastvrijheid in het hart van bruisende bestemmingen. Onze hotels combineren moderne elegantie met tijdloos comfort, zodat elk verblijf een onvergetelijke ervaring is.",
+    "aboutHotelozaParagraph2": "Duik in onze wereldberoemde faciliteiten, van serene spa's tot exquise eetgelegenheden, en verken de nabijgelegen attracties die elk bezoek memorabel maken. Of het nu voor zaken of plezier is, Hoteloza is uw thuis weg van huis."
   },
   "blockGuide": {
     "bestPriceGuarantee": "Beste Prijs Garantie",
-    "bestPriceGuaranteeText": "Vind uw perfecte verblijf tegen de best mogelijke prijs – gegarandeerd. Geen verborgen kosten, alleen echte besparingen elke keer dat u boekt.",
-    "easyQuickBooking": "Eenvoudig & Snel Boeken",
-    "easyQuickBookingText": "Boek uw droomhotel in slechts een paar klikken. Snel, eenvoudig en probleemloos – uw volgende uitje begint hier.",
+    "bestPriceGuaranteeText": "Vind uw ideale verblijf tegen de best mogelijke prijs – gegarandeerd. Geen verborgen kosten, alleen echte besparingen elke keer dat u boekt.",
+    "easyQuickBooking": "Eenvoudig en snel boeken",
+    "easyQuickBookingText": "Boek uw droomhotel met slechts een paar klikken. Snel, gemakkelijk en probleemloos – uw volgende uitje begint hier.",
     "customerSupport": "24/7 Klantenservice",
-    "customerSupportText": "Hulp nodig? Ons supportteam is 24 uur per dag beschikbaar om u te helpen – waar en wanneer u maar wilt."
+    "customerSupportText": "Hulp nodig? Ons supportteam is dag en nacht beschikbaar om u te helpen – waar en wanneer u het nodig heeft."
   },
   "contactPage": {
     "heroTitle": "Neem contact met ons op",
@@ -280,19 +291,19 @@
     "getInTouchTitle": "Neem contact op",
     "getInTouchDescription": "Neem gerust contact met ons op met al uw vragen of opmerkingen. Ons team staat altijd klaar om u te helpen.",
     "addressLabel": "Adres",
-    "addressValue": "Hoteloza Straat 123, Suite 456, Stad, Land",
+    "addressValue": "Hoteloza Straat 123, Appartement 456, Stad, Land",
     "emailLabel": "E-mail",
     "emailValue": "info@hoteloza.com",
     "workingHoursLabel": "Werktijden",
-    "workingHoursValue": "Maandag - Vrijdag: 9:00 - 17:00 (lokale tijd)"
+    "workingHoursValue": "Maandag - Vrijdag: 9:00 - 17:00 uur (lokale tijd)"
   },
   "callToActions": {
     "subscribeHere": "Hier abonneren",
-    "yourEmail": "Uw e-mailadres",
+    "yourEmail": "Uw e-mail",
     "subscribeButton": "Abonneren"
   },
   "testimonials": {
-    "sarahMQuote": "Hoteloza is een gamechanger! Ik heb hier consequent de beste hoteldeals gevonden. Het is echt de beste hotelpartnerwebsite wereldwijd.",
+    "sarahMQuote": "Hoteloza is een game changer! Ik vind hier constant de beste hotelaanbiedingen. Het is echt de beste hotelpartnerwebsite wereldwijd.",
     "sarahMName": "Sarah M.",
     "sarahMDesignation": "Reisliefhebber",
     "data": [
@@ -301,7 +312,7 @@
         "avatar": "/img/avatars/testimonials/1.jpg",
         "name": "Sarah Miller",
         "designation": "Reisblogger",
-        "text": "Ons verblijf hier was absoluut ongelooflijk! De locatie is strategisch, de kamer was schoon en comfortabel, en de service van het personeel was uitzonderlijk vriendelijk. Een aanrader voor een familievakantie.",
+        "text": "Ons verblijf hier was absoluut ongelooflijk! De locatie is strategisch, de kamer was schoon en comfortabel, en de service van het personeel was uitzonderlijk vriendelijk. Een aanrader voor een gezinsvakantie.",
         "dealyAnimation": "100"
       },
       {
@@ -309,7 +320,7 @@
         "avatar": "/img/avatars/testimonials/2.png",
         "name": "John Davis",
         "designation": "Ondernemer",
-        "text": "Dit hotel was de perfecte keuze voor mijn zakenreis. Complete faciliteiten, snelle Wi-Fi en dicht bij het stadscentrum. Erg efficiënt en comfortabel.",
+        "text": "Dit hotel was de perfecte keuze voor mijn zakenreis. Complete uitrusting, snelle Wi-Fi en dicht bij het stadscentrum. Zeer efficiënt en handig.",
         "dealyAnimation": "200"
       },
       {
@@ -317,7 +328,7 @@
         "avatar": "/img/avatars/testimonials/3.png",
         "name": "Emily White",
         "designation": "Student",
-        "text": "Ik hou van het moderne en Instagrammable interieurontwerp! Het is perfect voor een staycation met vrienden. De prijs is ook betaalbaar voor zo'n geweldige kwaliteit.",
+        "text": "Ik hou van het moderne en Instagrammable interieur! Het is ideaal voor een verblijf met vrienden. De prijs is ook betaalbaar voor zo'n geweldige kwaliteit.",
         "dealyAnimation": "300"
       },
       {
@@ -325,7 +336,7 @@
         "avatar": "/img/avatars/testimonials/1.png",
         "name": "David Lee",
         "designation": "Fotograaf",
-        "text": "Het uitzicht vanuit de kamer was adembenemend! Ik heb zoveel geweldige foto's kunnen maken. Het personeel was ook erg behulpzaam bij het aanbevelen van toeristische attracties.",
+        "text": "Het uitzicht vanuit de kamer was adembenemend! Ik kon zoveel geweldige foto's maken. Het personeel was ook erg vriendelijk en raadde toeristische attracties aan.",
         "dealyAnimation": "400"
       }
     ],
@@ -336,16 +347,16 @@
         "avatar": "/img/avatars/testimonials/1.png",
         "name": "Olivia Grace",
         "designation": "Auteur",
-        "text": "\"Dit hotel is perfect om rust en stilte te vinden. De serene sfeer, stille kamers en responsieve medewerkers stelden me in staat me zonder onderbreking op het schrijven te concentreren. Een aanrader.\"",
+        "text": "\"Dit hotel is perfect om rust te vinden. De serene sfeer, stille kamers en responsief personeel stelden me in staat om me zonder onderbreking op het schrijven te concentreren. Zeer aan te bevelen.\"",
         "dealyAnimation": "100"
       },
       {
         "id": 2,
         "meta": "Grand Imperial Hotel",
         "avatar": "/img/avatars/testimonials/2.png",
-        "name": "Daniel Kim",
+        "name": "Daniël Kim",
         "designation": "Digitale Nomade",
-        "text": "\"Stabiele internetverbinding en een comfortabele werkplek zijn hier een enorm pluspunt. Ik kon tegelijkertijd werken en vakantie vieren. De locatie is ook dicht bij veel cafés.\"",
+        "text": "\"De stabiele internetverbinding en comfortabele werkruimte zijn hier een enorm pluspunt. Ik kon tegelijkertijd werken en uitrusten. De locatie ligt ook dicht bij veel cafés.\"",
         "dealyAnimation": "200"
       },
       {
@@ -353,8 +364,8 @@
         "meta": "Grand Imperial Hotel",
         "avatar": "/img/avatars/testimonials/3.png",
         "name": "Sophia Brown",
-        "designation": "Gepensioneerde",
-        "text": "\"De vriendelijke service en senior-vriendelijke faciliteiten zorgden ervoor dat we ons zeer comfortabel voelden. Het ontbijt was ook heerlijk en gevarieerd. We komen zeker terug.\"",
+        "designation": "Gepensioneerd",
+        "text": "\"De vriendelijke service en de seniorenvriendelijke faciliteiten zorgden ervoor dat we ons zeer comfortabel voelden. Het ontbijt was ook heerlijk en gevarieerd. We komen zeker terug.\"",
         "dealyAnimation": "300"
       },
       {
@@ -363,7 +374,7 @@
         "avatar": "/img/avatars/testimonials/4.png",
         "name": "Michael Chen",
         "designation": "Chef-kok",
-        "text": "\"Als chef-kok waardeer ik de kwaliteit van het eten in het restaurant van dit hotel enorm. De gerechten zijn heerlijk en de menukeuzes zijn divers. Een werkelijk geweldige culinaire ervaring!\"",
+        "text": "\"Als chef-kok waardeer ik de kwaliteit van het eten in het restaurant van dit hotel enorm. De gerechten zijn heerlijk en de menukeuze is gevarieerd. Een werkelijk ongelooflijke culinaire ervaring!\"",
         "dealyAnimation": "400"
       },
       {
@@ -372,7 +383,7 @@
         "avatar": "/img/avatars/testimonials/5.png",
         "name": "Chloe Wilson",
         "designation": "Grafisch ontwerper",
-        "text": "\"Het esthetische interieurontwerp van het hotel en de goede verlichting ondersteunden mijn creativiteit echt. Veel interessante fotoplekken! De kamer was ook erg schoon.\"",
+        "text": "\"Het esthetische interieurontwerp van het hotel en de goede verlichting ondersteunden mijn creativiteit echt. Veel interessante plekken om foto's te maken! De kamer was ook erg schoon.\"",
         "dealyAnimation": "500"
       }
     ],
@@ -383,7 +394,7 @@
         "avatar": "/img/testimonials/2/1.png",
         "name": "James Taylor",
         "designation": "Zakenman",
-        "text": "\"Dit resort heeft een spectaculair uitzicht op de oceaan. Het is perfect om tot rust te komen van de routine. De infinity pool faciliteiten zijn ook adembenemend.\""
+        "text": "\"Dit resort heeft een ongelooflijk uitzicht op de oceaan. Het is ideaal om te ontspannen van de dagelijkse routine. De faciliteiten met een overloopzwembad zijn ook adembenemend.\""
       },
       {
         "id": 2,
@@ -391,7 +402,7 @@
         "avatar": "/img/testimonials/2/2.png",
         "name": "Isabella Rodriguez",
         "designation": "Lerares",
-        "text": "\"Onze familievakantie hier was zeer memorabel. Er waren veel kinderactiviteiten, en het personeel was erg vriendelijk en behulpzaam. De kinderen vonden het heerlijk om op het privéstrand te spelen.\""
+        "text": "\"Onze gezinsvakantie hier was zeer memorabel. Er waren veel kinderactiviteiten, en het personeel was erg vriendelijk en behulpzaam. De kinderen vonden het heerlijk om op het privéstrand te spelen.\""
       },
       {
         "id": 3,
@@ -399,7 +410,7 @@
         "avatar": "/img/testimonials/2/3.png",
         "name": "Liam Garcia",
         "designation": "Dokter",
-        "text": "\"Deze plek is de perfecte ontsnapping voor ontspanning. De rustgevende spadiensten en de vredige sfeer zorgden ervoor dat ik me volledig verfrist voelde.\""
+        "text": "\"Deze plek is de perfecte ontsnapping voor ontspanning. De kalmerende spaservices en de rustige sfeer zorgden ervoor dat ik me volledig verfrist voelde.\""
       },
       {
         "id": 4,
@@ -407,7 +418,7 @@
         "avatar": "/img/testimonials/2/4.png",
         "name": "Mia Martinez",
         "designation": "Consultant",
-        "text": "\"Ik reis vaak voor mijn werk, en dit resort biedt het comfort van thuis. Roomservice is snel en professioneel. Het zal zeker mijn vaste keuze zijn.\""
+        "text": "\"Ik reis vaak voor mijn werk en dit resort biedt het comfort van thuis. De roomservice is snel en professioneel. Het zal zeker mijn vaste keuze zijn.\""
       },
       {
         "id": 5,
@@ -415,52 +426,52 @@
         "avatar": "/img/testimonials/2/5.png",
         "name": "Noah Thompson",
         "designation": "Kunstenaar",
-        "text": "\"Inspiratie komt van overal, en dit resort is vol met verbluffende natuurlijke schoonheid. Ik heb hier veel geschilderd. Een aanrader voor kunstenaars of iedereen die inspiratie zoekt.\""
+        "text": "\"Inspiratie komt overal vandaan, en dit resort is vol met adembenemende natuurlijke schoonheid. Ik heb hier veel geschilderd. Zeer aan te bevelen voor kunstenaars of iedereen die op zoek is naar inspiratie.\""
       }
     ]
   },
   "faqContent": {
     "hotel": {
-      "facilitiesQuestion": "Welke faciliteiten zijn inbegrepen bij {title}?",
-      "facilitiesAnswer": "Faciliteiten bij {title} omvatten gratis Wi-Fi, een zwembad, parkeergelegenheid en meer. Neem contact op met de accommodatie voor een volledige lijst van voorzieningen.",
-      "breakfastQuestion": "Is ontbijt inbegrepen bij {title}?",
-      "breakfastAnswer": "Ja, ontbijt is inbegrepen bij uw verblijf bij {title}.",
-      "checkInCheckOutQuestion": "Wat zijn de in- en uitchecktijden bij {title}?",
-      "checkInCheckOutAnswer": "Inchecken is vanaf 14:00 uur en uitchecken is uiterlijk 12:00 uur bij {title}.",
-      "petsAllowedQuestion": "Zijn huisdieren toegestaan bij {title}?",
-      "petsAllowedAnswer": "Nee, huisdieren zijn niet toegestaan bij {title}.",
-      "parkingFacilityQuestion": "Is er een parkeergelegenheid bij {title}?",
-      "parkingFacilityAnswer": "Ja, parkeergelegenheid is beschikbaar voor gasten bij {title}.",
-      "smokingAllowedQuestion": "Is roken toegestaan bij {title}?",
-      "smokingAllowedAnswer": "Nee, roken is verboden in alle ruimtes van {title}.",
-      "airportTransportationQuestion": "Biedt {title} vervoer van/naar de luchthaven aan?",
-      "airportTransportationAnswer": "Ja, vervoer van/naar de luchthaven kan tegen een extra vergoeding worden geregeld bij {title}.",
-      "cancellationPolicyQuestion": "Wat is het annuleringsbeleid bij {title}?",
+      "facilitiesQuestion": "Welke faciliteiten zijn inbegrepen in {title}?",
+      "facilitiesAnswer": "De faciliteiten in {title} omvatten gratis Wi-Fi, een zwembad, parkeergelegenheid en meer. Neem contact op met de accommodatie voor een volledige lijst met faciliteiten.",
+      "breakfastQuestion": "Is ontbijt inbegrepen in {title}?",
+      "breakfastAnswer": "Ja, ontbijt is inbegrepen bij uw verblijf in {title}.",
+      "checkInCheckOutQuestion": "Wat zijn de in- en uitchecktijden in {title}?",
+      "checkInCheckOutAnswer": "De inchecktijd is vanaf 14:00 uur en uitchecken is tot 12:00 uur in {title}.",
+      "petsAllowedQuestion": "Zijn huisdieren toegestaan in {title}?",
+      "petsAllowedAnswer": "Huisdieren zijn niet toegestaan in {title}.",
+      "parkingFacilityQuestion": "Is er parkeergelegenheid in {title}?",
+      "parkingFacilityAnswer": "Ja, parkeergelegenheid is beschikbaar voor gasten van {title}.",
+      "smokingAllowedQuestion": "Is roken toegestaan in {title}?",
+      "smokingAllowedAnswer": "Nee, roken is in alle ruimtes van {title} verboden.",
+      "airportTransportationQuestion": "Biedt {title} vervoer naar de luchthaven aan?",
+      "airportTransportationAnswer": "Ja, vervoer naar de luchthaven kan tegen een toeslag worden geregeld in {title}.",
+      "cancellationPolicyQuestion": "Wat is het annuleringsbeleid in {title}?",
       "cancellationPolicyAnswer": "Annuleringen kunnen tot 24 uur voor het inchecken kosteloos worden gedaan.",
-      "meetingFacilitiesQuestion": "Heeft {title} vergaderfaciliteiten?",
-      "meetingFacilitiesAnswer": "Ja, {title} heeft volledig uitgeruste vergaderzalen beschikbaar voor boeking.",
+      "meetingFacilitiesQuestion": "Heeft {title} vergaderzalen?",
+      "meetingFacilitiesAnswer": "Ja, {title} beschikt over volledig uitgeruste vergaderzalen die kunnen worden gereserveerd.",
       "attractionsNearQuestion": "Welke attracties zijn er in de buurt van {title}?",
       "attractionsNearAnswer": "Populaire attracties in de buurt van {title} zijn [lijst met attracties]."
     },
     "category": {
-      "offeringsQuestion": "Welke soorten aanbiedingen zijn beschikbaar binnen de {category} categorie?",
-      "offeringsAnswer": "Klaar om een breed scala aan opties te verkennen? Onze {category} categorie omvat alles van exclusieve premium ervaringen tot slimme, budgetvriendelijke oplossingen. Vind de perfecte match om uw reisdromen of specifieke behoeften te vervullen!",
-      "familyFriendlyQuestion": "Zijn er gezinsvriendelijke keuzes beschikbaar in onze {category} selectie?",
-      "familyFriendlyAnswer": "Absoluut! Wij begrijpen uw behoeften. Ontdek talloze {category} opties die sterk worden aanbevolen voor gezinnen, compleet met faciliteiten en activiteiten die zijn ontworpen om uw momenten met geliefden nog memorabeler en comfortabeler te maken.",
+      "offeringsQuestion": "Welke soorten aanbiedingen zijn beschikbaar in de categorie {category}?",
+      "offeringsAnswer": "Klaar om een breed scala aan opties te verkennen? Onze {category} categorie omvat alles van exclusieve premium ervaringen tot slimme, budgetvriendelijke oplossingen. Vind de perfecte match die uw reisdromen of specifieke behoeften zal vervullen!",
+      "familyFriendlyQuestion": "Zijn er gezinsvriendelijke opties in onze {category} selectie?",
+      "familyFriendlyAnswer": "Absoluut! Wij begrijpen uw behoeften. Ontdek talloze {category} opties, sterk aanbevolen voor gezinnen, met voorzieningen en activiteiten die zijn ontworpen om uw momenten met uw dierbaren nog gedenkwaardiger en comfortabeler te maken.",
       "mainAttractionsQuestion": "Wat zijn de belangrijkste attracties of populairste bestemmingen in de buurt van deze {category} aanbiedingen?",
-      "mainAttractionsAnswer": "Onze {category} selecties gaan niet alleen over het product/de dienst; ze gaan ook over de locatie! Geniet van gemakkelijke toegang tot iconische toeristische plekken, spannende uitgaanscentra en culinaire hoogtepunten die u zeker moet proberen. Maximaliseer uw ervaring in Bandung, West-Java, of waar uw gekozen {category} u ook brengt!",
-      "luxuryAmenitiesQuestion": "Bieden {category} opties luxe voorzieningen of speciale functies?",
-      "luxuryAmenitiesAnswer": "Jazeker! Dompel uzelf onder in comfort en luxe. Veel van onze {category} aanbiedingen zijn uitgerust met vijfsterrenfaciliteiten zoals privé-infinitypools, holistische spadiensten, ultramoderne fitnesscentra en meer. Geniet van een onvergetelijke ervaring!",
-      "topRatedQuestion": "Welke {category} opties zijn het best beoordeeld met de beste klantrecensies?",
-      "topRatedAnswer": "Op zoek naar het allerbeste? Hier is een lijst van onze zorgvuldig geselecteerde {category} keuzes, geliefd bij onze community. Zorg voor kwaliteit en tevredenheid, ondersteund door authentieke getuigenissen van gebruikers!"
+      "mainAttractionsAnswer": "Onze {category} selecties gaan niet alleen over het product/de dienst; ze gaan ook over de locatie! Geniet van gemakkelijke toegang tot iconische toeristische plekken, spannende entertainmenthubs en must-try culinaire hoogstandjes. Maximaliseer uw ervaring in Bandung, West Java, of waar de gekozen {category} u ook brengt!",
+      "luxuryAmenitiesQuestion": "Bieden sommige {category} opties luxe voorzieningen of speciale functies?",
+      "luxuryAmenitiesAnswer": "Inderdaad! Dompel uzelf onder in comfort en luxe. Veel van onze {category} aanbiedingen zijn uitgerust met vijfsterrenvoorzieningen zoals privé-infinityzwembaden, holistische spadiensten, ultramoderne fitnesscentra en nog veel meer. Geniet van een onvergetelijke ervaring!",
+      "topRatedQuestion": "Wat zijn de best beoordeelde {category} opties met de beste klantrecensies?",
+      "topRatedAnswer": "Op zoek naar het beste? Hier is een lijst van onze top geselecteerde {category} opties, geliefd bij onze gemeenschap. Zorg voor kwaliteit en tevredenheid, ondersteund door authentieke gebruikersgetuigenissen!"
     },
     "city": {
       "typesOfHotelsQuestion": "Welke soorten hotels zijn er beschikbaar in {city}?",
-      "typesOfHotelsAnswer": "Ontdek een verscheidenheid aan hotels in {city}, variërend van luxe hotels tot budgetopties.",
-      "familyFriendlyHotelsQuestion": "Zijn er hotels geschikt voor gezinnen in {city}?",
-      "familyFriendlyHotelsAnswer": "Ja, er zijn tal van gezinsvriendelijke hotels in {city}.",
-      "attractionsNearHotelsQuestion": "Welke attracties zijn er in de buurt van hotels in {city}?",
-      "attractionsNearHotelsAnswer": "Hotels in {city} liggen dicht bij diverse populaire attracties.",
+      "typesOfHotelsAnswer": "Ontdek een verscheidenheid aan hotels in {city}, variërend van luxe tot budgetvriendelijke opties.",
+      "familyFriendlyHotelsQuestion": "Zijn er gezinsvriendelijke hotels in {city}?",
+      "familyFriendlyHotelsAnswer": "Ja, er zijn veel gezinsvriendelijke hotels in {city}.",
+      "attractionsNearHotelsQuestion": "Welke attracties zijn er in de buurt van de hotels in {city}?",
+      "attractionsNearHotelsAnswer": "De hotels in {city} liggen in de buurt van diverse populaire attracties.",
       "hotelsWithPoolsQuestion": "Zijn er hotels met zwembaden in {city}?",
       "hotelsWithPoolsAnswer": "Ja, veel hotels in {city} beschikken over zwembaden en andere faciliteiten.",
       "bestRatedHotelsQuestion": "Wat zijn de best beoordeelde hotels in {city}?",
@@ -468,11 +479,11 @@
     },
     "country": {
       "typesOfHotelsQuestion": "Welke soorten hotels zijn er beschikbaar in {country}?",
-      "typesOfHotelsAnswer": "Ontdek een verscheidenheid aan hotels in {country}, variërend van luxe hotels tot budgetopties.",
-      "familyFriendlyHotelsQuestion": "Zijn er hotels geschikt voor gezinnen in {country}?",
-      "familyFriendlyHotelsAnswer": "Ja, er zijn tal van gezinsvriendelijke hotels in {country}.",
-      "attractionsNearHotelsQuestion": "Welke attracties zijn er in de buurt van hotels in {country}?",
-      "attractionsNearHotelsAnswer": "Hotels in {country} liggen dicht bij diverse populaire attracties.",
+      "typesOfHotelsAnswer": "Ontdek een verscheidenheid aan hotels in {country}, variërend van luxe tot budgetvriendelijke opties.",
+      "familyFriendlyHotelsQuestion": "Zijn er gezinsvriendelijke hotels in {country}?",
+      "familyFriendlyHotelsAnswer": "Ja, er zijn veel gezinsvriendelijke hotels in {country}.",
+      "attractionsNearHotelsQuestion": "Welke attracties zijn er in de buurt van de hotels in {country}?",
+      "attractionsNearHotelsAnswer": "De hotels in {country} liggen in de buurt van diverse populaire attracties.",
       "hotelsWithPoolsQuestion": "Zijn er hotels met zwembaden in {country}?",
       "hotelsWithPoolsAnswer": "Ja, veel hotels in {country} beschikken over zwembaden en andere faciliteiten.",
       "bestRatedHotelsQuestion": "Wat zijn de best beoordeelde hotels in {country}?",
@@ -480,24 +491,24 @@
     },
     "landmark": {
       "typesOfHotelsQuestion": "Welke soorten hotels zijn er beschikbaar in de buurt van {landmark}?",
-      "typesOfHotelsAnswer": "In de buurt van {landmark} vindt u een breed scala aan accommodatiemogelijkheden, van luxueuze boetiekhotels tot comfortabele en betaalbare verblijven. Of u nu op zoek bent naar een kort bezoek of een langere verkenning, er is een perfect hotel voor elke voorkeur.",
-      "familyFriendlyHotelsQuestion": "Zijn er hotels geschikt voor gezinnen in de buurt van {landmark}?",
-      "familyFriendlyHotelsAnswer": "Absoluut! Veel hotels in de buurt van {landmark} zijn goed uitgerust voor gezinnen, met voorzieningen zoals ruime familiekamers, kinderclubs en zwembaden. Ze bieden een comfortabele uitvalsbasis om het oriëntatiepunt en de omgeving met uw dierbaren te verkennen.",
-      "attractionsNearHotelsQuestion": "Welke attracties zijn er in de buurt van hotels dicht bij {landmark}?",
-      "attractionsNearHotelsAnswer": "Hotels in de buurt van {landmark} bieden ongeëvenaard gemak voor een bezoek aan het oriëntatiepunt zelf. Bovendien zijn ze vaak strategisch gelegen nabij andere populaire attracties, musea, eetgelegenheden en uitgaansgelegenheden, waardoor uw verkenning moeiteloos verloopt.",
+      "typesOfHotelsAnswer": "In de buurt van {landmark} vindt u een breed scala aan accommodatiemogelijkheden, van luxe boetiekhotels tot comfortabele en betaalbare verblijven. Of u nu een kort bezoek of een langere verkenning zoekt, er is een perfect hotel voor elke voorkeur.",
+      "familyFriendlyHotelsQuestion": "Zijn er gezinsvriendelijke hotels in de buurt van {landmark}?",
+      "familyFriendlyHotelsAnswer": "Absoluut! Veel hotels in de buurt van {landmark} zijn goed uitgerust voor gezinnen, met faciliteiten zoals ruime familiekamers, kinderclubs en zwembaden. Ze bieden een comfortabele basis om het oriëntatiepunt en de omgeving met uw dierbaren te verkennen.",
+      "attractionsNearHotelsQuestion": "Welke attracties zijn er in de buurt van de hotels bij {landmark}?",
+      "attractionsNearHotelsAnswer": "De hotels in de buurt van {landmark} bieden ongeëvenaard gemak voor een bezoek aan het oriëntatiepunt zelf. Bovendien zijn ze vaak strategisch gelegen nabij andere populaire attracties, musea, eetgelegenheden en entertainmentopties, waardoor uw verkenning naadloos verloopt.",
       "hotelsWithPoolsQuestion": "Zijn er hotels met zwembaden in de buurt van {landmark}?",
-      "hotelsWithPoolsAnswer": "Ja, veel hotels in de buurt van {landmark} beschikken over verfrissende zwembaden, perfect om te ontspannen na een dag sightseeing. Sommige hebben zelfs dakterrassen met een prachtig uitzicht op het oriëntatiepunt of de skyline van de stad.",
+      "hotelsWithPoolsAnswer": "Ja, veel hotels in de buurt van {landmark} beschikken over verfrissende zwembaden, ideaal om te ontspannen na een dag sightseeing. Sommige hebben zelfs dakterrassen met een ongelooflijk uitzicht op het oriëntatiepunt of de skyline van de stad.",
       "bestRatedHotelsQuestion": "Wat zijn de best beoordeelde hotels in de buurt van {landmark}?",
-      "bestRatedHotelsAnswerDefault": "Momenteel hebben we geen specifieke best beoordeelde gegevens beschikbaar voor hotels direct in de buurt van {landmark}. U kunt echter wel een verscheidenheid aan hoogwaardige opties in de bredere omgeving bekijken.",
-      "bestRatedHotelsAnswerWithData": "Op basis van gastenbeoordelingen behoren enkele van de best beoordeelde hotels in de buurt van {landmark} tot:"
+      "bestRatedHotelsAnswerDefault": "Momenteel hebben we geen specifieke gegevens over de best beoordeelde hotels in de directe omgeving van {landmark}. U kunt echter wel een verscheidenheid aan hoog gewaardeerde opties in de bredere omgeving verkennen.",
+      "bestRatedHotelsAnswerWithData": "Op basis van gastrecensies zijn enkele van de best beoordeelde hotels in de buurt van {landmark}:"
     },
     "state": {
       "typesOfHotelsQuestion": "Welke soorten hotels zijn er beschikbaar in {state}?",
-      "typesOfHotelsAnswer": "Ontdek een verscheidenheid aan hotels in {state}, variërend van luxe hotels tot budgetopties.",
-      "familyFriendlyHotelsQuestion": "Zijn er hotels geschikt voor gezinnen in {state}?",
-      "familyFriendlyHotelsAnswer": "Ja, er zijn tal van gezinsvriendelijke hotels in {state}.",
-      "attractionsNearHotelsQuestion": "Welke attracties zijn er in de buurt van hotels in {state}?",
-      "attractionsNearHotelsAnswer": "Hotels in {state} liggen dicht bij diverse populaire attracties.",
+      "typesOfHotelsAnswer": "Ontdek een verscheidenheid aan hotels in {state}, variërend van luxe tot budgetvriendelijke opties.",
+      "familyFriendlyHotelsQuestion": "Zijn er gezinsvriendelijke hotels in {state}?",
+      "familyFriendlyHotelsAnswer": "Ja, er zijn veel gezinsvriendelijke hotels in {state}.",
+      "attractionsNearHotelsQuestion": "Welke attracties zijn er in de buurt van de hotels in {state}?",
+      "attractionsNearHotelsAnswer": "De hotels in {state} liggen in de buurt van diverse populaire attracties.",
       "hotelsWithPoolsQuestion": "Zijn er hotels met zwembaden in {state}?",
       "hotelsWithPoolsAnswer": "Ja, veel hotels in {state} beschikken over zwembaden en andere faciliteiten.",
       "bestRatedHotelsQuestion": "Wat zijn de best beoordeelde hotels in {state}?",

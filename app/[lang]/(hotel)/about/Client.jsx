@@ -9,7 +9,7 @@ import dynamic from "next/dynamic";
 const WhyChoose = dynamic(() => import("@/components/block/BlockGuide"), { ssr: false });
 const Block1 = dynamic(() => import("@/components/about/Block1"), { ssr: false });
 const Counter = dynamic(() => import("@/components/counter/Counter"), { ssr: false });
-const Testimonial = dynamic(() => import("@/components/testimonial/Testimonial"), { ssr: false });
+const Testimonial = dynamic(() => import("@/components/home/home-1/Testimonial"), { ssr: false });
 const Counter2 = dynamic(() => import("@/components/counter/Counter2"), { ssr: false });
 
 // Tambahkan dynamic import untuk komponen-komponen lain yang diimpor langsung:
@@ -25,7 +25,7 @@ const DynamicMainFilterSearchBox = dynamic(() => import("@/components/hotel-list
   ssr: false,
   loading: () => <p>Loading search box...</p>,
 });
-const DynamicHeader2 = dynamic(() => import("@/components/header/header2"), {
+const DynamicHeader1 = dynamic(() => import("@/components/header/header-11"), {
   ssr: false,
   loading: () => <p>Loading header...</p>,
 });
@@ -42,7 +42,7 @@ const Client = ({ dictionary, currentLang }) => {
 
   return (
     <>
-      <DynamicHeader2 dictionary={dictionary} currentLang={currentLang} />
+      <DynamicHeader1 dictionary={dictionary} currentLang={currentLang} />
 
       <div className="header-margin"></div>
 
@@ -135,7 +135,7 @@ const Client = ({ dictionary, currentLang }) => {
 
           <div className="overflow-hidden pt-80 js-section-slider">
             <div className="item_gap-x30">
-              <Testimonial />
+              <Testimonial dictionary={dictionary} />
             </div>
           </div>
 

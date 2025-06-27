@@ -32,7 +32,8 @@
     "unknownLocation": "Ubicación desconocida",
     "failedToLoadHotelData": "Error al recuperar los datos del hotel",
     "errorWithMessage": "Error: {error}",
-    "night": "Noche"
+    "night": "Noche",
+    "cityNotFound": "Ciudad no encontrada"
   },
   "header": {
     "luxuryBackgroundImageAlt": "Imagen de fondo de lujo"
@@ -42,7 +43,8 @@
     "searchResultPropertiesIn": "Propiedades encontradas en",
     "selectedCity": "Ciudad seleccionada",
     "unknownLocation": "Ubicación desconocida",
-    "searchParametersIncomplete": "Parámetros de búsqueda incompletos."
+    "searchParametersIncomplete": "Parámetros de búsqueda incompletos.",
+    "checkInCheckOut": "Entrada - Salida"
   },
   "categoryPage": {
     "discoverLuxeStaysIn": "Descubre estancias de lujo en",
@@ -158,7 +160,20 @@
     "adultsLabel": "Adultos",
     "childrenLabel": "Niños",
     "roomsLabel": "Habitaciones",
-    "searchButton": "Buscar"
+    "searchButton": "Buscar",
+    "selectGuestsAndRooms": "Seleccionar Huéspedes y Habitaciones",
+    "guestLabels": {
+        "adults": "Adultos",
+        "children": "Niños",
+        "rooms": "Habitaciones",
+        "adultsSingular": "Adulto",
+        "adultsPlural": "Adultos",
+        "childrenSingular": "Niño",
+        "childrenPlural": "Niños",
+        "roomsSingular": "Habitación",
+        "roomsPlural": "Habitaciones",
+        "childrenAgeRange": "0-17"
+    }
   },
   "footer": {
     "popularStays": "Estancias Populares",
@@ -483,7 +498,7 @@
       "typesOfHotelsAnswer": "Cerca de {landmark} encontrarás una amplia gama de opciones de alojamiento, desde lujosos hoteles boutique hasta estancias cómodas y asequibles. Ya sea que busques una visita rápida o una exploración más larga, hay un hotel perfecto para cada preferencia.",
       "familyFriendlyHotelsQuestion": "¿Hay hoteles adecuados para familias cerca de {landmark}?",
       "familyFriendlyHotelsAnswer": "¡Absolutamente! Muchos hoteles cerca de {landmark} están bien equipados para familias, ofreciendo comodidades como amplias habitaciones familiares, clubes infantiles y piscinas. Proporcionan una base cómoda para explorar el punto de interés y sus alrededores con tus seres queridos.",
-      "attractionsNearHotelsQuestion": "¿Qué atracciones hay cerca de los hoteles cercanos a {landmark}?",
+      "attractionsNearHotelsQuestion": "¿Qué atracciones están cerca de los hoteles cercanos a {landmark}?",
       "attractionsNearHotelsAnswer": "Los hoteles cerca de {landmark} ofrecen una comodidad incomparable para visitar el propio punto de interés. Además, a menudo están estratégicamente ubicados cerca de otras atracciones populares, museos, lugares para comer y locales de ocio, lo que facilita tu exploración.",
       "hotelsWithPoolsQuestion": "¿Hay hoteles con piscina cerca de {landmark}?",
       "hotelsWithPoolsAnswer": "Sí, muchos hoteles situados cerca de {landmark} cuentan con refrescantes piscinas, perfectas para relajarse después de un día de turismo. Algunos incluso cuentan con piscinas en la azotea con impresionantes vistas del punto de interés o del horizonte de la ciudad.",

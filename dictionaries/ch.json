@@ -32,7 +32,8 @@
     "unknownLocation": "Unbekannte Ort",
     "failedToLoadHotelData": "Hoteldate ned abgruefe",
     "errorWithMessage": "Fähler: {error}",
-    "night": "Nacht"
+    "night": "Nacht",
+    "cityNotFound": "Stadt nöd gfunde"
   },
   "header": {
     "luxuryBackgroundImageAlt": "Luxus Hintergrundbild"
@@ -42,7 +43,8 @@
     "searchResultPropertiesIn": "Gfundeni Objekt in",
     "selectedCity": "Usgwählti Stadt",
     "unknownLocation": "Unbekannte Ort",
-    "searchParametersIncomplete": "Suechparameter unvollständig."
+    "searchParametersIncomplete": "Suechparameter unvollständig.",
+    "checkInCheckOut": "Check-in - Check-out"
   },
   "categoryPage": {
     "discoverLuxeStaysIn": "Entdeck Luxus Ufenthalt in",
@@ -158,7 +160,20 @@
     "adultsLabel": "Erwachseni",
     "childrenLabel": "Chind",
     "roomsLabel": "Zimmer",
-    "searchButton": "Sueche"
+    "searchButton": "Sueche",
+    "selectGuestsAndRooms": "Gäscht & Zimmer usgwähle",
+    "guestLabels": {
+        "adults": "Erwachseni",
+        "children": "Chind",
+        "rooms": "Zimmer",
+        "adultsSingular": "Erwachsener",
+        "adultsPlural": "Erwachseni",
+        "childrenSingular": "Chind",
+        "childrenPlural": "Chind",
+        "roomsSingular": "Zimmer",
+        "roomsPlural": "Zimmer",
+        "childrenAgeRange": "0-17"
+    }
   },
   "footer": {
     "popularStays": "Beliebti Ufenthalt",
@@ -422,7 +437,7 @@
   "faqContent": {
     "hotel": {
       "facilitiesQuestion": "Welchi Irichtige sind im {title} inbegriffe?",
-      "facilitiesAnswer": "D'Irichtige im {title} umfasse gratis Wi-Fi, e Schwimmbad, Parkplätz und meh. Kontaktiere d'Unterkunf für e vollständigi Lischte vo de Irichtige.",
+      "facilitiesAnswer": "D'Irichtige im {title} umfasse gratis Wi-Fi, e Schwimmbad, Parkplätz und meh. Kontaktiere d'Unterkunf für e vollständigigi Lischte vo de Irichtige.",
       "breakfastQuestion": "Isch Frühstück im {title} inbegriffe?",
       "breakfastAnswer": "Jo, Frühstück isch in Dim Ufenthalt im {title} inbegriffe.",
       "checkInCheckOutQuestion": "Was sind d'Check-in- und Check-out-Ziite im {title}?",

@@ -1,36 +1,15 @@
 // app/search/SearchClient.jsx
 'use client';
 
-import { useState, useEffect, useCallback } from 'react'; // Tambahkan useCallback
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useCurrency } from '@/components/CurrencyContext';
 import { useLanguage } from '@/components/header/LanguageContext';
-
-// --- MODIFIKASI: Impor Komponen Secara Dinamis (next/dynamic) ---
-import dynamic from 'next/dynamic';
-
-const DynamicMainFilterSearchBox = dynamic(() => import("@/components/hotel-list/common/MainFilterSearchBox"), {
-  ssr: false,
-  loading: () => <p>Loading search box...</p>,
-});
-const DynamicHotelProperties2 = dynamic(() => import("@/components/hotel-list/hotel-list-v5/HotelProperties2"), {
-  ssr: false,
-  loading: () => <p>Loading hotel properties...</p>,
-});
-const DynamicFooter = dynamic(() => import("@/components/footer"), {
-  ssr: false,
-  loading: () => <p>Loading footer...</p>,
-});
-const DynamicCallToActions = dynamic(() => import("@/components/common/CallToActions"), {
-  ssr: false,
-  loading: () => <p>Loading call to actions...</p>,
-});
-const DynamicHeader11 = dynamic(() => import("@/components/header/header-11"), {
-  ssr: false,
-  loading: () => <p>Loading header...</p>,
-});
-
-// --- AKHIR MODIFIKASI next/dynamic ---
+import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox";
+import HotelProperties2 from "@/components/hotel-list/hotel-list-v5/HotelProperties2";
+import Footer from "@/components/footer";
+import CallToActions from "@/components/common/CallToActions";
+import Header11 from "@/components/header/header-11"; // Import Header11
 
 
 // Add dictionary and currentLang to the destructured props
@@ -44,12 +23,7 @@ export default function SearchClient({ dictionary, currentLang }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Akses bagian dictionary yang relevan
-  const searchDict = dictionary?.search || {};
-  const commonDict = dictionary?.common || {};
-  const headerDict = dictionary?.header || {};
-
-  const fetchHotels = useCallback(async () => { // Gunakan useCallback
+  const fetchHotels = async () => {
     console.log('SearchClient: fetchHotels triggered!');
     setLoading(true);
     setError(null);
@@ -70,7 +44,7 @@ export default function SearchClient({ dictionary, currentLang }) {
     });
 
     if (!city_id || !checkInDate || !checkOutDate) {
-      setError(searchDict.searchParamsIncomplete || 'Parameter pencarian tidak lengkap');
+      setError('Parameter pencarian tidak lengkap');
       setLoading(false);
       return;
     }
@@ -96,29 +70,29 @@ export default function SearchClient({ dictionary, currentLang }) {
         setHotels(data.hotels || []);
         setCityName(data.cityName || city);
       } else {
-        setError(data.message || searchDict.failedToFetchHotelData || 'Gagal mengambil data hotel');
+        setError(data.message || 'Gagal mengambil data hotel');
       }
     } catch (err) {
-      setError(commonDict.errorServer || 'Error server');
+      setError('Error server');
     } finally {
       setLoading(false);
     }
-  }, [searchParams, currency, language, searchDict, commonDict]); // Tambahkan semua dependensi
+  };
 
   useEffect(() => {
     fetchHotels();
-  }, [fetchHotels]); // Gunakan fetchHotels sebagai dependensi karena sudah pakai useCallback
+  }, [searchParams]);
 
   return (
     <>
-      <DynamicHeader11 dictionary={dictionary} currentLang={currentLang} />
+          <Header11 dictionary={dictionary} currentLang={currentLang} />
 
       <section className="section-bg pt-40 pb-40 relative z-5">
         <div className="section-bg__item col-12">
           <img
             src="/img/misc/bg-1.webp"
             srcSet="/img/misc/bg-1.webp 480w, /img/misc/bg-1.webp 768w, /img/misc/bg-1.webp 1200w"
-            alt={headerDict.luxuryBackgroundImageAlt || "Luxury background image"}
+            alt="Luxury background image"
             loading="lazy"
             className="w-full h-full object-cover"
             width="1200"
@@ -129,9 +103,7 @@ export default function SearchClient({ dictionary, currentLang }) {
           <div className="row">
             <div className="col-12">
               <div className="text-center">
-                <h1 className="text-30 fw-600 text-white">
-                  {searchDict.searchResultAccommodationIn?.replace('{cityName}', cityName) || `Search Result Accomodation In ${cityName}`}
-                </h1>
+                <h1 className="text-30 fw-600 text-white">Search Result Accomodation In {cityName}</h1>
               </div>
             </div>
           </div>
@@ -142,7 +114,8 @@ export default function SearchClient({ dictionary, currentLang }) {
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <DynamicMainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
+              {/* Pass dictionary and currentLang */}
+              <MainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
             </div>
           </div>
         </div>
@@ -151,18 +124,20 @@ export default function SearchClient({ dictionary, currentLang }) {
       <section className="layout-pt-md layout-pb-lg">
         <div className="container">
           <div className="row">
-            {loading && <div>{commonDict.loadingHotel || 'Loading hotel...'}</div>}
-            {error && <div>{commonDict.errorOccurred || `Error: ${error}`}</div>}
-            {!loading && !error && hotels.length === 0 && <div>{commonDict.hotelNotFound || 'Hotel not found.'}</div>}
+            {loading && <div>Loading hotel...</div>}
+            {error && <div>Error: {error}</div>}
+            {!loading && !error && hotels.length === 0 && <div>Hotel not found.</div>}
             {!loading && !error && hotels.length > 0 && (
-                <DynamicHotelProperties2 hotels={hotels} cityName={cityName} dictionary={dictionary} currentLang={currentLang}/>
+                <HotelProperties2 hotels={hotels} cityName={cityName} dictionary={dictionary} currentLang={currentLang}/>
             )}
           </div>
         </div>
       </section>
-      <DynamicCallToActions dictionary={dictionary} currentLang={currentLang} />
+      {/* Pass dictionary and currentLang */}
+      <CallToActions dictionary={dictionary} currentLang={currentLang} />
 
-      <DynamicFooter dictionary={dictionary} currentLang={currentLang} />
+      {/* Pass dictionary and currentLang */}
+      <Footer dictionary={dictionary} currentLang={currentLang} />
     </>
   );
 }

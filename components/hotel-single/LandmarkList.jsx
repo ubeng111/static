@@ -16,25 +16,26 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
   return R * c;
 };
 
-const LandmarkList = ({ latitude, longitude, dictionary, currentLang }) => { // Menerima currentLang sebagai prop
+const LandmarkList = ({ latitude, longitude, dictionary, currentLang }) => {
   const [landmarks, setLandmarks] = useState([]);
   const OVERPASS_RADIUS_KM = 5;
   const RESULTS_LIMIT = 15;
 
-  // Akses dictionary yang relevan
   const landmarkListDict = dictionary?.landmarkList || {};
   const commonDict = dictionary?.common || {};
 
   const fetchLandmarks = useCallback(async () => {
     if (!latitude || !longitude) {
-      console.error("Latitude or Longitude is invalid.");
       return;
     }
 
     try {
-      const overpassUrl = "https://overpass-api.de/api/interpreter";
+      const proxyUrl = "/api/overpass"; // URL ke API Route proxy Anda
       const radiusInMeters = OVERPASS_RADIUS_KM * 1000;
 
+      // --- KODE PERBAIKAN PENTING DI SINI ---
+      // Query Overpass yang DIBERSIHKAN dari double backslash yang salah.
+      // Template literal ini akan menghasilkan string yang benar.
       const overpassQuery = `
         [out:json];
         (
@@ -56,17 +57,20 @@ const LandmarkList = ({ latitude, longitude, dictionary, currentLang }) => { // 
         );
         out center;
       `;
+      // --- AKHIR KODE PERBAIKAN ---
 
-      const response = await fetch(overpassUrl, {
-        method: 'POST',
+      // Kirim POST request ke proxy Anda dengan query di body
+      const response = await fetch(proxyUrl, {
+        method: 'POST', // Ganti menjadi POST
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json', // Kirim sebagai JSON
         },
-        body: `data=${encodeURIComponent(overpassQuery)}`,
+        body: JSON.stringify({ overpassQuery }), // Kirim query dalam objek JSON
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorBody = await response.json();
+        throw new Error(errorBody.details || `HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
 
@@ -110,7 +114,7 @@ const LandmarkList = ({ latitude, longitude, dictionary, currentLang }) => { // 
               });
             }
           } else {
-            console.warn(`Could not fetch slugs from API, status: ${slugResponse.status}`);
+            // console.warn(`Could not fetch slugs from API, status: ${slugResponse.status}`);
           }
         }
 
@@ -119,7 +123,6 @@ const LandmarkList = ({ latitude, longitude, dictionary, currentLang }) => { // 
           const lon = el.lon || (el.center ? el.center.lon : null);
 
           if (lat === null || lon === null) {
-            console.warn("Element has no valid coordinates or center:", el);
             return null;
           }
 
@@ -151,12 +154,11 @@ const LandmarkList = ({ latitude, longitude, dictionary, currentLang }) => { // 
         setLandmarks(filteredList);
       } else {
         setLandmarks([]);
-        console.warn("No 'elements' array found in the Overpass response or data is empty:", data);
       }
     } catch (error) {
       console.error("Error fetching landmarks:", error);
     }
-  }, [latitude, longitude]); // currentLang removed from dependency as it's not used in fetchLandmarks logic itself
+  }, [latitude, longitude]);
 
   useEffect(() => {
     fetchLandmarks();
@@ -169,7 +171,7 @@ const LandmarkList = ({ latitude, longitude, dictionary, currentLang }) => { // 
           <h2
             className="text-center fw-bold mb-3 mt-3 text-dark text-md"
             style={{ fontSize: "24px" }}
-          > 
+          >
             {landmarkListDict.nearbyEssentialAndTouristSpots || "🗺️ Nearby Essential & Tourist Spots"}
           </h2>
         </div>
@@ -197,7 +199,7 @@ const LandmarkList = ({ latitude, longitude, dictionary, currentLang }) => { // 
                 <div className="d-flex align-items-center text-14 fw-500 text-dark flex-grow-1">
                   <i className="icon-landmark text-20 me-2" />
                   <Link
-                    href={`/${currentLang}/landmark/${landmark.slug}`} // Gunakan currentLang
+                    href={`/${currentLang}/landmark/${landmark.slug}`}
                     style={{ maxWidth: "200px" }}
                     className="text-truncate text-dark"
                   >

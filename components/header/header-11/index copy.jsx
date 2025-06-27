@@ -59,7 +59,9 @@ const Header1 = ({ dictionary, currentLang }) => {
         <div className="header__container">
           <div className="main-header-row">
             <div className="header-left-group">
-<Link href={`/`} className="header-logo" aria-label="Hoteloza Hotel Logo"> <i className="fas fa-hotel logo-icon" aria-hidden="true"></i>
+              {/* Pastikan hanya JSX valid di sini. Ikon hotel sudah dikembalikan berdasarkan file yang Anda unggah. */}
+              <Link href={`/`} className="header-logo" aria-label="Hoteloza Hotel Logo">
+                <i className="fas fa-hotel logo-icon" aria-hidden="true"></i>
                 <span className="logo-text">Hoteloza</span>
               </Link>
               <div className="header-menu">
@@ -93,6 +95,8 @@ const Header1 = ({ dictionary, currentLang }) => {
           }}
         />
 
+        {/* --- MULAI BLOK <style jsx> --- */}
+        {/* Pastikan TIDAK ADA KARAKTER APAPUN, termasuk spasi atau komentar JSX, di antara <style jsx>{ dan ` (tanda backtick) */}
         <style jsx>{`
           .header__container {
             display: flex;
@@ -259,6 +263,7 @@ const Header1 = ({ dictionary, currentLang }) => {
             }
           }
         `}</style>
+        {/* --- AKHIR BLOK <style jsx> --- */}
       </header>
     </>
   );

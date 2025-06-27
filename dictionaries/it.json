@@ -1,14 +1,14 @@
 {
   "common": {
     "loadingSearchResults": "Caricamento risultati di ricerca...",
-    "loadingCityContent": "Caricamento contenuti città...",
+    "loadingCityContent": "Caricamento contenuto città...",
     "loadingHotel": "Caricamento dettagli hotel...",
     "hotelNotFound": "Hotel non trovato.",
     "errorServer": "Si è verificato un errore del server",
     "preloaderTitle": "Hoteloza..",
-    "failedToLoadHotelList": "Impossibile caricare l'elenco degli hotel. Riprova.",
-    "cityIdRequired": "L'ID della città è obbligatorio.",
-    "callToActionsDescription": "Le buone idee non durano a lungo. Prenota oggi il tuo viaggio con Hoteloza!",
+    "failedToLoadHotelList": "Caricamento elenco hotel fallito. Riprova.",
+    "cityIdRequired": "ID città richiesto.",
+    "callToActionsDescription": "Le buone idee non durano a lungo. Prenota il tuo viaggio con Hoteloza oggi stesso!",
     "errorLoadingData": "Si è verificato un errore durante il caricamento dei dati. Riprova più tardi.",
     "noHotelsFound": "Nessun hotel trovato per questa categoria.",
     "noRelatedCategoriesFound": "Nessuna categoria correlata trovata.",
@@ -16,118 +16,120 @@
     "noRelatedStatesFound": "Nessuna provincia correlata trovata.",
     "noRelatedCitiesFound": "Nessuna città correlata trovata.",
     "noRelatedHotelsFound": "Nessun hotel correlato trovato.",
-    "unknownAddress": "Indirizzo Sconosciuto",
-    "unknownCity": "Città Sconosciuta",
-    "unknownRegion": "Regione Sconosciuta",
-    "unknownCountry": "Paese Sconosciuto",
-    "unnamedHotel": "Hotel Senza Nome",
-    "reserveNow": "Prenota Ora",
-    "unknownCategory": "Categoria Sconosciuta",
-    "unknownState": "Provincia Sconosciuta",
+    "unknownAddress": "Indirizzo sconosciuto",
+    "unknownCity": "Città sconosciuta",
+    "unknownRegion": "Regione sconosciuta",
+    "unknownCountry": "Paese sconosciuto",
+    "unnamedHotel": "Hotel senza nome",
+    "reserveNow": "Prenota ora",
+    "unknownCategory": "Categoria sconosciuta",
+    "unknownState": "Provincia sconosciuta",
     "errorLandmarkNotFound": "Errore: Punto di riferimento non trovato nell'URL. Impossibile caricare.",
     "properties": "proprietà",
     "noDestinationsFound": "Nessuna destinazione disponibile per questa regione.",
-    "topRecommendedHotelsTitle": "I migliori hotel {category} consigliati a {city}",
-    "findTopRatedStays": "Trova soggiorni con le migliori recensioni e servizi simili vicino alla tua destinazione",
-    "unknownLocation": "Posizione Sconosciuta",
-    "failedToLoadHotelData": "Impossibile recuperare i dati dell'hotel",
+    "topRecommendedHotelsTitle": "I migliori {category} consigliati a {city}",
+    "findTopRatedStays": "Trova soggiorni con le migliori valutazioni con vantaggi simili vicino alla tua destinazione",
+    "unknownLocation": "Posizione sconosciuta",
+    "failedToLoadHotelData": "Recupero dati hotel fallito",
     "errorWithMessage": "Errore: {error}",
-    "night": "Notte"
+    "night": "Notte",
+    "cityNotFound": "Città non trovata"
   },
   "header": {
     "luxuryBackgroundImageAlt": "Immagine di sfondo di lusso"
   },
   "search": {
-    "searchResultAccommodationIn": "Risultato della ricerca per alloggi a {cityName}",
+    "searchResultAccommodationIn": "Risultati di ricerca per alloggi a {cityName}",
     "searchResultPropertiesIn": "Proprietà trovate a",
-    "selectedCity": "Città Selezionata",
-    "unknownLocation": "Posizione Sconosciuta",
-    "searchParametersIncomplete": "Parametri di ricerca incompleti."
+    "selectedCity": "Città selezionata",
+    "unknownLocation": "Posizione sconosciuta",
+    "searchParametersIncomplete": "Parametri di ricerca incompleti.",
+    "checkInCheckOut": "Check-in - Check-out"
   },
   "categoryPage": {
     "discoverLuxeStaysIn": "Scopri soggiorni di lusso a",
-    "faqsAboutHotels": "Domande Frequenti su {formattedCategory}",
+    "faqsAboutHotels": "Domande Frequenti {formattedCategory}",
     "categoryDefault": "Categoria",
-    "defaultItemListDescription": "Un elenco dei migliori {formattedCategory} per il {currentYear} su Hoteloza."
+    "defaultItemListDescription": "Elenco dei migliori {formattedCategory} per {currentYear} su Hoteloza."
   },
   "countryPage": {
     "discoverStaysIn": "Scopri soggiorni in {displayCountry}",
-    "faqsAboutCountryHotels": "Domande Frequenti sugli hotel in {displayCountry}",
+    "faqsAboutCountryHotels": "Domande Frequenti Hotel in {displayCountry}",
     "countryDefault": "Paese",
     "noHotelsFoundForCountry": "Nessun hotel trovato per questo paese."
   },
   "statePage": {
     "discoverStaysInState": "Scopri soggiorni in {formattedState}",
-    "faqsAboutStateHotels": "Domande Frequenti sugli hotel in {displayState}",
+    "faqsAboutStateHotels": "Domande Frequenti Hotel in {displayState}",
     "stateDefault": "Provincia",
     "noHotelsFoundForState": "Nessun hotel trovato per questa provincia."
   },
   "cityPage": {
-    "discoverStaysInCity": "Scopri soggiorni in {formattedCity}",
-    "faqsAboutCityHotels": "Domande Frequenti sugli hotel in {displayCity}",
+    "discoverStaysInCity": "Scopri soggiorni a {formattedCity}",
+    "faqsAboutCityHotels": "Domande Frequenti Hotel a {displayCity}",
     "cityDefault": "Città",
     "noHotelsFoundForCity": "Nessun hotel trovato per questa città."
   },
   "hotelSinglePage": {
     "aboutThisHotel": "Informazioni su questo hotel",
     "facilitiesAndServices": "Servizi e Strutture",
-    "attractionsNearby": "Attrazioni nelle Vicinanze",
+    "attractionsNearby": "Attrazioni nelle vicinanze",
     "reviews": "Recensioni",
-    "faq": "FAQ",
-    "locationMap": "Mappa della Posizione",
+    "faq": "Domande Frequenti",
+    "locationMap": "Mappa della posizione",
     "frequentlyAskedQuestions": "Domande Frequenti",
-    "toggleFrequentlyAskedQuestions": "Mostra/Nascondi Domande Frequenti",
-    "toggleLocationMap": "Mostra/Nascondi Mappa della Posizione",
+    "toggleFrequentlyAskedQuestions": "Attiva/disattiva Domande Frequenti",
+    "toggleLocationMap": "Attiva/disattiva Mappa della posizione",
     "relatedHotels": "Proprietà popolari simili a",
-    "toggleFacilities": "Mostra/Nascondi Servizi",
-    "toggleLandmarks": "Mostra/Nascondi Punti di riferimento vicini",
-    "toggleRelatedHotels": "Mostra/Nascondi proprietà popolari simili a",
-    "defaultSchemaDescription": "Prenota {formattedHotel}, un hotel di lusso a {formattedCity} per il {currentYear} su Hoteloza.",
+    "toggleFacilities": "Attiva/disattiva Servizi",
+    "toggleLandmarks": "Attiva/disattiva Punti di riferimento nelle vicinanze",
+    "toggleRelatedHotels": "Attiva/disattiva Proprietà popolari simili a",
+    "defaultSchemaDescription": "Prenota {formattedHotel}, un hotel di lusso a {formattedCity} per {currentYear} su Hoteloza.",
     "exceptionalReviewText": "Eccezionale"
   },
   "bookNow": {
-    "reserveNowButton": "Prenota Ora"
+    "reserveNowButton": "Prenota ora"
   },
   "facilities": {
     "bathroom": "Bagno",
     "towels": "Asciugamani",
-    "bathOrShower": "Vasca o Doccia",
-    "privateBathroom": "Bagno Privato",
+    "bathOrShower": "Vasca o doccia",
+    "privateBathroom": "Bagno privato",
     "toilet": "WC",
     "freeToiletries": "Articoli da toeletta gratuiti",
     "hairdryer": "Asciugacapelli",
     "bath": "Vasca da bagno",
     "bedroom": "Camera da letto",
-    "linen": "Biancheria da letto",
-    "wardrobeOrCloset": "Armadio o Guardaroba",
-    "receptionServices": "Servizi di Reception",
-    "invoiceProvided": "Fattura Fornita",
-    "privateCheckInCheckOut": "Check-in/check-out privato",
-    "luggageStorage": "Deposito Bagagli",
+    "linen": "Lenzuola",
+    "wardrobeOrCloset": "Armadio o guardaroba",
+    "receptionServices": "Servizi di reception",
+    "invoiceProvided": "Fattura fornita",
+    "privateCheckInCheckOut": "Check-in/Check-out privato",
+    "luggageStorage": "Deposito bagagli",
     "twentyFourHourFrontDesk": "Reception 24 ore su 24",
-    "mediaTechnology": "Media e Tecnologia",
+    "mediaTechnology": "Media e tecnologia",
     "flatScreenTV": "TV a schermo piatto",
-    "satelliteChannels": "Canali Satellitari",
+    "satelliteChannels": "Canali satellitari",
     "radio": "Radio",
     "telephone": "Telefono",
     "tv": "TV",
-    "foodDrink": "Cibo e Bevande",
-    "kidMeals": "Pasti per Bambini",
-    "specialDietMenusOnRequest": "Menu per diete speciali (su richiesta)",
+    "foodDrink": "Cibo e bevande",
+    "kidMeals": "Pasti per bambini",
+    "specialDietMenusOnRequest": "Menù per diete speciali (su richiesta)",
     "breakfastInTheRoom": "Colazione in camera",
-    "cleaningServices": "Servizi di Pulizia",
-    "dailyHousekeeping": "Servizio di pulizia giornaliero",
-    "dryCleaning": "Lavaggio a Secco",
+    "cleaningServices": "Servizi di pulizia",
+    "dailyHousekeeping": "Pulizie giornaliere",
+    "dryCleaning": "Lavaggio a secco",
     "laundry": "Lavanderia",
-    "safetySecurity": "Sicurezza",
+    "safetySecurity": "Sicurezza e protezione",
     "fireExtinguishers": "Estintori",
-    "cctvInCommonAreas": "Telecamere a circuito chiuso nelle aree comuni",
-    "smokeAlarms": "Rilevatori di fumo",
+    "cctvInCommonAreas": "TVCC nelle aree comuni",
+    "smokeAlarms": "Allarmi fumo",
     "twentyFourHourSecurity": "Sicurezza 24 ore su 24"
   },
   "landmarkList": {
-    "noNearbyPlacesFound": "Nessun luogo nelle vicinanze trovato entro {radius} km.",
-    "nearbyEssentialAndTouristSpots": "🗺️ Punti Essenziali & Turistici Nelle Vicinanze"
+    "noNearbyPlacesFound": "Nessun luogo nelle vicinanze trovato entro un raggio di {radius} km.",
+    "nearbyEssentialAndTouristSpots": "🗺️ Luoghi essenziali e turistici nelle vicinanze"
   },
   "mapComponent": {
     "mapTitle": "🗺️ Mappa {title}"
@@ -137,28 +139,37 @@
   },
   "relatedCities": {
     "noRelatedCitiesFound": "Nessuna città correlata trovata",
-    "bestRelatedCitiesIn": "🏨 Migliori città correlate in {formattedState}"
+    "bestRelatedCitiesIn": "🏨 Le migliori città correlate in {formattedState}"
   },
   "relatedCountries": {
     "noRelatedStatesFound": "Nessuna provincia correlata trovata",
     "statesIn": "🏨 Province in {formattedCountry}"
   },
-  "relatedStates": {
-    "noRelatedCitiesFound": "Nessuna città correlata trovata",
-    "citiesIn": "🏨 Città in {formattedState}"
-  },
   "city": {
     "city": "Città",
-    "faq": "FAQ"
+    "faq": "Domande Frequenti"
   },
   "mainFilterSearchBox": {
     "destinationPlaceholder": "Qual è la tua destinazione?",
-    "checkInPlaceholder": "Data di Check-in",
-    "checkOutPlaceholder": "Data di Check-out",
+    "checkInPlaceholder": "Data di check-in",
+    "checkOutPlaceholder": "Data di check-out",
     "adultsLabel": "Adulti",
     "childrenLabel": "Bambini",
     "roomsLabel": "Camere",
-    "searchButton": "Cerca"
+    "searchButton": "Cerca",
+    "selectGuestsAndRooms": "Seleziona ospiti e camere",
+    "guestLabels": {
+        "adults": "Adulti",
+        "children": "Bambini",
+        "rooms": "Camere",
+        "adultsSingular": "Adulto",
+        "adultsPlural": "Adulti",
+        "childrenSingular": "Bambino",
+        "childrenPlural": "Bambini",
+        "roomsSingular": "Camera",
+        "roomsPlural": "Camere",
+        "childrenAgeRange": "0-17"
+    }
   },
   "footer": {
     "popularStays": "Soggiorni Popolari",
@@ -166,9 +177,9 @@
     "villa": "Villa",
     "resort": "Resort",
     "apartment": "Appartamento",
-    "guestHouse": "Guest house",
+    "guestHouse": "Guest House",
     "uniqueStays": "Soggiorni Unici",
-    "capsuleHotel": "Hotel capsula",
+    "capsuleHotel": "Capsule Hotel",
     "yurt": "Yurta",
     "treehouse": "Casa sull'albero",
     "tent": "Tenda",
@@ -182,57 +193,57 @@
     "heritageHotel": "Hotel storico",
     "adventureStays": "Soggiorni Avventura",
     "farmStay": "Agriturismo",
-    "cabin": "Cabina",
+    "cabin": "Baita",
     "chalet": "Chalet",
     "boat": "Barca",
     "houseboat": "Casa galleggiante",
-    "hotelozaFooterText": "Hoteloza è una piattaforma leader per prenotazioni alberghiere facili e senza intoppi. Semplifichiamo la tua ricerca dell'alloggio perfetto, offrendo una vasta selezione di soggiorni, dagli hotel accoglienti ai resort di lusso. Goditi la comodità della prenotazione, le offerte esclusive e i servizi personalizzati su misura per le tue esigenze di viaggio. Prenota con Hoteloza e rendi realtà viaggi indimenticabili.",
+    "hotelozaFooterText": "Hoteloza è una piattaforma leader per prenotazioni alberghiere facili e senza problemi. Semplifichiamo la tua ricerca di alloggi perfetti, offrendo una selezione diversificata di soggiorni, da hotel accoglienti a resort di lusso. Goditi la comodità della prenotazione, offerte esclusive e servizi personalizzati su misura per le tue esigenze di viaggio. Prenota con Hoteloza e trasforma viaggi indimenticabili in realtà.",
     "hotelozaAllRightsReserved": "© {year} Hoteloza. Tutti i diritti riservati."
   },
   "metadata": {
     "homePageTitle": "Hoteloza - Trova il tuo hotel da sogno",
     "homePageDescription": "Trova i migliori hotel e alloggi per il tuo prossimo viaggio. Prenota ora con Hoteloza!",
     "searchResultPageTitle": "Hotel a {cityName} - Risultati di ricerca Hoteloza",
-    "searchResultPageDescription": "Cerca e prenota hotel a {cityName}. Confronta prezzi e strutture per il tuo miglior soggiorno.",
+    "searchResultPageDescription": "Cerca e prenota hotel a {cityName}. Confronta prezzi e servizi per il tuo miglior soggiorno.",
     "cityPageTitle": "Hotel a {cityName} - Scopri {cityName} con Hoteloza",
     "cityPageDescription": "Scopri i migliori hotel a {cityName} e trova le migliori offerte per il tuo viaggio indimenticabile con Hoteloza.",
-    "categoryNotFoundTitle": "Categoria Non Trovata | Hoteloza",
-    "categoryNotFoundDescription": "La categoria che stai cercando non è stata trovata su Hoteloza.",
-    "categoryPageTitleTemplate": "Migliori Sconti {formattedCategory} {currentYear} - Risparmia alla Grande su Hoteloza!",
-    "categoryPageDescriptionTemplate": "Scopri i migliori {formattedCategory} nel {currentYear} con Hoteloza. Goditi sconti esclusivi, prezzi eccezionali e strutture di prim'ordine. Prenota ora per un soggiorno indimenticabile!",
-    "categoryOgTitleTemplate": "Migliori Offerte {formattedCategory} {currentYear} | Hoteloza",
-    "categoryOgDescriptionTemplate": "Esplora le migliori {formattedCategory} per il {currentYear} su Hoteloza. Prenota ora per offerte esclusive e strutture premium!",
-    "categoryWebPageNameTemplate": "Migliori Offerte {formattedCategory} {currentYear}",
-    "categoryWebPageDescriptionTemplate": "Scopri le migliori {formattedCategory} per il {currentYear} su Hoteloza con offerte esclusive e strutture premium.",
-    "countryNotFoundTitle": "Pagina Non Trovata | Hoteloza",
-    "countryNotFoundDescription": "La categoria, il paese o la provincia che stai cercando non è stata trovata su Hoteloza.",
-    "countryPageTitleTemplate": "Hotel {formattedCategory} Economici in {formattedCountry} {currentYear} - Non Perdere l'Occasione! | Hoteloza",
-    "countryPageDescriptionTemplate": "Ottieni i migliori {formattedCategory} in {formattedCountry} per il {currentYear} su Hoteloza. Goditi offerte esclusive, prezzi accessibili e strutture di prim'ordine. Offerte limitate – prenota il tuo soggiorno oggi!",
-    "countryOgTitleTemplate": "Migliori {formattedCategory} in {formattedCountry} {currentYear} | Hoteloza",
+    "categoryNotFoundTitle": "Categoria non trovata | Hoteloza",
+    "categoryNotFoundDescription": "La categoria che stai cercando non è stata trovata in Hoteloza.",
+    "categoryPageTitleTemplate": "Migliori sconti {formattedCategory} {currentYear} - Risparmia alla grande con Hoteloza!",
+    "categoryPageDescriptionTemplate": "Scopri i migliori {formattedCategory} nel {currentYear} con Hoteloza. Goditi sconti esclusivi, prezzi fantastici e servizi di prima classe. Prenota ora per un soggiorno indimenticabile!",
+    "categoryOgTitleTemplate": "Le migliori offerte {formattedCategory} {currentYear} | Hoteloza",
+    "categoryOgDescriptionTemplate": "Esplora i migliori {formattedCategory} per il {currentYear} su Hoteloza. Prenota ora per offerte esclusive e servizi di prima classe!",
+    "categoryWebPageNameTemplate": "Le migliori offerte {formattedCategory} {currentYear}",
+    "categoryWebPageDescriptionTemplate": "Scopri i migliori {formattedCategory} per il {currentYear} su Hoteloza con offerte esclusive e servizi di prima classe.",
+    "countryNotFoundTitle": "Pagina non trovata | Hoteloza",
+    "countryNotFoundDescription": "La categoria, il paese o la provincia che stai cercando non è stata trovata in Hoteloza.",
+    "countryPageTitleTemplate": "{formattedCategory} economici in {formattedCountry} {currentYear} - Non perdere! | Hoteloza",
+    "countryPageDescriptionTemplate": "Ottieni i migliori {formattedCategory} in {formattedCountry} per il {currentYear} su Hoteloza. Goditi offerte esclusive, prezzi accessibili e servizi di prima classe. Offerte limitate – prenota il tuo soggiorno oggi!",
+    "countryOgTitleTemplate": "I migliori {formattedCategory} in {formattedCountry} {currentYear} | Hoteloza",
     "countryOgDescriptionTemplate": "Trova i migliori {formattedCategory} in {formattedCountry} per il {currentYear} su Hoteloza. Prenota ora per i migliori hotel e offerte esclusive!",
-    "stateNotFoundTitle": "Pagina Non Trovata | Hoteloza",
-    "stateNotFoundDescription": "La categoria, il paese o la provincia che stai cercando non è stata trovata su Hoteloza.",
-    "statePageTitleTemplate": "Hotel {formattedCategory} Economici in {formattedState}, {formattedCountry} {currentYear} - Prenota Ora! | Hoteloza",
-    "statePageDescriptionTemplate": "Trova i migliori {formattedCategory} in {formattedState}, {formattedCountry} per il {currentYear} su Hoteloza. Offerte esclusive, prezzi eccezionali e strutture di prim'ordine. Prenota il tuo soggiorno indimenticabile!",
-    "stateOgTitleTemplate": "Migliori {formattedCategory} in {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
-    "stateOgDescriptionTemplate": "Scopri i migliori {formattedCategory} in {formattedState}, {formattedCountry} per il {currentYear} su Hoteloza. Prenota ora per offerte esclusive e strutture premium!",
-    "cityNotFoundTitle": "Pagina Non Trovata | Hoteloza",
-    "cityNotFoundDescription": "La categoria, il paese, la provincia o la città che stai cercando non è stata trovata su Hoteloza.",
-    "cityPageTitleTemplate": "Hotel {formattedCategory} Economici a {formattedCity}, {formattedState}, {formattedCountry} {currentYear} - Grandi Sconti! | Hoteloza",
-    "cityPageDescriptionTemplate": "Trova i migliori {formattedCategory} a {formattedCity}, {formattedState}, {formattedCountry} per il {currentYear} su Hoteloza. Sconti esclusivi, strutture di prim'ordine e prezzi imbattibili. Prenota subito il tuo soggiorno da sogno!",
-    "cityOgTitleTemplate": "Migliori {formattedCategory} a {formattedCity}, {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
-    "cityOgDescriptionTemplate": "Scopri i migliori {formattedCategory} a {formattedCity}, {formattedState}, {formattedCountry} per il {currentYear} su Hoteloza. Prenota ora per offerte esclusive e strutture premium!",
-    "hotelNotFoundTitle": "Hotel Non Trovato | Hoteloza",
+    "stateNotFoundTitle": "Pagina non trovata | Hoteloza",
+    "stateNotFoundDescription": "La categoria, il paese o la provincia che stai cercando non è stata trovata in Hoteloza.",
+    "statePageTitleTemplate": "{formattedCategory} economici in {formattedState}, {formattedCountry} {currentYear} - Prenota ora! | Hoteloza",
+    "statePageDescriptionTemplate": "Trova i migliori {formattedCategory} in {formattedState}, {formattedCountry} per il {currentYear} su Hoteloza. Offerte esclusive, prezzi fantastici e servizi di prima classe. Prenota il tuo soggiorno indimenticabile!",
+    "stateOgTitleTemplate": "I migliori {formattedCategory} in {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
+    "stateOgDescriptionTemplate": "Scopri i migliori {formattedCategory} in {formattedState}, {formattedCountry} per il {currentYear} su Hoteloza. Prenota ora per offerte esclusive e servizi di prima classe!",
+    "cityNotFoundTitle": "Pagina non trovata | Hoteloza",
+    "cityNotFoundDescription": "La categoria, il paese, la provincia o la città che stai cercando non è stata trovata in Hoteloza.",
+    "cityPageTitleTemplate": "{formattedCategory} economici a {formattedCity}, {formattedState}, {formattedCountry} {currentYear} - Grandi sconti! | Hoteloza",
+    "cityPageDescriptionTemplate": "Trova i migliori {formattedCategory} a {formattedCity}, {formattedState}, {formattedCountry} per il {currentYear} su Hoteloza. Sconti esclusivi, servizi premium e prezzi imbattibili. Prenota ora il tuo soggiorno da sogno!",
+    "cityOgTitleTemplate": "I migliori {formattedCategory} a {formattedCity}, {formattedState}, {formattedCountry} {currentYear} | Hoteloza",
+    "cityOgDescriptionTemplate": "Scopri i migliori {formattedCategory} a {formattedCity}, {formattedState}, {formattedCountry} per il {currentYear} su Hoteloza. Prenota ora per offerte esclusive e servizi di prima classe!",
+    "hotelNotFoundTitle": "Hotel non trovato | Hoteloza",
     "hotelNotFoundDescription": "L'hotel che stai cercando non è stato trovato.",
-    "hotelPageTitleTemplate": "{hotelTitle} - Prenota Ora su Hoteloza!",
-    "hotelPageDescriptionTemplate": "Prenota il tuo soggiorno presso {hotelTitle} a {city}, {state}, {country}. Trova le migliori offerte, strutture e recensioni per un'esperienza indimenticabile con Hoteloza.",
+    "hotelPageTitleTemplate": "{hotelTitle} - Prenota ora su Hoteloza!",
+    "hotelPageDescriptionTemplate": "Prenota il tuo soggiorno a {hotelTitle} a {city}, {state}, {country}. Trova le migliori offerte, servizi e recensioni per un'esperienza indimenticabile con Hoteloza.",
     "hotelOgTitleTemplate": "{hotelTitle} | Hoteloza",
     "hotelOgDescriptionTemplate": "Trova le migliori offerte a {hotelTitle} con Hoteloza."
   },
   "landmarkPage": {
-    "topHotelsNear": "Hotel {category} Economici Vicino a {landmarkName}",
-    "landmarkPageTitleTemplate": "Hotel {category} Economici Vicino a {landmarkName}",
-    "description": "{category} {landmarkName} offre la migliore sistemazione a {cityName}, con ottime offerte e servizi come WiFi gratuito.",
+    "topHotelsNear": "{category} Economici Vicino a {landmarkName}",
+    "landmarkPageTitleTemplate": "{category} Economici Vicino a {landmarkName}",
+    "description": "{category} {landmarkName} offre la migliore sistemazione a {cityName}, con grandi offerte e servizi come WiFi gratuito.",
     "loadingHotel": "Caricamento hotel...",
     "errorLoadingHotel": "Errore: {error}",
     "hotelNotFound": "Hotel non trovato.",
@@ -246,53 +257,53 @@
   "homepage": {
     "dreamDestinations": "Destinazioni da Sogno",
     "unforgettableSpots": "Luoghi indimenticabili che vorrai esplorare ancora e ancora",
-    "whatOurGuestsTrulyLoveAboutUs": "Cosa i Nostri Ospiti Amano Veramente di Noi",
-    "experienceTheMagic": "Vivi la magia che fa tornare milioni di persone. Ad Hoteloza, ci dedichiamo a rendere ogni soggiorno indimenticabile, con facilità, cura e un servizio eccezionale.",
+    "whatOurGuestsTrulyLoveAboutUs": "Ciò che i Nostri Ospiti amano veramente di Noi",
+    "experienceTheMagic": "Vivi la magia che fa tornare milioni di persone. In Hoteloza, ci dedichiamo a rendere ogni soggiorno indimenticabile, con facilità, cura e un servizio eccezionale.",
     "hotelozaHeroTitle": "Trova, Prenota e Rilassati con Hoteloza",
     "hotelozaHeroSubtitle": "Esplora migliaia di hotel in tutto il mondo con Hoteloza",
-    "delightedGuests": "Ospiti Soddisfatti",
-    "guestSatisfactionScore": "Punteggio di Soddisfazione Ospiti",
+    "delightedGuests": "Ospiti Deliziati",
+    "guestSatisfactionScore": "Punteggio di Soddisfazione del Cliente",
     "happyPeople": "Persone Felici",
-    "overallRating": "Valutazione complessiva"
+    "overallRating": "Valutazione Generale"
   },
   "about": {
-    "lookingForJoy": "Cerchi la Gioia?",
-    "trustedTripCompanion": "Il Tuo Compagno di Viaggio di Fiducia",
+    "lookingForJoy": "Cerchi gioia?",
+    "trustedTripCompanion": "Il tuo Compagno di Viaggio Fidato",
     "whyChooseUs": "Perché Sceglierci",
-    "popularDestinationsOffer": "Queste destinazioni popolari hanno molto da offrire",
+    "popularDestinationsOffer": "Queste destinazioni popolari offrono molto",
     "overheardFromTravelers": "Sentito dai Viaggiatori",
-    "aboutHotelozaTitle": "Su Hoteloza",
+    "aboutHotelozaTitle": "Informazioni su Hoteloza",
     "aboutHotelozaSubtitle": "Scopri un mondo di comfort ed eleganza",
-    "aboutHotelozaParagraph1": "Hoteloza è il tuo santuario del lusso, offrendo un'ospitalità impareggiabile nel cuore di destinazioni vibranti. I nostri hotel fondono l'eleganza moderna con il comfort senza tempo, garantendo che ogni soggiorno sia un'esperienza memorabile.",
-    "aboutHotelozaParagraph2": "Immergiti nelle nostre strutture di classe mondiale, dai sereni centri benessere alla squisita ristorazione, ed esplora le attrazioni vicine che rendono ogni visita indimenticabile. Che sia per affari o per piacere, Hoteloza è la tua casa lontano da casa."
+    "aboutHotelozaParagraph1": "Hoteloza è il tuo rifugio di lusso, che offre un'ospitalità incomparabile nel cuore di destinazioni vivaci. I nostri hotel combinano l'eleganza moderna con il comfort senza tempo, garantendo che ogni soggiorno sia un'esperienza indimenticabile.",
+    "aboutHotelozaParagraph2": "Immergiti nelle nostre strutture di fama mondiale, dalle spa serene ai ristoranti squisiti, ed esplora le attrazioni vicine che rendono ogni visita memorabile. Che sia per affari o per piacere, Hoteloza è la tua casa lontano da casa."
   },
   "blockGuide": {
-    "bestPriceGuarantee": "Miglior Prezzo Garantito",
-    "bestPriceGuaranteeText": "Trova il tuo soggiorno perfetto al miglior prezzo possibile – garantito. Nessun costo nascosto, solo risparmi reali ogni volta che prenoti.",
-    "easyQuickBooking": "Prenotazione Facile & Veloce",
-    "easyQuickBookingText": "Prenota l'hotel dei tuoi sogni in pochi clic. Veloce, semplice e senza problemi – la tua prossima vacanza inizia qui.",
+    "bestPriceGuarantee": "Garanzia del Miglior Prezzo",
+    "bestPriceGuaranteeText": "Trova il tuo soggiorno ideale al miglior prezzo possibile – garantito. Nessun costo nascosto, solo risparmi reali ogni volta che prenoti.",
+    "easyQuickBooking": "Prenotazione Facile e Veloce",
+    "easyQuickBookingText": "Prenota l'hotel dei tuoi sogni con pochi clic. Veloce, facile e senza problemi – la tua prossima fuga inizia qui.",
     "customerSupport": "Supporto Clienti 24/7",
-    "customerSupportText": "Hai bisogno di aiuto? Il nostro team di supporto è disponibile 24 ore su 24 per assisterti – ovunque e ogni volta che ne hai bisogno."
+    "customerSupportText": "Hai bisogno di aiuto? Il nostro team di supporto è disponibile 24 ore su 24 per assisterti – dove e quando ne hai bisogno."
   },
   "contactPage": {
     "heroTitle": "Contattaci",
-    "heroSubtitle": "Siamo qui per aiutarti e rispondere a qualsiasi domanda tu possa avere.",
-    "getInTouchTitle": "Mettiti in Contatto",
-    "getInTouchDescription": "Non esitare a contattarci per qualsiasi domanda o dubbio. Il nostro team è sempre pronto ad assisterti.",
+    "heroSubtitle": "Siamo qui per aiutarti e rispondere a tutte le tue domande.",
+    "getInTouchTitle": "Contattaci",
+    "getInTouchDescription": "Non esitare a contattarci per qualsiasi domanda o preoccupazione. Il nostro team è sempre pronto ad aiutarti.",
     "addressLabel": "Indirizzo",
-    "addressValue": "Via Hoteloza 123, Suite 456, Città, Paese",
+    "addressValue": "Via Hoteloza 123, Appartamento 456, Città, Paese",
     "emailLabel": "Email",
     "emailValue": "info@hoteloza.com",
     "workingHoursLabel": "Orari di Lavoro",
     "workingHoursValue": "Lunedì - Venerdì: 9:00 - 17:00 (Ora locale)"
   },
   "callToActions": {
-    "subscribeHere": "Iscriviti Qui",
-    "yourEmail": "La Tua Email",
+    "subscribeHere": "Iscriviti qui",
+    "yourEmail": "La tua email",
     "subscribeButton": "Iscriviti"
   },
   "testimonials": {
-    "sarahMQuote": "Hoteloza è una svolta! Ho trovato costantemente le migliori offerte di hotel qui. È davvero il miglior sito web di affiliazione alberghiera a livello globale.",
+    "sarahMQuote": "Hoteloza è un punto di svolta! Trovo costantemente le migliori offerte alberghiere qui. È davvero il miglior sito web partner di hotel in tutto il mondo.",
     "sarahMName": "Sarah M.",
     "sarahMDesignation": "Appassionata di Viaggi",
     "data": [
@@ -301,7 +312,7 @@
         "avatar": "/img/avatars/testimonials/1.jpg",
         "name": "Sarah Miller",
         "designation": "Blogger di Viaggi",
-        "text": "Il nostro soggiorno qui è stato assolutamente incredibile! La posizione è strategica, la camera era pulita e confortevole, e il servizio del personale è stato eccezionalmente amichevole. Altamente raccomandato per una vacanza in famiglia.",
+        "text": "Il nostro soggiorno qui è stato assolutamente incredibile! La posizione è strategica, la camera era pulita e confortevole, e il servizio del personale è stato eccezionalmente cordiale. Altamente raccomandato per una vacanza in famiglia.",
         "dealyAnimation": "100"
       },
       {
@@ -309,7 +320,7 @@
         "avatar": "/img/avatars/testimonials/2.png",
         "name": "John Davis",
         "designation": "Imprenditore",
-        "text": "Questo hotel è stata la scelta perfetta per il mio viaggio d'affari. Servizi completi, Wi-Fi veloce e vicino al centro città. Molto efficiente e confortevole.",
+        "text": "Questo hotel è stata la scelta perfetta per il mio viaggio di lavoro. Attrezzature complete, Wi-Fi veloce e vicino al centro città. Molto efficiente e conveniente.",
         "dealyAnimation": "200"
       },
       {
@@ -317,7 +328,7 @@
         "avatar": "/img/avatars/testimonials/3.png",
         "name": "Emily White",
         "designation": "Studente",
-        "text": "Adoro il design degli interni moderno e 'instagrammabile'! È perfetto per un soggiorno con gli amici. Il prezzo è anche accessibile per una qualità così eccezionale.",
+        "text": "Adoro il design degli interni moderno e degno di Instagram! È l'ideale per un soggiorno con gli amici. Il prezzo è anche accessibile per una qualità così eccezionale.",
         "dealyAnimation": "300"
       },
       {
@@ -325,7 +336,7 @@
         "avatar": "/img/avatars/testimonials/1.png",
         "name": "David Lee",
         "designation": "Fotografo",
-        "text": "La vista dalla camera era mozzafiato! Sono riuscito a fare tante belle foto. Lo staff è stato anche molto disponibile nel consigliare attrazioni turistiche.",
+        "text": "La vista dalla camera era mozzafiato! Sono riuscito a scattare così tante foto fantastiche. Il personale è stato anche molto gentile e ha consigliato attrazioni turistiche.",
         "dealyAnimation": "400"
       }
     ],
@@ -336,7 +347,7 @@
         "avatar": "/img/avatars/testimonials/1.png",
         "name": "Olivia Grace",
         "designation": "Autrice",
-        "text": "\"Questo hotel è perfetto per trovare pace e tranquillità. L'atmosfera serena, le camere silenziose e il personale reattivo mi hanno permesso di concentrarmi sulla scrittura senza interruzioni. Altamente raccomandato.\"",
+        "text": "\"Questo hotel è perfetto per trovare pace e tranquillità. L'atmosfera serena, le camere silenziose e il personale attento mi hanno permesso di concentrarmi sulla scrittura senza interruzioni. Altamente raccomandato.\"",
         "dealyAnimation": "100"
       },
       {
@@ -345,7 +356,7 @@
         "avatar": "/img/avatars/testimonials/2.png",
         "name": "Daniel Kim",
         "designation": "Nomade Digitale",
-        "text": "\"La connessione internet stabile e uno spazio di lavoro confortevole sono un enorme vantaggio qui. Ho potuto lavorare e fare vacanze allo stesso tempo. La posizione è anche vicina a molti caffè.\"",
+        "text": "\"La connessione internet stabile e lo spazio di lavoro confortevole sono un enorme vantaggio qui. Potevo lavorare e riposare allo stesso tempo. La posizione è anche vicina a molti caffè.\"",
         "dealyAnimation": "200"
       },
       {
@@ -354,7 +365,7 @@
         "avatar": "/img/avatars/testimonials/3.png",
         "name": "Sophia Brown",
         "designation": "Pensionata",
-        "text": "\"Il servizio amichevole e le strutture adatte agli anziani ci hanno fatto sentire molto a nostro agio. La colazione era anche deliziosa e varia. Torneremo sicuramente.\"",
+        "text": "\"Il servizio cordiale e le strutture adatte agli anziani ci hanno fatto sentire molto a nostro agio. La colazione era anche deliziosa e varia. Torneremo sicuramente.\"",
         "dealyAnimation": "300"
       },
       {
@@ -363,7 +374,7 @@
         "avatar": "/img/avatars/testimonials/4.png",
         "name": "Michael Chen",
         "designation": "Chef",
-        "text": "\"Come chef, apprezzo molto la qualità del cibo al ristorante di questo hotel. I piatti sono deliziosi e le opzioni del menu sono varie. Un'esperienza culinaria davvero straordinaria!\"",
+        "text": "\"Come chef, apprezzo davvero la qualità del cibo al ristorante di questo hotel. I piatti sono deliziosi e la scelta del menu è varia. Un'esperienza culinaria davvero incredibile!\"",
         "dealyAnimation": "400"
       },
       {
@@ -372,7 +383,7 @@
         "avatar": "/img/avatars/testimonials/5.png",
         "name": "Chloe Wilson",
         "designation": "Graphic Designer",
-        "text": "\"Il design interno estetico dell'hotel e la buona illuminazione hanno davvero supportato la mia creatività. Molti punti fotografici interessanti! La camera era anche molto pulita.\"",
+        "text": "\"Il design estetico degli interni dell'hotel e la buona illuminazione hanno davvero supportato la mia creatività. Tanti posti interessanti per scattare foto! Anche la camera era molto pulita.\"",
         "dealyAnimation": "500"
       }
     ],
@@ -382,8 +393,8 @@
         "meta": "Ocean View Resort",
         "avatar": "/img/testimonials/2/1.png",
         "name": "James Taylor",
-        "designation": "Uomo d'affari",
-        "text": "\"Questo resort offre viste spettacolari sull'oceano. È perfetto per rilassarsi dalla routine. Le strutture della piscina a sfioro sono anche mozzafiato.\""
+        "designation": "Uomo d'Affari",
+        "text": "\"Questo resort ha una vista mozzafiato sull'oceano. È perfetto per rilassarsi dalla routine. Le strutture con piscina a sfioro sono anch'esse mozzafiato.\""
       },
       {
         "id": 2,
@@ -391,7 +402,7 @@
         "avatar": "/img/testimonials/2/2.png",
         "name": "Isabella Rodriguez",
         "designation": "Insegnante",
-        "text": "\"La nostra vacanza in famiglia qui è stata molto memorabile. C'erano molte attività per bambini, e il personale era molto cordiale e disponibile. I bambini hanno adorato giocare sulla spiaggia privata.\""
+        "text": "\"La nostra vacanza in famiglia qui è stata molto memorabile. C'erano molte attività per bambini, e il personale era molto gentile e disponibile. I bambini adoravano giocare sulla spiaggia privata.\""
       },
       {
         "id": 3,
@@ -407,7 +418,7 @@
         "avatar": "/img/testimonials/2/4.png",
         "name": "Mia Martinez",
         "designation": "Consulente",
-        "text": "\"Viaggio frequentemente per lavoro, e questo resort offre il comfort di essere a casa. Il servizio in camera è veloce e professionale. Sarà sicuramente la mia scelta abituale.\""
+        "text": "\"Viaggio spesso per lavoro e questo resort offre il comfort di casa. Il servizio in camera è veloce e professionale. Sarà sicuramente la mia scelta abituale.\""
       },
       {
         "id": 5,
@@ -415,93 +426,93 @@
         "avatar": "/img/testimonials/2/5.png",
         "name": "Noah Thompson",
         "designation": "Artista",
-        "text": "\"L'ispirazione viene da ogni dove, e questo resort è pieno di una bellezza naturale mozzafiato. Ho dipinto molto qui. Altamente raccomandato per artisti o chiunque cerchi ispirazione.\""
+        "text": "\"L'ispirazione viene da ogni parte, e questo resort è pieno di bellezza naturale mozzafiato. Ho dipinto molto qui. Altamente raccomandato per artisti o chiunque cerchi ispirazione.\""
       }
     ]
   },
   "faqContent": {
     "hotel": {
-      "facilitiesQuestion": "Quali strutture sono incluse a {title}?",
-      "facilitiesAnswer": "Le strutture a {title} includono Wi-Fi gratuito, una piscina, parcheggio e altro ancora. Contatta la struttura per un elenco completo dei servizi.",
-      "breakfastQuestion": "La colazione è inclusa a {title}?",
-      "breakfastAnswer": "Sì, la colazione è inclusa nel tuo soggiorno a {title}.",
-      "checkInCheckOutQuestion": "Quali sono gli orari di check-in e check-out a {title}?",
-      "checkInCheckOutAnswer": "L'orario di check-in è dalle 14:00, e il check-out è entro le 12:00 a {title}.",
-      "petsAllowedQuestion": "Gli animali domestici sono ammessi a {title}?",
-      "petsAllowedAnswer": "Gli animali domestici non sono ammessi a {title}.",
-      "parkingFacilityQuestion": "C'è un parcheggio a {title}?",
-      "parkingFacilityAnswer": "Sì, il parcheggio è disponibile per gli ospiti a {title}.",
-      "smokingAllowedQuestion": "È consentito fumare a {title}?",
-      "smokingAllowedAnswer": "No, fumare è proibito in tutte le aree di {title}.",
-      "airportTransportationQuestion": "{title} offre il trasporto aeroportuale?",
-      "airportTransportationAnswer": "Sì, il trasporto aeroportuale può essere organizzato a {title} con un costo aggiuntivo.",
-      "cancellationPolicyQuestion": "Qual è la politica di cancellazione a {title}?",
-      "cancellationPolicyAnswer": "Le cancellazioni possono essere effettuate fino a 24 ore prima del check-in senza addebito.",
-      "meetingFacilitiesQuestion": "{title} dispone di strutture per riunioni?",
-      "meetingFacilitiesAnswer": "Sì, {title} dispone di sale riunioni completamente attrezzate e disponibili per la prenotazione.",
-      "attractionsNearQuestion": "Quali attrazioni sono vicine a {title}?",
+      "facilitiesQuestion": "Quali servizi sono inclusi in {title}?",
+      "facilitiesAnswer": "I servizi in {title} includono Wi-Fi gratuito, piscina, parcheggio e altro. Contattare la struttura per un elenco completo dei servizi.",
+      "breakfastQuestion": "La colazione è inclusa in {title}?",
+      "breakfastAnswer": "Sì, la colazione è inclusa nel tuo soggiorno in {title}.",
+      "checkInCheckOutQuestion": "Quali sono gli orari di check-in e check-out in {title}?",
+      "checkInCheckOutAnswer": "L'orario di check-in è dalle 14:00, e il check-out è entro le 12:00 in {title}.",
+      "petsAllowedQuestion": "Gli animali domestici sono ammessi in {title}?",
+      "petsAllowedAnswer": "Gli animali domestici non sono ammessi in {title}.",
+      "parkingFacilityQuestion": "C'è un parcheggio in {title}?",
+      "parkingFacilityAnswer": "Sì, il parcheggio è disponibile per gli ospiti in {title}.",
+      "smokingAllowedQuestion": "È consentito fumare in {title}?",
+      "smokingAllowedAnswer": "No, fumare è vietato in tutte le aree di {title}.",
+      "airportTransportationQuestion": "Il {title} offre il trasporto aeroportuale?",
+      "airportTransportationAnswer": "Sì, il trasporto aeroportuale può essere organizzato in {title} a un costo aggiuntivo.",
+      "cancellationPolicyQuestion": "Qual è la politica di cancellazione in {title}?",
+      "cancellationPolicyAnswer": "Le cancellazioni possono essere effettuate fino a 24 ore prima del check-in senza alcun costo.",
+      "meetingFacilitiesQuestion": "Il {title} ha sale riunioni?",
+      "meetingFacilitiesAnswer": "Sì, {title} dispone di sale riunioni completamente attrezzate disponibili per la prenotazione.",
+      "attractionsNearQuestion": "Quali attrazioni ci sono vicino a {title}?",
       "attractionsNearAnswer": "Le attrazioni popolari vicino a {title} includono [elenco delle attrazioni]."
     },
     "category": {
       "offeringsQuestion": "Quali tipi di offerte sono disponibili nella categoria {category}?",
-      "offeringsAnswer": "Pronto a esplorare una vasta gamma di opzioni? La nostra categoria {category} offre di tutto, dalle esperienze premium esclusive a soluzioni intelligenti ed economiche. Trova la soluzione perfetta per realizzare i tuoi sogni di viaggio o le tue esigenze specifiche!",
-      "familyFriendlyQuestion": "Ci sono scelte adatte alle famiglie disponibili nella nostra selezione {category}?",
-      "familyFriendlyAnswer": "Assolutamente! Comprendiamo le tue esigenze. Scopri numerose opzioni {category} altamente raccomandate per le famiglie, complete di strutture e attività progettate per rendere i tuoi momenti con i tuoi cari ancora più memorabili e confortevoli!",
-      "mainAttractionsQuestion": "Quali sono le attrazioni principali o le destinazioni più popolari vicino a queste offerte {category}?",
-      "mainAttractionsAnswer": "Le nostre selezioni {category} non riguardano solo il prodotto/servizio; riguardano anche la posizione! Goditi un facile accesso a luoghi turistici iconici, emozionanti centri di intrattenimento e delizie culinarie imperdibili. Massimizza la tua esperienza a Bandung, West Java, o ovunque ti porti la tua {category} scelta!",
+      "offeringsAnswer": "Pronto a esplorare una vasta gamma di opzioni? La nostra categoria {category} include di tutto, dalle esperienze premium esclusive a soluzioni intelligenti ed economiche. Trova la soluzione perfetta che realizzerà i tuoi sogni di viaggio o le tue esigenze specifiche!",
+      "familyFriendlyQuestion": "Ci sono opzioni per famiglie nella nostra selezione {category}?",
+      "familyFriendlyAnswer": "Assolutamente! Comprendiamo le tue esigenze. Scopri numerose opzioni {category} altamente raccomandate per le famiglie, con servizi e attività progettate per rendere i tuoi momenti con i tuoi cari ancora più memorabili e confortevoli.",
+      "mainAttractionsQuestion": "Quali sono le principali attrazioni o le destinazioni più popolari vicino a queste offerte {category}?",
+      "mainAttractionsAnswer": "Le nostre selezioni {category} non riguardano solo il prodotto/servizio; riguardano anche la posizione! Goditi un facile accesso a luoghi turistici iconici, centri di intrattenimento emozionanti e delizie culinarie da provare. Massimizza la tua esperienza a Bandung, West Java, o ovunque ti porti la {category} scelta!",
       "luxuryAmenitiesQuestion": "Alcune opzioni {category} offrono servizi di lusso o caratteristiche speciali?",
-      "luxuryAmenitiesAnswer": "Certo! Immergiti nel comfort e nel lusso. Molte delle nostre offerte {category} sono dotate di strutture a cinque stelle come piscine a sfioro private, servizi spa olistici, centri fitness all'avanguardia e molto altro. Concediti un'esperienza indimenticabile!",
-      "topRatedQuestion": "Quali sono le opzioni {category} più votate con le migliori recensioni dei clienti?",
-      "topRatedAnswer": "Cerchi il meglio? Ecco un elenco delle nostre opzioni {category} più apprezzate, amate dalla nostra community. Garantisci qualità e soddisfazione, supportate da testimonianze utente autentiche!"
+      "luxuryAmenitiesAnswer": "Certo! Immergiti nel comfort e nel lusso. Molte delle nostre offerte {category} sono dotate di servizi a cinque stelle come piscine private a sfioro, servizi spa olistici, centri fitness all'avanguardia e molto altro. Goditi un'esperienza indimenticabile!",
+      "topRatedQuestion": "Quali sono le opzioni {category} con le migliori valutazioni e recensioni dei clienti?",
+      "topRatedAnswer": "Cerchi il meglio? Ecco un elenco delle nostre migliori opzioni {category} selezionate, amate dalla nostra comunità. Assicurati qualità e soddisfazione, supportate da autentiche testimonianze degli utenti!"
     },
     "city": {
       "typesOfHotelsQuestion": "Quali tipi di hotel sono disponibili a {city}?",
-      "typesOfHotelsAnswer": "Esplora una varietà di hotel a {city}, che vanno dagli hotel di lusso alle opzioni economiche.",
+      "typesOfHotelsAnswer": "Esplora una varietà di hotel a {city}, che vanno dalle opzioni di lusso a quelle economiche.",
       "familyFriendlyHotelsQuestion": "Ci sono hotel adatti alle famiglie a {city}?",
       "familyFriendlyHotelsAnswer": "Sì, ci sono molti hotel adatti alle famiglie a {city}.",
-      "attractionsNearHotelsQuestion": "Quali attrazioni sono vicine agli hotel a {city}?",
+      "attractionsNearHotelsQuestion": "Quali attrazioni ci sono vicino agli hotel a {city}?",
       "attractionsNearHotelsAnswer": "Gli hotel a {city} sono vicini a varie attrazioni popolari.",
       "hotelsWithPoolsQuestion": "Ci sono hotel con piscina a {city}?",
-      "hotelsWithPoolsAnswer": "Sì, molti hotel a {city} dispongono di piscine e altre strutture.",
-      "bestRatedHotelsQuestion": "Quali sono gli hotel con le migliori recensioni a {city}?",
-      "bestRatedHotelsAnswer": "Ecco alcuni degli hotel con le migliori recensioni a {city}:"
+      "hotelsWithPoolsAnswer": "Sì, molti hotel a {city} dispongono di piscine e altri servizi.",
+      "bestRatedHotelsQuestion": "Quali sono gli hotel con le migliori valutazioni a {city}?",
+      "bestRatedHotelsAnswer": "Ecco alcuni degli hotel con le migliori valutazioni a {city}:"
     },
     "country": {
       "typesOfHotelsQuestion": "Quali tipi di hotel sono disponibili in {country}?",
-      "typesOfHotelsAnswer": "Esplora una varietà di hotel in {country}, che vanno dagli hotel di lusso alle opzioni economiche.",
+      "typesOfHotelsAnswer": "Esplora una varietà di hotel in {country}, che vanno dalle opzioni di lusso a quelle economiche.",
       "familyFriendlyHotelsQuestion": "Ci sono hotel adatti alle famiglie in {country}?",
       "familyFriendlyHotelsAnswer": "Sì, ci sono molti hotel adatti alle famiglie in {country}.",
-      "attractionsNearHotelsQuestion": "Quali attrazioni sono vicine agli hotel in {country}?",
+      "attractionsNearHotelsQuestion": "Quali attrazioni ci sono vicino agli hotel in {country}?",
       "attractionsNearHotelsAnswer": "Gli hotel in {country} sono vicini a varie attrazioni popolari.",
       "hotelsWithPoolsQuestion": "Ci sono hotel con piscina in {country}?",
-      "hotelsWithPoolsAnswer": "Sì, molti hotel in {country} dispongono di piscine e altre strutture.",
-      "bestRatedHotelsQuestion": "Quali sono gli hotel con le migliori recensioni in {country}?",
-      "bestRatedHotelsAnswer": "Ecco alcuni degli hotel con le migliori recensioni in {country}:"
+      "hotelsWithPoolsAnswer": "Sì, molti hotel in {country} dispongono di piscine e altri servizi.",
+      "bestRatedHotelsQuestion": "Quali sono gli hotel con le migliori valutazioni in {country}?",
+      "bestRatedHotelsAnswer": "Ecco alcuni degli hotel con le migliori valutazioni in {country}:"
     },
     "landmark": {
       "typesOfHotelsQuestion": "Quali tipi di hotel sono disponibili vicino a {landmark}?",
-      "typesOfHotelsAnswer": "Vicino a {landmark} troverai una vasta gamma di opzioni di alloggio, dagli hotel boutique di lusso a soggiorni confortevoli e convenienti. Che tu stia cercando una visita veloce o un'esplorazione più lunga, c'è un hotel perfetto per ogni preferenza.",
+      "typesOfHotelsAnswer": "Vicino a {landmark}, troverai una vasta gamma di opzioni di alloggio, dagli hotel boutique di lusso a soggiorni convenienti e accessibili. Che tu stia cercando una visita veloce o un'esplorazione più lunga, c'è un hotel perfetto per ogni preferenza.",
       "familyFriendlyHotelsQuestion": "Ci sono hotel adatti alle famiglie vicino a {landmark}?",
-      "familyFriendlyHotelsAnswer": "Assolutamente! Molti hotel vicino a {landmark} sono ben attrezzati per le famiglie, offrendo servizi come ampie camere familiari, mini club e piscine. Forniscono una base confortevole per esplorare il punto di riferimento e i suoi dintorni con i tuoi cari.",
-      "attractionsNearHotelsQuestion": "Quali attrazioni sono vicine agli hotel vicino a {landmark}?",
-      "attractionsNearHotelsAnswer": "Gli hotel vicino a {landmark} offrono una comodità impareggiabile per visitare il punto di riferimento stesso. Oltre a ciò, sono spesso strategicamente situati vicino ad altre attrazioni popolari, musei, ristoranti e luoghi di intrattenimento, rendendo la tua esplorazione senza sforzo.",
+      "familyFriendlyHotelsAnswer": "Assolutamente! Molti hotel vicino a {landmark} sono ben attrezzati per le famiglie, offrendo servizi come ampie camere familiari, club per bambini e piscine. Forniscono una base confortevole per esplorare il punto di riferimento e i dintorni con i tuoi cari.",
+      "attractionsNearHotelsQuestion": "Quali attrazioni ci sono vicino agli hotel vicino a {landmark}?",
+      "attractionsNearHotelsAnswer": "Gli hotel vicino a {landmark} offrono una comodità senza pari per visitare il punto di riferimento stesso. Inoltre, sono spesso strategicamente posizionati vicino ad altre attrazioni popolari, musei, punti ristoro e opzioni di intrattenimento, rendendo la tua esplorazione senza problemi.",
       "hotelsWithPoolsQuestion": "Ci sono hotel con piscina vicino a {landmark}?",
-      "hotelsWithPoolsAnswer": "Sì, molti hotel situati vicino a {landmark} dispongono di rinfrescanti piscine, perfette per rilassarsi dopo una giornata di visite turistiche. Alcuni vantano persino piscine panoramiche con viste mozzafiato sul punto di riferimento o sullo skyline della città.",
-      "bestRatedHotelsQuestion": "Quali sono gli hotel con le migliori recensioni vicino a {landmark}?",
-      "bestRatedHotelsAnswerDefault": "Attualmente, non abbiamo dati specifici sui migliori hotel classificati proprio vicino a {landmark}. Tuttavia, puoi sfogliare una varietà di opzioni molto apprezzate nell'area più ampia.",
-      "bestRatedHotelsAnswerWithData": "In base alle recensioni degli ospiti, alcuni degli hotel con le migliori recensioni vicino a {landmark} includono:"
+      "hotelsWithPoolsAnswer": "Sì, molti hotel situati vicino a {landmark} dispongono di rinfrescanti piscine, ideali per rilassarsi dopo una giornata di visite turistiche. Alcuni vantano persino piscine panoramiche con viste incredibili sul punto di riferimento o sullo skyline della città.",
+      "bestRatedHotelsQuestion": "Quali sono gli hotel con le migliori valutazioni vicino a {landmark}?",
+      "bestRatedHotelsAnswerDefault": "Al momento non disponiamo di dati specifici per gli hotel con le migliori valutazioni nelle immediate vicinanze di {landmark}. Tuttavia, puoi esplorare una varietà di opzioni altamente valutate nell'area più ampia.",
+      "bestRatedHotelsAnswerWithData": "In base alle recensioni degli ospiti, alcuni degli hotel con le migliori valutazioni vicino a {landmark} includono:"
     },
     "state": {
       "typesOfHotelsQuestion": "Quali tipi di hotel sono disponibili in {state}?",
-      "typesOfHotelsAnswer": "Esplora una varietà di hotel in {state}, che vanno dagli hotel di lusso alle opzioni economiche.",
+      "typesOfHotelsAnswer": "Esplora una varietà di hotel in {state}, che vanno dalle opzioni di lusso a quelle economiche.",
       "familyFriendlyHotelsQuestion": "Ci sono hotel adatti alle famiglie in {state}?",
       "familyFriendlyHotelsAnswer": "Sì, ci sono molti hotel adatti alle famiglie in {state}.",
-      "attractionsNearHotelsQuestion": "Quali attrazioni sono vicine agli hotel in {state}?",
+      "attractionsNearHotelsQuestion": "Quali attrazioni ci sono vicino agli hotel in {state}?",
       "attractionsNearHotelsAnswer": "Gli hotel in {state} sono vicini a varie attrazioni popolari.",
       "hotelsWithPoolsQuestion": "Ci sono hotel con piscina in {state}?",
-      "hotelsWithPoolsAnswer": "Sì, molti hotel in {state} dispongono di piscine e altre strutture.",
-      "bestRatedHotelsQuestion": "Quali sono gli hotel con le migliori recensioni in {state}?",
-      "bestRatedHotelsAnswer": "Ecco alcuni degli hotel con le migliori recensioni in {state}:"
+      "hotelsWithPoolsAnswer": "Sì, molti hotel in {state} dispongono di piscine e altri servizi.",
+      "bestRatedHotelsQuestion": "Quali sono gli hotel con le migliori valutazioni in {state}?",
+      "bestRatedHotelsAnswer": "Ecco alcuni degli hotel con le migliori valutazioni in {state}:"
     }
   }
 }

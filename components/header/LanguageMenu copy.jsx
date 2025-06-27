@@ -177,15 +177,17 @@ const LanguageMenu = () => {
           color: #FFFFFF;
         }
 
+        /* --- PERUBAHAN CSS UNTUK .flag-icon DIMULAI DI SINI --- */
         .flag-icon {
-          height: 100%;
-          width: auto;
+          width: 36px;   /* Set width explicitly to match HTML attribute */
+          height: 24px;  /* Set height explicitly to match HTML attribute */
           object-fit: contain;
           flex-shrink: 0;
           border: none;
           box-shadow: none;
           margin-right: 10px;
         }
+        /* --- PERUBAHAN CSS UNTUK .flag-icon SELESAI DI SINI --- */
 
         .arrow-icon {
           margin-left: auto;
@@ -224,14 +226,14 @@ const LanguageMenu = () => {
 
         /* Apply margin-bottom to list items themselves for vertical spacing */
         .options-list li:not(:last-child) {
-          margin-bottom: 10px; /* Adjust as needed for desktop */
+          margin-bottom: 10px;
         }
 
         .options-list li .flag-icon {
-          height: 100%;
-          width: auto;
+          width: 36px;  /* Match desktop size for list items */
+          height: 24px; /* Match desktop size for list items */
           object-fit: contain;
-          margin-right: 0; /* No horizontal margin within the list item flag */
+          margin-right: 0;
         }
 
         .options-list li:hover, .options-list li.active {
@@ -243,15 +245,15 @@ const LanguageMenu = () => {
             min-width: 60px;
             max-width: 70px;
             height: 32px;
+            border: none;
           }
           .selected-option {
             height: 32px;
             padding: 3px 6px;
           }
           .flag-icon {
-            height: 100%;
-            width: auto;
-            object-fit: contain;
+            width: 30px; /* Contoh skala kecil untuk mobile umum */
+            height: 20px; /* Contoh skala kecil untuk mobile umum */
             margin-right: 5px;
           }
           .options-list {
@@ -262,14 +264,12 @@ const LanguageMenu = () => {
             padding: 3px 6px;
             box-sizing: border-box;
           }
-          /* Adjust margin-bottom for list items on mobile */
           .options-list li:not(:last-child) {
-            margin-bottom: 8px; /* Adjust as needed for mobile */
+            margin-bottom: 8px;
           }
           .options-list li .flag-icon {
-            height: 100%;
-            width: auto;
-            object-fit: contain;
+            width: 30px; /* Konsisten dengan flag-icon di selected-option untuk mobile */
+            height: 20px; /* Konsisten dengan flag-icon di selected-option untuk mobile */
             margin-right: 0;
           }
         }
@@ -279,7 +279,7 @@ const LanguageMenu = () => {
             min-width: 48px;
             max-width: 52px;
             height: 28px;
-            border: 1px solid #777;
+            border: none;
             border-radius: 4px;
           }
           .selected-option {
@@ -288,9 +288,8 @@ const LanguageMenu = () => {
             justify-content: center;
           }
           .flag-icon {
-            height: 100%;
-            width: auto;
-            object-fit: contain;
+            width: 24px; /* Skala lebih kecil lagi untuk iPhone SE */
+            height: 16px; /* Skala lebih kecil lagi untuk iPhone SE */
             margin-right: 2px;
           }
           .arrow-icon {
@@ -305,14 +304,12 @@ const LanguageMenu = () => {
             font-size: 11px;
             box-sizing: border-box;
           }
-          /* Adjust margin-bottom for list items on iPhone SE */
           .options-list li:not(:last-child) {
-            margin-bottom: 6px; /* Adjust as needed for iPhone SE */
+            margin-bottom: 6px;
           }
           .options-list li .flag-icon {
-            height: 100%;
-            width: auto;
-            object-fit: contain;
+            width: 24px; /* Konsisten dengan flag-icon di selected-option untuk iPhone SE */
+            height: 16px; /* Konsisten dengan flag-icon di selected-option untuk iPhone SE */
             margin-right: 0;
           }
         }

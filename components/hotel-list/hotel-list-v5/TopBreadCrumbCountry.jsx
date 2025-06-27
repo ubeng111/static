@@ -10,7 +10,14 @@ const capitalizeFirstLetter = (str) => {
     .join(" ");
 };
 
-const TopBreadCrumbCountry = ({ categoryslug, countryslug, currentLang }) => { // Menerima currentLang
+// Tambahkan 'dictionary' ke dalam props
+const TopBreadCrumbCountry = ({ categoryslug, countryslug, currentLang, dictionary }) => {
+  // Buat prefix bahasa.
+  const langPrefix = currentLang ? `/${currentLang}` : '';
+
+  // Mengambil teks "Home" dari kamus, dengan fallback.
+  const homeText = dictionary?.navigation?.home || 'Home';
+
   return (
     <section className="py-10 d-flex items-center bg-white">
       <div className="container">
@@ -18,13 +25,15 @@ const TopBreadCrumbCountry = ({ categoryslug, countryslug, currentLang }) => { /
           <div className="col-auto">
             <div className="row x-gap-10 y-gap-5 items-center text-14 text-light-1">
               <div className="col-auto">
-                <Link href={`/${currentLang}`} className="text-blue-1"> {/* Gunakan currentLang */}
-                  Home
+                {/* Gunakan langPrefix dan homeText dari kamus*/}
+                <Link href={`${langPrefix}`} className="text-blue-1">
+                  {homeText}
                 </Link>
               </div>
               <div className="col-auto">&gt;</div>
               <div className="col-auto">
-                <Link href={`/${currentLang}/${categoryslug}`} className="text-blue-1"> {/* Gunakan currentLang */}
+                {/* Gunakan langPrefix untuk tautan kategori */}
+                <Link href={`${langPrefix}/${categoryslug}`} className="text-blue-1">
                   {capitalizeFirstLetter(categoryslug) || "Unknown Category"}
                 </Link>
               </div>
