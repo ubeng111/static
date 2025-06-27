@@ -1,12 +1,16 @@
+// route.js
+
 import { Pool } from 'pg';
-import fs from 'fs';
-import path from 'path';
 import 'dotenv/config';
+
+// --- PERUBAHAN PENTING DI SINI: Menggunakan variabel lingkungan untuk sertifikat CA ---
+const caCert = process.env.DATABASE_CA_CERT; // Ambil konten sertifikat dari variabel lingkungan
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
-  ssl: { ca: fs.readFileSync(path.resolve('certs', 'root.crt')) },
+  ssl: caCert ? { ca: caCert } : { rejectUnauthorized: false }, // Jika caCert ada, gunakan. Jika tidak, pertimbangkan `rejectUnauthorized: false` untuk pengembangan/pengujian, tapi HATI-HATI di produksi.
 });
+// --- AKHIR PERUBAHAN PENTING ---
 
 const cache = {};
 const cacheTTL = 60 * 60 * 1000; // 1 hour
@@ -26,7 +30,10 @@ function setCache(key, data) {
 const LIMIT = 12;
 
 export async function GET(req, { params }) {
-  const { categoryslug } = await params;
+  // --- PERBAIKAN: params sudah objek, tidak perlu `await params` ---
+  const { categoryslug } = params; 
+  // --- AKHIR PERBAIKAN ---
+
   if (!categoryslug) {
     return new Response(JSON.stringify({ message: 'Category slug is required' }), { status: 400 });
   }

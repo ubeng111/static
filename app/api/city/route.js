@@ -1,25 +1,27 @@
+// app/api/search-by-city/route.js
+
 import { Pool } from 'pg';
-import fs from 'fs';
-import path from 'path';
+// import fs from 'fs'; // Hapus impor ini
+// import path from 'path'; // Hapus impor ini
 import 'dotenv/config'; // Impor dotenv untuk memuat .env
 
-// SSL certificate validation
-const certPath = path.resolve('certs', 'root.crt');
-let sslConfig = {};
-if (fs.existsSync(certPath)) {
-  sslConfig = { ca: fs.readFileSync(certPath) };
-} else {
-  console.warn('SSL certificate not found, falling back to non-SSL connection');
-}
+// --- PERUBAHAN PENTING DI SINI: Menggunakan variabel lingkungan untuk sertifikat CA ---
+const caCert = process.env.DATABASE_CA_CERT; // Ambil konten sertifikat dari variabel lingkungan
 
 // Database connection pool
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
-  ssl: sslConfig,
+  ssl: caCert
+    ? {
+        ca: caCert,
+        rejectUnauthorized: true, // `rejectUnauthorized: true` adalah default yang aman
+      }
+    : false, // Jika `caCert` tidak ada, `false` berarti tidak menggunakan SSL atau SSL akan dihandle oleh connection string
   max: 10,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 5000,
 });
+// --- AKHIR PERUBAHAN PENTING ---
 
 // In-memory cache
 const cache = {};
@@ -40,23 +42,24 @@ function setCache(key, data) {
 const LIMIT = 12;
 
 export async function GET(req) {
-  const url = new URL(req.url);
-  const cityName = url.searchParams.get('city');
-  const cityId = url.searchParams.get('city_id');
-  const page = parseInt(url.searchParams.get('page')) || 1;
-
-  // Input validation
-  if (!cityName && !cityId) {
-    return new Response(JSON.stringify({ message: 'City name or city ID is required' }), { status: 400 });
-  }
-
-  if (page < 1) {
-    return new Response(JSON.stringify({ message: 'Page must be a positive number' }), { status: 400 });
-  }
-
-  const client = await pool.connect();
-
+  let client; // Deklarasikan client di luar try block untuk akses di finally
   try {
+    const url = new URL(req.url);
+    const cityName = url.searchParams.get('city');
+    const cityId = url.searchParams.get('city_id');
+    const page = parseInt(url.searchParams.get('page')) || 1;
+
+    // Input validation
+    if (!cityName && !cityId) {
+      return new Response(JSON.stringify({ message: 'City name or city ID is required' }), { status: 400 });
+    }
+
+    if (page < 1) {
+      return new Response(JSON.stringify({ message: 'Page must be a positive number' }), { status: 400 });
+    }
+
+    client = await pool.connect(); // Ambil koneksi dari pool di dalam handler
+
     if (cityName) {
       if (typeof cityName !== 'string' || cityName.length < 2) {
         return new Response(JSON.stringify({ message: 'City name must be at least 2 characters' }), { status: 400 });
@@ -157,7 +160,9 @@ export async function GET(req) {
       { status: 500 }
     );
   } finally {
-    client.release();
+    if (client) { // Pastikan client ada sebelum dilepaskan
+      client.release();
+    }
   }
 }
 
