@@ -6,7 +6,8 @@ import path from 'path';
 import 'dotenv/config'; // Pastikan .env dimuat jika belum di next.config.js
 import LandmarkClient from './LandmarkClient'; // Asumsi ini adalah Client Component
 import Script from 'next/script';
-import { getdictionary } from '@/dictionaries/get-dictionary'; // Menggunakan alias
+import { getdictionary } from '@/dictionaries/get-dictionary';
+import { notFound } from 'next/navigation';
 
 // REVALIDATE PAGE (ISR - Incremental Static Regeneration)
 // Halaman ini akan di-revalidate setiap 1 tahun (jika ada permintaan masuk)
@@ -55,6 +56,20 @@ async function fetchLandmarkData(slug) {
     return null;
   }
 }
+
+// Helper function to sanitize slugs
+const sanitizeSlug = (slug) => {
+  const sanitized = slug?.replace(/[^a-zA-Z0-9-]/g, '') || '';
+  if (!sanitized && slug) {
+    console.warn(`sanitizeSlug: Input '${slug}' resulted in empty/null slug.`);
+  }
+  return sanitized;
+};
+
+// Helper function to format slugs for display
+const formatSlug = (slug) =>
+  slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
+
 
 // generateMetadata untuk SEO
 export async function generateMetadata({ params }) {
@@ -135,13 +150,41 @@ export async function generateMetadata({ params }) {
 
 // generateStaticParams untuk SSG (Static Site Generation)
 // Next.js akan memanggil ini di waktu build untuk menentukan rute mana yang harus dibuat statis.
-// --- PERBAIKAN KRITIS DI SINI ---
-// Mengembalikan array kosong untuk menghindari "Maximum call stack size exceeded"
-// karena jumlah slug yang terlalu besar.
-// Halaman akan dirender on-demand (SSR/ISR) saat permintaan pertama.
 export async function generateStaticParams() {
-  console.warn("SERVER WARN: generateStaticParams for landmarks returning empty array to prevent 'Maximum call stack size exceeded' due to large dataset. Pages will be rendered on-demand.");
-  return []; // Ini akan mencegah Next.js mencoba membangun semua halaman ini secara statis.
+  console.warn("SERVER INFO: generateStaticParams for landmarks will build only 10 slugs for now.");
+  const LIMIT = 10; // Batasi hanya 10 slug untuk dibangun statis
+
+  try {
+    const client = await pool.connect();
+    try {
+      // Ambil hanya sejumlah slug yang terbatas (misal 10) dari database
+      const slugsQuery = `SELECT slug FROM landmarks LIMIT $1`;
+      const slugsResult = await client.query(slugsQuery, [LIMIT]);
+      const landmarkSlugs = slugsResult.rows.map(row => row.slug);
+      console.log(`SERVER INFO: Fetched ${landmarkSlugs.length} slugs for generateStaticParams:`, landmarkSlugs);
+
+      // Kombinasikan dengan bahasa yang didukung
+      const supportedLangs = ['en', 'id', 'us']; // Ganti dengan daftar bahasa yang sebenarnya
+      const params = [];
+      for (const lang of supportedLangs) {
+        for (const slug of landmarkSlugs) {
+          params.push({ lang: lang, slug: slug });
+        }
+      }
+      return params;
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    // Tangani error koneksi DB atau query saat build time
+    console.error('SERVER ERROR: Failed to fetch slugs for generateStaticParams:', error);
+    // Kembalikan daftar fallback yang sangat kecil atau kosong jika terjadi error
+    console.warn("SERVER WARN: Returning a small fallback set for generateStaticParams due to error fetching from DB.");
+    return [
+      { lang: 'en', slug: 'eiffel-tower' },
+      { lang: 'id', slug: 'monas' },
+    ];
+  }
 }
 
 
@@ -219,7 +262,7 @@ export default async function LandmarkSlugPage({ params }) {
       />
       <div className="header-margin"></div>
       {/* Bungkus LandmarkClient dengan Suspense untuk menampilkan fallback saat loading */}
-      <Suspense fallback={<div>{landmarkPageDict.loadingHotel || commonDict.loadingHotel || `Loading ${landmarkName} search results...`}</div>}>
+      <Suspense fallback={<div>{landmarkPageDict.loadingHotel || commonDict.loadingHotel || `Memuat hasil pencarian ${landmarkName}...`}</div>}>
         <LandmarkClient landmarkSlug={slug} dictionary={dictionary} currentLang={locale} />
       </Suspense>
     </>
