@@ -1,14 +1,25 @@
 // app/[lang]/(hotel)/[categoryslug]/[countryslug]/[stateslug]/page.jsx
-import dynamic from 'next/dynamic';
+// Hapus dynamic import 'next/dynamic' dari sini, karena tidak lagi diperlukan di Server Component ini
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
+import { Suspense } from 'react'; // Pastikan Suspense diimpor
 import { getdictionary } from '@/dictionaries/get-dictionary'; // Menggunakan alias
+
+// Import ClientPage secara langsung karena ClientPage sekarang adalah Client Component dengan 'use client;'
+import ClientPage from './ClientPage';
+
 
 // **TAMBAHKAN INI UNTUK ISR 1 TAHUN**
 export const revalidate = 31536000; // 1 tahun dalam detik (60 * 60 * 24 * 365)
 
 // Helper function to sanitize slugs
-const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
+const sanitizeSlug = (slug) => {
+  const sanitized = slug?.replace(/[^a-zA-Z0-9-]/g, '') || '';
+  if (!sanitized && slug) {
+    console.warn(`sanitizeSlug: Input '${slug}' resulted in empty/null slug.`);
+  }
+  return sanitized;
+};
 
 // Helper function to format slugs
 const formatSlug = (slug) =>
@@ -16,40 +27,46 @@ const formatSlug = (slug) =>
 
 // Function to fetch state data
 async function getStateData(categoryslug, countryslug, stateslug) {
+  console.log('getStateData: Received slugs - category:', categoryslug, 'country:', countryslug, 'state:', stateslug);
+
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
   const sanitizedState = sanitizeSlug(stateslug);
+
   if (!sanitizedCategory || !sanitizedCountry || !sanitizedState) {
-    console.error('Invalid slugs:', { categoryslug, countryslug, stateslug });
+    console.error('getStateData: INVALID OR MISSING SLUGS AFTER SANITIZATION. category:', sanitizedCategory, 'country:', sanitizedCountry, 'state:', sanitizedState);
     return null;
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
   const apiUrl = `${baseUrl}/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
+  console.log('getStateData: Constructed API URL:', apiUrl);
 
   try {
-    // **Pastikan fetch() di sini adalah yang Native Web Fetch API**
-    // Next.js akan secara otomatis mengaplikasikan `revalidate` yang diekspor di atas
-    // ke panggilan fetch ini.
     const response = await fetch(apiUrl);
     if (!response.ok) {
-      console.error(`Failed to fetch state data for ${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}. Status: ${response.status}`);
+      const errorText = await response.text();
+      console.error(
+        `getStateData: Failed to fetch state data from API. Status: ${response.status} - ${response.statusText}. Response Body: ${errorText}`
+      );
       return null;
     }
-    return response.json();
+    const data = await response.json();
+    console.log('getStateData: Raw data received from API (truncated for brevity):', JSON.stringify(data, null, 2).substring(0, 500) + '...');
+    return data;
   } catch (error) {
-    console.error('Error fetching state data:', error);
+    console.error('getStateData: Error fetching state data:', error);
     return null;
   }
 }
 
-const ClientPage = dynamic(() => import('./ClientPage'));
+// Hapus dynamic import ClientPage dari sini. Ini penyebab errornya.
+
 
 export async function generateMetadata({ params }) {
-  // --- PERBAIKI PENGGUNAAN PARAMS DI generateMetadata ---
-  // `params` sudah objek langsung di App Router, tidak perlu await params
   const { categoryslug, countryslug, stateslug, lang: locale } = params;
-  // --- AKHIR PERBAIKAN ---
+
+  console.log('generateMetadata (State): Received params - category:', categoryslug, 'country:', countryslug, 'state:', stateslug, 'lang:', locale);
 
   const dictionary = await getdictionary(locale);
   const metadataDict = dictionary?.metadata || {};
@@ -61,15 +78,17 @@ export async function generateMetadata({ params }) {
   const sanitizedState = sanitizeSlug(stateslug);
 
   if (!sanitizedCategory || !sanitizedCountry || !sanitizedState) {
+    console.warn('generateMetadata (State): Missing required slugs after sanitization. Returning default metadata.');
     return {
       title: metadataDict.stateNotFoundTitle || 'Page Not Found | Hoteloza',
       description: metadataDict.stateNotFoundDescription || 'The requested category, country, or state was not found on Hoteloza.',
     };
   }
 
-  // Data ini juga akan di-cache sesuai `revalidate` yang diekspor di atas.
   const data = await getStateData(categoryslug, countryslug, stateslug);
+  console.log('generateMetadata (State): Data from getStateData for metadata (truncated):', JSON.stringify(data, null, 2).substring(0, 500) + '...');
   if (!data || !data.hotels || data.hotels.length === 0) {
+    console.warn('generateMetadata (State): State data is null, or hotels array is missing/empty. Data:', data);
     return {
       title: metadataDict.stateNotFoundTitle || 'Page Not Found | Hoteloza',
       description: metadataDict.stateNotFoundDescription || 'The requested category, country, or state was not found on Hoteloza.',
@@ -80,6 +99,9 @@ export async function generateMetadata({ params }) {
   const formattedCountry = formatSlug(sanitizedCountry) || (statePageDict.countryDefault || 'Country');
   const formattedCategory = formatSlug(sanitizedCategory) || (statePageDict.categoryDefault || 'Category');
   const currentYear = new Date().getFullYear();
+
+  const ogUrl = `https://hoteloza.com/${locale}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
+  const ogImage = data.hotels[0]?.img || data.hotels[0]?.slideimg || 'https://hoteloza.com/og-image.jpg';
 
   return {
     title: (metadataDict.statePageTitleTemplate || `Cheap {formattedCategory} in {formattedState}, {formattedCountry} {currentYear} - Book Now! | Hoteloza`)
@@ -103,21 +125,29 @@ export async function generateMetadata({ params }) {
         .replace('{formattedState}', formattedState)
         .replace('{formattedCountry}', formattedCountry)
         .replace('{currentYear}', currentYear),
-      url: `https://hoteloza.com/${locale}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`, // URL OpenGraph dengan lang
+      url: ogUrl,
+      images: [{ url: ogImage }],
       type: 'website',
+    },
+    alternates: {
+      canonical: ogUrl,
+      languages: {
+        'en-US': `https://hoteloza.com/en/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`,
+        'id-ID': `https://hoteloza.com/id/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`,
+        'x-default': `https://hoteloza.com/en/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`,
+      },
     },
   };
 }
 
 export default async function Page({ params }) {
-  // --- PERBAIKI PENGGUNAAN PARAMS DI KOMPONEN Page ---
-  // `params` sudah objek langsung di App Router, tidak perlu await params
   const { categoryslug, countryslug, stateslug, lang: locale } = params;
-  // --- AKHIR PERBAIKAN ---
+
+  console.log('Page component (State): Received params - category:', categoryslug, 'country:', countryslug, 'state:', stateslug, 'lang:', locale);
 
   const dictionary = await getdictionary(locale);
 
-  const currentLang = locale; // Lang saat ini
+  const currentLang = locale;
 
   const commonDict = dictionary?.common || {};
   const statePageDict = dictionary?.statePage || {};
@@ -128,13 +158,18 @@ export default async function Page({ params }) {
   const sanitizedCountry = sanitizeSlug(countryslug);
   const sanitizedState = sanitizeSlug(stateslug);
 
+  console.log('Page component (State): Sanitized slugs for component - category:', sanitizedCategory, 'country:', sanitizedCountry, 'state:', sanitizedState);
+
   if (!sanitizedCategory || !sanitizedCountry || !sanitizedState) {
+    console.error('Page component (State): Missing required slugs after sanitization. Calling notFound(). category:', sanitizedCategory, 'country:', sanitizedCountry, 'state:', sanitizedState);
     notFound();
   }
 
-  // Data ini juga akan di-cache sesuai `revalidate` yang diekspor di atas.
   const data = await getStateData(categoryslug, countryslug, stateslug);
+  console.log('Page component (State): Data from getStateData (truncated):', JSON.stringify(data, null, 2).substring(0, 500) + '...');
+
   if (!data || !data.hotels || data.hotels.length === 0) {
+    console.error('Page component (State): State data is null, or hotels array is missing/empty. Calling notFound(). Data:', data);
     notFound();
   }
 
@@ -143,7 +178,7 @@ export default async function Page({ params }) {
   const formattedCategory = formatSlug(sanitizedCategory) || (statePageDict.categoryDefault || 'Category');
   const currentYear = new Date().getFullYear();
   const baseUrl = 'https://hoteloza.com';
-  const currentUrl = `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`; // URL dasar dengan lang
+  const currentUrl = `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
 
   const schemas = [
     {
@@ -170,9 +205,9 @@ export default async function Page({ params }) {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: navigationDict.home || 'Home', item: `${baseUrl}/${currentLang}` }, // URL Home dengan lang
-        { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${currentLang}/${sanitizedCategory}` }, // URL Category dengan lang
-        { '@type': 'ListItem', position: 3, name: formattedCountry, item: `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}` }, // URL Country dengan lang
+        { '@type': 'ListItem', position: 1, name: navigationDict.home || 'Home', item: `${baseUrl}/${currentLang}` },
+        { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${currentLang}/${sanitizedCategory}` },
+        { '@type': 'ListItem', position: 3, name: formattedCountry, item: `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}` },
         { '@type': 'ListItem', position: 4, name: formattedState, item: currentUrl },
       ],
     },
@@ -196,7 +231,7 @@ export default async function Page({ params }) {
           '@type': 'Hotel',
           name: hotel.title || hotel.name || commonDict.unnamedHotel || 'Unnamed Hotel',
           url: hotel.hotelslug && hotel.cityslug
-            ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${hotel.cityslug}/${hotel.hotelslug}` // URL hotel detail dengan lang
+            ? `${baseUrl}/${currentLang}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${hotel.cityslug}/${hotel.hotelslug}`
             : `${currentUrl}/${hotel.id || index + 1}`,
           image: hotel.img || hotel.slideimg || '',
           address: {
@@ -219,7 +254,17 @@ export default async function Page({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
       />
-      <ClientPage categoryslug={sanitizedCategory} countryslug={sanitizedCountry} stateslug={sanitizedState} dictionary={dictionary} currentLang={currentLang} />
+      {/* Tambahkan Suspense di sini untuk membungkus ClientPage */}
+      <Suspense fallback={<div>Memuat konten provinsi...</div>}>
+        <ClientPage
+          categoryslug={sanitizedCategory}
+          countryslug={sanitizedCountry}
+          stateslug={sanitizedState}
+          dictionary={dictionary}
+          currentLang={currentLang}
+          initialData={data} // Meneruskan data yang sudah di-fetch ke ClientPage
+        />
+      </Suspense>
     </>
   );
 }
@@ -227,24 +272,17 @@ export default async function Page({ params }) {
 // **Penting untuk Dynamic Routes di App Router:**
 // Anda harus mengembalikan semua kombinasi `lang`, `categoryslug`, `countryslug`, dan `stateslug` yang mungkin
 // untuk dibangun secara statis saat waktu build.
-// Jika Anda memiliki terlalu banyak kombinasi, Anda bisa mengembalikan daftar kosong atau sebagian kecil,
-// dan Next.js akan merender halaman secara on-demand (SSR atau ISR tergantung pada konfigurasi `revalidate`).
 export async function generateStaticParams() {
-  // Contoh: Mengambil daftar kategori, negara, dan provinsi/negara bagian yang didukung.
-  // Ini harus diganti dengan panggilan API aktual yang mengembalikan semua slug
-  // yang valid dari backend Anda.
-  const allCategories = ['hotel-discounts', 'luxury-hotels']; // Contoh slug kategori
-  const allCountries = ['indonesia', 'malaysia']; // Contoh slug negara
+  const allCategories = ['hotel-discounts', 'luxury-hotels'];
+  const allCountries = ['indonesia', 'malaysia'];
   const allStates = ['bali', 'jakarta']; // Contoh slug provinsi/negara bagian untuk Indonesia
 
-  const supportedLangs = ['en', 'us', 'id']; // Bahasa yang Anda dukung
+  const supportedLangs = ['en', 'us', 'id'];
 
   const params = [];
   for (const lang of supportedLangs) {
     for (const category of allCategories) {
       for (const country of allCountries) {
-        // Asumsi stateslug hanya relevan untuk kombinasi kategori/negara tertentu
-        // Jika Anda memiliki data yang lebih kompleks, sesuaikan logika ini
         for (const state of allStates) {
           params.push({ lang: lang, categoryslug: category, countryslug: country, stateslug: state });
         }
@@ -252,12 +290,4 @@ export async function generateStaticParams() {
     }
   }
   return params;
-
-  // Catatan: Jika Anda memiliki jutaan kombinasi, mengembalikan daftar kosong dari
-  // generateStaticParams (`return [];`) akan membuat Next.js tidak membangun halaman ini saat build time.
-  // Halaman akan dirender secara on-demand saat permintaan pertama.
-  // Pastikan `revalidate` diekspor di level `page.jsx` agar on-demand render tersebut
-  // tetap memanfaatkan caching dan revalidasi Next.js.
-  // Contoh:
-  // return [];
 }

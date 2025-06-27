@@ -1,14 +1,15 @@
-// app/[lang]/page.jsx (Server Component for Home page)
+// app/[lang]/page.jsx
 import { getdictionary } from '@/dictionaries/get-dictionary';
-import HomeContent from '@/components/home_1/HomeContent';
+import Home1 from '@/components/home_1/Home1';
+import { Suspense } from 'react';
 
-// Jika Anda ingin mengontrol revalidasi di level halaman ini,
-// Anda bisa mengekspor konfigurasi revalidate.
-// Ini akan memengaruhi data fetching dalam komponen ini.
-export const revalidate = 31536000; // 1 tahun dalam detik
+// Import atau definisikan URL API base Anda
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+
+export const revalidate = 31536000;
 
 export async function generateMetadata({ params }) {
-  const lang = params.lang || 'us'; // params sudah aman diakses langsung di metadata
+  const lang = params.lang || 'us';
   const dictionary = await getdictionary(lang);
 
   return {
@@ -47,22 +48,47 @@ export async function generateMetadata({ params }) {
   };
 }
 
-// Komponen halaman beranda utama (Ini adalah Server Component)
 export default async function HomePage({ params }) {
   const lang = params.lang || 'us';
-  const dictionary = await getdictionary(lang); // Asumsikan getdictionary mengambil data dengan fetch() yang memiliki opsi revalidate
+  const dictionary = await getdictionary(lang);
 
   return (
     <>
-      <HomeContent dictionary={dictionary} currentLang={lang} />
+      <Suspense fallback={<div>Memuat konten beranda...</div>}>
+        <Home1 dictionary={dictionary} currentLang={lang} />
+      </Suspense>
     </>
   );
 }
 
-// Untuk `[lang]`, Anda perlu memberi tahu Next.js bahasa apa saja yang harus dibuat secara statis.
-// Ini mirip dengan getStaticPaths di Pages Router.
 export async function generateStaticParams() {
-  const languages = ['en', 'us', 'id']; // Daftar bahasa yang didukung Hoteloza
+  let languages = ['en', 'us', 'id']; // Fallback default jika fetch gagal
+
+  try {
+    // Asumsikan ada endpoint API yang mengembalikan daftar bahasa yang didukung
+    const response = await fetch(`${API_BASE_URL}/api/supported-languages`, {
+      // Pastikan cache control untuk fetch di generateStaticParams
+      // Anda mungkin ingin menonaktifkan cache atau mengatur revalidasi spesifik di sini
+      next: { revalidate: 3600 } // Contoh: revalidate setiap jam jika daftar bahasa bisa berubah
+    });
+
+    if (!response.ok) {
+      console.warn(`Failed to fetch supported languages, using default. Status: ${response.status}`);
+      // Lanjutkan dengan bahasa default jika fetch gagal
+      return languages.map((lang) => ({ lang: lang }));
+    }
+
+    const data = await response.json();
+    if (Array.isArray(data) && data.length > 0) {
+      languages = data; // Gunakan data dari API jika valid
+    } else {
+      console.warn('API returned empty or invalid language list, using default.');
+    }
+  } catch (error) {
+    console.error("Error fetching supported languages for generateStaticParams:", error);
+    // Jika ada error jaringan, tetap gunakan bahasa default
+  }
+
   return languages.map((lang) => ({
     lang: lang,
   }));

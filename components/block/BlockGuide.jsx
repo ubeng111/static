@@ -11,21 +11,21 @@ const BlockGuide = ({ blockGuide }) => { // Menerima prop blockGuide
       icon: "/img/featureIcons/1/1.svg",
       title: safeBlockGuide.bestPriceGuarantee, // Mengambil dari prop blockGuide
       text: safeBlockGuide.bestPriceGuaranteeText, // Mengambil dari prop blockGuide
-      delayAnim: "100",
+      // delayAnim: "100", // Tidak perlu jika data-aos dihapus dari JSX
     },
     {
       id: 2,
       icon: "/img/featureIcons/1/2.svg",
       title: safeBlockGuide.easyQuickBooking, // Mengambil dari prop blockGuide
       text: safeBlockGuide.easyQuickBookingText, // Mengambil dari prop blockGuide
-      delayAnim: "200",
+      // delayAnim: "200", // Tidak perlu
     },
     {
       id: 3,
       icon: "/img/featureIcons/1/3.svg",
       title: safeBlockGuide.customerSupport, // Mengambil dari prop blockGuide
       text: safeBlockGuide.customerSupportText, // Mengambil dari prop blockGuide
-      delayAnim: "300",
+      // delayAnim: "300", // Tidak perlu
     },
   ];
 
@@ -34,8 +34,9 @@ const BlockGuide = ({ blockGuide }) => { // Menerima prop blockGuide
       {blockContent.map((item) => (
         <div
           className="col-lg-3 col-sm-6"
-          data-aos="fade"
-          data-aos-delay={item.delayAnim}
+          // HAPUS data-aos DAN data-aos-delay DARI SINI
+          // data-aos="fade"
+          // data-aos-delay={item.delayAnim}
           key={item.id}
         >
           <div className="featureIcon -type-1 ">

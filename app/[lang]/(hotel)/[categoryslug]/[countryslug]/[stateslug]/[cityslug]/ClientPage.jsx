@@ -1,29 +1,30 @@
-// ClientPage.jsx (City)
-'use client';
+// app/[lang]/(hotel)/[categoryslug]/[countryslug]/[stateslug]/[cityslug]/ClientPage.jsx
+'use client'; // WAJIB: Ini adalah Client Component
 
 import { useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import dynamic from 'next/dynamic';
-import useSWR from 'swr';
+// Hapus dynamic import Faqcity dan TopBreadCrumbCity dari sini
+// Karena ClientPage sendiri sudah Client Component, dynamic import dengan ssr: false di dalamnya tidak perlu.
+// Anda bisa langsung mengimpor Faqcity dan TopBreadCrumbCity jika mereka juga Client Component.
+
 import PaginationComponent from '@/components/hotel-list/hotel-list-v5/PaginationComponent';
 import Relatedcity88 from '@/components/hotel-single/Relatedcity88';
 import HotelProperties88 from '@/components/hotel-list/hotel-list-v5/HotelProperties88';
 import Footer from "@/components/footer";
 import CallToActions from "@/components/common/CallToActions";
 import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox";
-import Header11 from "@/components/header/header-11"; // Import Header11
+import Header11 from "@/components/header/header-11";
+import useSWR from 'swr'; // Import useSWR
 
-
-
-
-const Faqcity = dynamic(() => import('@/components/faq/Faqcity'), { ssr: false });
-const TopBreadCrumbCity = dynamic(() => import('@/components/hotel-list/hotel-list-v5/TopBreadCrumbCity'), { ssr: false });
+// Jika Faqcity dan TopBreadCrumbCity adalah Client Component:
+import Faqcity from '@/components/faq/Faqcity';
+import TopBreadCrumbCity from '@/components/hotel-list/hotel-list-v5/TopBreadCrumbCity';
 
 // Helper function to format slugs
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
-export default function ClientPage({ categoryslug, countryslug, stateslug, cityslug, dictionary, currentLang }) { // <--- TAMBAHKAN currentLang DI SINI
+export default function ClientPage({ categoryslug, countryslug, stateslug, cityslug, dictionary, currentLang, initialData }) { // Tambahkan initialData
   const router = useRouter();
   const searchParams = useSearchParams();
   const page = parseInt(searchParams.get('page')) || 1;
@@ -38,12 +39,14 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, citys
     return response.json();
   }, [commonDict.failedToLoadHotelList]);
 
+  // Menggunakan SWR dengan initialData untuk hidrasi pertama kali
   const { data, error, isLoading } = useSWR(
     `/api/${categoryslug}/${countryslug}/${stateslug}/${cityslug}?page=${page}`,
     fetcher,
     {
       revalidateOnFocus: false,
       keepPreviousData: true,
+      fallbackData: initialData // Gunakan data dari Server Component sebagai fallbackData
     }
   );
 
@@ -63,13 +66,13 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, citys
     (event) => {
       const newPage = event.selected + 1;
       if (newPage === pagination.page) return;
-      router.push(`/${currentLang}/${categoryslug}/${countryslug}/${stateslug}/${cityslug}?page=${newPage}`, { shallow: true }); // <--- GUNAKAN currentLang DI SINI
+      router.push(`/${currentLang}/${categoryslug}/${countryslug}/${stateslug}/${cityslug}?page=${newPage}`, { shallow: true });
       window.scrollTo(0, 0);
     },
-    [categoryslug, countryslug, stateslug, cityslug, pagination.page, router, currentLang] // <--- TAMBAHKAN currentLang KE DEPENDENSI
+    [categoryslug, countryslug, stateslug, cityslug, pagination.page, router, currentLang]
   );
 
-  if (isLoading) {
+  if (isLoading && !data) { // Tampilkan preloader hanya jika loading dan tidak ada data awal
     return (
       <div className="preloader">
         <div className="preloader__wrap">
@@ -84,13 +87,13 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, citys
     return <div>{commonDict.errorLoadingData || 'Error loading data. Please try again later.'}</div>;
   }
 
-  if (!hotels.length) {
+  if (!hotels.length && !isLoading) { // Tampilkan pesan ini jika tidak ada hotel dan tidak lagi loading
     return <div>{cityPageDict.noHotelsFoundForCity || 'No hotels found for this location.'}</div>;
   }
 
   return (
     <>
-              <Header11 dictionary={dictionary} currentLang={currentLang} />
+      <Header11 dictionary={dictionary} currentLang={currentLang} />
 
       <div className="header-margin"></div>
       <section className="section-bg pt-40 pb-40 relative z-5">
@@ -118,7 +121,7 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, citys
         </div>
       </section>
 
-      <TopBreadCrumbCity categoryslug={categoryslug} countryslug={countryslug} stateslug={stateslug} cityslug={cityslug} dictionary={dictionary} currentLang={currentLang} /> {/* <--- TERUSKAN currentLang DI SINI */}
+      <TopBreadCrumbCity categoryslug={categoryslug} countryslug={countryslug} stateslug={stateslug} cityslug={cityslug} dictionary={dictionary} currentLang={currentLang} />
 
       <section className="layout-pt-md">
         <div className="container">
@@ -162,7 +165,7 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, citys
             stateslug={stateslug}
             cityslug={cityslug}
             dictionary={dictionary}
-            currentLang={currentLang} // <--- TERUSKAN currentLang DI SINI
+            currentLang={currentLang}
           />
         ) : (
           <p>{commonDict.noRelatedCitiesFound || 'No related cities found.'}</p>
@@ -180,14 +183,14 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, citys
               </div>
               <div className="col-lg-8 offset-lg-2">
                 <div className="accordion -simple row y-gap-20 js-accordion">
-                  <Faqcity city={formattedCity} dictionary={dictionary} currentLang={currentLang} /> {/* <--- TERUSKAN currentLang DI SINI */}
+                  <Faqcity city={formattedCity} dictionary={dictionary} currentLang={currentLang} />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
- <CallToActions dictionary={dictionary} currentLang={currentLang} />
+      <CallToActions dictionary={dictionary} currentLang={currentLang} />
 
       <Footer dictionary={dictionary} currentLang={currentLang} />
     </>

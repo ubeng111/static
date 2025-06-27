@@ -1,9 +1,11 @@
-// ClientPage.jsx (State)
-'use client';
+// app/[lang]/(hotel)/[categoryslug]/[countryslug]/[stateslug]/ClientPage.jsx
+'use client'; // WAJIB: Ini adalah Client Component
 
 import { useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import dynamic from 'next/dynamic';
+// Hapus dynamic import Faqstate dan TopBreadCrumbState dari sini.
+// Karena ClientPage sendiri sudah Client Component, Anda bisa mengimpornya langsung.
+// Jika mereka berdua juga adalah Client Components (ada 'use client;'), import langsung adalah cara yang benar.
 import useSWR from 'swr';
 import PaginationComponent from '@/components/hotel-list/hotel-list-v5/PaginationComponent';
 import Relatedstate88 from '@/components/hotel-single/Relatedstate88';
@@ -13,18 +15,16 @@ import CallToActions from "@/components/common/CallToActions";
 import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox";
 import Header11 from "@/components/header/header-11";
 
-const Faqstate = dynamic(() => import('@/components/faq/Faqstate'), { ssr: false });
-const TopBreadCrumbState = dynamic(() => import('@/components/hotel-list/hotel-list-v5/TopBreadCrumbState'), { ssr: false });
+// Asumsi Faqstate dan TopBreadCrumbState juga Client Components
+// dan tidak perlu dynamic import dengan ssr:false di sini
+import Faqstate from '@/components/faq/Faqstate';
+import TopBreadCrumbState from '@/components/hotel-list/hotel-list-v5/TopBreadCrumbState';
 
 // Helper function to format slugs
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
-// Penting: Anda perlu menambahkan 'initialData' sebagai prop di sini,
-// seperti yang kita lakukan di ClientPage.jsx (Country)
-export default function ClientPage({ categoryslug, countryslug, stateslug, dictionary, currentLang, initialData }) { //
-  // console.log('ClientPage (State): Received props - category:', categoryslug, 'country:', countryslug, 'state:', stateslug, 'lang:', currentLang); // BARIS INI DIHAPUS
-
+export default function ClientPage({ categoryslug, countryslug, stateslug, dictionary, currentLang, initialData }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const page = parseInt(searchParams.get('page')) || 1;
@@ -39,8 +39,8 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, dicti
     return response.json();
   }, [commonDict.failedToLoadHotelList]);
 
-  // Penting: Gunakan initialData sebagai fallbackData untuk SWR
-  const { data, error, isLoading } = useSWR(`/api/${categoryslug}/${countryslug}/${stateslug}?page=${page}`, fetcher, { //
+  // Gunakan SWR dengan initialData sebagai fallbackData
+  const { data, error, isLoading } = useSWR(`/api/${categoryslug}/${countryslug}/${stateslug}?page=${page}`, fetcher, {
     revalidateOnFocus: false,
     keepPreviousData: true,
     fallbackData: initialData, // Ini adalah perbaikan penting
@@ -72,7 +72,7 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, dicti
     [categoryslug, countryslug, stateslug, pagination.page, router, currentLang]
   );
 
-  if (isLoading) {
+  if (isLoading && !data) { // Tampilkan preloader hanya jika loading dan tidak ada data awal
     return (
       <div className="preloader">
         <div className="preloader__wrap">
@@ -87,13 +87,13 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, dicti
     return <div>{commonDict.errorLoadingData || 'Error loading data. Please try again later.'}</div>;
   }
 
-  if (!hotels.length) {
+  if (!hotels.length && !isLoading) { // Tampilkan pesan ini jika tidak ada hotel dan tidak lagi loading
     return <div>{statePageDict.noHotelsFoundForState || 'No hotels found for this state.'}</div>;
   }
 
   return (
     <>
-              <Header11 dictionary={dictionary} currentLang={currentLang} />
+      <Header11 dictionary={dictionary} currentLang={currentLang} />
 
       <div className="header-margin"></div>
       <section className="section-bg pt-40 pb-40 relative z-5">
@@ -127,8 +127,7 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, dicti
         <div className="container">
           <div className="row">
             <div className="col-12">
-                            <MainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
-
+              <MainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
             </div>
           </div>
         </div>
@@ -183,7 +182,7 @@ export default function ClientPage({ categoryslug, countryslug, stateslug, dicti
         </div>
       </section>
 
-     <CallToActions dictionary={dictionary} currentLang={currentLang} />
+      <CallToActions dictionary={dictionary} currentLang={currentLang} />
 
       <Footer dictionary={dictionary} currentLang={currentLang} />
     </>

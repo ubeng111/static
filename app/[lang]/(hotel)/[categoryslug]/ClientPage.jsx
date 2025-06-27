@@ -1,9 +1,10 @@
-// ClientPage.jsx (Category - app/[lang]/(hotel)/[categoryslug]/ClientPage.jsx)
-'use client';
+// app/[lang]/(hotel)/[categoryslug]/ClientPage.jsx
+'use client'; // WAJIB: Ini adalah Client Component
 
 import { useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import dynamic from 'next/dynamic';
+// Hapus dynamic import dari FaqCategory dan TopBreadCrumbCategory dari sini.
+// Karena ClientPage ini sudah 'use client;', Anda bisa mengimpornya langsung.
 import useSWR from 'swr';
 
 import Relatedcategory88 from '@/components/hotel-single/Relatedcategory88';
@@ -17,14 +18,15 @@ import Header11 from "@/components/header/header-11";
 // IMPORT FaqCategory DI SINI
 import FaqCategory from '@/components/faq/Faqcategory'; // Pastikan path ini benar
 
+// Asumsi TopBreadCrumbCategory juga Client Component
+// dan tidak perlu dynamic import dengan ssr:false di sini
+import TopBreadCrumbCategory from '@/components/hotel-list/hotel-list-v5/TopBreadCrumbCategory';
 
-const TopBreadCrumbCategory = dynamic(() => import('@/components/hotel-list/hotel-list-v5/TopBreadCrumbCategory'), { ssr: false });
+// Helper function to format slugs
+const formatSlug = (slug) =>
+  slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
-// Pastikan `ClientPage` menerima `categoryslug` dan `currentLang`
-// Jika Anda perlu `countryslug`, `stateslug`, `cityslug` di sini
-// sebagai parameter URL, tambahkan juga di props ini.
-// Contoh: export default function ClientPage({ categoryslug, countryslug, stateslug, cityslug, dictionary, currentLang }) {
-export default function ClientPage({ categoryslug, dictionary, currentLang }) {
+export default function ClientPage({ categoryslug, dictionary, currentLang, initialData }) { // Tambahkan initialData
   const router = useRouter();
   const searchParams = useSearchParams();
   const page = parseInt(searchParams.get('page')) || 1;
@@ -41,10 +43,11 @@ export default function ClientPage({ categoryslug, dictionary, currentLang }) {
     return response.json();
   }, [commonDict.failedToLoadHotelList]);
 
-  // Asumsi API Anda sudah memberikan hotel dengan properti country_slug, state_slug, city_slug
+  // Menggunakan SWR dengan initialData sebagai fallbackData
   const { data, error, isLoading } = useSWR(`/api/${categoryslug}?page=${page}`, fetcher, {
     revalidateOnFocus: false,
     keepPreviousData: true,
+    fallbackData: initialData, // Ini adalah perbaikan penting
   });
 
   const hotels = useMemo(() => data?.hotels || [], [data]);
@@ -52,17 +55,13 @@ export default function ClientPage({ categoryslug, dictionary, currentLang }) {
   const pagination = useMemo(() => data?.pagination || { page: 1, totalPages: 1, totalHotels: 0 }, [data]);
 
   const formattedCategory = useMemo(
-    () => (categoryslug ? categoryslug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : categoryPageDict.categoryDefault || 'Category'),
+    () => (categoryslug ? formatSlug(categoryslug) : categoryPageDict.categoryDefault || 'Category'),
     [categoryslug, categoryPageDict.categoryDefault]
   );
 
-  // Ambil 3 hotel teratas atau sesuai keinginan untuk FAQ "best-rated"
-  // Pastikan objek hotel di `hotels` memiliki `country_slug`, `state_slug`, dan `city_slug`
   const topRatedHotelsForFAQ = useMemo(() => {
-    // Anda bisa menambahkan logika penyortiran di sini jika diperlukan
     return hotels.slice(0, 3);
   }, [hotels]);
-
 
   const handlePageClick = useCallback(
     (event) => {
@@ -75,7 +74,7 @@ export default function ClientPage({ categoryslug, dictionary, currentLang }) {
     [categoryslug, pagination.page, router, currentLang]
   );
 
-  if (isLoading) {
+  if (isLoading && !data) { // Tampilkan preloader hanya jika loading dan tidak ada data awal
     return (
       <div className="preloader">
         <div className="preloader__wrap">
@@ -90,7 +89,7 @@ export default function ClientPage({ categoryslug, dictionary, currentLang }) {
     return <div>{commonDict.errorLoadingData || 'Error loading data. Please try again later.'}</div>;
   }
 
-  if (!hotels.length) {
+  if (!hotels.length && !isLoading) { // Tampilkan pesan ini jika tidak ada hotel dan tidak lagi loading
     return <div>{commonDict.noHotelsFound || 'No hotels found for this category.'}</div>;
   }
 
@@ -102,7 +101,7 @@ export default function ClientPage({ categoryslug, dictionary, currentLang }) {
 
       <section className="section-bg pt-40 pb-40 relative z-5">
         <div className="section-bg__item col-12">
-   <img
+           <img
             src="/img/misc/bg-1.webp"
             srcSet="/img/misc/bg-1.webp 480w, /img/misc/bg-1.webp 768w, /img/misc/bg-1.webp 1200w"
             alt={headerDict.luxuryBackgroundImageAlt || "Luxury background image"}
@@ -180,13 +179,12 @@ export default function ClientPage({ categoryslug, dictionary, currentLang }) {
               </div>
               <div className="col-lg-8 offset-lg-2">
                 <div className="accordion -simple row y-gap-20 js-accordion">
-                  {/* MENGGUNAKAN KOMPONEN FAQCATEGORY DI SINI */}
                   <FaqCategory
-                    category={formattedCategory} // Menggunakan kategori yang sudah diformat
-                    items={topRatedHotelsForFAQ} // Meneruskan hotel teratas untuk ditampilkan di FAQ
-                    currentLang={currentLang}    // Meneruskan bahasa saat ini
+                    category={formattedCategory}
+                    items={topRatedHotelsForFAQ}
+                    currentLang={currentLang}
                     categoryslug={categoryslug}
-                    dictionary={dictionary}  // Meneruskan slug kategori saat ini
+                    dictionary={dictionary}
                   />
                 </div>
               </div>

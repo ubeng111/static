@@ -1,9 +1,10 @@
-// ClientPage.jsx (Country - app/[lang]/(hotel)/[categoryslug]/[countryslug]/ClientPage.jsx)
-'use client';
+// app/[lang]/(hotel)/[categoryslug]/[countryslug]/ClientPage.jsx
+'use client'; // WAJIB: Ini adalah Client Component
 
 import { useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import dynamic from 'next/dynamic';
+// Hapus dynamic import dari Faqcountry dan TopBreadCrumbCountry dari sini.
+// Karena ClientPage ini sudah 'use client;', Anda bisa mengimpornya langsung.
 import useSWR from 'swr';
 import PaginationComponent from '@/components/hotel-list/hotel-list-v5/PaginationComponent';
 import Relatedcountry88 from '@/components/hotel-single/Relatedcountry88';
@@ -13,13 +14,15 @@ import CallToActions from "@/components/common/CallToActions";
 import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox";
 import Header11 from "@/components/header/header-11";
 
-const Faqcountry = dynamic(() => import('@/components/faq/Faqcountry'), { ssr: false });
-const TopBreadCrumbCountry = dynamic(() => import('@/components/hotel-list/hotel-list-v5/TopBreadCrumbCountry'), { ssr: false });
+// Asumsi Faqcountry dan TopBreadCrumbCountry juga Client Components
+// dan tidak perlu dynamic import dengan ssr:false di sini
+import Faqcountry from '@/components/faq/Faqcountry';
+import TopBreadCrumbCountry from '@/components/hotel-list/hotel-list-v5/TopBreadCrumbCountry';
 
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
-export default function ClientPage({ categoryslug, countryslug, dictionary, currentLang, initialData }) {
+export default function ClientPage({ categoryslug, countryslug, dictionary, currentLang, initialData }) { // Tambahkan initialData
   const router = useRouter();
   const searchParams = useSearchParams();
   const page = parseInt(searchParams.get('page')) || 1;
@@ -74,7 +77,7 @@ export default function ClientPage({ categoryslug, countryslug, dictionary, curr
     [categoryslug, countryslug, pagination.page, router, currentLang]
   );
 
-  if (isLoading) {
+  if (isLoading && !data) { // Tampilkan preloader hanya jika loading dan tidak ada data awal
     return (
       <div className="preloader">
         <div className="preloader__wrap">
@@ -89,7 +92,7 @@ export default function ClientPage({ categoryslug, countryslug, dictionary, curr
     return <div>{commonDict.errorLoadingData || 'Error loading data. Please try again later.'}</div>;
   }
 
-  if (!hotels.length) {
+  if (!hotels.length && !isLoading) { // Tampilkan pesan ini jika tidak ada hotel dan tidak lagi loading
     return <div>{countryPageDict.noHotelsFoundForCountry || 'No hotels found for this country.'}</div>;
   }
 

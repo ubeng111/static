@@ -1,25 +1,25 @@
 // ClientPage.jsx (Hotel Single Page Detail)
 'use client';
 
-import { useState } from 'react';
-import dynamic from 'next/dynamic';
+import { useState, useMemo, useCallback } from 'react'; // Tambahkan useMemo, useCallback
+// Hapus dynamic import untuk semua komponen di sini.
+// Karena ClientPage sendiri adalah Client Component, Anda bisa mengimpornya langsung.
 
 import GalleryTwo from '@/components/hotel-single/GalleryTwo';
 import TopBreadCrumb88 from '@/components/hotel-single/TopBreadCrumb88';
 import Footer from "@/components/footer";
 import CallToActions from "@/components/common/CallToActions";
 import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox";
-import Header11 from "@/components/header/header-11"; // Import Header11
+import Header11 from "@/components/header/header-11";
 
+// Impor langsung komponen-komponen ini karena ClientPage sudah 'use client;'
+import MapComponent from '@/components/hotel-single/MapComponent';
+import Facilities from '@/components/hotel-single/Facilities';
+import Hotels2 from '@/components/hotels/Hotels2';
+import LandmarkList from '@/components/hotel-single/LandmarkList';
+import RelatedHotels from '@/components/hotel-single/RelatedHotels';
+import Faq from '@/components/faq/Faq';
 
-// Dynamic imports, sebagian besar untuk client-side only jika tidak ada kebutuhan khusus untuk SSR
-
-const MapComponent = dynamic(() => import('@/components/hotel-single/MapComponent'), { ssr: false });
-const Facilities = dynamic(() => import('@/components/hotel-single/Facilities'), { ssr: false });
-const Hotels2 = dynamic(() => import('@/components/hotels/Hotels2'), { ssr: false });
-const LandmarkList = dynamic(() => import('@/components/hotel-single/LandmarkList'), { ssr: false });
-const RelatedHotels = dynamic(() => import('@/components/hotel-single/RelatedHotels'), { ssr: false });
-const Faq = dynamic(() => import('@/components/faq/Faq'), { ssr: false });
 
 // AccordionItem Component (dibuat di sini agar bisa menggunakan dictionary dari parent ClientPage)
 const AccordionItem = ({ id, icon, title, isOpen, toggle, ariaLabel, children }) => (
@@ -53,8 +53,8 @@ export default function ClientPage({
   countryslug,
   stateslug,
   cityslug,
-  dictionary, // <-- Tambahkan dictionary sebagai prop
-  currentLang, // <-- Tambahkan currentLang sebagai prop
+  dictionary,
+  currentLang,
 }) {
   const [openSections, setOpenSections] = useState({
     facilities: true,
@@ -68,13 +68,14 @@ export default function ClientPage({
   const commonDict = dictionary?.common || {};
   const hotelSinglePageDict = dictionary?.hotelSinglePage || {};
 
-  const toggleSection = (section) => {
+  const toggleSection = useCallback((section) => {
     setOpenSections((prev) => ({
       ...prev,
       [section]: !prev[section],
     }));
-  };
+  }, []);
 
+  // Pastikan hotel adalah objek yang valid sebelum mencoba merendernya
   if (!hotel) {
     return (
       <div className="text-center py-5">
@@ -83,10 +84,26 @@ export default function ClientPage({
     );
   }
 
+  // Memoized values untuk judul dan label AccordionItem
+  const facilitiesTitle = useMemo(() => hotelSinglePageDict.facilitiesAndServices || `Facilities & Services of ${hotel?.title || commonDict.unnamedHotel}`, [hotelSinglePageDict, hotel, commonDict]);
+  const facilitiesAriaLabel = useMemo(() => hotelSinglePageDict.toggleFacilities || `Toggle Facilities of ${hotel?.title || commonDict.unnamedHotel}`, [hotelSinglePageDict, hotel, commonDict]);
+
+  const attractionsTitle = useMemo(() => hotelSinglePageDict.attractionsNearby || "Attractions Nearby", [hotelSinglePageDict]);
+  const attractionsAriaLabel = useMemo(() => hotelSinglePageDict.toggleLandmarks || "Toggle Nearby Landmarks", [hotelSinglePageDict]);
+
+  const relatedHotelsTitle = useMemo(() => `${hotelSinglePageDict.relatedHotels || "Popular properties similar to"} ${hotel?.title || commonDict.unnamedHotel}`, [hotelSinglePageDict, hotel, commonDict]);
+  const relatedHotelsAriaLabel = useMemo(() => `${hotelSinglePageDict.toggleRelatedHotels || "Toggle Popular properties similar to"} ${hotel?.title || commonDict.unnamedHotel}`, [hotelSinglePageDict, hotel, commonDict]);
+
+  const faqTitle = useMemo(() => hotelSinglePageDict.frequentlyAskedQuestions || "Frequently Asked Questions", [hotelSinglePageDict]);
+  const faqAriaLabel = useMemo(() => hotelSinglePageDict.toggleFrequentlyAskedQuestions || "Toggle Frequently Asked Questions", [hotelSinglePageDict]);
+
+  const mapTitle = useMemo(() => hotelSinglePageDict.locationMap || "Location Map", [hotelSinglePageDict]);
+  const mapAriaLabel = useMemo(() => hotelSinglePageDict.toggleLocationMap || "Toggle Location Map", [hotelSinglePageDict]);
+
+
   return (
     <>
       <Header11 dictionary={dictionary} currentLang={currentLang} />
-
 
       <style jsx global>{`
         .accordion-item .accordion-header {
@@ -108,12 +125,6 @@ export default function ClientPage({
           background-color: #003366 !important;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
-        .accordion-body {
-          background-color: #f8fafc;
-          border-radius: 0 0 8px 8px;
-          padding: 20px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
         .accordion-icon {
           margin-right: 12px;
           font-size: 18px;
@@ -124,6 +135,12 @@ export default function ClientPage({
         }
         .accordion-chevron.open {
           transform: rotate(180deg);
+        }
+        .accordion-body {
+          background-color: #f8fafc;
+          border-radius: 0 0 8px 8px;
+          padding: 20px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
       `}</style>
 
@@ -143,8 +160,7 @@ export default function ClientPage({
         <div className="container">
           <div className="row">
             <div className="col-12">
-   <MainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
-
+              <MainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
             </div>
           </div>
         </div>
@@ -163,10 +179,10 @@ export default function ClientPage({
             <AccordionItem
               id="facilitiesCollapse"
               icon="fas fa-concierge-bell"
-              title={hotelSinglePageDict.facilitiesAndServices || `Facilities & Services of ${hotel?.title}`}
+              title={facilitiesTitle}
               isOpen={openSections.facilities}
               toggle={() => toggleSection('facilities')}
-              ariaLabel={hotelSinglePageDict.toggleFacilities || `Toggle Facilities of ${hotel?.title}`}
+              ariaLabel={facilitiesAriaLabel}
             >
               <div className="row x-gap-40 y-gap-40">
                 <Facilities dictionary={dictionary} />
@@ -178,10 +194,10 @@ export default function ClientPage({
               <AccordionItem
                 id="landmarkCollapse"
                 icon="fas fa-landmark"
-                title={hotelSinglePageDict.attractionsNearby || "Attractions Nearby"}
+                title={attractionsTitle}
                 isOpen={openSections.landmark}
                 toggle={() => toggleSection('landmark')}
-                ariaLabel={hotelSinglePageDict.toggleLandmarks || "Toggle Nearby Landmarks"}
+                ariaLabel={attractionsAriaLabel}
               >
                 <LandmarkList latitude={hotel.latitude} longitude={hotel.longitude} dictionary={dictionary} currentLang={currentLang} />
               </AccordionItem>
@@ -192,18 +208,15 @@ export default function ClientPage({
               <AccordionItem
                 id="relatedHotelsCollapse"
                 icon="fas fa-hotel"
-                // Perubahan di sini: Menggabungkan string secara eksplisit untuk title AccordionItem
-                title={`${hotelSinglePageDict.relatedHotels || "Popular properties similar to"} ${hotel?.title || "this hotel"}`}
+                title={relatedHotelsTitle}
                 isOpen={openSections.relatedHotels}
                 toggle={() => toggleSection('relatedHotels')}
-                // Perubahan di sini: Menggabungkan string secara eksplisit untuk ariaLabel
-                ariaLabel={`${hotelSinglePageDict.toggleRelatedHotels || "Toggle Popular properties similar to"} ${hotel?.title || "this hotel"}`}
+                ariaLabel={relatedHotelsAriaLabel}
               >
                 <div className="row justify-center text-center">
                   <div className="col-auto">
                     <h2 style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>
-                      {/* PERUBAHAN UTAMA: Menggabungkan string di sini */}
-                      {`${hotelSinglePageDict.relatedHotels || "Popular properties similar to"} ${hotel?.title || "this hotel"}`}
+                      {relatedHotelsTitle}
                     </h2>
                     <p style={{ fontSize: '14px', marginTop: '14px' }}>
                       {commonDict.findTopRatedStays || "Find top-rated stays with similar perks near your destination"}
@@ -235,10 +248,10 @@ export default function ClientPage({
             <AccordionItem
               id="faqCollapse"
               icon="fas fa-question-circle"
-              title={hotelSinglePageDict.frequentlyAskedQuestions || "Frequently Asked Questions"}
+              title={faqTitle}
               isOpen={openSections.faq}
               toggle={() => toggleSection('faq')}
-              ariaLabel={hotelSinglePageDict.toggleFrequentlyAskedQuestions || "Toggle Frequently Asked Questions"}
+              ariaLabel={faqAriaLabel}
             >
               <div id="Faq1" className="row y-gap-20">
                 <Faq title={hotel?.title} dictionary={dictionary} />
@@ -254,10 +267,10 @@ export default function ClientPage({
                   <AccordionItem
                     id="mapCollapse"
                     icon="fas fa-map-marker-alt"
-                    title={hotelSinglePageDict.locationMap || "Location Map"}
+                    title={mapTitle}
                     isOpen={openSections.map}
                     toggle={() => toggleSection('map')}
-                    ariaLabel={hotelSinglePageDict.toggleLocationMap || "Toggle Location Map"}
+                    ariaLabel={mapAriaLabel}
                   >
                     <MapComponent
                       latitude={hotel?.latitude}

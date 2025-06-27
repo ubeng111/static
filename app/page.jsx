@@ -3,6 +3,7 @@
 
 import { getdictionary } from '@/dictionaries/get-dictionary';
 import Home1 from '@/components/home_1/Home1';
+import { Suspense } from 'react'; // Import Suspense
 // Impor konfigurasi dimana 'en-US' adalah default
 import { defaultLocale, i18nConfig, defaultDictionaryCode } from '@/config/i18n';
 
@@ -42,13 +43,41 @@ export async function generateMetadata() {
       title: dictionary.metadata.homePageTitle,
       description: dictionary.metadata.homePageDescription,
       // URL untuk social media sharing juga harus konsisten dengan kanonikal
-      url: canonicalUrl, 
+      url: canonicalUrl,
       siteName: "Hoteloza",
-      images: [ /* ... */ ],
+      images: [
+        {
+          url: `${baseUrl}/opengraph-image.jpg`, // Ganti dengan path gambar OpenGraph yang relevan
+          width: 1200,
+          height: 630,
+          alt: dictionary.metadata.homePageTitle,
+        },
+      ],
       type: "website",
     },
-    twitter: { /* ... */ },
-    keywords: [ /* ... */ ],
+    twitter: {
+      card: "summary_large_image",
+      title: dictionary.metadata.homePageTitle,
+      description: dictionary.metadata.homePageDescription,
+      images: [`${baseUrl}/twitter-image.jpg`], // Ganti dengan path gambar Twitter yang relevan
+    },
+    keywords: [
+      "hotel deals",
+      "travel affiliate",
+      "cheap hotels",
+      "best hotel booking site",
+      "Hoteloza",
+      "compare hotel prices",
+      "book hotels online",
+      "hotel discounts",
+      "online hotel booking",
+      "vacation rentals",
+      "luxury hotels",
+      "budget hotels",
+      "family hotels",
+      "boutique hotels",
+      "last minute deals"
+    ],
   };
 }
 
@@ -59,7 +88,10 @@ export default async function HomePage() {
 
   return (
     <>
-      <Home1 dictionary={dictionary} currentLang={defaultLocale} />
+      {/* Jika Home1 adalah Client Component atau berpotensi menampilkan loading state, bungkus dengan Suspense */}
+      <Suspense fallback={<div>Memuat konten beranda...</div>}>
+        <Home1 dictionary={dictionary} currentLang={defaultLocale} />
+      </Suspense>
     </>
   );
 }

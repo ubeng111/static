@@ -1,36 +1,20 @@
 // app/[lang]/(others)/about/Client.jsx
-"use client";
+"use client"; // WAJIB: Ini adalah Client Component
 
-import dynamic from "next/dynamic";
+// --- MODIFIKASI: Import Komponen Secara LANGSUNG ---
+// Karena Client.jsx sudah 'use client;', komponen-komponen ini dapat diimpor secara langsung.
+// PASTIKAN SEMUA KOMPONEN INI JUGA ADALAH CLIENT COMPONENTS JIKA MEREKA MENGGUNAKAN HOOKS ATAU DOM API.
+// (yaitu, memiliki 'use client;' di bagian paling atas file mereka).
 
-// --- MODIFIKASI: Impor Komponen Secara Dinamis (next/dynamic) ---
-
-// Komponen-komponen yang sudah dinamis (pertahankan)
-const WhyChoose = dynamic(() => import("@/components/block/BlockGuide"), { ssr: false });
-const Block1 = dynamic(() => import("@/components/about/Block1"), { ssr: false });
-const Counter = dynamic(() => import("@/components/counter/Counter"), { ssr: false });
-const Testimonial = dynamic(() => import("@/components/home/home-1/Testimonial"), { ssr: false });
-const Counter2 = dynamic(() => import("@/components/counter/Counter2"), { ssr: false });
-
-// Tambahkan dynamic import untuk komponen-komponen lain yang diimpor langsung:
-const DynamicFooter = dynamic(() => import("@/components/footer"), {
-  ssr: false,
-  loading: () => <p>Loading footer...</p>,
-});
-const DynamicCallToActions = dynamic(() => import("@/components/common/CallToActions"), {
-  ssr: false,
-  loading: () => <p>Loading call to actions...</p>,
-});
-const DynamicMainFilterSearchBox = dynamic(() => import("@/components/hotel-list/common/MainFilterSearchBox"), {
-  ssr: false,
-  loading: () => <p>Loading search box...</p>,
-});
-const DynamicHeader1 = dynamic(() => import("@/components/header/header-11"), {
-  ssr: false,
-  loading: () => <p>Loading header...</p>,
-});
-
-// --- AKHIR MODIFIKASI next/dynamic ---
+import WhyChoose from "@/components/block/BlockGuide"; // Perlu diperiksa data-aos
+import Block1 from "@/components/about/Block1"; // Perlu diperiksa data-aos
+import Counter from "@/components/counter/Counter"; // SUDAH DIUBAH DI ATAS
+import Testimonial from "@/components/home/home-1/Testimonial"; // Perlu diperiksa data-aos
+import Counter2 from "@/components/counter/Counter2"; // Perlu diperiksa data-aos
+import Footer from "@/components/footer"; // Perlu diperiksa data-aos
+import CallToActions from "@/components/common/CallToActions"; // Perlu diperiksa data-aos
+import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox"; // Perlu diperiksa data-aos
+import Header1 from "@/components/header/header-11"; // Perlu diperiksa data-aos
 
 
 // Add currentLang to the destructured props
@@ -42,7 +26,7 @@ const Client = ({ dictionary, currentLang }) => {
 
   return (
     <>
-      <DynamicHeader1 dictionary={dictionary} currentLang={currentLang} />
+      <Header1 dictionary={dictionary} currentLang={currentLang} />
 
       <div className="header-margin"></div>
 
@@ -52,7 +36,7 @@ const Client = ({ dictionary, currentLang }) => {
             width={1920}
             height={400}
             src="/img/pages/about/1.png"
-            alt="image"
+            alt={aboutDict.imageAlt || "About Us Background"}
           />
         </div>
 
@@ -60,10 +44,10 @@ const Client = ({ dictionary, currentLang }) => {
           <div className="row justify-center text-center">
             <div className="col-xl-6 col-lg-8 col-md-10">
               <h1 className="text-40 md:text-25 fw-600 text-white">
-                {aboutDict.lookingForJoy}
+                {aboutDict.lookingForJoy || "Looking for Joy?"}
               </h1>
               <div className="text-white mt-15">
-                {aboutDict.trustedTripCompanion}
+                {aboutDict.trustedTripCompanion || "Your trusted trip companion."}
               </div>
             </div>
           </div>
@@ -74,7 +58,7 @@ const Client = ({ dictionary, currentLang }) => {
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <DynamicMainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
+              <MainFilterSearchBox dictionary={dictionary} currentLang={currentLang} />
             </div>
           </div>
         </div>
@@ -85,9 +69,9 @@ const Client = ({ dictionary, currentLang }) => {
           <div className="row justify-center text-center">
             <div className="col-auto">
               <div className="sectionTitle -md">
-                <h2 className="sectionTitle__title">{aboutDict.whyChooseUs}</h2>
+                <h2 className="sectionTitle__title">{aboutDict.whyChooseUs || "Why Choose Us?"}</h2>
                 <p className="sectionTitle__text mt-5 sm:mt-0">
-                  {aboutDict.popularDestinationsOffer}
+                  {aboutDict.popularDestinationsOffer || "Discover popular destinations and offers."}
                 </p>
               </div>
             </div>
@@ -111,7 +95,7 @@ const Client = ({ dictionary, currentLang }) => {
         <div className="container">
           <div className="border-bottom-light pb-40">
             <div className="row y-gap-30 justify-center text-center">
-              <Counter />
+              <Counter /> {/* Counter sudah diubah di atas */}
             </div>
           </div>
         </div>
@@ -124,10 +108,10 @@ const Client = ({ dictionary, currentLang }) => {
             <div className="col-auto">
               <div className="sectionTitle -md">
                 <h2 className="sectionTitle__title">
-                  {aboutDict.overheardFromTravelers}
+                  {aboutDict.overheardFromTravelers || "What Travelers Say About Us"}
                 </h2>
                 <p className="sectionTitle__text mt-5 sm:mt-0">
-                  {aboutDict.popularDestinationsOffer}
+                  {aboutDict.popularDestinationsOffer || "Discover popular destinations and offers."}
                 </p>
               </div>
             </div>
@@ -146,10 +130,10 @@ const Client = ({ dictionary, currentLang }) => {
           </div>
         </div>
       </section>
-      
-      <DynamicCallToActions dictionary={dictionary} currentLang={currentLang} />
 
-      <DynamicFooter dictionary={dictionary} currentLang={currentLang} />
+      <CallToActions dictionary={dictionary} currentLang={currentLang} />
+
+      <Footer dictionary={dictionary} currentLang={currentLang} />
     </>
   );
 };

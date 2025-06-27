@@ -4,23 +4,22 @@
 import Footer from "@/components/footer";
 import CallToActions from "@/components/common/CallToActions";
 import Header1 from "@/components/header/header-11";
+import { useEffect } from "react";
 
 
-
-const Client = ({ dictionary, currentLang }) => { // Accept currentLang as a prop
-  // Ambil bagian-bagian dictionary yang relevan, dengan fallback objek kosong
+const Client = ({ dictionary, currentLang }) => {
   const contactPageDict = dictionary?.contactPage || {};
   const navigationDict = dictionary?.navigation || {};
-  const footerDict = dictionary?.footer || {};
+  const footerDict = dictionary?.footer || {}; // Masih perlu ini untuk debugging jika diinginkan
 
-  // --- DEBUGGING CLIENT SIDE (akan muncul di konsol browser Anda) ---
-  console.log("CLIENT: Dictionary received in Client.jsx (contact):", dictionary);
-  console.log("CLIENT: currentLang received in Client.jsx (contact):", currentLang); // Debugging currentLang
-  console.log("CLIENT: contactPageDict:", contactPageDict);
-  console.log("CLIENT: navigationDict:", navigationDict);
-  console.log("CLIENT: footerDict:", footerDict);
-  console.log("CLIENT: Hero Title from dict:", contactPageDict.heroTitle);
-  // --- END DEBUGGING ---
+  useEffect(() => {
+    console.log("CLIENT: Dictionary received in Client.jsx (contact):", dictionary);
+    console.log("CLIENT: currentLang received in Client.jsx (contact):", currentLang);
+    console.log("CLIENT: contactPageDict:", contactPageDict);
+    console.log("CLIENT: navigationDict:", navigationDict);
+    console.log("CLIENT: footerDict:", footerDict);
+    console.log("CLIENT: Hero Title from dict:", contactPageDict.heroTitle);
+  }, [dictionary, currentLang, contactPageDict, navigationDict, footerDict]);
 
   return (
     <>
@@ -34,19 +33,18 @@ const Client = ({ dictionary, currentLang }) => { // Accept currentLang as a pro
             width={1920}
             height={400}
             src="/img/pages/about/1.png"
-            alt="Contact Us"
+            alt={contactPageDict.imageAlt || "Contact Us Background"}
           />
         </div>
-        {/* Pass currentLang here */}
 
         <div className="container">
           <div className="row justify-center text-center">
             <div className="col-xl-6 col-lg-8 col-md-10">
               <h1 className="text-40 md:text-25 fw-600 text-white">
-                {contactPageDict.heroTitle}
+                {contactPageDict.heroTitle || "Get in Touch with Us"}
               </h1>
               <div className="text-white mt-15">
-                {contactPageDict.heroSubtitle}
+                {contactPageDict.heroSubtitle || "We're here to help and answer any question you might have."}
               </div>
             </div>
           </div>
@@ -59,24 +57,22 @@ const Client = ({ dictionary, currentLang }) => { // Accept currentLang as a pro
 
             <div className="col-12">
 
-              <h2 className="text-22 fw-500 mb-20">{contactPageDict.getInTouchTitle}</h2>
+              <h2 className="text-22 fw-500 mb-20">{contactPageDict.getInTouchTitle || "Contact Information"}</h2>
               <p className="text-dark-1 mb-20">
-                {contactPageDict.getInTouchDescription}
+                {contactPageDict.getInTouchDescription || "Feel free to reach out to us using the details below."}
               </p>
               <div className="text-dark-1">
-                <p><strong>{contactPageDict.addressLabel}:</strong> {contactPageDict.addressValue}</p>
-                <p><strong>{contactPageDict.emailLabel}:</strong> {contactPageDict.emailValue}</p>
-                <p><strong>{contactPageDict.workingHoursLabel}:</strong> {contactPageDict.workingHoursValue}</p>
+                <p><strong>{contactPageDict.addressLabel || "Address"}:</strong> {contactPageDict.addressValue || "123 Main St, Anytown, USA"}</p>
+                <p><strong>{contactPageDict.emailLabel || "Email"}:</strong> {contactPageDict.emailValue || "info@example.com"}</p>
+                <p><strong>{contactPageDict.workingHoursLabel || "Working Hours"}:</strong> {contactPageDict.workingHoursValue || "Mon - Fri: 9 AM - 5 PM"}</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pass currentLang here */}
       <CallToActions dictionary={dictionary} currentLang={currentLang} />
 
-      {/* Pass currentLang here */}
       <Footer dictionary={dictionary} currentLang={currentLang} />
     </>
   );

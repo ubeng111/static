@@ -1,9 +1,14 @@
 // app/[lang]/(hotel)/[categoryslug]/page.jsx
 
-import dynamic from 'next/dynamic';
+// Hapus dynamic import 'next/dynamic' dari sini, karena tidak lagi diperlukan di Server Component ini
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
+import { Suspense } from 'react'; // Pastikan Suspense diimpor
 import { getdictionary } from '@/dictionaries/get-dictionary';
+
+// Import ClientPage secara langsung karena ClientPage sekarang adalah Client Component dengan 'use client;'
+import ClientPage from './ClientPage';
+
 
 // **TAMBAHKAN INI UNTUK ISR 1 TAHUN**
 export const revalidate = 31536000; // 1 tahun dalam detik (60 * 60 * 24 * 365)
@@ -23,14 +28,13 @@ async function getCategoryData(categoryslug) {
   const apiUrl = `${baseUrl}/api/${sanitizedCategory}`;
 
   try {
-    // **Pastikan fetch() di sini adalah yang Native Web Fetch API**
-    // Next.js akan secara otomatis mengaplikasikan revalidate yang diekspor di atas
-    // ke panggilan fetch ini.
-    const response = await fetch(apiUrl); 
+    const response = await fetch(apiUrl);
     if (!response.ok) {
-      console.error(`Failed to fetch category data for ${sanitizedCategory}. Status: ${response.status}`);
+      console.error(`Failed to fetch category data for ${sanitizedCategory}. Status: ${response.status} - ${response.statusText}`);
       return null;
     }
+    // Mengembalikan response.json() secara langsung dari API.
+    // Ini akan menjadi `initialData` untuk ClientPage.
     return response.json();
   } catch (error) {
     console.error('Error fetching category data:', error);
@@ -38,19 +42,22 @@ async function getCategoryData(categoryslug) {
   }
 }
 
-const ClientPage = dynamic(() => import('./ClientPage'));
+// Hapus const ClientPage = dynamic(() => import('./ClientPage'), { ssr: false, }); dari sini.
+// Itu adalah penyebab errornya.
+
 
 export async function generateMetadata({ params }) {
-  // params sudah objek langsung di App Router, tidak perlu await params
-  const { categoryslug, lang: locale } = params; 
+  const { categoryslug, lang: locale } = params;
 
   const dictionary = await getdictionary(locale);
   const metadataDict = dictionary?.metadata || {};
-  // ... (sisa kode generateMetadata Anda)
-  
-  // Ambil data untuk metadata. Data ini juga akan di-cache sesuai `revalidate` di atas.
-  const data = await getCategoryData(categoryslug); 
+
+  const sanitizedCategory = sanitizeSlug(categoryslug);
+
+  // Fetch data untuk metadata, ini juga akan di-cache
+  const data = await getCategoryData(categoryslug);
   if (!data || !data.hotels || data.hotels.length === 0) {
+    console.warn(`generateMetadata: No hotels found for category slug: ${categoryslug}.`);
     return {
       title: metadataDict.categoryNotFoundTitle || 'Category Not Found | Hoteloza',
       description: metadataDict.categoryNotFoundDescription || 'The requested category was not found on Hoteloza.',
@@ -77,14 +84,20 @@ export async function generateMetadata({ params }) {
       url: `https://hoteloza.com/${locale}/${sanitizedCategory}`,
       type: 'website',
     },
+    alternates: {
+      canonical: `https://hoteloza.com/${locale}/${sanitizedCategory}`,
+      languages: {
+        'en-US': `https://hoteloza.com/en/${sanitizedCategory}`,
+        'id-ID': `https://hoteloza.com/id/${sanitizedCategory}`,
+        'x-default': `https://hoteloza.com/en/${sanitizedCategory}`,
+      },
+    },
   };
 }
 
 
-// Komponen halaman utama
 export default async function Page({ params }) {
-  // params sudah objek langsung di App Router, tidak perlu await params
-  const { categoryslug, lang: locale } = params; 
+  const { categoryslug, lang: locale } = params;
 
   const dictionary = await getdictionary(locale);
 
@@ -96,13 +109,19 @@ export default async function Page({ params }) {
     notFound();
   }
 
-  // Data ini juga akan di-cache sesuai `revalidate` yang diekspor
-  const data = await getCategoryData(categoryslug); 
+  // Fetch data untuk konten halaman, ini akan menggunakan cache jika revalidate aktif
+  const data = await getCategoryData(categoryslug);
   if (!data || !data.hotels || data.hotels.length === 0) {
     notFound();
   }
 
-  // ... (sisa kode komponen Page Anda)
+  const schemas = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": formatSlug(sanitizedCategory),
+    "description": `Find the best deals for ${formatSlug(sanitizedCategory)} on Hoteloza.`,
+    "url": `https://hoteloza.com/${locale}/${sanitizedCategory}`
+  };
 
   return (
     <>
@@ -111,46 +130,42 @@ export default async function Page({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
       />
-      <ClientPage categoryslug={sanitizedCategory} dictionary={dictionary} currentLang={currentLang} />
+      {/* Bungkus ClientPage dengan Suspense untuk menampilkan fallback saat loading */}
+      <Suspense fallback={<div>Memuat konten kategori...</div>}>
+        {/* Pass initialData ke ClientPage */}
+        <ClientPage categoryslug={sanitizedCategory} dictionary={dictionary} currentLang={currentLang} initialData={data} />
+      </Suspense>
     </>
   );
 }
 
-// **Penting untuk Dynamic Routes di App Router:**
-// Gunakan generateStaticParams untuk membuat path statis di build time (opsional).
-// Jika generateStaticParams kosong atau tidak ada, Next.js akan default ke SSR (Server-Side Rendering)
-// atau ISR dengan on-demand rendering (jika ada fetch() dengan revalidate).
-// Namun, untuk ISR yang sebenarnya, Anda perlu mengontrol path.
 export async function generateStaticParams() {
-  // Anda harus mengembalikan semua `categoryslug` yang mungkin di sini.
-  // Jika Anda memiliki ribuan kategori dan tidak ingin membangun semuanya saat build,
-  // Anda bisa mengembalikan daftar kosong atau sebagian kecil,
-  // dan biarkan Next.js melakukan on-demand rendering untuk sisanya.
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 
-  // Contoh: Mengambil semua kategori dari API Anda (ideal)
-  // const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
-  // const allCategoriesApiUrl = `${baseUrl}/api/all-categories`; // Endpoint API yang mengembalikan semua slug kategori
-  // const response = await fetch(allCategoriesApiUrl);
-  // const categories = await response.json();
+  try {
+    const categoriesResponse = await fetch(`${baseUrl}/api/all-categories`, { next: { revalidate: 3600 } });
+    const categories = categoriesResponse.ok ? await categoriesResponse.json() : [];
 
-  // return categories.map((catSlug) => ({
-  //   categoryslug: sanitizeSlug(catSlug),
-  // }));
+    const languagesResponse = await fetch(`${baseUrl}/api/supported-languages`, { next: { revalidate: 3600 } });
+    const languages = languagesResponse.ok ? await languagesResponse.json() : ['en', 'us', 'id'];
 
-  // Untuk demo atau jika Anda hanya punya beberapa, bisa hardcode
-  const supportedCategories = ['hotel-discounts', 'luxury-hotels', 'budget-travel']; // Contoh
-  const supportedLangs = ['en', 'us', 'id']; // Bahasa yang Anda dukung
-
-  const params = [];
-  for (const lang of supportedLangs) {
-    for (const category of supportedCategories) {
-      params.push({ lang: lang, categoryslug: category });
+    const params = [];
+    for (const lang of languages) {
+      for (const category of categories) {
+        params.push({ lang: lang, categoryslug: sanitizeSlug(category) });
+      }
     }
+    return params;
+  } catch (error) {
+    console.error("Error fetching dynamic params for generateStaticParams:", error);
+    const fallbackCategories = ['hotel-discounts', 'luxury-hotels', 'budget-travel'];
+    const fallbackLangs = ['en', 'us', 'id'];
+    const params = [];
+    for (const lang of fallbackLangs) {
+      for (const category of fallbackCategories) {
+        params.push({ lang: lang, categoryslug: category });
+      }
+    }
+    return params;
   }
-  return params;
-
-  // Catatan: Jika generateStaticParams mengembalikan daftar kosong, Next.js akan menggunakan SSR secara default
-  // untuk rute dinamis ini. Namun, karena Anda mengekspor `revalidate` di atas, Next.js akan
-  // mencoba meng-cache dan me-revalidate konten berdasarkan pengaturan `revalidate`.
-  // Perilaku fallback mirip Pages Router tidak sejelas itu di App Router.
 }

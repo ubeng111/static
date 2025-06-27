@@ -3,13 +3,19 @@ import { Suspense } from 'react';
 import { Pool } from 'pg';
 import fs from 'fs';
 import path from 'path';
-import 'dotenv/config';
-import LandmarkClient from './LandmarkClient';
+import 'dotenv/config'; // Pastikan .env dimuat jika belum di next.config.js
+import LandmarkClient from './LandmarkClient'; // Asumsi ini adalah Client Component
 import Script from 'next/script';
 import { getdictionary } from '@/dictionaries/get-dictionary'; // Menggunakan alias
 
-// REMOVE THIS LINE: export const dynamic = 'force-dynamic';
+// REVALIDATE PAGE (ISR - Incremental Static Regeneration)
+// Halaman ini akan di-revalidate setiap 1 tahun (jika ada permintaan masuk)
+// untuk memastikan metadata dan konten selalu segar dari DB tanpa perlu rebuild.
+export const revalidate = 31536000; // 1 tahun dalam detik (60 * 60 * 24 * 365)
 
+// Inisialisasi Pool koneksi database
+// Perhatian: Untuk lingkungan serverless, pertimbangkan Connection Pooling as a Service
+// atau pengelolaan koneksi yang lebih cermat untuk menghindari 'too many clients'
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
   ssl: { ca: fs.readFileSync(path.resolve(process.cwd(), 'certs', 'root.crt')) },
@@ -17,6 +23,8 @@ const pool = new Pool({
 
 // Reusable function to fetch landmark data
 async function fetchLandmarkData(slug) {
+  // Console.log di server-side (build/runtime)
+  console.log('SERVER INFO: Attempting to fetch landmark data for slug:', slug);
   try {
     const client = await pool.connect();
     try {
@@ -27,9 +35,9 @@ async function fetchLandmarkData(slug) {
         LIMIT 1
       `;
       const landmarkResult = await client.query(landmarkQuery, [slug]);
-      console.log('SERVER DEBUG [page.jsx]: Landmark query result:', landmarkResult.rows);
+      console.log('SERVER DEBUG: Landmark query result:', landmarkResult.rows);
 
-      if (landmarkResult.rows.length) {
+      if (landmarkResult.rows.length > 0) {
         const data = landmarkResult.rows[0];
         return {
           landmarkName: data.landmark_name,
@@ -39,14 +47,16 @@ async function fetchLandmarkData(slug) {
       }
       return null;
     } finally {
-      client.release();
+      client.release(); // Pastikan klien dilepaskan
     }
   } catch (error) {
-    console.error('SERVER ERROR [page.jsx]: Failed to fetch landmark data:', error);
+    // Tangani error koneksi DB atau query
+    console.error('SERVER ERROR: Failed to fetch landmark data from database:', error);
     return null;
   }
 }
 
+// generateMetadata untuk SEO
 export async function generateMetadata({ params }) {
   const { slug, lang: locale } = params;
   const dictionary = await getdictionary(locale);
@@ -54,43 +64,43 @@ export async function generateMetadata({ params }) {
   const commonDict = dictionary?.common || {};
   const landmarkPageDict = dictionary?.landmarkPage || {};
 
-  let title = metadataDict.landmarkPageTitleTemplate || 'Hotels near Landmark';
-  let description = metadataDict.landmarkPageDescriptionTemplate || 'Find top hotels near popular landmarks with great deals and reviews.';
-  let landmarkUrl = `https://hoteloza.com/${locale}/landmark/${slug}`;
+  const baseUrl = 'https://hoteloza.com'; // Base URL untuk canonical dan OG
+  let landmarkUrl = `${baseUrl}/${locale}/landmark/${slug}`;
+
+  // Default fallback metadata
+  let title = metadataDict.landmarkNotFoundTitle || 'Landmark Not Found | Hoteloza';
+  let description = metadataDict.landmarkNotFoundDescription || 'The requested landmark was not found or is invalid.';
 
   if (!slug || typeof slug !== 'string') {
-    console.error('SERVER ERROR [page.jsx]: Invalid or missing slug:', slug);
+    console.error('SERVER ERROR: generateMetadata received invalid or missing slug:', slug);
     return {
-      title: metadataDict.landmarkNotFoundTitle || 'Invalid Landmark | Hoteloza',
-      description: metadataDict.landmarkNotFoundDescription || 'The requested landmark was not found on Hoteloza.',
-      openGraph: {
-        title: metadataDict.landmarkNotFoundTitle || 'Invalid Landmark | Hoteloza',
-        description: metadataDict.landmarkNotFoundDescription || 'The requested landmark was not found on Hoteloza.',
-        type: 'website',
-        url: landmarkUrl,
-      },
-      alternates: {
-        canonical: `https://hoteloza.com/${locale}`,
-      },
+      title,
+      description,
+      openGraph: { title, description, type: 'website', url: landmarkUrl },
+      alternates: { canonical: `${baseUrl}/${locale}` }, // Canonical ke halaman utama bahasa
     };
   }
 
   const landmarkData = await fetchLandmarkData(slug);
+
   if (landmarkData) {
     const { landmarkName, cityName, category } = landmarkData;
     title = (landmarkPageDict.topHotelsNear
-      ?.replace("{category}", category)
-      ?.replace("{landmarkName}", landmarkName)
-      ?.replace("{cityName}", cityName))
-      || `${category} Near ${landmarkName}, ${cityName}`;
+      ?.replace("{category}", category || commonDict.unknownCategory || 'Hotels')
+      ?.replace("{landmarkName}", landmarkName || commonDict.unknownLocation || 'Landmark')
+      ?.replace("{cityName}", cityName || commonDict.unknownCity || 'City'))
+      || `${category || 'Hotels'} Near ${landmarkName || 'Landmark'}, ${cityName || 'City'}`;
 
     description = (metadataDict.landmarkPageDescriptionTemplate
-      ?.replace("{category}", category)
-      ?.replace("{landmarkName}", landmarkName)
-      ?.replace("{cityName}", cityName))
-      || `Find the best ${category.toLowerCase()} near ${landmarkName}, ${cityName}. Explore great deals on top accommodations with free WiFi and excellent amenities.`;
+      ?.replace("{category}", category?.toLowerCase() || commonDict.unknownCategory?.toLowerCase() || 'hotels')
+      ?.replace("{landmarkName}", landmarkName || commonDict.unknownLocation || 'Landmark')
+      ?.replace("{cityName}", cityName || commonDict.unknownCity || 'City'))
+      || `Find the best ${category?.toLowerCase() || 'hotels'} near ${landmarkName || 'Landmark'}, ${cityName || 'City'}. Explore great deals on top accommodations with free WiFi and excellent amenities.`;
+
+    landmarkUrl = `${baseUrl}/${locale}/landmark/${slug}`; // URL yang benar jika data ditemukan
   } else {
-    description = metadataDict.landmarkNotFoundDescription || commonDict.noDestinationsFound || 'Discover top hotels near popular landmarks with exclusive deals and premium amenities on Hoteloza.';
+    // Jika landmarkData tidak ditemukan, gunakan fallback yang sudah ada
+    console.warn(`SERVER WARN: No data found for landmark slug: ${slug}. Using default metadata.`);
   }
 
   return {
@@ -101,56 +111,122 @@ export async function generateMetadata({ params }) {
       description,
       type: 'website',
       url: landmarkUrl,
+      images: [`${baseUrl}/opengraph-image.jpg`], // Ganti dengan gambar OG default/spesifik jika ada
     },
     alternates: {
       canonical: landmarkUrl,
+      languages: {
+        'en-US': `${baseUrl}/en-US/landmark/${slug}`,
+        'id-ID': `${baseUrl}/id-ID/landmark/${slug}`,
+        'x-default': `${baseUrl}/en-US/landmark/${slug}`,
+      },
     },
+    keywords: [
+      `${title.toLowerCase()}`, // Contoh keyword dari judul
+      `hotels near ${landmarkData?.landmarkName?.toLowerCase() || 'landmark'}`,
+      `${landmarkData?.cityName?.toLowerCase() || 'city'} hotels`,
+      `${landmarkData?.category?.toLowerCase() || 'accommodation'} deals`,
+      "Hoteloza",
+      "hotel booking",
+      "travel deals"
+    ],
   };
 }
 
+// generateStaticParams untuk SSG (Static Site Generation)
+// Next.js akan memanggil ini di waktu build untuk menentukan rute mana yang harus dibuat statis.
+export async function generateStaticParams() {
+  // Anda harus mengembalikan daftar semua slug landmark yang ingin Anda buat statis.
+  // Ini bisa datang dari database atau sumber statis lainnya.
+  // PENTING: Jika database Anda sangat besar, jangan fetch semua data di sini
+  // karena akan memperlambat build atau melebihi batas memori.
+  // Pertimbangkan pendekatan incremental jika data sangat besar, atau kosongkan ini
+  // dan biarkan halaman dirender on-demand (SSR/ISR) dengan `revalidate`.
+
+  try {
+    const client = await pool.connect();
+    try {
+      const slugsResult = await client.query('SELECT slug FROM landmarks');
+      const landmarkSlugs = slugsResult.rows.map(row => row.slug);
+      console.log('SERVER INFO: Fetched slugs for generateStaticParams:', landmarkSlugs);
+
+      // Anda juga perlu mengkombinasikan dengan bahasa yang didukung
+      const supportedLangs = ['en', 'id', 'us']; // Ganti dengan daftar bahasa yang sebenarnya
+      const params = [];
+      for (const lang of supportedLangs) {
+        for (const slug of landmarkSlugs) {
+          params.push({ lang: lang, slug: slug });
+        }
+      }
+      return params;
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error('SERVER ERROR: Failed to fetch slugs for generateStaticParams:', error);
+    // Fallback jika database tidak dapat dijangkau atau error saat build
+    // Anda harus menyediakan setidaknya satu kombinasi yang masuk akal
+    // agar build tidak gagal sepenuhnya jika generateStaticParams wajib.
+    // Atau, jika Anda ingin semua halaman dirender on-demand, kembalikan array kosong.
+    return [
+      { lang: 'en', slug: 'eiffel-tower' },
+      { lang: 'id', slug: 'monas' },
+      { lang: 'us', slug: 'statue-of-liberty' },
+    ];
+  }
+}
+
+// Komponen halaman utama
 export default async function LandmarkSlugPage({ params }) {
   const { slug, lang: locale } = params;
-  console.log('SERVER DEBUG [page.jsx]: Received slug from URL params:', slug);
+  console.log('SERVER INFO: Rendering LandmarkSlugPage for slug:', slug, 'and locale:', locale);
 
   const dictionary = await getdictionary(locale);
 
-  const currentLang = locale;
+  // Fetch data again for the page content, this will hit the cache if revalidate is active
+  const landmarkData = await fetchLandmarkData(slug);
+
+  if (!landmarkData) {
+    console.warn(`SERVER WARN: No landmark data found for slug: ${slug}. Calling notFound().`);
+    notFound(); // Redirect to 404 page if landmark not found
+  }
+
+  const { landmarkName, cityName, category } = landmarkData;
 
   const commonDict = dictionary?.common || {};
   const landmarkPageDict = dictionary?.landmarkPage || {};
   const navigationDict = dictionary?.navigation || {};
 
-  const landmarkData = await fetchLandmarkData(slug);
-  const landmarkName = landmarkData?.landmarkName || commonDict.unknownLocation || 'Landmark';
-  const cityName = landmarkData?.cityName || commonDict.unknownCity || 'Unknown City';
-  const category = landmarkData?.category || commonDict.unknownCategory || 'Hotels';
+  const baseUrl = 'https://hoteloza.com';
+  const currentUrl = `${baseUrl}/${locale}/landmark/${slug}`;
 
   const schemas = [
     {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       "name": (landmarkPageDict.topHotelsNear
-        ?.replace("{category}", category)
-        ?.replace("{landmarkName}", landmarkName)) || `${category} near ${landmarkName}, ${cityName}`,
+        ?.replace("{category}", category || commonDict.unknownCategory || 'Hotels')
+        ?.replace("{landmarkName}", landmarkName || commonDict.unknownLocation || 'Landmark'))
+        || `${category || 'Hotels'} near ${landmarkName || 'Landmark'}, ${cityName || 'City'}`,
       "description": (landmarkPageDict.description
-        ?.replace("{category}", category)
-        ?.replace("{landmarkName}", landmarkName)
-        ?.replace("{cityName}", cityName))
-        || `Find the best ${category.toLowerCase()} near ${landmarkName}, ${cityName}. Explore great deals on top accommodations with free WiFi and excellent amenities.`,
-      "url": `https://hoteloza.com/${currentLang}/landmark/${slug}`,
+        ?.replace("{category}", category?.toLowerCase() || commonDict.unknownCategory?.toLowerCase() || 'hotels')
+        ?.replace("{landmarkName}", landmarkName || commonDict.unknownLocation || 'Landmark')
+        ?.replace("{cityName}", cityName || commonDict.unknownCity || 'City'))
+        || `Find the best ${category?.toLowerCase() || 'hotels'} near ${landmarkName || 'Landmark'}, ${cityName || 'City'}. Explore great deals on top accommodations with free WiFi and excellent amenities.`,
+      "url": currentUrl,
       "mainEntity": landmarkName !== (commonDict.unknownLocation || 'Landmark') ? {
         "@context": "https://schema.org",
         "@type": "Place",
         "name": landmarkName,
         "description": (landmarkPageDict.description
-          ?.replace("{category}", category)
+          ?.replace("{category}", category?.toLowerCase())
           ?.replace("{landmarkName}", landmarkName)
           ?.replace("{cityName}", cityName))
-          || `Find the best ${category.toLowerCase()} near ${landmarkName}, ${cityName}. Explore great deals on top accommodations with free WiFi and excellent amenities.`,
+          || `Popular ${category?.toLowerCase() || 'site'} in ${cityName || 'city'}.`,
         "address": {
           "@type": "PostalAddress",
-          "addressLocality": cityName,
-          "addressCountry": commonDict.unknownCountry || "US"
+          "addressLocality": cityName || commonDict.unknownCity || "Unknown City",
+          "addressCountry": commonDict.unknownCountry || "US" // Asumsi negara default
         },
       } : undefined
     },
@@ -158,9 +234,9 @@ export default async function LandmarkSlugPage({ params }) {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: navigationDict.home || 'Home', item: `https://hoteloza.com/${currentLang}` },
-        { '@type': 'ListItem', position: 2, name: landmarkPageDict.landmarks || 'Landmarks', item: `https://hoteloza.com/${currentLang}/landmark` },
-        { '@type': 'ListItem', position: 3, name: landmarkName, item: `https://hoteloza.com/${currentLang}/landmark/${slug}` },
+        { '@type': 'ListItem', position: 1, name: navigationDict.home || 'Home', item: `${baseUrl}/${locale}` },
+        { '@type': 'ListItem', position: 2, name: landmarkPageDict.landmarks || 'Landmarks', item: `${baseUrl}/${locale}/landmark` },
+        { '@type': 'ListItem', position: 3, name: landmarkName, item: currentUrl },
       ],
     },
   ];
@@ -173,10 +249,10 @@ export default async function LandmarkSlugPage({ params }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
       />
       <div className="header-margin"></div>
+      {/* Bungkus LandmarkClient dengan Suspense untuk menampilkan fallback saat loading */}
       <Suspense fallback={<div>{landmarkPageDict.loadingHotel || commonDict.loadingHotel || `Loading ${landmarkName} search results...`}</div>}>
-        <LandmarkClient landmarkSlug={slug} dictionary={dictionary} currentLang={currentLang} />
+        <LandmarkClient landmarkSlug={slug} dictionary={dictionary} currentLang={locale} />
       </Suspense>
-
     </>
   );
 }
