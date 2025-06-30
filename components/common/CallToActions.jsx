@@ -1,7 +1,4 @@
-// components/call-to-actions/CallToActions.jsx
-const CallToActions = ({ dictionary, currentLang }) => { // Accept dictionary and currentLang
-  const callToActionDict = dictionary?.callToActions || {}; // Assuming dictionary structure
-
+const CallToActions = () => {
   return (
     <section className="layout-pt-md layout-pb-md bg-dark-2">
       <div className="container">
@@ -13,7 +10,7 @@ const CallToActions = ({ dictionary, currentLang }) => { // Accept dictionary an
               </div>
               <div className="col-auto">
                 <h2 className="text-24 text-white fw-600">
-                  {callToActionDict.subscribeHere || "Subscribe Here"} {/* Use dictionary for text */}
+                  Subscribe Here
                 </h2>
               </div>
             </div>
@@ -26,14 +23,14 @@ const CallToActions = ({ dictionary, currentLang }) => { // Accept dictionary an
                 <input
                   className="bg-white h-60"
                   type="text"
-                  placeholder={callToActionDict.yourEmail || "Your Email"} // Use dictionary for placeholder
+                  placeholder="Your Email"
                 />
               </div>
               {/* End email input */}
 
               <div>
                 <button className="button -md h-60 bg-blue-1 text-white">
-                  {callToActionDict.subscribeButton || "Subscribe"} {/* Use dictionary for button text */}
+                  Subscribe
                 </button>
               </div>
               {/* End subscribe btn */}

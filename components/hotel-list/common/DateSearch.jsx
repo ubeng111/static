@@ -1,47 +1,56 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useId } from 'react'; // Import useId hook
 import DatePicker, { DateObject } from 'react-multi-date-picker';
 
-const DateSearch = ({ onDateChange, dictionary }) => {
-  const [dates, setDates] = useState([
-    new DateObject(), // Default check-in: hari ini
-    new DateObject().add(1, 'day'), // Default check-out: besok
-  ]);
+const DateSearch = ({ onDateChange }) => {
+  const inputId = useId(); // Generate a unique ID for the input
 
-  const searchDict = dictionary.search; // Tanpa fallback
+  const [dates, setDates] = useState([
+    new DateObject(),
+    new DateObject().add(1, 'day'),
+  ]);
+  const [numberOfMonths, setNumberOfMonths] = useState(2); // Default for SSR
 
   useEffect(() => {
-    if (onDateChange && dates.length === 2) {
-      onDateChange(dates);
-    }
+    const handleResize = () => {
+      setNumberOfMonths(window.innerWidth < 576 ? 1 : 2);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    // Call onDateChange only if the callback exists and dates are valid
+    if (onDateChange && dates.length === 2) {
+      const timer = setTimeout(() => onDateChange(dates), 100); // Debounce
+      return () => clearTimeout(timer);
+    }
+  }, [dates, onDateChange]); // Dependency array to prevent infinite loops
 
   const handleDateChange = (newDates) => {
     if (newDates && newDates.length === 2) {
       setDates(newDates);
-      if (onDateChange) {
-        onDateChange(newDates);
-      }
     }
   };
 
   return (
-    <div className="w-full">
+    <div className="searchMenu-date search-field">
+      {/* Label yang terhubung secara programatis dan disembunyikan secara visual */}
+      <label htmlFor={inputId} className="sr-only">Check-in - Check-out</label>
       <DatePicker
-        className="w-full px-4 py-2 border border-gray-300 rounded-4 h-10 text-15 leading-[15px] bg-white"
-        containerClassName="w-full"
         value={dates}
         onChange={handleDateChange}
-        numberOfMonths={2}
-        offsetY={10}
+        numberOfMonths={numberOfMonths}
         range
-        format="MMMM DD"
+        format="MMM DD"
         minDate={new Date()}
-        placeholder={searchDict.checkInCheckOut} // Baris 42
-        inputClass="rmdp-input"
-        id="checkinCheckoutInput"
-        name="checkin_checkout_dates"
+        inputClass="w-full h-32 px-6 py-2"
+        containerStyle={{ width: '100%' }}
+        calendarPosition="bottom-left"
+        // Teruskan ID ke input yang dirender oleh DatePicker
+        inputProps={{ id: inputId, placeholder: "Check-in ~ Check-out" }}
       />
     </div>
   );

@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import CallToActions from '@/components/common/CallToActions';
 import Header11 from '@/components/header/header-11';
-import DefaultFooter from '@/components/footer';
+import DefaultFooter from '@/components/footer/default';
 import HotelProperties88 from '@/components/hotel-list/hotel-list-v5/HotelProperties88';
 import Hotels2 from '@/components/hotels/Hotels2';
 import LandmarkList from '@/components/hotel-single/LandmarkList';

@@ -4,53 +4,38 @@
 
 const FaqCategory = ({
   category = "your next adventure",
-  items = [],
-  currentLang,      // Diteruskan dari ClientPage (mungkin tidak perlu jika dictionary sudah ada)
-  categoryslug,     // Diteruskan dari ClientPage (mungkin tidak perlu)
-  dictionary        // Tambahkan prop dictionary
+  items = [], // Prop items tetap diterima, tapi tidak digunakan untuk rendering list
 }) => {
-  const faqCategoryContent = dictionary?.faqContent?.category || {};
-
-  const getLocalizedText = (key, interpolations = {}) => {
-    let text = faqCategoryContent[key];
-    if (!text) return `Missing translation for ${key}`;
-
-    for (const [placeholder, value] of Object.entries(interpolations)) {
-      text = text.replace(new RegExp(`{${placeholder}}`, 'g'), value);
-    }
-    return text;
-  };
-
   const faqContent = [
     {
       id: 1,
       collapseTarget: "CategoryOne",
-      question: getLocalizedText('offeringsQuestion', { category }),
-      answer: getLocalizedText('offeringsAnswer', { category }),
+      question: `What types of ${category} offerings are available?`,
+      answer: `Our ${category} collection ranges from luxurious, high-end experiences to smart, budget-friendly options. You'll find everything from boutique stays and charming guesthouses to sprawling resorts and innovative capsule hotels, designed to fit various travel styles and needs.`,
     },
     {
       id: 2,
       collapseTarget: "CategoryTwo",
-      question: getLocalizedText('familyFriendlyQuestion', { category }),
-      answer: getLocalizedText('familyFriendlyAnswer', { category }),
+      question: `Are there family-friendly options within the ${category} selection?`,
+      answer: `Absolutely! Many of our ${category} accommodations are highly recommended for families, featuring amenities like kids' clubs, spacious family suites, dedicated play areas, and sometimes even supervised activities to make your family moments more memorable and comfortable.`,
     },
     {
       id: 3,
       collapseTarget: "CategoryThree",
-      question: getLocalizedText('mainAttractionsQuestion', { category }),
-      answer: getLocalizedText('mainAttractionsAnswer', { category }),
+      question: `What are the main attractions or popular destinations near these ${category} offerings?`,
+      answer: `Our ${category} properties are often strategically located near iconic tourist attractions, bustling entertainment hubs, and must-try culinary delights. Depending on the specific property, you could be steps away from historical landmarks, vibrant shopping districts, or serene natural parks.`,
     },
     {
       id: 4,
       collapseTarget: "CategoryFour",
-      question: getLocalizedText('luxuryAmenitiesQuestion', { category }),
-      answer: getLocalizedText('luxuryAmenitiesAnswer', { category }),
+      question: `Do ${category} options provide luxurious amenities or special features?`,
+      answer: `Indeed! Many of our premium ${category} offerings come equipped with five-star amenities such as private infinity pools, holistic spa services, state-of-the-art fitness centers, and personalized butler services. Indulge in an unforgettable experience designed for ultimate comfort and luxury.`,
     },
     {
       id: 5,
       collapseTarget: "CategoryFive",
-      question: getLocalizedText('topRatedQuestion', { category }),
-      answer: getLocalizedText('topRatedAnswer', { category }),
+      question: `Which are the top-rated ${category} options with the best customer reviews?`,
+      answer: `Looking for the absolute best? Our platform highlights top-rated ${category} options frequently praised by our community. These properties consistently receive excellent reviews for their service, facilities, and overall guest satisfaction. We recommend checking individual property pages for detailed reviews and current ratings to find your perfect match.`, // Ubah konten agar tidak menyiratkan daftar di sini
     },
   ];
 
@@ -77,16 +62,7 @@ const FaqCategory = ({
             >
               <div className="pt-15 pl-60">
                 <p className="text-15">{item.answer}</p>
-                {/* Display list of items if available and this is the "best-rated" question */}
-                {item.id === 5 && items.length > 0 && (
-                  <ul>
-                    {items.map((catItem, index) => ( // Use index as key here as we are no longer relying on slug for unique link
-                      <li key={catItem.slug || index}> {/* Use catItem.slug if it's guaranteed unique, otherwise fallback to index */}
-                        {catItem.name} {/* Display just the name, no link */}
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                {/* Hapus bagian rendering daftar item/hotel di sini */}
               </div>
             </div>
           </div>

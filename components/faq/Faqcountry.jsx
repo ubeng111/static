@@ -1,48 +1,38 @@
-"use client"; // Marks this as a Client Component
-
-const Faqcountry = ({ country = "this country", hotels = [], dictionary }) => { // Tambahkan prop dictionary
-  const faqCountryContent = dictionary?.faqContent?.country || {};
-
-  const getLocalizedText = (key, interpolations = {}) => {
-    let text = faqCountryContent[key];
-    if (!text) return `Missing translation for ${key}`;
-
-    for (const [placeholder, value] of Object.entries(interpolations)) {
-      text = text.replace(new RegExp(`{${placeholder}}`, 'g'), value);
-    }
-    return text;
-  };
-
+const Faqcountry = ({
+  country = "this country",
+  category = "accommodations", // Tambahkan category juga untuk FAQ yang lebih dinamis
+  hotels = [] // Prop hotels tetap diterima, tapi tidak digunakan untuk rendering list
+}) => {
   const faqContent = [
     {
       id: 1,
       collapseTarget: "One",
-      country: getLocalizedText('typesOfHotelsQuestion', { country }),
-      content: getLocalizedText('typesOfHotelsAnswer', { country }),
+      question: `What kinds of ${category} can I expect to find across ${country}?`,
+      content: `From bustling city ${category} to serene countryside retreats, ${country} offers a diverse selection of ${category}. You can find everything from opulent luxury properties to charming mid-range options and convenient budget accommodations to suit any travel style and budget.`,
     },
     {
       id: 2,
       collapseTarget: "Two",
-      country: getLocalizedText('familyFriendlyHotelsQuestion', { country }),
-      content: getLocalizedText('familyFriendlyHotelsAnswer', { country }),
+      question: `Does ${country} offer many ${category} that are suitable for families?`,
+      content: `Yes, ${country} is very welcoming to families, with numerous ${category} providing special amenities like interconnected rooms, kid-friendly dining options, and recreational facilities such as playgrounds and dedicated family pools.`,
     },
     {
       id: 3,
       collapseTarget: "Three",
-      country: getLocalizedText('attractionsNearHotelsQuestion', { country }),
-      content: getLocalizedText('attractionsNearHotelsAnswer', { country }),
+      question: `What popular tourist attractions are generally close to ${category} in ${country}?`,
+      content: `Many ${category} in ${country} are strategically located near major tourist attractions, including historical landmarks, vibrant cultural districts, and natural wonders. This makes it easy for guests to explore the country's highlights during their stay.`,
     },
     {
       id: 4,
       collapseTarget: "Four",
-      country: getLocalizedText('hotelsWithPoolsQuestion', { country }),
-      content: getLocalizedText('hotelsWithPoolsAnswer', { country }),
+      question: `Are ${category} with swimming pools a common feature in ${country}?`,
+      content: `Swimming pools are a common and highly desired amenity in ${category} across ${country}. You'll find a wide range of ${category} offering refreshing pools, from standard outdoor pools to luxurious rooftop infinity pools with stunning views.`,
     },
     {
       id: 5,
       collapseTarget: "Five",
-      country: getLocalizedText('bestRatedHotelsQuestion', { country }),
-      content: getLocalizedText('bestRatedHotelsAnswer', { country }),
+      question: `Which ${category} in ${country} are consistently rated as the best by guests?`,
+      content: `While specific top-rated ${category} in ${country} can vary, properties consistently receiving high praise are typically those offering exceptional service, unique cultural experiences, and prime locations that allow easy access to attractions. We recommend consulting recent guest reviews for the most current recommendations directly on their respective property pages.`, // Ubah konten agar tidak menyiratkan daftar di sini
     },
   ];
 
@@ -60,7 +50,7 @@ const Faqcountry = ({ country = "this country", hotels = [], dictionary }) => { 
                 <i className="icon-plus" />
                 <i className="icon-minus" />
               </div>
-              <div className="button text-dark-1 text-start">{item.country}</div>
+              <div className="button text-dark-1 text-start">{item.question}</div>
             </div>
             <div
               className="accordion-collapse collapse"
@@ -69,23 +59,7 @@ const Faqcountry = ({ country = "this country", hotels = [], dictionary }) => { 
             >
               <div className="pt-15 pl-60">
                 <p className="text-15">{item.content}</p>
-                {/* Tampilkan daftar hotel jika ada */}
-                {item.id === 5 && hotels.length > 0 && (
-                  <ul>
-                    {hotels.map((hotel) => (
-                      <li key={hotel.slug}>
-                        <a
-                          href={`http://localhost:3000/property/${hotel.slug}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-1"
-                        >
-                          {hotel.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                {/* Hapus bagian rendering daftar hotel di sini */}
               </div>
             </div>
           </div>

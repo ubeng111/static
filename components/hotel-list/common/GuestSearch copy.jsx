@@ -8,10 +8,8 @@ const counters = [
   { name: 'Rooms', defaultValue: 1 },
 ];
 
-const Counter = ({ name, defaultValue, onCounterChange, dictionary }) => { // Menerima dictionary
+const Counter = ({ name, defaultValue, onCounterChange }) => {
   const [count, setCount] = useState(defaultValue);
-
-  const guestLabels = dictionary?.mainFilterSearchBox?.guestLabels || {};
 
   const incrementCount = () => {
     setCount((prev) => prev + 1);
@@ -25,26 +23,24 @@ const Counter = ({ name, defaultValue, onCounterChange, dictionary }) => { // Me
     }
   };
 
-  const translatedName = guestLabels[name.toLowerCase()] || name;
-
   return (
     <div className="counter-row">
       <div className="counter-label">
-        {translatedName}
+        {name}
         {name === 'Children' && (
-          <span className="text-10 text-light-1 ml-2"> ({guestLabels.childrenAgeRange || '0-17'})</span>
+          <span className="text-10 text-light-1 ml-2"> (0-17)</span>
         )}
       </div>
       <div className="counter-controls">
-        <button onClick={decrementCount} disabled={count === 0} aria-label={`Decrease ${translatedName} count`}>-</button>
+        <button onClick={decrementCount} disabled={count === 0} aria-label={`Decrease ${name} count`}>-</button>
         <span className="counter-value">{count}</span>
-        <button onClick={incrementCount} aria-label={`Increase ${translatedName} count`}>+</button>
+        <button onClick={incrementCount} aria-label={`Increase ${name} count`}>+</button>
       </div>
     </div>
   );
 };
 
-const GuestSearch = ({ onGuestChange, dictionary }) => { // Menerima dictionary
+const GuestSearch = ({ onGuestChange }) => {
   const [guestCounts, setGuestCounts] = useState({
     Adults: 2,
     Children: 0,
@@ -53,14 +49,11 @@ const GuestSearch = ({ onGuestChange, dictionary }) => { // Menerima dictionary
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const mainFilterSearchBoxDict = dictionary?.mainFilterSearchBox || {};
-  const guestLabels = mainFilterSearchBoxDict.guestLabels || {};
-
   useEffect(() => {
     if (onGuestChange) {
       onGuestChange(guestCounts);
     }
-  }, [guestCounts, onGuestChange]);
+  }, [guestCounts]);
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
@@ -71,6 +64,9 @@ const GuestSearch = ({ onGuestChange, dictionary }) => { // Menerima dictionary
       ...prev,
       [name]: value,
     }));
+    if (onGuestChange) {
+      onGuestChange({ ...guestCounts, [name]: value });
+    }
   };
 
   useEffect(() => {
@@ -83,21 +79,20 @@ const GuestSearch = ({ onGuestChange, dictionary }) => { // Menerima dictionary
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const adultText = `${guestCounts.Adults} ${guestCounts.Adults !== 1 ? (guestLabels.adultsPlural || 'Adults') : (guestLabels.adultsSingular || 'Adult')}`;
-  const childrenText = `${guestCounts.Children} ${guestCounts.Children !== 1 ? (guestLabels.childrenPlural || 'Children') : (guestLabels.childrenSingular || 'Child')}`;
-  const roomText = `${guestCounts.Rooms} ${guestCounts.Rooms !== 1 ? (guestLabels.roomsPlural || 'Rooms') : (guestLabels.roomsSingular || 'Room')}`;
-
-
   return (
     <div className="searchMenu-guests search-field">
-      <label>{mainFilterSearchBoxDict.selectGuestsAndRooms || 'Select Guests & Rooms'}</label>
+      {/* Label di atas komponen */}
+      <label>Select Guests & Rooms</label>
 
+      {/* Tombol toggle dropdown dengan ringkasan total */}
       <div
         role="button"
         onClick={toggleDropdown}
         aria-label="Select guest options"
       >
-        {adultText}, {childrenText}, {roomText}
+        {guestCounts.Adults} Adult{guestCounts.Adults !== 1 ? 's' : ''},{" "}
+        {guestCounts.Children} Child{guestCounts.Children !== 1 ? 'ren' : ''},{" "}
+        {guestCounts.Rooms} Room{guestCounts.Rooms !== 1 ? 's' : ''}
       </div>
 
       <div className={`dropdown ${isOpen ? '-is-active' : ''}`} ref={dropdownRef}>
@@ -108,7 +103,6 @@ const GuestSearch = ({ onGuestChange, dictionary }) => { // Menerima dictionary
               name={counter.name}
               defaultValue={counter.defaultValue}
               onCounterChange={handleCounterChange}
-              dictionary={dictionary} // Teruskan dictionary ke Counter
             />
           ))}
         </div>

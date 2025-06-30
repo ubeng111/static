@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link"; // Pastikan Link diimpor
 
 const createSlug = (city) => {
   return city
@@ -7,29 +6,24 @@ const createSlug = (city) => {
     : 'unknown-city';
 };
 
-const Relatedstate88 = React.memo(({ relatedstate, stateslug, countryslug, categoryslug, dictionary, currentLang }) => { // Menerima categoryslug
-  const relatedCitiesDict = dictionary?.relatedCities || {};
-  const statePageDict = dictionary?.statePage || {};
-  const categoryPageDict = dictionary?.categoryPage || {};
-  const commonDict = dictionary?.common || {};
-
+const Relatedstate88 = React.memo(({ relatedstate, stateslug, countryslug, categoryslug }) => {
   const formattedState = stateslug
     ? stateslug
         .replace(/-/g, ' ')
         .replace(/\b\w/g, (char) => char.toUpperCase())
-    : statePageDict.stateDefault || 'Unknown State';
+    : 'Unknown State';
 
-  const formattedCategory = categoryslug // Pastikan categoryslug ada dan digunakan
+  const formattedCategory = categoryslug
     ? categoryslug
         .replace(/-/g, ' ')
         .replace(/\b\w/g, (char) => char.toUpperCase())
-    : categoryPageDict.categoryDefault || 'Unknown Category';
+    : 'Unknown Category';
 
   if (!Array.isArray(relatedstate) || relatedstate.length === 0) {
     return (
       <div className="container">
         <h2 className="text-center fw-bold mb-3 text-dark">
-          {relatedCitiesDict.noRelatedCitiesFound || 'No Related Cities Found'}
+          No Related Cities Found
         </h2>
       </div>
     );
@@ -38,7 +32,7 @@ const Relatedstate88 = React.memo(({ relatedstate, stateslug, countryslug, categ
   return (
     <div className="container">
       <h2 className="text-center fw-bold mb-3 text-dark">
-        {relatedCitiesDict.citiesIn?.replace('{formattedState}', formattedState) || `🏨 Cities in ${formattedState}`}
+        🏨 Cities in {formattedState}
       </h2>
       
       <div className="row g-2">
@@ -46,19 +40,18 @@ const Relatedstate88 = React.memo(({ relatedstate, stateslug, countryslug, categ
           const citySlug = cityData.cityslug || createSlug(cityData.city);
           const capitalizedCity = cityData.city
             ? cityData.city.charAt(0).toUpperCase() + cityData.city.slice(1)
-            : commonDict.unknownCity || 'Unknown City';
+            : 'Unknown City';
 
           return (
-            <div key={`${cityData.cityslug}-${index}`} className="col-6 col-md-4 col-lg-3">
+            <div key={`${cityData.city}-${index}`} className="col-6 col-md-4 col-lg-3">
               <div className="p-2 border rounded bg-white shadow-sm transition-all hover:shadow-md hover:bg-light">
-                {/* PASTIKAN categoryslug DIGUNAKAN DI SINI UNTUK MEMBANGUN LINK CITY */}
-                <Link
-                  href={`/${currentLang}/${categoryslug}/${countryslug}/${stateslug}/${citySlug}`} // Menggunakan categoryslug
+                <a
+                  href={`/${categoryslug}/${countryslug}/${stateslug}/${citySlug}`}
                   className="fw-medium text-dark d-block text-start text-decoration-none"
                   style={{ fontSize: '14px' }}
                 >
                   {`${formattedCategory} In ${capitalizedCity}`}
-                </Link>
+                </a>
               </div>
             </div>
           );

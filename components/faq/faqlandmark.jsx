@@ -1,51 +1,44 @@
+// Faqlandmark.jsx
 "use client"; // Marks this as a Client Component
 
-const Faqlandmark = ({ landmark = "this landmark", hotels = [], dictionary }) => { // Tambahkan prop dictionary
-  const faqLandmarkContent = dictionary?.faqContent?.landmark || {};
-
-  const getLocalizedText = (key, interpolations = {}) => {
-    let text = faqLandmarkContent[key];
-    if (!text) return `Missing translation for ${key}`;
-
-    for (const [placeholder, value] of Object.entries(interpolations)) {
-      text = text.replace(new RegExp(`{${placeholder}}`, 'g'), value);
-    }
-    return text;
-  };
-
+const Faqlandmark = ({
+  landmark = "this landmark",
+  category = "accommodations",
+  cityName = "this city",
+  hotels = [], // Prop hotels tetap diterima, tapi tidak digunakan untuk rendering list
+}) => {
   const faqContent = [
     {
       id: 1,
       collapseTarget: "One",
-      landmark: getLocalizedText('typesOfHotelsQuestion', { landmark }),
-      content: getLocalizedText('typesOfHotelsAnswer', { landmark }),
+      question: `What types of ${category} are there near ${landmark} in ${cityName}?`,
+      content: `In the vicinity of ${landmark} in ${cityName}, you'll find a wide range of ${category} options, from luxurious boutique properties to comfortable and affordable stays. Whether you're planning a short visit or an extended exploration, there's a perfect ${category} for every preference.`,
     },
     {
       id: 2,
       collapseTarget: "Two",
-      landmark: getLocalizedText('familyFriendlyHotelsQuestion', { landmark }),
-      content: getLocalizedText('familyFriendlyHotelsAnswer', { landmark }),
+      question: `Are there family-friendly ${category} options near ${landmark} in ${cityName}?`,
+      content: `Absolutely! Many ${category} near ${landmark} in ${cityName} are well-equipped for families, offering amenities like spacious family rooms, kids' clubs, and swimming pools. They provide a comfortable base for exploring the landmark and its surroundings with your loved ones.`,
     },
     {
       id: 3,
       collapseTarget: "Three",
-      landmark: getLocalizedText('attractionsNearHotelsQuestion', { landmark }),
-      content: getLocalizedText('attractionsNearHotelsAnswer', { landmark }),
+      question: `What attractions are near ${category} close to ${landmark} in ${cityName}?`,
+      content: `${category} near ${landmark} in ${cityName} offer unmatched convenience for visiting the landmark itself. Additionally, they are often strategically located near other popular attractions, museums, restaurants, and entertainment options, making your exploration effortless.`,
     },
     {
       id: 4,
       collapseTarget: "Four",
-      landmark: getLocalizedText('hotelsWithPoolsQuestion', { landmark }),
-      content: getLocalizedText('hotelsWithPoolsAnswer', { landmark }),
+      question: `Are there ${category} with pools near ${landmark} in ${cityName}?`,
+      content: `Yes, many ${category} near ${landmark} in ${cityName} feature refreshing swimming pools, ideal for unwinding after a day of sightseeing. Some even boast rooftop pools with stunning views of the landmark or the city skyline.`,
     },
     {
       id: 5,
       collapseTarget: "Five",
-      landmark: getLocalizedText('bestRatedHotelsQuestion', { landmark }),
-      // Konten untuk FAQ ini akan bervariasi berdasarkan apakah ada data hotel
+      question: `What are the best-rated ${category} options near ${landmark} in ${cityName}?`,
       content: hotels.length > 0
-        ? getLocalizedText('bestRatedHotelsAnswerWithData', { landmark })
-        : getLocalizedText('bestRatedHotelsAnswerDefault', { landmark }),
+        ? `Based on guest reviews, some of the top-rated ${category} options near ${landmark} in ${cityName} include:`
+        : `Currently, we do not have specific data on the best-rated ${category} directly next to ${landmark} in ${cityName}. However, you can browse a variety of highly-rated options in the wider area directly on their respective property pages.`, // Ubah konten agar tidak menyiratkan daftar di sini
     },
   ];
 
@@ -64,7 +57,7 @@ const Faqlandmark = ({ landmark = "this landmark", hotels = [], dictionary }) =>
                 <i className="icon-minus" />
               </div>
               <div className="button text-dark-1 text-start">
-                {item.landmark}
+                {item.question}
               </div>
             </div>
             <div
@@ -74,23 +67,7 @@ const Faqlandmark = ({ landmark = "this landmark", hotels = [], dictionary }) =>
             >
               <div className="pt-15 pl-60">
                 <p className="text-15">{item.content}</p>
-                {/* Tampilkan daftar hotel jika ada dan ini adalah FAQ untuk hotel terbaik */}
-                {item.id === 5 && hotels.length > 0 && (
-                  <ul>
-                    {hotels.map((hotel) => (
-                      <li key={hotel.hotelId}>
-                        <a
-                          href={hotel.landingURL}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-1"
-                        >
-                          {hotel.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                {/* Hapus bagian rendering daftar hotel di sini */}
               </div>
             </div>
           </div>

@@ -1,18 +1,12 @@
-// route.js
-
 import { Pool } from 'pg';
-// import fs from 'fs'; // Hapus impor ini
-// import path from 'path'; // Hapus impor ini
+import fs from 'fs';
+import path from 'path';
 import 'dotenv/config';
-
-// --- PERUBAHAN PENTING DI SINI: Menggunakan variabel lingkungan untuk sertifikat CA ---
-const caCert = process.env.DATABASE_CA_CERT; // Ambil konten sertifikat dari variabel lingkungan
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
-  ssl: caCert ? { ca: caCert } : { rejectUnauthorized: false }, // Jika caCert ada, gunakan. Jika tidak, HATI-HATI dengan `rejectUnauthorized: false` di produksi.
+  ssl: { ca: fs.readFileSync(path.resolve('certs', 'root.crt')) },
 });
-// --- AKHIR PERUBAHAN PENTING ---
 
 const cache = {};
 const cacheTTL = 60 * 60 * 1000; // 1 hour
@@ -33,8 +27,8 @@ const LIMIT = 12;
 
 export async function GET(req, { params }) {
   // --- MULAI PERUBAHAN DI SINI ---
-  // `params` sudah objek, tidak perlu `await params`
-  const { categoryslug, countryslug, stateslug, cityslug } = params; 
+  const awaitedParams = await params; // <--- AWAIT PARAMS DI SINI
+  const { categoryslug, countryslug, stateslug, cityslug } = awaitedParams; // <--- GUNAKAN awaitedParams
   // --- AKHIR PERUBAHAN ---
 
   if (!categoryslug || !countryslug || !stateslug || !cityslug) {
@@ -83,27 +77,47 @@ export async function GET(req, { params }) {
 
     const result = await client.query(query, [categoryslug, countryslug, stateslug, cityslug, LIMIT, offset]);
 
-    // Memfilter baris yang hanya berisi data hotel yang relevan dan menghapus properti 'total'
-    const hotels = result.rows.filter(row => row.id !== undefined).map(({ total, ...hotel }) => hotel);
-
-    if (hotels.length === 0) {
+    if (result.rows.length === 0) {
       return new Response(JSON.stringify({ message: 'No hotels found for this city' }), { status: 404 });
     }
 
     const totalHotels = parseInt(result.rows[0].total, 10);
     const totalPages = Math.ceil(totalHotels / LIMIT);
 
+    const cleanHotels = result.rows.map(row => ({
+      id: row.id,
+      title: row.title,
+      city: row.city,
+      state: row.state,
+      country: row.country,
+      category: row.category,
+      categoryslug: row.categoryslug,
+      countryslug: row.countryslug,
+      stateslug: row.stateslug,
+      cityslug: row.cityslug,
+      hotelslug: row.hotelslug,
+      img: row.img,
+      location: row.location,
+      ratings: row.ratings,
+      numberOfReviews: row.numberOfReviews,
+      numberrooms: row.numberrooms,
+      overview: row.overview,
+      city_id: row.city_id,
+      latitude: row.latitude,
+      longitude: row.longitude,
+    }));
+
     const relatedCityQuery = `
       SELECT DISTINCT city, cityslug
       FROM public.hotels
-      WHERE categoryslug = $1 AND countryslug = $2 AND stateslug = $3 AND cityslug != $4 AND city IS NOT NULL AND city != ''
+      WHERE categoryslug = $1 AND countryslug = $2 AND stateslug = $3 AND cityslug != $4 AND city != ''
       LIMIT 40
     `;
     const relatedCityResult = await client.query(relatedCityQuery, [categoryslug, countryslug, stateslug, cityslug]);
 
     const response = {
-      hotels: JSON.parse(JSON.stringify(hotels)),
-      relatedcity: JSON.parse(JSON.stringify(relatedCityResult.rows)),
+      hotels: cleanHotels,
+      relatedcity: relatedCityResult.rows,
       pagination: { page, totalPages, totalHotels },
     };
 

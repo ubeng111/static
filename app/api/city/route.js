@@ -1,27 +1,36 @@
-// app/api/search-by-city/route.js
-
 import { Pool } from 'pg';
-// import fs from 'fs'; // Hapus impor ini
-// import path from 'path'; // Hapus impor ini
+import fs from 'fs';
+import path from 'path';
 import 'dotenv/config'; // Impor dotenv untuk memuat .env
 
-// --- PERUBAHAN PENTING DI SINI: Menggunakan variabel lingkungan untuk sertifikat CA ---
-const caCert = process.env.DATABASE_CA_CERT; // Ambil konten sertifikat dari variabel lingkungan
+// SSL certificate validation
+const certPath = path.resolve('certs', 'root.crt');
+let sslConfig = {};
+try {
+  if (fs.existsSync(certPath)) {
+    sslConfig = { ca: fs.readFileSync(certPath) };
+  } else {
+    console.warn('SSL certificate not found at expected path. Falling back to non-SSL connection or environment specific SSL.');
+    // If you explicitly want to disable SSL for development and your DB supports it,
+    // you might set ssl: false here. For production, this is generally not recommended.
+    // sslConfig = false; // Example: Disable SSL
+  }
+} catch (err) {
+  console.error('Error reading SSL certificate:', err.message);
+  // Fallback if certificate reading fails for other reasons (e.g., permissions)
+  // sslConfig = false; // Example: Disable SSL on error
+}
+
 
 // Database connection pool
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
-  ssl: caCert
-    ? {
-        ca: caCert,
-        rejectUnauthorized: true, // `rejectUnauthorized: true` adalah default yang aman
-      }
-    : false, // Jika `caCert` tidak ada, `false` berarti tidak menggunakan SSL atau SSL akan dihandle oleh connection string
+  ssl: sslConfig,
   max: 10,
   idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 5000,
+  // Increased connection timeout for debugging
+  connectionTimeoutMillis: 10000, // Was 5000, increased to 10 seconds
 });
-// --- AKHIR PERUBAHAN PENTING ---
 
 // In-memory cache
 const cache = {};
@@ -42,31 +51,32 @@ function setCache(key, data) {
 const LIMIT = 12;
 
 export async function GET(req) {
-  let client; // Deklarasikan client di luar try block untuk akses di finally
+  const url = new URL(req.url);
+  const cityName = url.searchParams.get('city');
+  const cityId = url.searchParams.get('city_id');
+  const page = parseInt(url.searchParams.get('page')) || 1;
+
+  // Input validation
+  if (!cityName && !cityId) {
+    return new Response(JSON.stringify({ message: 'City name or city ID is required' }), { status: 400 });
+  }
+
+  if (page < 1) {
+    return new Response(JSON.stringify({ message: 'Page must be a positive number' }), { status: 400 });
+  }
+
+  let client; // Declare client here
   try {
-    const url = new URL(req.url);
-    const cityName = url.searchParams.get('city');
-    const cityId = url.searchParams.get('city_id');
-    const page = parseInt(url.searchParams.get('page')) || 1;
-
-    // Input validation
-    if (!cityName && !cityId) {
-      return new Response(JSON.stringify({ message: 'City name or city ID is required' }), { status: 400 });
-    }
-
-    if (page < 1) {
-      return new Response(JSON.stringify({ message: 'Page must be a positive number' }), { status: 400 });
-    }
-
-    client = await pool.connect(); // Ambil koneksi dari pool di dalam handler
+    client = await pool.connect(); // Attempt to connect to the pool
 
     if (cityName) {
       if (typeof cityName !== 'string' || cityName.length < 2) {
         return new Response(JSON.stringify({ message: 'City name must be at least 2 characters' }), { status: 400 });
       }
-      if (cityName.includes('%') || cityName.includes('_')) {
-        return new Response(JSON.stringify({ message: 'Invalid characters in city name' }), { status: 400 });
-      }
+      // Removed special character check as it might be too restrictive depending on actual city names
+      // if (cityName.includes('%') || cityName.includes('_')) {
+      //   return new Response(JSON.stringify({ message: 'Invalid characters in city name' }), { status: 400 });
+      // }
 
       const cacheKey = `city_${cityName.toLowerCase()}_page_${page}`;
       const cachedData = getCache(cacheKey);
@@ -155,12 +165,14 @@ export async function GET(req) {
         waiting: pool.waitingCount,
       },
     });
+    // Return a more generic server error message for the client
     return new Response(
-      JSON.stringify({ message: 'Server error', error: error.message }),
+      JSON.stringify({ message: 'Server error occurred while fetching data.', error: error.message }),
       { status: 500 }
     );
   } finally {
-    if (client) { // Pastikan client ada sebelum dilepaskan
+    // Ensure the client is released back to the pool
+    if (client) {
       client.release();
     }
   }

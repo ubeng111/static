@@ -1,48 +1,38 @@
-"use client"; // Marks this as a Client Component
-
-const Faqstate = ({ state = "this state", hotels = [], dictionary }) => { // Tambahkan prop dictionary
-  const faqStateContent = dictionary?.faqContent?.state || {};
-
-  const getLocalizedText = (key, interpolations = {}) => {
-    let text = faqStateContent[key];
-    if (!text) return `Missing translation for ${key}`;
-
-    for (const [placeholder, value] of Object.entries(interpolations)) {
-      text = text.replace(new RegExp(`{${placeholder}}`, 'g'), value);
-    }
-    return text;
-  };
-
+const Faqstate = ({
+  state = "this state",
+  category = "accommodations", // Tambahkan category juga untuk FAQ yang lebih dinamis
+  hotels = [] // Prop hotels tetap diterima, tapi tidak digunakan untuk rendering list
+}) => {
   const faqContent = [
     {
       id: 1,
       collapseTarget: "One",
-      state: getLocalizedText('typesOfHotelsQuestion', { state }),
-      content: getLocalizedText('typesOfHotelsAnswer', { state }),
+      question: `What variety of ${category} can I find in ${state}?`,
+      content: `In ${state}, you'll discover a rich array of accommodation options, from luxurious five-star resorts boasting incredible amenities to charming boutique ${category} and comfortable, budget-friendly stays perfect for any traveler.`,
     },
     {
       id: 2,
       collapseTarget: "Two",
-      state: getLocalizedText('familyFriendlyHotelsQuestion', { state }),
-      content: getLocalizedText('familyFriendlyHotelsAnswer', { state }),
+      question: `Are there family-friendly ${category} options in ${state}?`,
+      content: `Absolutely! ${state} is home to numerous family-friendly ${category} that offer spacious rooms, kids' activities, swimming pools, and other amenities designed to ensure a comfortable and enjoyable stay for families of all sizes.`,
     },
     {
       id: 3,
       collapseTarget: "Three",
-      state: getLocalizedText('attractionsNearHotelsQuestion', { state }),
-      content: getLocalizedText('attractionsNearHotelsAnswer', { state }),
+      question: `What major attractions are conveniently located near ${category} in ${state}?`,
+      content: `${category} throughout ${state} are often situated near popular attractions, including historical sites, vibrant cultural centers, natural parks, and entertainment venues. You'll find it easy to explore the best of the state from your accommodation.`,
     },
     {
       id: 4,
       collapseTarget: "Four",
-      state: getLocalizedText('hotelsWithPoolsQuestion', { state }),
-      content: getLocalizedText('hotelsWithPoolsAnswer', { state }),
+      question: `Do ${category} in ${state} typically feature swimming pools?`,
+      content: `Many ${category} in ${state} offer fantastic swimming pools, ranging from indoor heated pools perfect for any season to expansive outdoor pools with sun decks, providing a great way to relax after a day of exploring.`,
     },
     {
       id: 5,
       collapseTarget: "Five",
-      state: getLocalizedText('bestRatedHotelsQuestion', { state }),
-      content: getLocalizedText('bestRatedHotelsAnswer', { state }),
+      question: `Which are the highest-rated ${category} in ${state} according to guest reviews?`,
+      content: `Based on extensive guest feedback, some of the top-rated ${category} in ${state} are known for their exceptional service, prime locations, and outstanding facilities. We recommend checking specific property listings for their latest reviews and ratings directly on their respective property pages.`, // Ubah konten agar tidak menyiratkan daftar di sini
     },
   ];
 
@@ -60,7 +50,7 @@ const Faqstate = ({ state = "this state", hotels = [], dictionary }) => { // Tam
                 <i className="icon-plus" />
                 <i className="icon-minus" />
               </div>
-              <div className="button text-dark-1 text-start">{item.state}</div>
+              <div className="button text-dark-1 text-start">{item.question}</div>
             </div>
             <div
               className="accordion-collapse collapse"
@@ -69,23 +59,7 @@ const Faqstate = ({ state = "this state", hotels = [], dictionary }) => { // Tam
             >
               <div className="pt-15 pl-60">
                 <p className="text-15">{item.content}</p>
-                {/* Tampilkan daftar hotel jika ada */}
-                {item.id === 5 && hotels.length > 0 && (
-                  <ul>
-                    {hotels.map((hotel) => (
-                      <li key={hotel.slug}>
-                        <a
-                          href={`http://localhost:3000/property/${hotel.slug}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-1"
-                        >
-                          {hotel.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                {/* Hapus bagian rendering daftar hotel di sini */}
               </div>
             </div>
           </div>

@@ -2,52 +2,38 @@
 import Copyright from "./Copyright";
 
 
-const Footer = ({ dictionary, currentLang }) => { // currentLang sudah diterima di sini
-  const langPrefix = currentLang ? `/${currentLang}` : '';
-
-  if (!dictionary || !dictionary.footer) {
-    console.error("Footer: Dictionary or dictionary.footer is missing. Rendering fallback UI.");
-    return (
-      <footer className="footer py-5 bg-dark-2 text-white">
-        <div className="container">
-          <p className="text-center text-white">Loading footer content...</p>
-          <div className="border-top pt-3" style={{ borderColor: "rgba(255,255,255,0.2)" }}>
-            {/* PASTIKAN Meneruskan currentLang ke Copyright */}
-            <Copyright dictionary={dictionary} currentLang={currentLang} />
-          </div>
-        </div>
-      </footer>
-    );
-  }
+const Footer = () => {
+  // currentLang dan dictionary tidak lagi dibutuhkan di sini karena sudah tidak multi-bahasa
+  // const langPrefix = currentLang ? `/${currentLang}` : ''; // Hapus ini
 
   const categories = {
-    [dictionary.footer.popularStays]: [
-      { name: dictionary.footer.hotel, url: `${langPrefix}/hotel` },
-      { name: dictionary.footer.villa, url: `${langPrefix}/villa` },
-      { name: dictionary.footer.resort, url: `${langPrefix}/resort` },
-      { name: dictionary.footer.apartment, url: `${langPrefix}/apartment` },
-      { name: dictionary.footer.guestHouse, url: `${langPrefix}/guest-house` },
+    "Popular Stays": [
+      { name: "Hotel", url: `/hotel` },
+      { name: "Villa", url: `/villa` },
+      { name: "Resort", url: `/resort` },
+      { name: "Apartment", url: `/apartment` },
+      { name: "Guest House", url: `/guest-house` },
     ],
-    [dictionary.footer.uniqueStays]: [
-      { name: dictionary.footer.capsuleHotel, url: `${langPrefix}/capsule-hotel` },
-      { name: dictionary.footer.yurt, url: `${langPrefix}/yurt` },
-      { name: dictionary.footer.treehouse, url: `${langPrefix}/treehouse` },
-      { name: dictionary.footer.tent, url: `${langPrefix}/tent` },
-      { name: dictionary.footer.domeHouse, url: `${langPrefix}/dome-house` },
+    "Unique Stays": [
+      { name: "Capsule Hotel", url: `/capsule-hotel` },
+      { name: "Yurt", url: `/yurt` },
+      { name: "Treehouse", url: `/treehouse` },
+      { name: "Tent", url: `/tent` },
+      { name: "Dome House", url: `/dome-house` },
     ],
-    [dictionary.footer.traditionalStays]: [
-      { name: dictionary.footer.ryokan, url: `${langPrefix}/ryokan` },
-      { name: dictionary.footer.machiya, url: `${langPrefix}/machiya` },
-      { name: dictionary.footer.countryHouse, url: `${langPrefix}/country-house` },
-      { name: dictionary.footer.haveli, url: `${langPrefix}/haveli` },
-      { name: dictionary.footer.riad, url: `${langPrefix}/riad` },
+    "Traditional Stays": [
+      { name: "Ryokan", url: `/ryokan` },
+      { name: "Machiya", url: `/machiya` },
+      { name: "Country House", url: `/country-house` },
+      { name: "Haveli", url: `/haveli` },
+      { name: "Riad", url: `/riad` },
     ],
-    [dictionary.footer.adventureStays]: [
-      { name: dictionary.footer.farmStay, url: `${langPrefix}/farm-stay` },
-      { name: dictionary.footer.cabin, url: `${langPrefix}/cabin` },
-      { name: dictionary.footer.chalet, url: `${langPrefix}/chalet` },
-      { name: dictionary.footer.boat, url: `${langPrefix}/boat` },
-      { name: dictionary.footer.houseboat, url: `${langPrefix}/houseboat` },
+    "Adventure Stays": [
+      { name: "Farm Stay", url: `/farm-stay` },
+      { name: "Cabin", url: `/cabin` },
+      { name: "Chalet", url: `/chalet` },
+      { name: "Boat", url: `/boat` },
+      { name: "Houseboat", url: `/houseboat` },
     ],
   };
 
@@ -89,7 +75,8 @@ const Footer = ({ dictionary, currentLang }) => { // currentLang sudah diterima 
           style={{ borderColor: "rgba(255,255,255,0.2)" }}
         >
           {/* PASTIKAN Meneruskan currentLang ke Copyright */}
-          <Copyright dictionary={dictionary} currentLang={currentLang} />
+          {/* Karena multi-bahasa dihapus, dictionary dan currentLang tidak perlu diteruskan lagi */}
+          <Copyright />
         </div>
       </div>
     </footer>

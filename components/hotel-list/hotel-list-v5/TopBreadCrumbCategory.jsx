@@ -1,4 +1,3 @@
-// TopBreadCrumbCategory.jsx
 import Link from "next/link";
 
 const capitalizeFirstLetter = (str) => {
@@ -10,14 +9,7 @@ const capitalizeFirstLetter = (str) => {
     .join(" ");
 };
 
-const TopBreadCrumbCategory = ({ categoryslug, currentLang, dictionary }) => { // Menerima currentLang dan dictionary
-  // Buat prefix bahasa. Jika currentLang adalah 'en' dan itu default, mungkin tidak perlu prefix.
-  // Sesuaikan logika ini dengan konfigurasi i18n Anda jika Anda tidak ingin '/en' di URL.
-  const langPrefix = currentLang && currentLang !== 'en' ? `/${currentLang}` : ''; // Asumsi 'en' adalah default tanpa prefix.
-
-  // Pastikan dictionary.navigation.home ada sebelum digunakan
-  const homeText = dictionary?.navigation?.home || 'Home'; // Fallback ke 'Home' jika tidak ada
-
+const TopBreadCrumbCategory = ({ categoryslug }) => {
   return (
     <section className="py-10 d-flex items-center bg-white">
       <div className="container">
@@ -25,18 +17,25 @@ const TopBreadCrumbCategory = ({ categoryslug, currentLang, dictionary }) => { /
           <div className="col-auto">
             <div className="row x-gap-10 y-gap-5 items-center text-14 text-light-1">
               <div className="col-auto">
-                {/* Perbaikan di sini: Gunakan langPrefix untuk tautan Home */}
-                <Link href={`${langPrefix}/`} className="text-blue-1">
-                  {homeText} {/* Menggunakan teks "Home" dari kamus */}
+                <Link href="/" className="text-blue-1">
+                  Home
                 </Link>
               </div>
               <div className="col-auto">&gt;</div>
               <div className="col-auto">
-                {/* Ini adalah elemen teks akhir, tidak perlu Link */}
                 {capitalizeFirstLetter(categoryslug) || "Unknown Category"}
               </div>
             </div>
           </div>
+
+          {/* The following div containing the "All [Category]" link has been removed. */}
+          {/*
+          <div className="col-auto">
+            <Link href={`/${categoryslug}`} className="text-14 text-blue-1 underline">
+              All {capitalizeFirstLetter(categoryslug) || "Hotels"}
+            </Link>
+          </div>
+          */}
         </div>
       </div>
     </section>

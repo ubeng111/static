@@ -3,13 +3,8 @@
 import Slider from "react-slick";
 import { useCurrency } from '@/components/CurrencyContext';
 
-// Menerima dictionary sebagai prop
-const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui", dictionary }) => {
+const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui" }) => {
   const { currency } = useCurrency();
-
-  // Akses dictionary yang relevan
-  const commonDict = dictionary?.common || {};
-  const hotelSinglePageDict = dictionary?.hotelSinglePage || {}; // Mengambil kamus untuk halaman detail hotel
 
   const itemSettings = {
     dots: true,
@@ -39,7 +34,7 @@ const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui", diction
   }
 
   if (!hotels || hotels.length === 0) {
-    return <div>{commonDict.noHotelsFound || "Tidak ada hotel ditemukan untuk kota ini."}</div>;
+    return <div>Tidak ada hotel ditemukan untuk kota ini.</div>;
   }
 
   return (
@@ -47,10 +42,10 @@ const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui", diction
       {hotels.map((item, index) => {
         const hotel = {
           id: item.hotelId,
-          title: item.hotelName || commonDict.unnamedHotel || "Nama Hotel Tidak Tersedia",
+          title: item.hotelName || "Nama Hotel Tidak Tersedia",
           img: item.imageURL || "/images/placeholder.jpg",
           slideimg: item.slideImages || [],
-          location: cityName || commonDict.unknownLocation || "Lokasi Tidak Diketahui",
+          location: cityName,
           ratings: item.reviewScore || 0,
           numberofreviews: item.reviewCount || 0,
           dailyRate: item.dailyRate || 0,
@@ -88,7 +83,7 @@ const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui", diction
                             width={300}
                             height={300}
                             className="rounded-4 col-12"
-                            src={(hotel.img?.replace('http://', 'https://')) || '/images/placeholder.jpg'}
+                            src={hotel.img}
                             alt={`Gambar dari hotel ${hotel.title}`}
                             loading="eager"
                           />
@@ -103,7 +98,7 @@ const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui", diction
                               width={300}
                               height={300}
                               className="rounded-4 col-12"
-                              src={(slide?.replace('http://', 'https://')) || "/images/placeholder.jpg"}
+                              src={slide}
                               alt={`Gambar slider ${i + 1} dari hotel ${hotel.title}`}
                               loading="lazy"
                             />
@@ -131,21 +126,21 @@ const HotelProperties2 = ({ hotels, cityName = "Lokasi Tidak Diketahui", diction
                 </div>
               </div>
               <div className="hotelsCard__content mt-10">
-                <h2 className="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">
+                <h4 className="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">
                   <span>{hotel.title}</span>
-                </h2>
+                </h4>
                 <p className="text-light-1 lh-14 text-14 mt-5">{hotel.location}</p>
                 <div className="d-flex align-items-center mt-20">
                   <div className="flex-center bg-blue-1 rounded-4 size-30 text-12 fw-600 text-white">
                     {hotel.ratings}
                   </div>
                   <div className="text-14 text-dark-1 fw-bold ml-10">
-                    {item.numberofreviews || 0} {hotelSinglePageDict.reviews || commonDict.reviews || 'reviews'} {/* Menggunakan hotelSinglePageDict.reviews */}
+                    {hotel.numberofreviews} reviews
                   </div>
                 </div>
                 <div className="mt-10">
                   <span className="text-16 fw-600 text-blue-1">
-                    {currency.symbol} {hotel.dailyRate.toFixed(0)} / {commonDict.night || 'Night'}
+                    {currency.symbol} {hotel.dailyRate.toFixed(0)} / Night
                   </span>
                 </div>
               </div>

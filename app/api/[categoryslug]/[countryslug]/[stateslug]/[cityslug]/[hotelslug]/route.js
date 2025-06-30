@@ -1,32 +1,30 @@
 // app/api/[categoryslug]/[countryslug]/[stateslug]/[cityslug]/[hotelslug]/route.js
 import { Pool } from 'pg';
-// import fs from 'fs'; // Hapus impor ini
-// import path from 'path'; // Hapus impor ini
+import fs from 'fs';
+import path from 'path';
 import 'dotenv/config';
 import { gzipSync } from 'zlib';
 
-// --- PERUBAHAN PENTING DI SINI: Menggunakan variabel lingkungan untuk sertifikat CA ---
-const caCert = process.env.DATABASE_CA_CERT; // Ambil konten sertifikat dari variabel lingkungan
-
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
-  ssl: caCert
-    ? {
-        ca: caCert,
-        rejectUnauthorized: true, // `rejectUnauthorized: true` adalah default yang aman
-      }
-    : false, // Jika `caCert` tidak ada, `false` berarti tidak menggunakan SSL atau SSL akan dihandle oleh connection string
+  ssl:
+    process.env.NODE_ENV === 'production'
+      ? {
+          ca: fs.existsSync(path.resolve('certs', 'root.crt'))
+            ? fs.readFileSync(path.resolve('certs', 'root.crt'))
+            : undefined,
+          rejectUnauthorized: true,
+        }
+      : false,
 });
-// --- AKHIR PERUBAHAN PENTING ---
 
-// Hapus pool.connect di luar handler GET. Koneksi akan diambil dari pool di dalam handler.
-// pool.connect((err) => {
-//   if (err) console.error('Gagal terhubung ke database:', err.message);
-//   else console.log('Berhasil terhubung ke database');
-// });
+pool.connect((err) => {
+  if (err) console.error('Gagal terhubung ke database:', err.message);
+  else console.log('Berhasil terhubung ke database');
+});
 
 const cache = {};
-const cacheTTL = 60 * 60 * 1000; // 1 hour
+const cacheTTL = 60 * 60 * 1000;
 
 function getCache(key) {
   const cachedData = cache[key];
@@ -41,12 +39,8 @@ function setCache(key, data) {
 }
 
 export async function GET(request, { params }) {
-  let client; // Deklarasikan client di luar try block untuk akses di finally
   try {
-    // --- PERBAIKAN: params sudah objek, tidak perlu `await params` ---
-    const { categoryslug, countryslug, stateslug, cityslug, hotelslug } = params;
-    // --- AKHIR PERBAIKAN ---
-
+    const { categoryslug, countryslug, stateslug, cityslug, hotelslug } = await params;
     const url = new URL(request.url);
     const reset = url.searchParams.get('reset') === 'true';
 
@@ -70,10 +64,7 @@ export async function GET(request, { params }) {
       });
     }
 
-    // Ambil koneksi dari pool di dalam handler
-    client = await pool.connect();
-
-    const hotelResult = await client.query(
+    const hotelResult = await pool.query(
       'SELECT * FROM public.hotels WHERE hotelslug = $1 AND categoryslug = $2 AND countryslug = $3 AND stateslug = $4 AND cityslug = $5',
       [hotelslug, categoryslug, countryslug, stateslug, cityslug]
     );
@@ -93,7 +84,7 @@ export async function GET(request, { params }) {
       ORDER BY RANDOM()
       LIMIT 15;
     `;
-    const relatedHotelsResult = await client.query(relatedHotelsQuery, [
+    const relatedHotelsResult = await pool.query(relatedHotelsQuery, [
       hotelResult.rows[0].cityslug,
       hotelResult.rows[0].categoryslug,
       hotelslug,
@@ -120,14 +111,5 @@ export async function GET(request, { params }) {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
-  } finally {
-    if (client) { // Pastikan client ada sebelum dilepaskan
-      client.release();
-    }
   }
 }
-
-// closeDb() tidak digunakan di API Route karena pool akan dikelola secara otomatis oleh serverless env
-// export async function closeDb() {
-//   await pool.end();
-// }

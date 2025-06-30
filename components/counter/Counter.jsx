@@ -1,6 +1,3 @@
-// Counter.jsx
-// Asumsi: Ini adalah Server Component. Jika ada hooks atau interaktivitas, tambahkan 'use client';
-
 const Counter = () => {
   const blockContent = [
     {
@@ -8,28 +5,28 @@ const Counter = () => {
       number: "4,958",
       meta: "Destinations",
       hasUnit: "",
-      delayAnim: "100", // Ini tidak akan digunakan lagi di JSX
+      delayAnim: "100",
     },
     {
       id: 2,
       number: "2,869",
       meta: "Total Properties",
       hasUnit: "",
-      delayAnim: "200", // Ini tidak akan digunakan lagi di JSX
+      delayAnim: "200",
     },
     {
       id: 3,
       number: "2",
       meta: "Happy customers",
       hasUnit: "M",
-      delayAnim: "300", // Ini tidak akan digunakan lagi di JSX
+      delayAnim: "300",
     },
     {
       id: 4,
       number: "574,974",
       meta: "Our Volunteers",
       hasUnit: "",
-      delayAnim: "400", // Ini tidak akan digunakan lagi di JSX
+      delayAnim: "400",
     },
   ];
   return (
@@ -38,9 +35,8 @@ const Counter = () => {
         <div
           className="col-xl-3 col-6"
           key={item.id}
-          // HAPUS data-aos DAN data-aos-delay DARI SINI
-          // data-aos="fade"
-          // data-aos-delay={item.delayAnim}
+          data-aos="fade"
+          data-aos-delay={item.delayAnim}
         >
           <div className="text-40 lg:text-30 lh-13 fw-600">
             {item.number}

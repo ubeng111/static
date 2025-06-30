@@ -1,24 +1,12 @@
-// app/api/landmark/route.js (API Route for POST requests)
-
 import { Pool } from 'pg';
-// import fs from 'fs'; // Hapus impor ini
-// import path from 'path'; // Hapus impor ini
-import 'dotenv/config'; // Impor dotenv untuk memuat .env
-import { gzipSync } from 'zlib'; // Digunakan untuk kompresi respons jika diperlukan
-
-// --- PERUBAHAN PENTING DI SINI: Menggunakan variabel lingkungan untuk sertifikat CA ---
-const caCert = process.env.DATABASE_CA_CERT; // Ambil konten sertifikat dari variabel lingkungan
+import fs from 'fs';
+import path from 'path';
+import 'dotenv/config';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
-  ssl: caCert
-    ? {
-        ca: caCert,
-        rejectUnauthorized: true, // `rejectUnauthorized: true` adalah default yang aman
-      }
-    : false, // Jika `caCert` tidak ada, `false` berarti tidak menggunakan SSL atau SSL akan dihandle oleh connection string
+  ssl: { ca: fs.readFileSync(path.resolve(process.cwd(), 'certs', 'root.crt')) },
 });
-// --- AKHIR PERUBAHAN PENTING ---
 
 const AGODA_API_URL = process.env.AGODA_API_URL || "http://affiliateapi7643.agoda.com/affiliateservice/lt_v1";
 const SITE_ID = process.env.AGODA_SITE_ID;
@@ -42,10 +30,9 @@ function getTomorrowDate() {
 }
 
 export async function POST(req) {
-  let client; // Deklarasikan client di luar try block untuk akses di finally
-  try {
-    console.log('SERVER DEBUG [route.js]: POST request received at /api/landmark');
+  console.log('SERVER DEBUG [route.js]: POST request received at /api/landmark');
 
+  try {
     const body = await req.json();
     console.log('SERVER DEBUG [route.js]: Request body parsed:', body);
 
@@ -105,7 +92,7 @@ export async function POST(req) {
         );
     }
 
-    client = await pool.connect(); // Ambil koneksi dari pool di dalam handler
+    const client = await pool.connect();
     let landmarkName = 'Not found';
     let city_id;
     let cityName = 'Unknown City';
@@ -137,7 +124,7 @@ export async function POST(req) {
       console.log('SERVER DEBUG [route.js]: Landmark found:', { landmarkName, city_id, cityName, category });
 
     } finally {
-      // client.release() akan dipanggil di finally block terluar
+      client.release();
     }
 
     const payload = {
@@ -198,22 +185,9 @@ export async function POST(req) {
       cityName,
     }));
 
-    // Kompresi respons jika diinginkan (opsional, tergantung kebutuhan API ini)
-    const compressedResponse = gzipSync(JSON.stringify({ hotels, landmarkName, cityName, category }));
-    
-    return new Response(compressedResponse, {
-      status: 200,
-      headers: { 
-        'Content-Type': 'application/json',
-        'Content-Encoding': 'gzip', // Beri tahu klien bahwa respons dikompresi gzip
-      },
-    });
+    return new Response(JSON.stringify({ hotels, landmarkName, cityName, category }), { status: 200 });
   } catch (error) {
     console.error('SERVER FATAL ERROR [route.js]: Uncaught exception in POST /api/landmark:', error);
     return new Response(JSON.stringify({ message: 'Terjadi kesalahan server internal yang tidak terduga.' }), { status: 500 });
-  } finally {
-    if (client) { // Pastikan client ada sebelum dilepaskan
-      client.release();
-    }
   }
 }

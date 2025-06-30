@@ -1,18 +1,12 @@
-// route.js
-
 import { Pool } from 'pg'; //
-// import fs from 'fs'; // Hapus impor ini
-// import path from 'path'; // Hapus impor ini
+import fs from 'fs'; //
+import path from 'path'; //
 import 'dotenv/config'; //
-
-// --- PERUBAHAN PENTING DI SINI: Menggunakan variabel lingkungan untuk sertifikat CA ---
-const caCert = process.env.DATABASE_CA_CERT; // Ambil konten sertifikat dari variabel lingkungan
 
 const pool = new Pool({ //
   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS, //
-  ssl: caCert ? { ca: caCert } : { rejectUnauthorized: false }, // Jika caCert ada, gunakan. Jika tidak, HATI-HATI dengan `rejectUnauthorized: false` di produksi.
+  ssl: { ca: fs.readFileSync(path.resolve('certs', 'root.crt')) }, //
 });
-// --- AKHIR PERUBAHAN PENTING ---
 
 const cache = {}; //
 const cacheTTL = 60 * 60 * 1000; // 1 hour //
@@ -32,10 +26,7 @@ function setCache(key, data) { //
 const LIMIT = 13; //
 
 export async function GET(req, { params }) { //
-  // --- PERBAIKAN: params sudah objek, tidak perlu `await params` ---
-  const { categoryslug, countryslug } = params; //
-  // --- AKHIR PERBAIKAN ---
-
+  const { categoryslug, countryslug } = await params; //
   if (!categoryslug || !countryslug) { //
     return new Response(JSON.stringify({ message: 'Category and country slugs are required' }), { status: 400 }); //
   }
@@ -72,40 +63,26 @@ export async function GET(req, { params }) { //
         SELECT id, title, city, state, country, category, categoryslug, countryslug, stateslug, cityslug, hotelslug, img, location, ratings, numberOfReviews, numberrooms, overview, city_id, latitude, longitude
         FROM public.hotels
         WHERE categoryslug = $1 AND countryslug = $2
-          AND title IS NOT NULL 
-          AND title != ''
-          AND city IS NOT NULL 
-          AND city != ''
-          AND country IS NOT NULL 
-          AND country != ''
         ORDER BY id ASC
         LIMIT $3 OFFSET $4
       ),
       hotel_count AS (
         SELECT COUNT(*) AS total FROM public.hotels
         WHERE categoryslug = $1 AND countryslug = $2
-          AND title IS NOT NULL 
-          AND title != ''
-          AND city IS NOT NULL 
-          AND city != ''
-          AND country IS NOT NULL 
-          AND country != ''
       )
       SELECT hotel_data.*, hotel_count.total
       FROM hotel_data, hotel_count;
     `; //
     const result = await client.query(query, [categoryslug, countryslug, LIMIT, offset]); //
 
-    // Memastikan ada data hotel yang sebenarnya
-    // `result.rows` seharusnya sudah hanya berisi data hotel jika query `hotel_data` mengembalikan hasil.
-    // Jika result.rows.length === 0 setelah query, itu berarti tidak ada hotel yang cocok.
-    // PENTING: Jika result.rows selalu mengembalikan setidaknya satu baris karena `hotel_count`
-    // pastikan untuk memfilter baris data hotel yang sebenarnya.
-    const hotels = result.rows.filter(row => row.id !== undefined); //
+    // PENTING: Periksa apakah ada data hotel yang sebenarnya (selain baris total count jika ada)
+    // Asumsi: Jika result.rows kosong, berarti tidak ada hotel.
+    // Jika result.rows hanya berisi baris dengan 'total' tetapi tanpa 'id' hotel, itu juga berarti tidak ada hotel.
+    const actualHotelRows = result.rows.filter(row => row.id !== undefined);
 
-    if (hotels.length === 0) { //
-      // Jika setelah query, tidak ada hotel yang ditemukan
-      return new Response(JSON.stringify({ message: 'No hotels found for this specific query' }), { status: 404 }); //
+    if (actualHotelRows.length === 0) {
+      // Jika setelah query, tidak ada hotel yang ditemukan (termasuk jika hanya ada baris 'total' dengan nilai 0)
+      return new Response(JSON.stringify({ message: 'No hotels found for this specific query' }), { status: 404 });
     }
 
     // `result.rows[0].total` akan selalu ada jika `validateHierarchy` lolos,
@@ -116,14 +93,14 @@ export async function GET(req, { params }) { //
     const relatedStateQuery = `
       SELECT DISTINCT state, stateslug
       FROM public.hotels
-      WHERE categoryslug = $1 AND countryslug = $2 AND state IS NOT NULL AND state != ''
+      WHERE categoryslug = $1 AND countryslug = $2 AND state != ''
       LIMIT 40
     `; //
     const relatedStateResult = await client.query(relatedStateQuery, [categoryslug, countryslug]); //
 
     const response = {
-      hotels: JSON.parse(JSON.stringify(hotels)), // Pastikan hanya data hotel yang diambil
-      relatedStates: JSON.parse(JSON.stringify(relatedStateResult.rows)), // Mengganti nama field dari `relatedcountry` ke `relatedStates`
+      hotels: JSON.parse(JSON.stringify(actualHotelRows)), // Pastikan hanya data hotel yang diambil
+      relatedcountry: JSON.parse(JSON.stringify(relatedStateResult.rows)), //
       pagination: { page, totalPages, totalHotels }, //
     };
 

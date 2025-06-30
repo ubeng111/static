@@ -2,42 +2,42 @@
 
 import { useState, useEffect, useRef } from 'react';
 
-const LocationSearch = ({ onCitySelect, dictionary }) => {
+const LocationSearch = ({ onCitySelect }) => {
   const [searchValue, setSearchValue] = useState('');
   const [cities, setCities] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFocused, setIsFocused] = useState(false); // Add isFocused state
   const inputRef = useRef(null);
   const dropdownRef = useRef(null);
   const isFetching = useRef(false);
 
-  const mainFilterSearchBoxDict = dictionary?.mainFilterSearchBox || {};
-  const commonDict = dictionary?.common || {};
-
   useEffect(() => {
+    // Prevent API call if searchValue is too short or an item is already selected
     if (searchValue.length < 2 || selectedItem) {
       setCities([]);
+      setIsLoading(false);
       return;
     }
 
     const fetchCities = async () => {
       if (isFetching.current) return;
       isFetching.current = true;
-
+      setIsLoading(true);
       try {
         const response = await fetch(`/api/city-id?city=${encodeURIComponent(searchValue)}`);
         const data = await response.json();
         setCities(response.ok ? data.cities : []);
       } catch (error) {
-        console.error('Error fetching cities:', error);
+        console.error('Error:', error);
         setCities([]);
       } finally {
+        setIsLoading(false);
         isFetching.current = false;
       }
     };
 
-    const debounce = setTimeout(fetchCities, 300);
+    const debounce = setTimeout(fetchCities, 500); // Change to 500ms to match HeaderSearch
     return () => clearTimeout(debounce);
   }, [searchValue, selectedItem]);
 
@@ -45,15 +45,14 @@ const LocationSearch = ({ onCitySelect, dictionary }) => {
     setSearchValue(item.city);
     setSelectedItem({ city: item.city, city_id: item.city_id });
     setCities([]);
-    setIsOpen(false);
+    setIsFocused(false); // Close dropdown on selection
     if (onCitySelect) onCitySelect({ city: item.city, city_id: item.city_id });
-    inputRef.current.blur();
+    inputRef.current.focus();
   };
 
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearchValue(value);
-    setIsOpen(true);
     if (value.length < 2) {
       setSelectedItem(null);
       setCities([]);
@@ -61,11 +60,23 @@ const LocationSearch = ({ onCitySelect, dictionary }) => {
     }
   };
 
+  const handleInputFocus = () => {
+    setIsFocused(true); // Set focus state
+  };
+
+  const handleInputBlur = () => {
+    // Delay blur to allow clicking a suggestion
+    setTimeout(() => {
+      setIsFocused(false);
+      setCities([]);
+    }, 200);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target) &&
-          inputRef.current && !inputRef.current.contains(event.target)) {
-        setIsOpen(false);
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target) && !inputRef.current.contains(event.target)) {
+        setIsFocused(false);
+        setCities([]);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -73,83 +84,81 @@ const LocationSearch = ({ onCitySelect, dictionary }) => {
   }, []);
 
   return (
-    <div className="searchMenu-loc search-field">
-      <label>{mainFilterSearchBoxDict.locationLabel || 'Location'}</label>
-      <input
-        ref={inputRef}
-        autoComplete="off"
-        type="search"
-        placeholder={mainFilterSearchBoxDict.destinationPlaceholder || "Where are you going?"}
-        value={searchValue}
-        onChange={handleInputChange}
-        onFocus={() => setIsOpen(true)}
-        className="h-32 px-6 py-2"
-      />
-      {isOpen && (searchValue.length >= 2 || cities.length > 0) && (
-        <div className="dropdown -is-active" ref={dropdownRef}>
-          {cities.length === 0 && searchValue.length >= 2 && !selectedItem ? (
-            <div className="dropdown-item">{commonDict.cityNotFound || 'City not found'}</div>
-          ) : (
-            cities.map((item) => (
-              <div
-                key={item.city_id}
-                className={`dropdown-item ${selectedItem?.city_id === item.city_id ? 'active' : ''}`}
-                onClick={() => handleOptionClick(item)}
-              >
-                <i className="icon-location-2 text-12 mr-4" />
-                {item.city}{item.country ? `, ${item.country}` : ''}
-              </div>
-            ))
-          )}
+    <div className="searchMenu-loc px-30 lg:py-20 lg:px-0 js-form-dd js-liverSearch">
+      <div>
+        <h4 className="text-15 fw-500 ls-2 lh-16">Location</h4>
+        <div className="text-15 text-light-1 ls-2 lh-16">
+          <input
+            ref={inputRef}
+            autoComplete="off"
+            type="search"
+            placeholder="What is your destination?"
+            className="js-search js-dd-focus"
+            value={searchValue}
+            onChange={handleInputChange}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
+          />
+        </div>
+      </div>
+      {(isLoading || (isFocused && cities.length > 0 && searchValue.length >= 2)) && (
+        <div
+          ref={dropdownRef}
+          className="shadow-2 min-width-400"
+          style={{
+            position: 'absolute',
+            top: '100%',
+            left: 0,
+            right: 0,
+            backgroundColor: '#fff',
+            border: '1px solid #ccc',
+            borderRadius: '4px',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            zIndex: 10,
+            maxHeight: '200px',
+            overflowY: 'auto',
+          }}
+        >
+          <div className="bg-white px-20 py-20 sm:px-0 sm:py-15 rounded-4">
+            {isLoading && <div style={{ color: '#333', padding: '8px 12px' }}>Loading...</div>}
+            {!isLoading && cities.length === 0 && searchValue.length >= 2 && !selectedItem && (
+              <div style={{ color: '#333', padding: '8px 12px' }}>City not found</div>
+            )}
+            {!isLoading && cities.length > 0 && (
+              <ul className="y-gap-5 js-results" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {cities.map((item) => (
+                  <li
+                    className={`-link d-block col-12 text-left rounded-4 px-20 py-15 js-search-option mb-1 ${
+                      selectedItem?.city_id === item.city_id ? 'active' : ''
+                    }`}
+                    key={item.city_id}
+                    role="button"
+                    onClick={() => handleOptionClick(item)}
+                    style={{
+                      cursor: 'pointer',
+                      backgroundColor: selectedItem?.city_id === item.city_id ? 'rgba(0, 0, 0, 0.1)' : 'transparent',
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f0f0f0')}
+                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = selectedItem?.city_id === item.city_id ? 'rgba(0, 0, 0, 0.1)' : 'transparent')}
+                  >
+                    <div className="d-flex">
+                      <div className="icon-location-2 text-light-1 text-20 pt-4" />
+                      <div className="ml-10">
+                        <div className="text-15 lh-12 fw-500" style={{ color: '#333' }}>
+                          {item.city}{item.country ? `, ${item.country}` : ''}
+                        </div>
+                        <div className="text-14 lh-12 text-light-1 mt-5" style={{ color: '#666' }}>
+                          City ID: {item.city_id}
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
       )}
-
-      <style jsx>{`
-        .searchMenu-loc {
-          position: relative;
-        }
-        .dropdown {
-          position: absolute;
-          top: calc(100% + 5px);
-          left: 0;
-          right: 0;
-          background-color: #fff;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-          z-index: 10;
-          max-height: 150px;
-          overflow-y: auto;
-          padding: 5px 0;
-        }
-
-        .dropdown-item {
-          padding: 8px 12px;
-          cursor: pointer;
-          font-size: 14px;
-          color: #333;
-          display: flex;
-          align-items: center;
-        }
-
-        .dropdown-item.active,
-        .dropdown-item:hover {
-          background-color: #f0f0f0;
-        }
-
-        .dropdown::-webkit-scrollbar {
-          width: 8px;
-        }
-
-        .dropdown::-webkit-scrollbar-thumb {
-          background-color: #d1d5db;
-          border-radius: 4px;
-        }
-
-        .dropdown::-webkit-scrollbar-track {
-          background: transparent;
-        }
-      `}</style>
     </div>
   );
 };

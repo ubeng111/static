@@ -1,6 +1,7 @@
+// GalleryTwo.jsx
 'use client';
 
-// import Image from 'next/image'; // Hapus import next/image
+// import Image from 'next/image'; // Hapus import next/image, kita pakai tag <img> standar
 
 const GalleryTwo = ({ hotel }) => {
   const address = (() => {
@@ -43,7 +44,29 @@ const GalleryTwo = ({ hotel }) => {
   };
 
   const mainImageUrl = (hotel.img?.replace('http://', 'https://')) || '/images/placeholder.jpg';
-  const slideImages = hotel?.slideimg?.slice(0, 4).map(img => (img?.replace('http://', 'https://')) || '/images/placeholder.jpg') || [];
+
+  // --- PERBAIKAN PENTING DI SINI untuk memproses slideimg ---
+  let slideImages = [];
+  // Periksa apakah properti yang datang adalah 'slideimg' (huruf kecil) atau 'slideImg' (huruf besar)
+  // Berdasarkan data Anda, properti ini adalah 'slideimg' (huruf kecil)
+  const rawSlideImgData = hotel?.slideimg; 
+
+  if (rawSlideImgData) {
+    if (typeof rawSlideImgData === 'string' && rawSlideImgData.startsWith('{') && rawSlideImgData.endsWith('}')) {
+      // Ini adalah kasus di mana data datang sebagai string seperti "{url1,url2,...}"
+      // Hapus kurung kurawal di awal dan akhir, lalu pisahkan berdasarkan koma
+      const urls = rawSlideImgData.substring(1, rawSlideImgData.length - 1).split(',');
+      slideImages = urls.map(url => url.trim()); // Hapus spasi di sekitar URL jika ada
+    } else if (Array.isArray(rawSlideImgData)) {
+      // Ini adalah kasus jika data sudah datang sebagai array (ideal)
+      slideImages = rawSlideImgData;
+    }
+    // Jika formatnya tidak seperti string '{...}' atau bukan array, slideImages akan tetap kosong []
+  }
+
+  // Filter untuk mengambil 4 gambar pertama dan memprosesnya
+  // Lakukan replace http ke https dan tambahkan placeholder setelah memastikan itu array
+  slideImages = slideImages.slice(0, 4).map(img => (img?.replace('http://', 'https://')) || '/images/placeholder.jpg');
 
   return (
     <section className="pt-10 sm:pt-20 md:pt-40">
@@ -90,6 +113,7 @@ const GalleryTwo = ({ hotel }) => {
             </div>
           )}
 
+          {/* Pastikan slideImages adalah array sebelum map */}
           {slideImages.map((imageSrc, index) => (
             <div className="galleryGrid__item" key={index}>
               <img // Menggunakan tag <img> standar

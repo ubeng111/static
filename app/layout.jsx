@@ -1,60 +1,50 @@
+// app/layout.jsx
+"use client";
 
-import ClientProviders from "@/components/ClientProviders";
-
-// Import CSS Anda
-import "bootstrap/dist/css/bootstrap.min.css";
+import Aos from "aos";
+import { useEffect } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import ScrollTop from "../components/common/ScrollTop";
 import "swiper/css/scrollbar";
 import "swiper/css/effect-cards";
 import "aos/dist/aos.css";
-import "@/styles/index.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../styles/index.scss";
+import { Provider } from "react-redux";
+import { store } from "../store/store";
+import { CurrencyProvider } from "../components/CurrencyContext"; // Corrected path
 
-// 1. Tambahkan fungsi generateMetadata di sini
-export const metadata = {
-  // metadataBase digunakan untuk URL Open Graph (og:image)
-  metadataBase: new URL('https://hoteloza.com'), 
-  
-  // Title akan berfungsi sebagai template. 
-  // Jika halaman anak punya title "Tentang Kami", hasilnya akan menjadi "Tentang Kami | Hoteloza"
-  title: {
-    template: '%s | Hoteloza',
-    default: 'Hoteloza - Pesan Hotel Mudah, Cepat, dan Terpercaya', // Title default jika tidak ada di halaman anak
-  },
-  
-  // Deskripsi default untuk seluruh situs
-  description: 'Temukan dan pesan hotel terbaik di seluruh dunia dengan harga terjangkau. Hoteloza menawarkan ribuan pilihan akomodasi untuk perjalanan Anda.',
-  
-  // Aturan default untuk robot pencari
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-    },
-  },
-  
-  verification: {
-    google: '2CUKI9cYViNxYurFPrRO39L2Qg9DHlUUu6mJsskuVg',
-  },
-};
+// Muat bootstrap.bundle.min.js untuk mendukung dropdown
+if (typeof window !== "undefined") {
+  require("bootstrap/dist/js/bootstrap.bundle.min.js");
+}
 
-
-// 2. Sederhanakan komponen RootLayout Anda
 export default function RootLayout({ children }) {
-  // Tidak perlu lagi membaca headers di sini untuk locale
+  useEffect(() => {
+    Aos.init({
+      duration: 1200,
+      once: true,
+    });
+  }, []);
+
   return (
-    // Next.js akan menangani lang attribute dari layout anak
-    <html> 
+    <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+        {/* Google Site Verification Meta Tag */}
+        <meta
+          name="google-site-verification"
+          content="2CUKI9cYViNxYurFPrRO39L2Qg9DHlUUu6mJssjkuVg"
+        />
       </head>
       <body>
-        <ClientProviders>
-          {children}
-        </ClientProviders>
+        <Provider store={store}>
+          <CurrencyProvider>
+            {children}
+            <ScrollTop />
+          </CurrencyProvider>
+        </Provider>
       </body>
     </html>
   );

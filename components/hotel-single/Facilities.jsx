@@ -1,8 +1,6 @@
 import React, { memo } from 'react';
 
-const Facilities = ({ dictionary }) => { // Menerima dictionary
-  const facilitiesDict = dictionary?.facilities || {}; // Akses bagian facilities dari dictionary
-
+const Facilities = () => {
   const facilitiesContent = [
     {
       id: 1,
@@ -10,35 +8,32 @@ const Facilities = ({ dictionary }) => { // Menerima dictionary
         {
           id: 1,
           icon: "icon-bathtub ",
-          title: facilitiesDict.bathroom || "Bathroom", // Gunakan dictionary
+          title: "Bathroom",
           facilities: [
-            facilitiesDict.towels || "Towels", // Gunakan dictionary
-            facilitiesDict.bathOrShower || "Bath or shower", // Gunakan dictionary
-            facilitiesDict.privateBathroom || "Private bathroom", // Gunakan dictionary
-            facilitiesDict.toilet || "Toilet", // Gunakan dictionary
-            facilitiesDict.freeToiletries || "Free toiletries", // Gunakan dictionary
-            facilitiesDict.hairdryer || "Hairdryer", // Gunakan dictionary
-            facilitiesDict.bath || "Bath", // Gunakan dictionary
+            "Towels",
+            "Bath or shower",
+            "Private bathroom",
+            "Toilet",
+            "Free toiletries",
+            "Hairdryer",
+            "Bath",
           ],
         },
         {
           id: 2,
           icon: "icon-bed ",
-          title: facilitiesDict.bedroom || "Bedroom", // Gunakan dictionary
-          facilities: [
-            facilitiesDict.linen || "Linen", // Gunakan dictionary
-            facilitiesDict.wardrobeOrCloset || "Wardrobe or closet" // Gunakan dictionary
-          ],
+          title: "Bedroom",
+          facilities: ["Linen", "Wardrobe or closet"],
         },
         {
           id: 3,
           icon: "icon-bell-ring ",
-          title: facilitiesDict.receptionServices || "Reception services", // Gunakan dictionary
+          title: "Reception services",
           facilities: [
-            facilitiesDict.invoiceProvided || "Invoice provided", // Gunakan dictionary
-            facilitiesDict.privateCheckInCheckOut || "Private check-in/check-out", // Gunakan dictionary
-            facilitiesDict.luggageStorage || "Luggage storage", // Gunakan dictionary
-            facilitiesDict.twentyFourHourFrontDesk || "24-hour front desk", // Gunakan dictionary
+            "Invoice provided",
+            "Private check-in/check-out",
+            "Luggage storage",
+            "24-hour front desk",
           ],
         },
       ],
@@ -49,37 +44,33 @@ const Facilities = ({ dictionary }) => { // Menerima dictionary
         {
           id: 1,
           icon: "icon-tv",
-          title: facilitiesDict.mediaTechnology || "Media & Technology", // Gunakan dictionary
+          title: "Media & Technology",
           facilities: [
-            facilitiesDict.flatScreenTV || "Flat-screen TV", // Gunakan dictionary
-            facilitiesDict.satelliteChannels || "Satellite channels", // Gunakan dictionary
-            facilitiesDict.radio || "Radio", // Gunakan dictionary
-            facilitiesDict.telephone || "Telephone", // Gunakan dictionary
-            facilitiesDict.tv || "TV", // Gunakan dictionary
+            "Flat-screen TV",
+            "Satellite channels",
+            "Radio",
+            "Telephone",
+            "TV",
           ],
         },
         {
           id: 2,
           icon: "icon-juice",
-          title: facilitiesDict.foodDrink || "Food & Drink", // Gunakan dictionary
+          title: "Food & Drink",
           facilities: [
-            facilitiesDict.kidMeals || "Kid meals", // Gunakan dictionary
-            facilitiesDict.specialDietMenusOnRequest || "Special diet menus (on request)", // Gunakan dictionary
-            facilitiesDict.breakfastInTheRoom || "Breakfast in the room", // Gunakan dictionary
-            facilitiesDict.bar || "Bar", // Tambahkan ke en.json jika perlu
-            facilitiesDict.restaurant || "Restaurant", // Tambahkan ke en.json jika perlu
-            facilitiesDict.teaCoffeeMaker || "Tea/Coffee maker", // Tambahkan ke en.json jika perlu
+            "Kid meals",
+            "Special diet menus (on request)",
+            "Breakfast in the room",
+            "Bar",
+            "Restaurant",
+            "Tea/Coffee maker",
           ],
         },
         {
           id: 3,
           icon: "icon-washing-machine",
-          title: facilitiesDict.cleaningServices || "Cleaning services", // Gunakan dictionary
-          facilities: [
-            facilitiesDict.dailyHousekeeping || "Daily housekeeping", // Gunakan dictionary
-            facilitiesDict.dryCleaning || "Dry cleaning", // Gunakan dictionary
-            facilitiesDict.laundry || "Laundry" // Gunakan dictionary
-          ],
+          title: "Cleaning services",
+          facilities: ["Daily housekeeping", "Dry cleaning", "Laundry"],
         },
       ],
     },
@@ -89,12 +80,12 @@ const Facilities = ({ dictionary }) => { // Menerima dictionary
         {
           id: 1,
           icon: "icon-shield",
-          title: facilitiesDict.safetySecurity || "Safety & security", // Gunakan dictionary
+          title: "Safety & security",
           facilities: [
-            facilitiesDict.fireExtinguishers || "Fire extinguishers", // Gunakan dictionary
-            facilitiesDict.cctvInCommonAreas || "CCTV in common areas", // Gunakan dictionary
-            facilitiesDict.smokeAlarms || "Smoke alarms", // Gunakan dictionary
-            facilitiesDict.twentyFourHourSecurity || "24-hour security", // Gunakan dictionary
+            "Fire extinguishers",
+            "CCTV in common areas",
+            "Smoke alarms",
+            "24-hour security",
           ],
         },
       ],
@@ -113,7 +104,7 @@ const Facilities = ({ dictionary }) => { // Menerima dictionary
                     <i className={`${facility.icon} text-20 mr-10`} />
                     {facility.title}
                   </div>
-                  <ul className="text-14 pt-10">
+                  <ul className="text-15 pt-10">
                     {facility?.facilities?.map((val, i) => (
                       <li className="d-flex items-center" key={i}>
                         <i className="icon-check text-10 mr-20" />

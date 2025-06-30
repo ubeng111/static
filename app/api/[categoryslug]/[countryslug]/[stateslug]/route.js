@@ -1,18 +1,12 @@
-// route.js
-
 import { Pool } from 'pg';
-// import fs from 'fs'; // Hapus impor ini
-// import path from 'path'; // Hapus impor ini
+import fs from 'fs';
+import path from 'path';
 import 'dotenv/config';
-
-// --- PERUBAHAN PENTING DI SINI: Menggunakan variabel lingkungan untuk sertifikat CA ---
-const caCert = process.env.DATABASE_CA_CERT; // Ambil konten sertifikat dari variabel lingkungan
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
-  ssl: caCert ? { ca: caCert } : { rejectUnauthorized: false }, // Jika caCert ada, gunakan. Jika tidak, HATI-HATI dengan `rejectUnauthorized: false` di produksi.
+  ssl: { ca: fs.readFileSync(path.resolve('certs', 'root.crt')) },
 });
-// --- AKHIR PERUBAHAN PENTING ---
 
 const cache = {};
 const cacheTTL = 60 * 60 * 1000; // 1 hour
@@ -32,10 +26,7 @@ function setCache(key, data) {
 const LIMIT = 12;
 
 export async function GET(req, { params }) {
-  // --- PERBAIKAN: params sudah objek, tidak perlu `await params` ---
-  const { categoryslug, countryslug, stateslug } = params;
-  // --- AKHIR PERBAIKAN ---
-
+  const { categoryslug, countryslug, stateslug } = await params;
   if (!categoryslug || !countryslug || !stateslug) {
     return new Response(JSON.stringify({ message: 'Category, country, and state slugs are required' }), { status: 400 });
   }
@@ -61,47 +52,33 @@ export async function GET(req, { params }) {
       [categoryslug, countryslug, stateslug]
     );
     if (validateHierarchy.rows.length === 0) {
-      return new Response(JSON.stringify({ message: 'Invalid category, country, or state combination' }), { status: 404 });
+      return new Response(JSON.stringify({ message: 'Invalid category, country, or state' }), { status: 400 });
     }
 
     const query = `
       WITH hotel_data AS (
-        SELECT id, title, city, state, country, category, categoryslug, countryslug, stateslug, cityslug, hotelslug, img, location, ratings, numberOfReviews, numberrooms, overview, city_id, latitude, longitude
-        FROM public.hotels
+        SELECT * FROM public.hotels
         WHERE categoryslug = $1 AND countryslug = $2 AND stateslug = $3
-          AND title IS NOT NULL 
-          AND title != ''
-          AND city IS NOT NULL 
-          AND city != ''
-          AND country IS NOT NULL 
-          AND country != ''
         ORDER BY id ASC
         LIMIT $4 OFFSET $5
       ),
       hotel_count AS (
-        SELECT COUNT(*) AS total 
-        FROM public.hotels
+        SELECT COUNT(*) AS total FROM public.hotels
         WHERE categoryslug = $1 AND countryslug = $2 AND stateslug = $3
-          AND title IS NOT NULL 
-          AND title != ''
-          AND city IS NOT NULL 
-          AND city != ''
-          AND country IS NOT NULL 
-          AND country != ''
       )
-      SELECT hotel_data.*, hotel_count.total
-      FROM hotel_data, hotel_count;
+      SELECT hd.*, hc.total
+      FROM hotel_data hd
+      CROSS JOIN hotel_count hc;
     `;
     const result = await client.query(query, [categoryslug, countryslug, stateslug, LIMIT, offset]);
 
-    const hotels = result.rows.filter(row => row.id !== undefined).map(({ total, ...hotel }) => hotel);
-
-    if (hotels.length === 0) {
+    if (result.rows.length === 0) {
       return new Response(JSON.stringify({ message: 'No hotels found for this state' }), { status: 404 });
     }
 
     const totalHotels = parseInt(result.rows[0].total, 10);
     const totalPages = Math.ceil(totalHotels / LIMIT);
+    const hotels = result.rows.map(({ total, ...hotel }) => hotel); // Clean hotel data
 
     const relatedCityQuery = `
       SELECT DISTINCT city, cityslug
@@ -112,8 +89,8 @@ export async function GET(req, { params }) {
     const relatedCityResult = await client.query(relatedCityQuery, [categoryslug, countryslug, stateslug]);
 
     const response = {
-      hotels: JSON.parse(JSON.stringify(hotels)),
-      relatedstate: JSON.parse(JSON.stringify(relatedCityResult.rows)), // TETAP relatedstate
+      hotels,
+      relatedstate: relatedCityResult.rows,
       pagination: { page, totalPages, totalHotels },
     };
 
