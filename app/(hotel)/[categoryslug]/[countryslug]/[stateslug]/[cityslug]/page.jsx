@@ -41,7 +41,10 @@ async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
 const ClientPage = dynamic(() => import('./ClientPage'));
 
 export async function generateMetadata({ params }) {
-  const { categoryslug, countryslug, stateslug, cityslug } = params;
+  // Sesuai petunjuk Next.js, `params` harus diawait sebelum menggunakan propertinya.
+  const awaitedParams = await params;
+  const { categoryslug, countryslug, stateslug, cityslug } = awaitedParams;
+
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
   const sanitizedState = sanitizeSlug(stateslug);
@@ -69,7 +72,7 @@ export async function generateMetadata({ params }) {
   const currentYear = new Date().getFullYear();
 
   // Dapatkan longDescription sebagai array objek dari template
-  const longDescriptionSegments = contentTemplates.getGeoCategoryDescription( // Perubahan di sini
+  const longDescriptionSegments = contentTemplates.getGeoCategoryDescription(
     formattedCategory,
     'city', // entityType
     formattedCity, // entityName
@@ -79,15 +82,15 @@ export async function generateMetadata({ params }) {
   );
 
   // Ambil kalimat pertama dari konten paragraf pertama untuk meta description
-  const firstParagraphContent = longDescriptionSegments[0]?.content || ''; // Perubahan di sini
+  const firstParagraphContent = longDescriptionSegments[0]?.content || '';
   const metaDescription = firstParagraphContent.substring(0, 160) + (firstParagraphContent.length > 160 ? '...' : '');
 
   return {
     title: `Best ${formattedCategory} in ${formattedCity}, ${formattedState} ${currentYear} - Book Now! | Hoteloza`,
-    description: metaDescription, // Gunakan metaDescription
+    description: metaDescription,
     openGraph: {
       title: `Top ${formattedCategory} in ${formattedCity}, ${formattedState} ${currentYear} | Hoteloza`,
-      description: metaDescription, // Gunakan metaDescription
+      description: metaDescription,
       url: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`,
       type: 'website',
     },
@@ -95,7 +98,10 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-  const { categoryslug, countryslug, stateslug, cityslug } = params;
+  // Sesuai petunjuk Next.js, `params` harus diawait sebelum menggunakan propertinya.
+  const awaitedParams = await params;
+  const { categoryslug, countryslug, stateslug, cityslug } = awaitedParams;
+
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
   const sanitizedState = sanitizeSlug(stateslug);
@@ -120,7 +126,7 @@ export default async function Page({ params }) {
   const currentUrl = `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`;
 
   // Dapatkan longDescription sebagai array objek dari template
-  const longDescriptionSegments = contentTemplates.getGeoCategoryDescription( // Perubahan di sini
+  const longDescriptionSegments = contentTemplates.getGeoCategoryDescription(
     formattedCategory,
     'city', // entityType
     formattedCity, // entityName
@@ -130,7 +136,7 @@ export default async function Page({ params }) {
   );
 
   // Untuk schema.org description, gabungkan semua konten paragraf menjadi satu string
-  const schemaDescription = longDescriptionSegments.map(segment => segment.content).join(' '); // Perubahan di sini
+  const schemaDescription = longDescriptionSegments.map(segment => segment.content).join(' ');
 
   const hotelItems = data.hotels.map((hotel, index) => ({
     '@type': 'ListItem',
@@ -158,7 +164,7 @@ export default async function Page({ params }) {
         '@type': 'WebPage',
         url: currentUrl,
         name: `Top ${formattedCategory} in ${formattedCity}, ${formattedState} ${currentYear}`,
-        description: schemaDescription, // Gunakan schemaDescription (string gabungan dari konten)
+        description: schemaDescription,
         publisher: {
           '@type': 'Organization',
           name: 'Hoteloza',
@@ -178,7 +184,7 @@ export default async function Page({ params }) {
       {
         '@type': 'ItemList',
         name: `Top ${formattedCategory} in ${formattedCity}, ${formattedState}`,
-        description: schemaDescription.substring(0, 160) + '...', // Gunakan schemaDescription, potong untuk skema item list
+        description: schemaDescription.substring(0, 160) + '...',
         itemListElement: hotelItems,
       },
     ],
@@ -196,7 +202,7 @@ export default async function Page({ params }) {
         formattedCity={formattedCity}
         formattedState={formattedState}
         formattedCountry={formattedCountry}
-        longDescriptionSegments={longDescriptionSegments} // Perubahan di sini: Kirim array objek
+        longDescriptionSegments={longDescriptionSegments}
       />
     </>
   );

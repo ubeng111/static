@@ -39,7 +39,11 @@ async function getCountryData(categoryslug, countryslug) {
 const ClientPage = dynamic(() => import('./ClientPage')); //
 
 export async function generateMetadata({ params }) {
-  const { categoryslug, countryslug } = params; //
+  // Sesuai petunjuk Next.js, `params` harus diawait.
+  const awaitedParams = await params; //
+  const categoryslug = awaitedParams.categoryslug; //
+  const countryslug = awaitedParams.countryslug; //
+
   const sanitizedCategory = sanitizeSlug(categoryslug); //
   const sanitizedCountry = sanitizeSlug(countryslug); //
 
@@ -89,7 +93,11 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-  const { categoryslug, countryslug } = params; //
+  // Sesuai petunjuk Next.js, `params` harus diawait.
+  const awaitedParams = await params; //
+  const categoryslug = awaitedParams.categoryslug; //
+  const countryslug = awaitedParams.countryslug; //
+  
   const sanitizedCategory = sanitizeSlug(categoryslug); //
   const sanitizedCountry = sanitizeSlug(countryslug); //
 
@@ -120,10 +128,6 @@ export default async function Page({ params }) {
 
   // Ambil nama negara, provinsi dari data hotel pertama jika ada untuk FAQ/display
   const displayCountry = data.hotels[0]?.country ? formatSlug(data.hotels[0].country) : formattedCountry; //
-  // Perhatikan: displayState dan displayCity tidak relevan untuk Country Page
-  // const displayState = data.hotels[0]?.['negara bagian'] ? formatSlug(data.hotels[0]['negara bagian']) : 'Unknown Region';
-  // const displayCity = data.hotels[0]?.kota ? formatSlug(data.hotels[0].kota) : 'Unknown City';
-
 
   // Untuk schema.org description, gabungkan semua konten paragraf menjadi satu string
   const schemaDescription = longDescriptionSegments.map(segment => segment.content).join(' '); //
