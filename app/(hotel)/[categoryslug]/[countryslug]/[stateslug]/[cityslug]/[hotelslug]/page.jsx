@@ -8,7 +8,7 @@ import Script from 'next/script';
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
-// *** FUNGSI calculateDistance DIMASUKKAN DI SINI ***
+// *** Fungsi calculateDistance (di server-side) - Disediakan ulang ***
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6371; // Radius of Earth in kilometers
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
@@ -23,9 +23,7 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
   return R * c;
 };
 
-// Function to fetch hotel data for both metadata and page content
 async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, hotelslug }) {
-  // Sanitize slugs to prevent invalid characters
   const sanitizedParams = {
     categoryslug: categoryslug?.replace(/[^a-zA-Z0-9-]/g, ''),
     countryslug: countryslug?.replace(/[^a-zA-Z0-9-]/g, ''),
@@ -34,7 +32,6 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
     hotelslug: hotelslug?.replace(/[^a-zA-Z0-9-]/g, ''),
   };
 
-  // Validate parameters
   if (
     !sanitizedParams.categoryslug ||
     !sanitizedParams.countryslug ||
@@ -42,151 +39,103 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
     !sanitizedParams.cityslug ||
     !sanitizedParams.hotelslug
   ) {
-    console.error('Missing required parameters after sanitization:', sanitizedParams);
+    console.error('SERVER ERROR [page.jsx - getHotelData]: Missing required parameters after sanitization:', sanitizedParams);
     return null;
   }
 
-  // Use environment variable for base URL
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
   const apiUrl = `${baseUrl}/api/${sanitizedParams.categoryslug}/${sanitizedParams.countryslug}/${sanitizedParams.stateslug}/${sanitizedParams.cityslug}/${sanitizedParams.hotelslug}`;
-  console.log('Constructed API URL:', apiUrl);
+  console.log('SERVER DEBUG [page.jsx - getHotelData]: Constructed API URL:', apiUrl);
 
   try {
     const response = await fetch(apiUrl, { cache: 'no-store' });
     if (!response.ok) {
       console.error(
-        `Failed to fetch hotel data for ${sanitizedParams.hotelslug}. Status: ${response.status} - ${response.statusText}`
+        `SERVER ERROR [page.jsx - getHotelData]: Failed to fetch hotel data for ${sanitizedParams.hotelslug}. Status: ${response.status} - ${response.statusText}`
       );
       return null;
     }
     return response.json();
   } catch (error) {
-    console.error('Error fetching hotel data in getHotelData:', error);
-    return null;
+      console.error('SERVER FATAL ERROR [page.jsx - getHotelData]: Error fetching hotel data:', error);
+      return null;
   }
 }
 
-// *** FUNGSI BARU UNTUK MENGAMBIL DATA LANDMARK DI SISI SERVER ***
-async function getLandmarkData(latitude, longitude) {
-  if (!latitude || !longitude) {
+// *** FUNGSI UNTUK MENGAMBIL, MEMFILTER, MENGHITUNG JARAK, MENGURUTKAN, DAN MENGACAK LANDMARK ***
+async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityId) { 
+  if (!hotelLatitude || !hotelLongitude || !hotelCityId) {
+    console.warn("SERVER WARN [page.jsx - getLandmarkDataForHotel]: Hotel coordinates or cityId missing. Cannot find relevant landmarks. Returning empty array.");
     return [];
   }
 
-  const OVERPASS_RADIUS_KM = 5;
-  const RESULTS_LIMIT = 15;
-  const radiusInMeters = OVERPASS_RADIUS_KM * 1000;
-
   try {
-    const proxyUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000'}/api/overpass`;
+    // *** PERBAIKAN: Kirim hotelCityId ke API SQL ***
+    const allLandmarksApiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000'}/api/fast-landmarks-by-city?city_id=${hotelCityId}`; 
+    console.log(`SERVER DEBUG [page.jsx - getLandmarkDataForHotel]: Calling SQL API for landmarks relevant to city_id ${hotelCityId}: ${allLandmarksApiUrl}`);
 
-    const overpassQuery = `
-      [out:json];
-      (
-        node(around:${radiusInMeters},${latitude},${longitude})[amenity=hospital][!"place"];
-        way(around:${radiusInMeters},${latitude},${longitude})[amenity=hospital][!"place"];
-        node(around:${radiusInMeters},${latitude},${longitude})[aeroway=aerodrome][!"place"];
-        way(around:${radiusInMeters},${latitude},${longitude})[aeroway=aerodrome][!"place"];
-        node(around:${radiusInMeters},${latitude},${longitude})[railway=station][!"place"];
-        way(around:${radiusInMeters},${latitude},${longitude})[railway=station][!"place"];
-        node(around:${radiusInMeters},${latitude},${longitude})[tourism~"^(attraction|museum|theme_park|zoo|monument|artwork|memorial|viewpoint|castle|ruins)$"][!"place"];
-        way(around:${radiusInMeters},${latitude},${longitude})[tourism~"^(attraction|museum|theme_park|zoo|monument|artwork|memorial|viewpoint|castle|ruins)$"][!"place"];
-        rel(around:${radiusInMeters},${latitude},${longitude})[tourism~"^(attraction|museum|theme_park|zoo|monument|artwork|memorial|viewpoint|castle|ruins)$"][!"place"];
-        node(around:${radiusInMeters},${latitude},${longitude})[amenity=university][!"place"];
-        way(around:${radiusInMeters},${latitude},${longitude})[amenity=university][!"place"];
-        node(around:${radiusInMeters},${latitude},${longitude})[amenity=bus_station][!"place"];
-        way(around:${radiusInMeters},${latitude},${longitude})[amenity=bus_station][!"place"];
-        node(around:${radiusInMeters},${latitude},${longitude})[shop=mall][!"place"];
-        way(around:${radiusInMeters},${latitude},${longitude})[shop=mall][!"place"];
-      );
-      out center;
-    `;
-
-    const response = await fetch(proxyUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ overpassQuery }),
-      cache: 'no-store' // Penting: pastikan ini tidak di-cache statis jika data sering berubah
-    });
-
+    const response = await fetch(allLandmarksApiUrl, { cache: 'no-store' }); 
+    
     if (!response.ok) {
-      const errorBody = await response.json();
-      console.error("Error fetching Overpass data:", errorBody.details || `HTTP error! status: ${response.status}`);
+      console.warn(`SERVER WARN [page.jsx - getLandmarkDataForHotel]: Failed to fetch landmark data from SQL API. Status: ${response.status}`);
       return [];
     }
     const data = await response.json();
-
-    if (!data.elements) {
-      return [];
+    
+    if (!Array.isArray(data)) {
+        console.warn("SERVER WARN [page.jsx - getLandmarkDataForHotel]: SQL API for landmarks did not return an array. Returning empty array.");
+        return [];
     }
+    console.log(`SERVER DEBUG [page.jsx - getLandmarkDataForHotel]: Received ${data.length} landmarks from SQL API for city_id ${hotelCityId}.`);
 
-    const relevantLandmarks = data.elements
-      .filter(el => el.tags && el.tags.name)
-      .filter(el => !el.tags.place)
-      .filter(el => el.tags.name.trim().includes(' ') && el.tags.name.trim().split(' ').length > 1) // Filter nama lebih dari satu kata
-      .filter(el => !(el.tags.amenity === 'hospital' && (el.tags.healthcare === 'clinic' || el.tags.healthcare === 'community_healthcare'))); // Filter klinik/puskesmas jika amenity=hospital
+    const MAX_RELEVANT_DISTANCE_KM = 20; // Batas jarak untuk landmark yang relevan
+    const POOL_SIZE_FOR_SHUFFLE = 30; // Dari landmark terdekat ini, kita akan ambil 12 acak
+    const FINAL_DISPLAY_COUNT = 12; // Jumlah final yang akan ditampilkan
 
-    const landmarkNames = relevantLandmarks.map(el => el.tags.name);
-    let slugMap = new Map();
+    let processedLandmarks = data.map(landmark => {
+      // Hitung jarak dari hotel ke landmark ini menggunakan koordinat hotel dan landmark
+      // Pastikan koordinat landmark adalah float
+      const landmarkLat = parseFloat(landmark.latitude);
+      const landmarkLon = parseFloat(landmark.longitude);
 
-    if (landmarkNames.length > 0) {
-      const slugResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000'}/api/resolve-landmark-slug`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ names: landmarkNames }),
-        cache: 'no-store'
-      });
-
-      if (slugResponse.ok) {
-        const slugData = await slugResponse.json();
-        if (slugData.slugs) {
-          slugData.slugs.forEach(item => {
-            if (item.slug) {
-              slugMap.set(item.name, item.slug);
-            }
-          });
-        }
-      } else {
-        console.warn(`Could not fetch slugs from API, status: ${slugResponse.status}`);
-      }
-    }
-
-    const processedLandmarks = relevantLandmarks.map(el => {
-      const lat = el.lat || (el.center ? el.center.lat : null);
-      const lon = el.lon || (el.center ? el.center.lon : null);
-
-      if (lat === null || lon === null) {
-        return null;
+      if (isNaN(landmarkLat) || isNaN(landmarkLon)) {
+          console.warn(`SERVER WARN [page.jsx - getLandmarkDataForHotel]: Invalid coordinates for landmark ${landmark.name}. Skipping.`);
+          return null; // Skip invalid landmarks
       }
 
-      const slug = slugMap.get(el.tags.name);
-
-      if (!slug) {
-        return null; // Hanya sertakan landmark yang memiliki slug
-      }
-
+      const distance = calculateDistance(
+        parseFloat(hotelLatitude), parseFloat(hotelLongitude),
+        landmarkLat, landmarkLon
+      );
       return {
-        name: el.tags.name,
-        distance: calculateDistance(
-          latitude,
-          longitude,
-          parseFloat(lat),
-          parseFloat(lon)
-        ),
-        type: el.type,
-        slug: slug,
+        ...landmark,
+        distance: distance, // distance yang baru dihitung
       };
-    });
+    }).filter(landmark => 
+      // Filter berdasarkan jarak dan pastikan punya slug dan nama dan bukan null
+      landmark !== null && landmark.distance <= MAX_RELEVANT_DISTANCE_KM && landmark.slug && landmark.name
+    );
 
-    const filteredList = processedLandmarks
-      .filter(landmark => landmark !== null)
-      .filter(landmark => landmark.distance <= OVERPASS_RADIUS_KM)
-      .sort((a, b) => a.distance - b.distance)
-      .slice(0, RESULTS_LIMIT);
+    // Urutkan berdasarkan jarak (terdekat terlebih dahulu)
+    processedLandmarks.sort((a, b) => a.distance - b.distance);
 
-    return filteredList;
+    // Ambil sebagian kecil dari yang terdekat untuk pool acak
+    const relevantAndLimitedPool = processedLandmarks.slice(0, POOL_SIZE_FOR_SHUFFLE);
+
+    // Lakukan random shuffle pada pool yang relevan dan terbatas ini
+    for (let i = relevantAndLimitedPool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [relevantAndLimitedPool[i], relevantAndLimitedPool[j]] = [relevantAndLimitedPool[j], relevantAndLimitedPool[i]];
+    }
+
+    // Ambil 12 landmark pertama dari hasil acak
+    const finalLandmarks = relevantAndLimitedPool.slice(0, FINAL_DISPLAY_COUNT);
+
+    console.log(`SERVER DEBUG [page.jsx - getLandmarkDataForHotel]: Returning ${finalLandmarks.length} relevant, random, and limited landmarks.`);
+    return finalLandmarks; 
 
   } catch (error) {
-    console.error("Error fetching landmarks in getLandmarkData (server-side):", error);
+    console.error("SERVER FATAL ERROR [page.jsx - getLandmarkDataForHotel]: Error processing landmark data:", error);
     return [];
   }
 }
@@ -205,7 +154,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
-  console.log('Metadata params:', resolvedParams);
+  console.log('SERVER DEBUG [page.jsx - generateMetadata]: Metadata params:', resolvedParams);
   const { categoryslug, countryslug, stateslug, cityslug, hotelslug } = resolvedParams;
 
   try {
@@ -244,7 +193,7 @@ export async function generateMetadata({ params }) {
       },
     };
   } catch (error) {
-    console.error('Error in generateMetadata:', error);
+    console.error('SERVER FATAL ERROR [page.jsx - generateMetadata]: Error in generateMetadata:', error);
     return {
       title: `Hotel Not Found | Hoteloza`,
       description: `The requested hotel could not be found due to an error.`,
@@ -254,18 +203,24 @@ export async function generateMetadata({ params }) {
 
 export default async function HotelDetailPage({ params }) {
   const resolvedParams = await params;
-  console.log('Received params in HotelDetailPage:', resolvedParams);
+  console.log('SERVER DEBUG [page.jsx - HotelDetailPage]: Received params:', resolvedParams);
   const data = await getHotelData(resolvedParams);
 
   if (!data || !data.hotel) {
+    console.warn('SERVER WARN [page.jsx - HotelDetailPage]: Hotel data not found, returning 404.');
     notFound();
   }
 
   const hotel = data.hotel;
+  console.log('SERVER DEBUG [page.jsx - HotelDetailPage]: Hotel object:', hotel.title, 'city_id:', hotel.city_id, 'lat:', hotel.latitude, 'lon:', hotel.longitude);
 
-  // *** Panggil fungsi pengambilan data landmark di sisi server ***
-  // Pastikan hotel.latitude dan hotel.longitude tersedia
-  const landmarks = await getLandmarkData(hotel.latitude, hotel.longitude);
+  const landmarksForDisplay = await getLandmarkDataForHotel(
+    hotel.latitude, 
+    hotel.longitude,
+    hotel.city_id 
+  );
+  console.log('SERVER DEBUG [page.jsx - HotelDetailPage]: Final landmarks for display (expected 12 relevant & random):', landmarksForDisplay.length, 'items.');
+
 
   const formattedHotel = formatSlug(resolvedParams.hotelslug) || hotel.title;
   const formattedCity = formatSlug(resolvedParams.cityslug) || hotel.city;
@@ -300,8 +255,8 @@ export default async function HotelDetailPage({ params }) {
         aggregateRating: {
           '@type': 'AggregateRating',
           ratingValue: parseFloat(hotel.ratings).toFixed(1),
-          bestRating: 10, // Explicitly set to match 1–10 scale
-          worstRating: 1, // Explicitly set to match 1–10 scale
+          bestRating: 10,
+          worstRating: 1,
           reviewCount: parseInt(hotel.numberofreviews) || 0,
         },
       }),
@@ -309,7 +264,7 @@ export default async function HotelDetailPage({ params }) {
         starRating: {
           '@type': 'Rating',
           ratingValue: parseFloat(hotel.starRating),
-          bestRating: 5, // Star ratings are typically 1–5
+          bestRating: 5,
         },
       }),
     },
@@ -349,10 +304,9 @@ export default async function HotelDetailPage({ params }) {
           item: `https://hoteloza.com/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}/${resolvedParams.hotelslug}`,
         },
       ].concat(
-        // Hanya tambahkan landmark ke BreadcrumbList jika ada dan relevan
-        landmarks.map((landmark, index) => ({
+        landmarksForDisplay.map((landmark, index) => ({
           '@type': 'ListItem',
-          position: 7 + index, // Sesuaikan posisi
+          position: 7 + index,
           name: landmark.name,
           item: `https://hoteloza.com/landmark/${landmark.slug}`
         }))
@@ -365,13 +319,13 @@ export default async function HotelDetailPage({ params }) {
       <Script
         id="hotel-schema"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
+        dangeriouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
       />
       <BookNow hotel={data.hotel} hotelId={data.hotel?.id} />
       <ClientPage
         hotel={data.hotel}
         relatedHotels={data.relatedHotels}
-        landmarks={landmarks} // *** Teruskan data landmark ke ClientPage ***
+        landmarks={landmarksForDisplay} // Teruskan 12 landmark yang sudah di-shuffle dan dihitung jaraknya
         useHotels2={true}
         hotelslug={resolvedParams.hotelslug}
         categoryslug={resolvedParams.categoryslug}

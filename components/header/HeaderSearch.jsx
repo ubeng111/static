@@ -15,10 +15,10 @@ const HeaderSearch = () => {
   const searchInputRef = useRef(null);
 
   // Ganti penggunaan kamus dengan string statis
-  const searchPlaceholder = "Cari...";
-  const searchButtonLabel = "Cari hotel atau destinasi";
-  const closeButtonLabel = "Tutup";
-  const submitSearchLabel = "Kirim pencarian";
+  const searchPlaceholder = "Search...";
+  const searchButtonLabel = "Search hotel or destinasi";
+  const closeButtonLabel = "Close";
+  const submitSearchLabel = "Send Search";
 
 
   /**
