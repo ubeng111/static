@@ -1,15 +1,14 @@
-// CurrencyMenu.jsx
+// File: components/header/CurrencyMenu1.jsx
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { useState, useEffect, useCallback } from 'react';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useCurrency } from '../CurrencyContext';
 
 const CurrencyMenu = ({ textClass }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const { currency, setCurrency } = useCurrency();
 
   const currencyContent = [
     { id: 1, currency: 'USD', language: 'en-us', symbol: '$', name: 'US Dollar' },
@@ -43,150 +42,163 @@ const CurrencyMenu = ({ textClass }) => {
     { id: 29, currency: 'CNY', language: 'zh-cn', symbol: '¥', name: 'Chinese Yuan' },
   ];
 
-  useEffect(() => {
-    if (!searchParams) return;
+  const { currency, setCurrency } = useCurrency();
+
+  const [initialCurrencyCode, setInitialCurrencyCode] = useState(() => {
     const urlCurrency = searchParams.get('currency');
-    if (urlCurrency && !currency.currency) {
+    const defaultItem = currencyContent.find(item => item.currency === urlCurrency) || currencyContent.find(item => item.currency === 'USD');
+    return defaultItem ? defaultItem.currency : 'USD';
+  });
+
+  useEffect(() => {
+    if (currency?.currency && currency.currency !== initialCurrencyCode) {
+      setInitialCurrencyCode(currency.currency);
+    }
+  }, [currency, initialCurrencyCode]);
+
+  useEffect(() => {
+    const urlCurrency = searchParams.get('currency');
+    if (urlCurrency && currency?.currency !== urlCurrency) {
       const selectedCurrency = currencyContent.find((item) => item.currency === urlCurrency);
       if (selectedCurrency) {
         setCurrency(selectedCurrency);
       }
     }
-  }, [searchParams, setCurrency, currency.currency]);
+  }, [searchParams, setCurrency, currency.currency, currencyContent]);
 
-  const handleItemClick = (item) => {
-    setCurrency(item); // Update the currency context
+  const handleCurrencyChange = useCallback((e) => {
+    const selectedValue = e.target.value;
+    const selectedItem = currencyContent.find((item) => item.currency === selectedValue);
+    
+    if (selectedItem) {
+      setCurrency(selectedItem);
 
-    const currentParams = new URLSearchParams(searchParams.toString());
-    currentParams.set('currency', item.currency);
-    currentParams.set('language', item.language);
+      const currentParams = new URLSearchParams(searchParams.toString());
+      currentParams.set('currency', selectedItem.currency);
 
-    // If on homepage, only update currency and language in the URL
-    if (pathname === '/') {
-      const newHomeParams = new URLSearchParams();
-      newHomeParams.set('currency', item.currency);
-      newHomeParams.set('language', item.language);
-      router.replace(`/?${newHomeParams.toString()}`, { scroll: false });
-    } else {
-      // If not on homepage, preserve existing parameters and add defaults if missing
-      if (!currentParams.get('city')) currentParams.set('city', '');
-      if (!currentParams.get('city_id')) currentParams.set('city_id', '');
-      if (!currentParams.get('adults')) currentParams.set('adults', '2');
-      if (!currentParams.get('children')) currentParams.set('children', '0');
-      if (!currentParams.get('rooms')) currentParams.set('rooms', '1');
-      if (!currentParams.get('checkIn')) {
-        const today = new Date();
-        currentParams.set('checkIn', today.toISOString().split('T')[0]);
+      if (pathname === '/') {
+        const newHomeParams = new URLSearchParams();
+        newHomeParams.set('currency', selectedItem.currency);
+        router.replace(`/?${newHomeParams.toString()}`, { scroll: false });
+      } else {
+        if (!currentParams.get('city')) currentParams.set('city', '');
+        if (!currentParams.get('city_id')) currentParams.set('city_id', '');
+        if (!currentParams.get('adults')) currentParams.set('adults', '2');
+        if (!currentParams.get('children')) currentParams.set('children', '0');
+        if (!currentParams.get('rooms')) currentParams.set('rooms', '1');
+        if (!currentParams.get('checkIn')) {
+          const today = new Date();
+          currentParams.set('checkIn', today.toISOString().split('T')[0]);
+        }
+        if (!currentParams.get('checkOut')) {
+          const tomorrow = new Date();
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          currentParams.set('checkOut', tomorrow.toISOString().split('T')[0]);
+        }
+        router.replace(`${pathname}?${currentParams.toString()}`, { scroll: false });
       }
-      if (!currentParams.get('checkOut')) {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        currentParams.set('checkOut', tomorrow.toISOString().split('T')[0]);
-      }
-      // Replace the URL for the current path with updated parameters
-      router.replace(`${pathname}?${currentParams.toString()}`, { scroll: false });
     }
-  };
+  }, [router, searchParams, pathname, setCurrency, currencyContent]);
 
   return (
-    <div className="currency-menu-container relative flex-shrink-0 bg-white rounded-xl border border-gray-200 shadow-sm">
+    <div className={`custom-currency-menu ${textClass}`}>
       <select
-        value={currency?.currency || 'USD'}
-        onChange={(e) => {
-          const selectedItem = currencyContent.find((item) => item.currency === e.target.value);
-          if (selectedItem) handleItemClick(selectedItem);
-        }}
-        // Hapus `appearance-none` jika Anda ingin panah default browser
-        // Tambahkan lagi `appearance-none` jika Anda ingin tidak ada panah sama sekali
-        className={`w-full h-8 px-2 py-0 text-12 xs:text-12 text-dark-1 bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-dark-3 cursor-pointer ${textClass}`}
+        value={initialCurrencyCode}
+        onChange={handleCurrencyChange}
+        className="custom-select"
         aria-label="Pilih mata uang"
       >
         {currencyContent.map((item) => (
-          // HANYA menampilkan singkatan mata uang di sini
-          <option key={item.id} value={item.currency} className="text-dark-1 text-12">
+          <option key={item.id} value={item.currency}>
             {item.currency}
           </option>
         ))}
       </select>
+
+      {/* CSS yang disesuaikan untuk elemen <select> */}
       <style jsx>{`
-        .currency-menu-container {
-          /* Updated width to better accommodate abbreviations + padding */
-          width: 80px; /* Adjust this value as needed based on testing */
-          overflow: hidden; /* Penting agar tidak ada konten yang melebihi batas */
-          min-width: 60px; /* Minimal width untuk mobile */
-          max-width: 80px; /* Maksimal width */
-          flex-shrink: 0; /* KRITIS: Jangan biarkan menyusut kecuali ruang sangat sempit */
-          flex-grow: 0; /* Tidak tumbuh */
+        .custom-currency-menu {
+          position: relative;
+          display: inline-block;
+          font-size: 14px;
+          /* Sesuaikan lebar untuk UX yang lebih baik */
+          min-width: 90px;  /* Meningkatkan min-width */
+          max-width: 100px; /* Meningkatkan max-width, beri ruang lebih */
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          background-color: #fff;
+          cursor: pointer;
+          user-select: none;
+          z-index: 999;
+          flex-shrink: 0;
+          height: 32px;
           box-sizing: border-box;
         }
-        select {
-          /* Pertahankan appearance: none jika Anda tidak ingin panah default browser */
+
+        .custom-select {
           -webkit-appearance: none;
           -moz-appearance: none;
           appearance: none;
-          width: 100%; /* Agar mengisi lebar container */
-          height: 25px; /* Seragamkan tinggi */
-          padding: 0 8px;
-          text-overflow: ellipsis; /* Memotong teks dengan elipsis jika terlalu panjang */
-          white-space: nowrap; /* Mencegah teks melompat ke baris baru */
-          overflow: hidden; /* Menyembunyikan bagian teks yang terpotong */
-          font-size: 12px;
-          box-sizing: border-box; /* Pastikan padding dihitung dalam lebar total */
-          border: none; /* Hilangkan border jika container sudah ada border */
-        }
-        option {
-          /* These styles are often ignored by browsers for native select dropdowns */
-          /* but keep them for consistency and potential browser variations */
-          overflow: hidden;
+          width: 100%;
+          height: 100%;
+          padding: 0 12px; /* Padding untuk teks, pastikan cukup ruang */
+          font-size: 14px;
+          color: #000;
+          background-color: transparent;
+          border: none;
+          outline: none;
+          cursor: pointer;
+          box-sizing: border-box;
           text-overflow: ellipsis;
           white-space: nowrap;
-          font-size: 12px;
-          padding: 4px 8px; /* Padding konsisten untuk opsi */
-          max-width: 80px; /* Match container width, still might be ignored in dropdown */
-          box-sizing: border-box;
+          overflow: hidden;
         }
-        /* Scrollbar styles (tetap sama) */
-        select::-webkit-scrollbar {
-          width: 6px;
+
+        .custom-currency-menu::after {
+          content: '▼';
+          position: absolute;
+          right: 8px; /* Pastikan ada jarak dari tepi */
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 10px;
+          pointer-events: none;
+          color: #555;
         }
-        select::-webkit-scrollbar-thumb {
-          background-color: #d1d5db;
-          border-radius: 3px;
-        }
-        select::-webkit-scrollbar-track {
-          background: transparent;
+
+        .custom-select::-ms-expand {
+            display: none;
         }
 
         /* Responsive styles for CurrencyMenu */
         @media (max-width: 767px) { /* Tablet Kecil & Mobile */
-          .currency-menu-container {
-            width: 50px;
-            min-width: 60px;
-            max-width: 70px;
-          }
-          select {
-            font-size: 11px;
+          .custom-currency-menu {
+            min-width: 70px; /* Lebar lebih baik untuk mobile */
+            max-width: 80px; /* Lebar lebih baik untuk mobile */
             height: 30px;
-            padding: 0 6px;
           }
-          option {
-            font-size: 11px;
+          .custom-select {
+            font-size: 12px; /* Font size sedikit lebih besar */
+            padding: 0 8px; /* Padding disesuaikan */
+          }
+          .custom-currency-menu::after {
+            right: 6px;
+            font-size: 9px;
           }
         }
 
         @media (max-width: 479px) { /* Mobile Sangat Kecil */
-          .currency-menu-container {
-            width: 55px; /* Paling kecil untuk layar sempit */
-            min-width: 50px;
-            max-width: 55px;
+          .custom-currency-menu {
+            min-width: 60px; /* Lebar minimum yang lebih baik */
+            max-width: 70px; /* Lebar maksimum yang lebih baik */
+            height: 25px; /* Tinggi disesuaikan */
           }
-          select {
-            font-size: 10px;
-            height: 20px;
-            padding: 0 4px;
+          .custom-select {
+            font-size: 11px; /* Font size sedikit lebih besar */
+            padding: 0 5px; /* Padding disesuaikan */
           }
-          option {
-            font-size: 10px;
+          .custom-currency-menu::after {
+            right: 4px;
+            font-size: 8px;
           }
         }
       `}</style>

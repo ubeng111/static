@@ -1,6 +1,8 @@
 // GalleryTwo.jsx
 'use client';
 
+// import Image from 'next/image'; // Hapus import next/image, kita pakai tag <img> standar
+
 const GalleryTwo = ({ hotel }) => {
   const address = (() => {
     if (
@@ -15,12 +17,14 @@ const GalleryTwo = ({ hotel }) => {
 
   const renderOverview = () => {
     if (!hotel?.overview) {
+      // Render skeleton/placeholder if overview is not available
       return (
         <div className="y-gap-10 sm:y-gap-20 animate-pulse">
+          {/* Placeholder untuk 3 paragraf, simulasikan tinggi rata-rata */}
           <div className="h-4 bg-gray-200 rounded w-full mb-2" style={{height: '1em', lineHeight: '1em'}}></div>
           <div className="h-4 bg-gray-200 rounded w-5/6 mb-2" style={{height: '1em', lineHeight: '1em'}}></div>
           <div className="h-4 bg-gray-200 rounded w-full mb-2" style={{height: '1em', lineHeight: '1em'}}></div>
-          <div className="h-4 bg-gray-200 rounded w-3/4" style={{height: '1em', lineHeight: '1em'}}></div>
+          <div className="h-4 bg-gray-200 rounded w-3/4" style={{height: '1em', lineHeight: '1em'}}></div> {/* Mungkin baris keempat */}
         </div>
       );
     }
@@ -39,35 +43,30 @@ const GalleryTwo = ({ hotel }) => {
     );
   };
 
-  const ensureHttps = (url) => {
-    if (!url) return '/images/placeholder.jpg';
-    // Replace http:// with https:// and handle cases where URL might already be https
-    return url.replace(/^http:\/\//i, 'https://');
-  };
+  const mainImageUrl = (hotel.img?.replace('http://', 'https://')) || '/images/placeholder.jpg';
 
-  const mainImageUrl = ensureHttps(hotel?.img);
-
-  // Process slide images
+  // --- PERBAIKAN PENTING DI SINI untuk memproses slideimg ---
   let slideImages = [];
+  // Periksa apakah properti yang datang adalah 'slideimg' (huruf kecil) atau 'slideImg' (huruf besar)
+  // Berdasarkan data Anda, properti ini adalah 'slideimg' (huruf kecil)
   const rawSlideImgData = hotel?.slideimg; 
 
   if (rawSlideImgData) {
     if (typeof rawSlideImgData === 'string' && rawSlideImgData.startsWith('{') && rawSlideImgData.endsWith('}')) {
+      // Ini adalah kasus di mana data datang sebagai string seperti "{url1,url2,...}"
+      // Hapus kurung kurawal di awal dan akhir, lalu pisahkan berdasarkan koma
       const urls = rawSlideImgData.substring(1, rawSlideImgData.length - 1).split(',');
-      slideImages = urls.map(url => ensureHttps(url.trim()));
+      slideImages = urls.map(url => url.trim()); // Hapus spasi di sekitar URL jika ada
     } else if (Array.isArray(rawSlideImgData)) {
-      slideImages = rawSlideImgData.map(url => ensureHttps(url));
+      // Ini adalah kasus jika data sudah datang sebagai array (ideal)
+      slideImages = rawSlideImgData;
     }
+    // Jika formatnya tidak seperti string '{...}' atau bukan array, slideImages akan tetap kosong []
   }
 
-  // Take first 4 images only
-  slideImages = slideImages.slice(0, 4);
-
-  // Handle image loading errors
-  const handleImageError = (e) => {
-    e.target.src = '/images/placeholder.jpg';
-    e.target.onerror = null; // Prevent infinite loop if placeholder also fails
-  };
+  // Filter untuk mengambil 4 gambar pertama dan memprosesnya
+  // Lakukan replace http ke https dan tambahkan placeholder setelah memastikan itu array
+  slideImages = slideImages.slice(0, 4).map(img => (img?.replace('http://', 'https://')) || '/images/placeholder.jpg');
 
   return (
     <section className="pt-10 sm:pt-20 md:pt-40">
@@ -102,30 +101,29 @@ const GalleryTwo = ({ hotel }) => {
         <div className="galleryGrid -type-1 pt-20 sm:pt-30 px-0">
           {mainImageUrl && (
             <div className="galleryGrid__item">
-              <img
+              <img // Menggunakan tag <img> standar
                 src={mainImageUrl}
                 alt={`Hotel Image ${hotel?.title || 'Unknown'}`}
-                width={600}
-                height={500}
+                width={600} // Tetapkan width
+                height={500} // Tetapkan height
                 className="rounded-4"
-                loading="eager"
-                fetchPriority="high"
-                onError={handleImageError}
+                loading="eager" // Gunakan eager loading untuk gambar LCP
+                fetchPriority="high" // Memberi tahu browser untuk memprioritaskan pengambilan
               />
             </div>
           )}
 
+          {/* Pastikan slideImages adalah array sebelum map */}
           {slideImages.map((imageSrc, index) => (
             <div className="galleryGrid__item" key={index}>
-              <img
+              <img // Menggunakan tag <img> standar
                 src={imageSrc}
                 alt={`${hotel?.title || 'Hotel'} - Gallery image ${index + 1}`}
                 title={`${hotel?.title || 'Hotel'} - View ${index + 1}`}
-                width={450}
-                height={375}
+                width={450} // Tetapkan width
+                height={375} // Tetapkan height
                 className="rounded-4"
-                loading="lazy"
-                onError={handleImageError}
+                loading="lazy" // Tetap lazy loading untuk gambar non-LCP
               />
             </div>
           ))}
