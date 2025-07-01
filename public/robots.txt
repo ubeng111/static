@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hoteloza.com/sitemapiwankasep.xml
+Sitemap: https://hoteloza.com/sitemap_index.xml
