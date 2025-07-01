@@ -1,7 +1,8 @@
 // Client.jsx
 "use client"; // Mark this as a Client Component
 
-import Image from "next/image"; // next/image biasanya aman, tidak perlu dynamic import
+// Hapus import Image dari next/image
+// import Image from "next/image"; 
 import dynamic from "next/dynamic"; // Import dynamic untuk komponen yang hanya dirender di klien
 
 // Dynamically import ALL potentially problematic components with ssr: false.
@@ -24,13 +25,19 @@ const Client = () => {
 
       <section className="section-bg layout-pt-lg layout-pb-lg">
         <div className="section-bg__item col-12">
-          <Image
-            width={1920}
-            height={400}
+          {/* --- START MODIFIKASI: Ganti <Image> dengan <img> standar --- */}
+          <img
             src="/img/pages/about/1.png"
             alt="image"
-            priority
+            width={1920} // Pertahankan width
+            height={400} // Pertahankan height
+            // Prioritas loading tidak lagi relevan dengan tag <img> biasa,
+            // tetapi Anda bisa menggunakan loading="eager" jika ini gambar LCP
+            loading="lazy" // Atau "eager" jika gambar di atas lipatan
+            // Tambahkan style untuk object-fit jika perlu agar gambar tidak terdistorsi
+            style={{ objectFit: 'cover' }}
           />
+          {/* --- END MODIFIKASI --- */}
         </div>
 
         <div className="container">

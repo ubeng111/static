@@ -1,7 +1,8 @@
 // app/(others)/contact/Client.jsx
 "use client"; // Mark this as a Client Component
 
-import Image from "next/image"; // Image dari next/image biasanya aman untuk SSR
+// Hapus import Image dari next/image
+// import Image from "next/image"; 
 import dynamic from "next/dynamic"; // Import dynamic untuk komponen yang hanya dirender di klien
 
 // Dynamically import components that are likely to cause SSR/prerendering issues.
@@ -19,13 +20,16 @@ const Client = () => {
 
      <section className="section-bg layout-pt-lg layout-pb-lg">
              <div className="section-bg__item col-12">
-               <Image
-                 width={1920}
-                 height={400}
-                 src="/img/pages/about/1.png"
-                 alt="image"
-                 priority
+               {/* --- START MODIFIKASI: Ganti <Image> dengan <img> standar --- */}
+               <img
+                 src="/img/pages/about/1.png" // Tetap menggunakan src yang sama
+                 alt="image" // Pertahankan alt text
+                 width={1920} // Pertahankan width
+                 height={400} // Pertahankan height
+                 loading="lazy" // Gunakan lazy loading untuk gambar yang tidak di atas lipatan
+                 style={{ objectFit: 'cover' }} // Tambahkan style untuk object-fit agar gambar tidak terdistorsi
                />
+               {/* --- END MODIFIKASI --- */}
              </div>
 
         <div className="container">
