@@ -48,10 +48,16 @@ export async function generateMetadata({ params }) {
   const sanitizedCountry = sanitizeSlug(countryslug); //
   const sanitizedState = sanitizeSlug(stateslug); //
 
+  const currentUrl = `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`; // Definisikan URL kanonis di sini
+
   if (!sanitizedCategory || !sanitizedCountry || !sanitizedState) { //
     return {
       title: 'Page Not Found | Hoteloza', //
       description: 'The requested category, country, or state was not found on Hoteloza.', //
+      // Tambahkan tag canonical di sini
+      alternates: {
+        canonical: currentUrl, // Menunjuk ke dirinya sendiri
+      },
     };
   }
 
@@ -60,6 +66,10 @@ export async function generateMetadata({ params }) {
     return {
       title: 'Page Not Found | Hoteloza', //
       description: 'The requested category, country, or state was not found on Hoteloza.', //
+      // Tambahkan tag canonical di sini
+      alternates: {
+        canonical: currentUrl, // Menunjuk ke dirinya sendiri
+      },
     };
   }
 
@@ -90,8 +100,12 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: `Best ${formattedCategory} in ${formattedState}, ${formattedCountry} ${currentYear} | Hoteloza`, //
       description: `Discover the best ${formattedCategory.toLowerCase()} in ${formattedState}, ${formattedCountry} for ${currentYear} on Hoteloza. Book now for exclusive offers and premium amenities!`, // Bisa juga dari longDescription.substring
-      url: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`, //
+      url: currentUrl, //
       type: 'website', //
+    },
+    // Tambahkan tag canonical di sini
+    alternates: {
+      canonical: currentUrl, // Menunjuk ke dirinya sendiri
     },
   };
 }
@@ -199,7 +213,7 @@ export default async function Page({ params }) {
       <Script
         id="state-schema"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
+        dangeriouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
       />
       <ClientPage
         categoryslug={sanitizedCategory}

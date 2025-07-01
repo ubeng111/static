@@ -47,10 +47,15 @@ export async function generateMetadata({ params }) {
   const sanitizedCategory = sanitizeSlug(categoryslug); //
   const sanitizedCountry = sanitizeSlug(countryslug); //
 
+  const currentUrl = `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}`; // Definisi URL kanonis di sini
+
   if (!sanitizedCategory || !sanitizedCountry) { //
     return {
       title: 'Page Not Found | Hoteloza', //
       description: 'The requested category or country was not found on Hoteloza.', //
+      alternates: {
+        canonical: currentUrl, // Menunjuk ke dirinya sendiri
+      },
     };
   }
 
@@ -59,6 +64,9 @@ export async function generateMetadata({ params }) {
     return {
       title: 'Page Not Found | Hoteloza', //
       description: 'The requested category or country was not found on Hoteloza.', //
+      alternates: {
+        canonical: currentUrl, // Menunjuk ke dirinya sendiri
+      },
     };
   }
 
@@ -86,8 +94,12 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: `Best ${formattedCategory} in ${formattedCountry} ${currentYear} | Hoteloza`, //
       description: `Find the best ${formattedCategory.toLowerCase()} in ${formattedCountry} for ${currentYear} on Hoteloza. Book now for top hotels and exclusive deals!`, //
-      url: `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}`, //
+      url: currentUrl, //
       type: 'website', //
+    },
+    // Tambahkan tag canonical di sini
+    alternates: {
+      canonical: currentUrl, // Menunjuk ke dirinya sendiri
     },
   };
 }

@@ -37,6 +37,10 @@ export const metadata = {
       "Book your next stay with Hoteloza – the easiest way to find the best hotel deals online.",
     images: ["https://hoteloza.com/og-image.jpg"],
   },
+  // Tambahkan tag canonical di sini
+  alternates: {
+    canonical: "https://hoteloza.com", // Ganti dengan URL halaman ini
+  },
 };
 
 export default function Home() {

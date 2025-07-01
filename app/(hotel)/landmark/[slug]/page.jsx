@@ -6,8 +6,8 @@ import path from 'path';
 import 'dotenv/config';
 import LandmarkClient from './LandmarkClient';
 import Script from 'next/script';
-import contentTemplates from '@/utils/contentTemplates'; // Import template konten
-import { notFound } from 'next/navigation'; // Corrected import for notFound
+import contentTemplates from '@/utils/contentTemplates';
+import { notFound } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
 
@@ -72,9 +72,11 @@ export async function generateMetadata({ params }) {
         type: 'website',
         url: landmarkUrl,
       },
+      // --- START MODIFIKASI: Aktifkan kembali canonical ---
       alternates: {
-        canonical: `https://hoteloza.com/`,
+        canonical: landmarkUrl, // Ini akan menunjuk ke dirinya sendiri
       },
+      // --- END MODIFIKASI ---
     };
   }
 
@@ -88,8 +90,7 @@ export async function generateMetadata({ params }) {
     const fullDescriptionSegmentsForMeta = contentTemplates.getGeoCategoryDescription(
         category, 'landmark', landmarkName, cityName, null, null
     );
-    const firstParagraphContent = fullDescriptionSegmentsForMeta[0]?.content || '';
-    description = firstParagraphContent.substring(0, 160) + (firstParagraphContent.length > 160 ? '...' : ''); // Potong untuk meta description
+    description = fullDescriptionSegmentsForMeta[0]?.content || ''; // Potong untuk meta description
   } else {
     description = 'Discover top hotels near popular landmarks with exclusive deals and premium amenities on Hoteloza.';
   }
@@ -103,9 +104,11 @@ export async function generateMetadata({ params }) {
       type: 'website',
       url: landmarkUrl,
     },
+    // --- START MODIFIKASI: Aktifkan kembali canonical ---
     alternates: {
-      canonical: landmarkUrl,
+      canonical: landmarkUrl, // Ini akan menunjuk ke dirinya sendiri
     },
+    // --- END MODIFIKASI ---
   };
 }
 
@@ -137,13 +140,13 @@ export default async function LandmarkSlugPage({ params }) {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       "name": `${category} near ${landmarkName}, ${cityName}`,
-      "description": schemaDescription, // Gunakan string gabungan untuk schema
+      "description": schemaDescription,
       "url": `https://hoteloza.com/landmark/${slug}`,
       "mainEntity": landmarkName !== 'Landmark' ? {
         "@context": "https://schema.org",
         "@type": "Place",
         "name": landmarkName,
-        "description": schemaDescription, // Gunakan string gabungan untuk schema
+        "description": schemaDescription,
         "address": {
           "@type": "PostalAddress",
           "addressLocality": cityName,
@@ -177,7 +180,7 @@ export default async function LandmarkSlugPage({ params }) {
           initialLandmarkName={landmarkName}
           initialCityName={cityName}
           initialCategory={category}
-          longDescriptionSegments={longDescriptionSegments} // Kirim array objek
+          longDescriptionSegments={longDescriptionSegments}
         />
       </Suspense>
     </>
