@@ -168,7 +168,7 @@ export default function ClientPage({ categoryslug, longDescriptionSegments }) {
               {longDescriptionSegments.map((segment, index) => (
                 <div key={index} className="mt-10">
                   {segment.subHeader && (
-                    <h5 className="text-18 fw-500 mb-5">{segment.subHeader}</h5>
+                    <h3 className="text-18 fw-500 mb-5">{segment.subHeader}</h3>
                   )}
                   <p className="text-15">{segment.content}</p>
                 </div>

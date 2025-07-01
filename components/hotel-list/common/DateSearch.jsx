@@ -1,3 +1,4 @@
+// DateSearch.jsx
 'use client';
 
 import React, { useState, useEffect, useId } from 'react'; // Import useId hook
@@ -38,6 +39,7 @@ const DateSearch = ({ onDateChange }) => {
   return (
     <div className="searchMenu-date search-field">
       {/* Label yang terhubung secara programatis dan disembunyikan secara visual */}
+      {/* Label ini sudah benar, masalahnya ada pada input yang dihasilkan DatePicker */}
       <label htmlFor={inputId} className="sr-only">Check-in - Check-out</label>
       <DatePicker
         value={dates}
@@ -46,14 +48,36 @@ const DateSearch = ({ onDateChange }) => {
         range
         format="MMM DD"
         minDate={new Date()}
-        inputClass="w-full h-32 px-6 py-2"
+        // inputClass="w-full h-32 px-6 py-2" // Hapus ini jika menggunakan render prop untuk input
         containerStyle={{ width: '100%' }}
         calendarPosition="bottom-left"
-        // Teruskan ID ke input yang dirender oleh DatePicker
-        inputProps={{ id: inputId, placeholder: "Check-in ~ Check-out" }}
+        // Hapus inputProps dan gunakan render prop sebagai gantinya
+        // inputProps={{ id: inputId, placeholder: "Check-in ~ Check-out" }} // Ini tidak bekerja seperti yang diharapkan
+        
+        // --- START MODIFIKASI PENTING ---
+        render={<CustomInput id={inputId} placeholder="Check-in ~ Check-out" className="w-full h-32 px-6 py-2" />}
+        // --- END MODIFIKASI PENTING ---
       />
     </div>
   );
 };
+
+// --- START MODIFIKASI: Tambahkan komponen CustomInput ---
+// Komponen ini akan merender input sebenarnya dan memastikan ID diterapkan
+const CustomInput = React.forwardRef(({ id, placeholder, className, value, onClick, onFocus }, ref) => (
+  <input
+    id={id} // Pastikan ID ini diterapkan
+    type="text"
+    className={className}
+    placeholder={placeholder}
+    value={value}
+    onClick={onClick}
+    onFocus={onFocus}
+    readOnly // Penting agar pengguna tidak bisa mengetik langsung ke input tanggal
+    ref={ref}
+  />
+));
+CustomInput.displayName = 'CustomInput'; // Tambahkan displayName untuk debugging React
+// --- END MODIFIKASI ---
 
 export default DateSearch;

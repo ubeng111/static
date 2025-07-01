@@ -1,7 +1,8 @@
 // Testimonial.jsx
 'use client'
 
-import Image from "next/image";
+// Hapus import Image dari next/image
+// import Image from "next/image"; 
 // Hapus import Swiper dan Scrollbar
 // import { Swiper, SwiperSlide } from "swiper/react";
 // import { Scrollbar } from "swiper";
@@ -21,13 +22,19 @@ const Testimonial = () => {
       <div>
         <div className="row items-center x-gap-15 y-gap-20">
           <div className="col-auto">
-            <Image
-              width={80}
-              height={80}
-              src={firstTestimonial.avatar}
-              alt="image"
-              className="js-lazy rounded-circle"
+            {/* --- START MODIFIKASI: Ganti <Image> dengan <img> standar --- */}
+            <img
+              // Pastikan src tetap mengambil dari firstTestimonial.avatar
+              src={firstTestimonial.avatar} 
+              alt="Testimonial Image" // Ganti alt="image" dengan deskripsi yang lebih spesifik
+              // Tetapkan width dan height eksplisit untuk menghindari CLS dan membantu browser
+              width={80} 
+              height={80} 
+              // Gunakan styling langsung atau class CSS untuk roundness dan object-fit
+              className="js-lazy rounded-circle" 
+              style={{ objectFit: 'cover' }} // Pastikan rasio aspek terjaga
             />
+            {/* --- END MODIFIKASI --- */}
           </div>
           <div className="col-auto">
             <h5 className="text-16 fw-500">{firstTestimonial.name}</h5>

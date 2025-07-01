@@ -43,7 +43,32 @@ const GalleryTwo = ({ hotel }) => {
     );
   };
 
-  const mainImageUrl = (hotel.img?.replace('http://', 'https://')) || '/images/placeholder.jpg';
+  // --- START MODIFIKASI: Tambahkan fungsi ensureHttpsUrl ---
+  const ensureHttpsUrl = (url) => {
+    if (!url) return '/images/placeholder.jpg'; // Mengembalikan placeholder jika URL kosong
+
+    // Jika URL sudah HTTPS, kembalikan saja
+    if (url.startsWith('https://')) {
+      return url;
+    }
+    // Jika URL adalah HTTP, ubah ke HTTPS
+    if (url.startsWith('http://')) {
+      return `https://${url.substring(7)}`; // Hapus 'http://' dan ganti dengan 'https://'
+    }
+    // Jika URL adalah protokol-relative (misal: //domain.com/path), tambahkan https:
+    if (url.startsWith('//')) {
+        return `https:${url}`;
+    }
+    // Ini kasus fallback jika tidak ada skema sama sekali, asumsikan HTTPS.
+    // Ini penting jika API kadang mengirim URL tanpa 'http://' atau 'https://' di depannya
+    // Contoh: 'pix1.agoda.net/hotelimages/...'
+    return `https://${url}`;
+  };
+  // --- END MODIFIKASI ---
+
+  // --- START MODIFIKASI: Gunakan ensureHttpsUrl untuk mainImageUrl ---
+  const mainImageUrl = ensureHttpsUrl(hotel.img);
+  // --- END MODIFIKASI ---
 
   // --- PERBAIKAN PENTING DI SINI untuk memproses slideimg ---
   let slideImages = [];
@@ -64,9 +89,11 @@ const GalleryTwo = ({ hotel }) => {
     // Jika formatnya tidak seperti string '{...}' atau bukan array, slideImages akan tetap kosong []
   }
 
+  // --- START MODIFIKASI: Gunakan ensureHttpsUrl untuk slideImages ---
   // Filter untuk mengambil 4 gambar pertama dan memprosesnya
   // Lakukan replace http ke https dan tambahkan placeholder setelah memastikan itu array
-  slideImages = slideImages.slice(0, 4).map(img => (img?.replace('http://', 'https://')) || '/images/placeholder.jpg');
+  slideImages = slideImages.slice(0, 4).map(img => ensureHttpsUrl(img));
+  // --- END MODIFIKASI ---
 
   return (
     <section className="pt-10 sm:pt-20 md:pt-40">

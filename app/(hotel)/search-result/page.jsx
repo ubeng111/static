@@ -5,9 +5,13 @@ import CallToActions from "@/components/common/CallToActions";
 import MainFilterSearchBox from "@/components/hotel-list/common/MainFilterSearchBox";
 import CityContent from "./CityContent";
 
-export default function SearchResultPage({ searchParams }) {
-  const cityId = searchParams.city_id;
-  const page = parseInt(searchParams.page) || 1;
+export default async function SearchResultPage({ searchParams }) { // Tambahkan 'async' di sini
+  // --- START PERBAIKAN: await searchParams ---
+  const awaitedSearchParams = await searchParams; // await searchParams
+  const cityId = awaitedSearchParams.city_id;
+  const page = parseInt(awaitedSearchParams.page) || 1;
+  const cityName = awaitedSearchParams.city || "Selected City"; // Ambil city juga setelah await
+  // --- END PERBAIKAN ---
 
   return (
     <>
@@ -31,10 +35,8 @@ export default function SearchResultPage({ searchParams }) {
           <div className="row">
             <div className="col-12">
               <div className="text-center">
-                {/* The cityName needs to be passed from CityContent or derived here */}
-                {/* For now, we'll use a placeholder or derive it if possible from searchParams */}
                 <h1 className="text-25 fw-600 text-white">
-                  Search Result Properties In {searchParams.city || "Selected City"}
+                  Search Result Properties In {cityName} {/* Gunakan cityName yang sudah di-await */}
                 </h1>
               </div>
             </div>

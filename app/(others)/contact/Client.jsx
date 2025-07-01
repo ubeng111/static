@@ -17,16 +17,16 @@ const Client = () => {
 
       <Header1 />
 
-      <section className="section-bg layout-pt-lg layout-pb-lg">
-        <div className="section-bg__item col-12">
-          <Image
-            width={1920}
-            height={400}
-            src="/img/pages/contact/contact_hero.jpg" // Ganti dengan gambar hero untuk kontak Anda
-            alt="Contact Us"
-            priority
-          />
-        </div>
+     <section className="section-bg layout-pt-lg layout-pb-lg">
+             <div className="section-bg__item col-12">
+               <Image
+                 width={1920}
+                 height={400}
+                 src="/img/pages/about/1.png"
+                 alt="image"
+                 priority
+               />
+             </div>
 
         <div className="container">
           <div className="row justify-center text-center">

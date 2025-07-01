@@ -39,12 +39,34 @@ function setCache(key, data) {
 }
 
 export async function GET(request, { params }) {
+  // --- START PERBAIKAN: await params ---
+  const awaitedParams = await params; // await params seperti instruksi Anda
+  const { categoryslug, countryslug, stateslug, cityslug, hotelslug } = awaitedParams;
+  // --- END PERBAIKAN ---
+
   try {
-    const { categoryslug, countryslug, stateslug, cityslug, hotelslug } = await params;
     const url = new URL(request.url);
     const reset = url.searchParams.get('reset') === 'true';
 
+    // Validasi Awal untuk Menghindari Pencocokan yang Salah (dari perbaikan sebelumnya)
+    if (
+      categoryslug === 'next' ||
+      categoryslug === '_next' ||
+      hotelslug.endsWith('.map') ||
+      hotelslug.endsWith('.css') ||
+      hotelslug.endsWith('.js') ||
+      hotelslug.endsWith('.woff') ||
+      hotelslug.endsWith('.ttf') ||
+      hotelslug.endsWith('.svg') ||
+      hotelslug.endsWith('.eot') ||
+      hotelslug.endsWith('.gif')
+    ) {
+      console.warn(`SERVER WARN [${categoryslug}/${countryslug}/.../route.js]: Permintaan aset statis Next.js ditangkap oleh rute API dinamis ini: ${request.url}`);
+      return new Response(null, { status: 404 });
+    }
+
     if (!categoryslug || !countryslug || !stateslug || !cityslug || !hotelslug) {
+      console.error('SERVER ERROR [route.js - GET]: Missing required parameters after sanitization:', awaitedParams); // Log awaitedParams
       return new Response(JSON.stringify({ error: 'Semua parameter slug diperlukan' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
