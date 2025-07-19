@@ -21,12 +21,12 @@ async function getStateData(categoryslug, countryslug, stateslug) {
     return null;
   }
 
-  // PENTING: PASTIKAN NEXT_PUBLIC_API_BASE_URL di VPS Anda sudah disetel ke https://hoteloza.com atau URL API Anda yang benar
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
-  const apiUrl = `${baseUrl}/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
+  // Menggunakan path relatif untuk API Routes yang ada di proyek Next.js yang sama
+  // Next.js akan secara internal menangani routing ini saat build dan runtime
+  const apiUrl = `/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`; // <-- PERUBAHAN DI SINI
 
   try {
-    // Mengubah 'cache: no-store' menjadi ISR dengan revalidate 1 tahun (31.536.000 detik)
+    // ISR with revalidate 1 tahun (31.536.000 detik)
     const response = await fetch(apiUrl, { next: { revalidate: 31536000 } });
     if (!response.ok) {
       if (response.status === 404) {
@@ -45,19 +45,14 @@ async function getStateData(categoryslug, countryslug, stateslug) {
 
 const ClientPage = dynamic(() => import('./ClientPage'));
 
-// ------ PERBAIKAN: Mengambil slug negara bagian secara dinamis dari database melalui API ------
+// ------ FIX: Mengambil slug negara bagian secara dinamis dari database melalui API menggunakan path relatif ------
 export async function generateStaticParams() {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL; // Pastikan ini sudah benar di lingkungan VPS Anda!
-  if (!baseUrl) {
-    console.error("ERROR: NEXT_PUBLIC_API_BASE_URL is not defined for generateStaticParams. Cannot fetch state paths.");
-    return []; // Mengembalikan array kosong jika tidak terdefinisi
-  }
-
   try {
     // Memanggil API Route yang Anda buat untuk mendapatkan semua path negara bagian
-    // Contoh API endpoint: /api/all-state-paths
-    const response = await fetch(`${baseUrl}/api/all-state-paths`, {
+    // Menggunakan path relatif untuk API Routes yang ada di proyek Next.js yang sama
+    const response = await fetch(`/api/all-state-paths`, { // <-- PERUBAHAN DI SINI
       // Gunakan 'no-store' agar selalu mengambil data terbaru saat build atau revalidate
+      // Ini krusial untuk memastikan daftar path selalu up-to-date
       cache: 'no-store'
     });
 

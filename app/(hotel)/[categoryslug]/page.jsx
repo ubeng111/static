@@ -19,9 +19,9 @@ async function getCategoryData(categoryslug) {
     return null;
   }
 
-  // IMPORTANT: Ensure NEXT_PUBLIC_API_BASE_URL on your VPS is set to https://hoteloza.com or your correct API URL
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
-  const apiUrl = `${baseUrl}/api/${sanitizedCategory}`;
+  // Menggunakan path relatif untuk API Routes yang ada di proyek Next.js yang sama
+  // Next.js akan secara internal menangani routing ini saat build dan runtime
+  const apiUrl = `/api/${sanitizedCategory}`; // <-- PERUBAHAN DI SINI
 
   try {
     // ISR with revalidate 1 year (31,536,000 seconds)
@@ -43,20 +43,14 @@ async function getCategoryData(categoryslug) {
 
 const ClientPage = dynamic(() => import('./ClientPage'));
 
-// ------ FIX: Dynamically fetch category slugs from the database via API ------
+// ------ FIX: Mengambil slug kategori secara dinamis dari database melalui API menggunakan path relatif ------
 export async function generateStaticParams() {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL; // Ensure this is correctly set on your VPS!
-  if (!baseUrl) {
-    console.error("ERROR: NEXT_PUBLIC_API_BASE_URL is not defined for generateStaticParams. Cannot fetch category paths.");
-    return []; // Return empty array if not defined
-  }
-
   try {
-    // Call your API Route to get all possible category paths
-    // Example API endpoint: /api/all-category-paths
-    const response = await fetch(`${baseUrl}/api/all-category-paths`, {
-      // Use 'no-store' to always get the latest data during build or revalidation
-      // This is crucial to ensure the list of paths is always up-to-date
+    // Memanggil API Route yang Anda buat untuk mendapatkan semua path kategori
+    // Menggunakan path relatif untuk API Routes yang ada di proyek Next.js yang sama
+    const response = await fetch(`/api/all-category-paths`, { // <-- PERUBAHAN DI SINI
+      // Gunakan 'no-store' agar selalu mengambil data terbaru saat build atau revalidate
+      // Ini krusial untuk memastikan daftar path selalu up-to-date
       cache: 'no-store'
     });
 
@@ -69,8 +63,8 @@ export async function generateStaticParams() {
 
     const paths = await response.json();
     
-    // Ensure `paths` is an array of objects with the expected 'categoryslug' property
-    // Expected format example: [{ categoryslug: 'hotel' }, { categoryslug: 'motel' }, ...]
+    // Memastikan `paths` adalah array objek dengan properti yang diharapkan 'categoryslug'
+    // Contoh format yang diharapkan: [{ categoryslug: 'hotel' }, { categoryslug: 'motel' }, ...]
     if (!Array.isArray(paths) || paths.some(p => !p.categoryslug)) {
       console.error("Fetched category paths are not in the expected format for generateStaticParams:", paths);
       return []; // Return empty array if data format is incorrect

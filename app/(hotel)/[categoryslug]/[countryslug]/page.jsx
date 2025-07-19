@@ -20,9 +20,9 @@ async function getCountryData(categoryslug, countryslug) {
     return null;
   }
 
-  // IMPORTANT: Ensure NEXT_PUBLIC_API_BASE_URL on your VPS is set to https://hoteloza.com or your correct API URL
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
-  const apiUrl = `${baseUrl}/api/${sanitizedCategory}/${sanitizedCountry}`;
+  // Menggunakan path relatif untuk API Routes yang ada di proyek Next.js yang sama
+  // Next.js akan secara internal menangani routing ini saat build dan runtime
+  const apiUrl = `/api/${sanitizedCategory}/${sanitizedCountry}`; // <-- PERUBAHAN DI SINI
 
   try {
     // ISR with revalidate 1 year (31,536,000 seconds)
@@ -44,39 +44,33 @@ async function getCountryData(categoryslug, countryslug) {
 
 const ClientPage = dynamic(() => import('./ClientPage'));
 
-// ------ FIX: Dynamically fetch country slugs from the database via API ------
+// ------ FIX: Mengambil slug negara secara dinamis dari database melalui API menggunakan path relatif ------
 export async function generateStaticParams() {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL; // Ensure this is correctly set on your VPS!
-  if (!baseUrl) {
-    console.error("ERROR: NEXT_PUBLIC_API_BASE_URL is not defined for generateStaticParams. Cannot fetch country paths.");
-    return []; // Return empty array if not defined
-  }
-
   try {
-    // Call your API Route to get all possible country paths
-    // Example API endpoint: /api/all-country-paths
-    const response = await fetch(`${baseUrl}/api/all-country-paths`, {
-      // Use 'no-store' to always get the latest data during build or revalidation
-      // This is crucial to ensure the list of paths is always up-to-date
+    // Memanggil API Route yang Anda buat untuk mendapatkan semua path negara
+    // Menggunakan path relatif untuk API Routes yang ada di proyek Next.js yang sama
+    const response = await fetch(`/api/all-country-paths`, { // <-- PERUBAHAN DI SINI
+      // Gunakan 'no-store' agar selalu mengambil data terbaru saat build atau revalidate
+      // Ini krusial untuk memastikan daftar path selalu up-to-date
       cache: 'no-store'
     });
 
     if (!response.ok) {
       console.error(`Failed to fetch all country paths. Status: ${response.status} - ${response.statusText}`);
-      // Throw an error to make the build fail if fetching path data is critical.
-      // This helps prevent mass 404s in production.
+      // Melemparkan error agar build gagal jika pengambilan data path penting.
+      // Ini membantu mencegah 404 massal di produksi.
       throw new Error(`Failed to fetch all country paths during build: ${response.statusText}`);
     }
 
     const paths = await response.json();
     
-    // Ensure `paths` is an array of objects with the expected properties
-    // Expected format example: [{ categoryslug: '...', countryslug: '...' }, ...]
+    // Memastikan `paths` adalah array objek dengan properti yang diharapkan
+    // Contoh format yang diharapkan: [{ categoryslug: '...', countryslug: '...' }, ...]
     if (!Array.isArray(paths) || paths.some(p => 
       !p.categoryslug || !p.countryslug
     )) {
       console.error("Fetched country paths are not in the expected format for generateStaticParams:", paths);
-      return []; // Return empty array if data format is incorrect
+      return []; // Mengembalikan array kosong jika data format salah
     }
 
     console.log(`SERVER DEBUG [page.jsx - generateStaticParams]: Successfully fetched ${paths.length} country paths.`);
@@ -84,7 +78,7 @@ export async function generateStaticParams() {
 
   } catch (error) {
     console.error('SERVER FATAL ERROR [page.jsx - generateStaticParams]: Error fetching static paths for countries:', error);
-    // Return an empty array on fatal error, will cause 404s for country pages
+    // Mengembalikan array kosong jika ada error fatal, akan menyebabkan 404s untuk halaman negara
     return [];
   }
 }

@@ -22,12 +22,12 @@ async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
     return null;
   }
 
-  // PENTING: PASTIKAN NEXT_PUBLIC_API_BASE_URL di VPS Anda sudah disetel ke https://hoteloza.com atau URL API Anda yang benar
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
-  const apiUrl = `${baseUrl}/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`;
+  // Using relative path for API Routes that are part of the same Next.js project.
+  // Next.js will internally handle this routing during build and runtime.
+  const apiUrl = `/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`; // <-- CHANGE HERE
 
   try {
-    // Mengubah 'cache: no-store' menjadi ISR dengan revalidate 1 tahun (31.536.000 detik)
+    // ISR with revalidate 1 year (31,536,000 seconds)
     const response = await fetch(apiUrl, { next: { revalidate: 31536000 } });
     if (!response.ok) {
       if (response.status === 404) {
@@ -46,37 +46,33 @@ async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
 
 const ClientPage = dynamic(() => import('./ClientPage'));
 
-// ------ PERBAIKAN: Mengambil slug kota secara dinamis dari database melalui API ------
+// ------ FIX: Dynamically fetch city slugs from the database via API using relative paths ------
 export async function generateStaticParams() {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL; // Pastikan ini sudah benar di lingkungan VPS Anda!
-  if (!baseUrl) {
-    console.error("ERROR: NEXT_PUBLIC_API_BASE_URL is not defined for generateStaticParams. Cannot fetch city paths.");
-    return []; // Mengembalikan array kosong jika tidak terdefinisi
-  }
-
   try {
-    // Memanggil API Route yang Anda buat untuk mendapatkan semua path kota
-    const response = await fetch(`${baseUrl}/api/all-city-paths`, {
-      // Gunakan 'no-store' agar selalu mengambil data terbaru saat build atau revalidate
+    // Calling the API Route you've created to get all city paths.
+    // Using relative path for API Routes that are part of the same Next.js project.
+    const response = await fetch(`/api/all-city-paths`, { // <-- CHANGE HERE
+      // Use 'no-store' to always fetch the latest data during build or revalidation.
+      // This is crucial to ensure the list of paths is always up-to-date.
       cache: 'no-store'
     });
 
     if (!response.ok) {
       console.error(`Failed to fetch all city paths. Status: ${response.status} - ${response.statusText}`);
-      // Melemparkan error agar build gagal jika pengambilan data path penting.
-      // Ini membantu mencegah 404 massal di produksi.
+      // Throw an error to make the build fail if fetching path data is critical.
+      // This helps prevent mass 404s in production.
       throw new Error(`Failed to fetch all city paths during build: ${response.statusText}`);
     }
 
     const paths = await response.json();
     
-    // Memastikan `paths` adalah array objek dengan properti yang sesuai
-    // Contoh format yang diharapkan: [{ categoryslug: '...', countryslug: '...', stateslug: '...', cityslug: '...' }, ...]
+    // Ensure `paths` is an array of objects with the expected properties.
+    // Expected format example: [{ categoryslug: '...', countryslug: '...', stateslug: '...', cityslug: '...' }, ...]
     if (!Array.isArray(paths) || paths.some(p => 
       !p.categoryslug || !p.countryslug || !p.stateslug || !p.cityslug
     )) {
       console.error("Fetched city paths are not in the expected format for generateStaticParams:", paths);
-      return []; // Mengembalikan array kosong jika format data salah
+      return []; // Return empty array if data format is incorrect.
     }
 
     console.log(`SERVER DEBUG [page.jsx - generateStaticParams]: Successfully fetched ${paths.length} city paths.`);
@@ -84,7 +80,7 @@ export async function generateStaticParams() {
 
   } catch (error) {
     console.error('SERVER FATAL ERROR [page.jsx - generateStaticParams]: Error fetching static paths for cities:', error);
-    // Mengembalikan array kosong jika ada error fatal, akan menyebabkan 404 untuk halaman kota
+    // Return an empty array on fatal error; this will cause 404s for city pages.
     return [];
   }
 }
