@@ -1,8 +1,8 @@
-// page.jsx (State)
+// app/(hotel)/[categoryslug]/[countryslug]/[stateslug]/page.jsx
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
-import contentTemplates from '@/utils/contentTemplates'; // Import template konten
+import contentTemplates from '@/utils/contentTemplates';
 
 // Helper function to sanitize slugs
 const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
@@ -21,12 +21,13 @@ async function getStateData(categoryslug, countryslug, stateslug) {
     return null;
   }
 
-  // Menggunakan path relatif untuk API Routes yang ada di proyek Next.js yang sama
-  // Next.js akan secara internal menangani routing ini saat build dan runtime
-  const apiUrl = `https://hoteloza.com/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`; // <-- PERUBAHAN DI SINI
+  // MENGGUNAKAN URL LENGKAP HTTPS://HOTELOZA.COM UNTUK FETCH DATA NEGARA BAGIAN
+  // Atau Anda bisa kembali ke http://localhost:3000 jika itu yang Anda inginkan untuk DEVELOPMENT/VPS saat server belum live
+  const apiUrl = `https://hoteloza.com/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
+  // ATAU: const apiUrl = `http://localhost:3000/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
+  console.log('SERVER DEBUG [page.jsx - getStateData]: Constructed API URL:', apiUrl);
 
   try {
-    // ISR with revalidate 1 tahun (31.536.000 detik)
     const response = await fetch(apiUrl, { next: { revalidate: 31536000 } });
     if (!response.ok) {
       if (response.status === 404) {
@@ -45,45 +46,19 @@ async function getStateData(categoryslug, countryslug, stateslug) {
 
 const ClientPage = dynamic(() => import('./ClientPage'));
 
-// ------ FIX: Mengambil slug negara bagian secara dinamis dari database melalui API menggunakan path relatif ------
+// MENGGUNAKAN generateStaticParams DENGAN DATA HARDCODED (RUTE PASTI)
 export async function generateStaticParams() {
-  try {
-    // Memanggil API Route yang Anda buat untuk mendapatkan semua path negara bagian
-    // Menggunakan path relatif untuk API Routes yang ada di proyek Next.js yang sama
-    const response = await fetch(`/api/all-state-paths`, { // <-- PERUBAHAN DI SINI
-      // Gunakan 'no-store' agar selalu mengambil data terbaru saat build atau revalidate
-      // Ini krusial untuk memastikan daftar path selalu up-to-date
-      cache: 'no-store'
-    });
+  console.warn("WARNING: Using hardcoded paths for generateStaticParams. All other paths will result in 404.");
+  console.warn("THIS IS ONLY FOR BUILD SUCCESS VERIFICATION. For full dynamic coverage, you NEED to implement API calls to fetch all paths from your database.");
 
-    if (!response.ok) {
-      console.error(`Failed to fetch all state paths. Status: ${response.status} - ${response.statusText}`);
-      // Melemparkan error agar build gagal jika pengambilan data path penting.
-      // Ini membantu mencegah 404 massal di produksi.
-      throw new Error(`Failed to fetch all state paths during build: ${response.statusText}`);
-    }
-
-    const paths = await response.json();
-    
-    // Memastikan `paths` adalah array objek dengan properti yang sesuai
-    // Contoh format yang diharapkan: [{ categoryslug: '...', countryslug: '...', stateslug: '...' }, ...]
-    if (!Array.isArray(paths) || paths.some(p => 
-      !p.categoryslug || !p.countryslug || !p.stateslug
-    )) {
-      console.error("Fetched state paths are not in the expected format for generateStaticParams:", paths);
-      return []; // Mengembalikan array kosong jika format data salah
-    }
-
-    console.log(`SERVER DEBUG [page.jsx - generateStaticParams]: Successfully fetched ${paths.length} state paths.`);
-    return paths;
-
-  } catch (error) {
-    console.error('SERVER FATAL ERROR [page.jsx - generateStaticParams]: Error fetching static paths for states:', error);
-    // Mengembalikan array kosong jika ada error fatal, akan menyebabkan 404 untuk halaman negara bagian
-    return [];
-  }
+  return [
+    {
+      categoryslug: 'hotel',
+      countryslug: 'indonesia',
+      stateslug: 'bali',
+    },
+  ];
 }
-// --------------------------------------------------------------------------
 
 export async function generateMetadata({ params }) {
   const awaitedParams = await params;

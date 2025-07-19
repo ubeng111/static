@@ -1,8 +1,8 @@
-// page.jsx (Category)
+// app/(hotel)/[categoryslug]/page.jsx
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
-import contentTemplates from '@/utils/contentTemplates'; // Import template konten
+import contentTemplates from '@/utils/contentTemplates';
 
 // Helper function to sanitize slugs
 const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
@@ -19,12 +19,13 @@ async function getCategoryData(categoryslug) {
     return null;
   }
 
-  // Menggunakan path relatif untuk API Routes yang ada di proyek Next.js yang sama
-  // Next.js akan secara internal menangani routing ini saat build dan runtime
-  const apiUrl = `https://hoteloza.com/api/${sanitizedCategory}`; // <-- PERUBAHAN DI SINI
+  // MENGGUNAKAN URL LENGKAP HTTPS://HOTELOZA.COM UNTUK FETCH DATA KATEGORI
+  // Atau Anda bisa kembali ke http://localhost:3000 jika itu yang Anda inginkan untuk DEVELOPMENT/VPS saat server belum live
+  const apiUrl = `https://hoteloza.com/api/${sanitizedCategory}`;
+  // ATAU: const apiUrl = `http://localhost:3000/api/${sanitizedCategory}`;
+  console.log('SERVER DEBUG [page.jsx - getCategoryData]: Constructed API URL:', apiUrl);
 
   try {
-    // ISR with revalidate 1 year (31,536,000 seconds)
     const response = await fetch(apiUrl, { next: { revalidate: 31536000 } });
     if (!response.ok) {
       if (response.status === 404) {
@@ -43,59 +44,32 @@ async function getCategoryData(categoryslug) {
 
 const ClientPage = dynamic(() => import('./ClientPage'));
 
-// ------ FIX: Mengambil slug kategori secara dinamis dari database melalui API menggunakan path relatif ------
+// MENGGUNAKAN generateStaticParams DENGAN DATA HARDCODED (RUTE PASTI)
 export async function generateStaticParams() {
-  try {
-    // Memanggil API Route yang Anda buat untuk mendapatkan semua path kategori
-    // Menggunakan path relatif untuk API Routes yang ada di proyek Next.js yang sama
-    const response = await fetch(`/api/all-category-paths`, { // <-- PERUBAHAN DI SINI
-      // Gunakan 'no-store' agar selalu mengambil data terbaru saat build atau revalidate
-      // Ini krusial untuk memastikan daftar path selalu up-to-date
-      cache: 'no-store'
-    });
+  console.warn("WARNING: Using hardcoded paths for generateStaticParams. All other paths will result in 404.");
+  console.warn("THIS IS ONLY FOR BUILD SUCCESS VERIFICATION. For full dynamic coverage, you NEED to implement API calls to fetch all paths from your database.");
 
-    if (!response.ok) {
-      console.error(`Failed to fetch all category paths. Status: ${response.status} - ${response.statusText}`);
-      // Throw an error to make the build fail if fetching path data is critical.
-      // This helps prevent mass 404s in production.
-      throw new Error(`Failed to fetch all category paths during build: ${response.statusText}`);
-    }
-
-    const paths = await response.json();
-    
-    // Memastikan `paths` adalah array objek dengan properti yang diharapkan 'categoryslug'
-    // Contoh format yang diharapkan: [{ categoryslug: 'hotel' }, { categoryslug: 'motel' }, ...]
-    if (!Array.isArray(paths) || paths.some(p => !p.categoryslug)) {
-      console.error("Fetched category paths are not in the expected format for generateStaticParams:", paths);
-      return []; // Return empty array if data format is incorrect
-    }
-
-    console.log(`SERVER DEBUG [page.jsx - generateStaticParams]: Successfully fetched ${paths.length} category paths.`);
-    return paths;
-
-  } catch (error) {
-    console.error('SERVER FATAL ERROR [page.jsx - generateStaticParams]: Error fetching static paths for categories:', error);
-    // Return an empty array on fatal error, will cause 404s for category pages
-    return [];
-  }
+  return [
+    {
+      categoryslug: 'hotel',
+    },
+  ];
 }
-// --------------------------------------------------------------------------
 
 export async function generateMetadata({ params }) {
-  // As per Next.js guidelines, `params` should be awaited.
   const awaitedParams = await params;
   const categoryslug = awaitedParams.categoryslug;
 
   const sanitizedCategory = sanitizeSlug(categoryslug);
 
-  const currentUrl = `https://hoteloza.com/${sanitizedCategory}`; // Define canonical URL here
+  const currentUrl = `https://hoteloza.com/${sanitizedCategory}`;
 
   if (!sanitizedCategory) {
     return {
       title: 'Category Not Found | Hoteloza',
       description: 'The requested category was not found on Hoteloza.',
       alternates: {
-        canonical: currentUrl, // Points to itself
+        canonical: currentUrl,
       },
     };
   }
@@ -106,7 +80,7 @@ export async function generateMetadata({ params }) {
       title: 'Category Not Found | Hoteloza',
       description: 'The requested category was not found on Hoteloza.',
       alternates: {
-        canonical: currentUrl, // Points to itself
+        canonical: currentUrl,
       },
     };
   }
@@ -128,15 +102,13 @@ export async function generateMetadata({ params }) {
       url: currentUrl,
       type: 'website',
     },
-    // Add canonical tag here
     alternates: {
-      canonical: currentUrl, // Points to itself
+      canonical: currentUrl,
     },
   };
 }
 
 export default async function Page({ params }) {
-  // As per Next.js guidelines, `params` should be awaited.
   const awaitedParams = await params;
   const categoryslug = awaitedParams.categoryslug;
 

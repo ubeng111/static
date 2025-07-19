@@ -1,8 +1,8 @@
-// page.jsx (Country)
+// app/(hotel)/[categoryslug]/[countryslug]/page.jsx
 import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
-import contentTemplates from '@/utils/contentTemplates'; // Import template konten
+import contentTemplates from '@/utils/contentTemplates';
 
 // Helper function to sanitize slugs
 const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
@@ -20,12 +20,13 @@ async function getCountryData(categoryslug, countryslug) {
     return null;
   }
 
-  // Menggunakan path relatif untuk API Routes yang ada di proyek Next.js yang sama
-  // Next.js akan secara internal menangani routing ini saat build dan runtime
-  const apiUrl = `https://hoteloza.com/api/${sanitizedCategory}/${sanitizedCountry}`; // <-- PERUBAHAN DI SINI
+  // MENGGUNAKAN URL LENGKAP HTTPS://HOTELOZA.COM UNTUK FETCH DATA NEGARA
+  // Atau Anda bisa kembali ke http://localhost:3000 jika itu yang Anda inginkan untuk DEVELOPMENT/VPS saat server belum live
+  const apiUrl = `https://hoteloza.com/api/${sanitizedCategory}/${sanitizedCountry}`;
+  // ATAU: const apiUrl = `http://localhost:3000/api/${sanitizedCategory}/${sanitizedCountry}`;
+  console.log('SERVER DEBUG [page.jsx - getCountryData]: Constructed API URL:', apiUrl);
 
   try {
-    // ISR with revalidate 1 year (31,536,000 seconds)
     const response = await fetch(apiUrl, { next: { revalidate: 31536000 } });
     if (!response.ok) {
       if (response.status === 404) {
@@ -44,48 +45,20 @@ async function getCountryData(categoryslug, countryslug) {
 
 const ClientPage = dynamic(() => import('./ClientPage'));
 
-// ------ FIX: Mengambil slug negara secara dinamis dari database melalui API menggunakan path relatif ------
+// MENGGUNAKAN generateStaticParams DENGAN DATA HARDCODED (RUTE PASTI)
 export async function generateStaticParams() {
-  try {
-    // Memanggil API Route yang Anda buat untuk mendapatkan semua path negara
-    // Menggunakan path relatif untuk API Routes yang ada di proyek Next.js yang sama
-    const response = await fetch(`/api/all-country-paths`, { // <-- PERUBAHAN DI SINI
-      // Gunakan 'no-store' agar selalu mengambil data terbaru saat build atau revalidate
-      // Ini krusial untuk memastikan daftar path selalu up-to-date
-      cache: 'no-store'
-    });
+  console.warn("WARNING: Using hardcoded paths for generateStaticParams. All other paths will result in 404.");
+  console.warn("THIS IS ONLY FOR BUILD SUCCESS VERIFICATION. For full dynamic coverage, you NEED to implement API calls to fetch all paths from your database.");
 
-    if (!response.ok) {
-      console.error(`Failed to fetch all country paths. Status: ${response.status} - ${response.statusText}`);
-      // Melemparkan error agar build gagal jika pengambilan data path penting.
-      // Ini membantu mencegah 404 massal di produksi.
-      throw new Error(`Failed to fetch all country paths during build: ${response.statusText}`);
-    }
-
-    const paths = await response.json();
-    
-    // Memastikan `paths` adalah array objek dengan properti yang diharapkan
-    // Contoh format yang diharapkan: [{ categoryslug: '...', countryslug: '...' }, ...]
-    if (!Array.isArray(paths) || paths.some(p => 
-      !p.categoryslug || !p.countryslug
-    )) {
-      console.error("Fetched country paths are not in the expected format for generateStaticParams:", paths);
-      return []; // Mengembalikan array kosong jika data format salah
-    }
-
-    console.log(`SERVER DEBUG [page.jsx - generateStaticParams]: Successfully fetched ${paths.length} country paths.`);
-    return paths;
-
-  } catch (error) {
-    console.error('SERVER FATAL ERROR [page.jsx - generateStaticParams]: Error fetching static paths for countries:', error);
-    // Mengembalikan array kosong jika ada error fatal, akan menyebabkan 404s untuk halaman negara
-    return [];
-  }
+  return [
+    {
+      categoryslug: 'hotel',
+      countryslug: 'indonesia',
+    },
+  ];
 }
-// --------------------------------------------------------------------------
 
 export async function generateMetadata({ params }) {
-  // As per Next.js guidelines, `params` should be awaited.
   const awaitedParams = await params;
   const categoryslug = awaitedParams.categoryslug;
   const countryslug = awaitedParams.countryslug;
@@ -93,14 +66,14 @@ export async function generateMetadata({ params }) {
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
 
-  const currentUrl = `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}`; // Canonical URL definition here
+  const currentUrl = `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}`;
 
   if (!sanitizedCategory || !sanitizedCountry) {
     return {
       title: 'Page Not Found | Hoteloza',
       description: 'The requested category or country was not found on Hoteloza.',
       alternates: {
-        canonical: currentUrl, // Points to itself
+        canonical: currentUrl,
       },
     };
   }
@@ -111,7 +84,7 @@ export async function generateMetadata({ params }) {
       title: 'Page Not Found | Hoteloza',
       description: 'The requested category or country was not found on Hoteloza.',
       alternates: {
-        canonical: currentUrl, // Points to itself
+        canonical: currentUrl,
       },
     };
   }
@@ -120,38 +93,34 @@ export async function generateMetadata({ params }) {
   const formattedCategory = formatSlug(sanitizedCategory) || 'Category';
   const currentYear = new Date().getFullYear();
 
-  // Get longDescription as an array of objects from the template
   const longDescriptionSegments = contentTemplates.getGeoCategoryDescription(
     formattedCategory,
-    'country', // entityType
-    formattedCountry, // entityName
-    null, // cityName (not relevant for Country Page)
-    null, // stateName (not relevant for Country Page)
-    formattedCountry // countryName (same as entityName for Country Page)
+    'country',
+    formattedCountry,
+    null,
+    null,
+    formattedCountry
   );
 
-  // Get the first sentence or cut from the first paragraph content for meta description
   const firstParagraphContent = longDescriptionSegments[0]?.content || '';
   const metaDescription = firstParagraphContent.substring(0, 160) + (firstParagraphContent.length > 160 ? '...' : '');
 
   return {
     title: `Cheap ${formattedCategory} in ${formattedCountry} ${currentYear} - Don’t Miss Out! | Hoteloza`,
-    description: metaDescription, // Use metaDescription from the first paragraph
+    description: metaDescription,
     openGraph: {
       title: `Best ${formattedCategory} in ${formattedCountry} ${currentYear} | Hoteloza`,
       description: `Find the best ${formattedCategory.toLowerCase()} in ${formattedCountry} for ${currentYear} on Hoteloza. Book now for top hotels and exclusive deals!`,
       url: currentUrl,
       type: 'website',
     },
-    // Add canonical tag here
     alternates: {
-      canonical: currentUrl, // Points to itself
+      canonical: currentUrl,
     },
   };
 }
 
 export default async function Page({ params }) {
-  // As per Next.js guidelines, `params` should be awaited.
   const awaitedParams = await params;
   const categoryslug = awaitedParams.categoryslug;
   const countryslug = awaitedParams.countryslug;
@@ -174,20 +143,17 @@ export default async function Page({ params }) {
   const baseUrl = 'https://hoteloza.com';
   const currentUrl = `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}`;
 
-  // Get longDescription as an array of objects from the template
   const longDescriptionSegments = contentTemplates.getGeoCategoryDescription(
     formattedCategory,
-    'country', // entityType
-    formattedCountry, // entityName
-    null, // cityName
-    null, // stateName
-    formattedCountry // countryName
+    'country',
+    formattedCountry,
+    null,
+    null,
+    formattedCountry
   );
 
-  // Get country name, state from the first hotel data if available for FAQ/display
   const displayCountry = data.hotels[0]?.country ? formatSlug(data.hotels[0].country) : formattedCountry;
 
-  // For schema.org description, concatenate all paragraph contents into a single string
   const schemaDescription = longDescriptionSegments.map(segment => segment.content).join(' ');
 
   const schemas = [
@@ -195,7 +161,7 @@ export default async function Page({ params }) {
       '@context': 'https://schema.org',
       '@type': 'WebPage',
       name: `Best ${formattedCategory} in ${formattedCountry} ${currentYear}`,
-      description: schemaDescription, // Use concatenated string for schema
+      description: schemaDescription,
       url: currentUrl,
       publisher: {
         '@type': 'Organization',
@@ -216,7 +182,7 @@ export default async function Page({ params }) {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
       name: `Top ${formattedCategory} in ${formattedCountry} ${currentYear}`,
-      description: schemaDescription.substring(0, 160) + '...', // Use concatenated string, truncate for item list schema
+      description: schemaDescription.substring(0, 160) + '...',
       itemListElement: data.hotels.map((hotel, index) => ({
         '@type': 'ListItem',
         position: index + 1,
@@ -250,7 +216,7 @@ export default async function Page({ params }) {
       <ClientPage
         categoryslug={sanitizedCategory}
         countryslug={sanitizedCountry}
-        longDescriptionSegments={longDescriptionSegments} // Pass array of objects
+        longDescriptionSegments={longDescriptionSegments}
         displayCountry={displayCountry}
         formattedCategory={formattedCategory}
       />

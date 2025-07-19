@@ -1,4 +1,4 @@
-// page.jsx (Hotel Detail Page) - FINAL FIXED VERSION with Relative Paths for Internal API Calls
+// app/(hotel)/[categoryslug]/[countryslug]/[stateslug]/[cityslug]/[hotelslug]/page.jsx
 import { notFound } from 'next/navigation';
 import BookNow from '@/components/hotel-single/BookNow';
 import ClientPage from './ClientPage';
@@ -8,7 +8,7 @@ import Script from 'next/script';
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
-// *** Fungsi calculateDistance (di server-side) ***
+// Fungsi calculateDistance
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6371; // Radius of Earth in kilometers
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
@@ -43,14 +43,13 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
     return null;
   }
 
-  // MENGGUNAKAN PATH RELATIF SECARA LANGSUNG UNTUK API ROUTES INTERNAL
-  // Next.js akan menyelesaikan ini ke domain Anda saat runtime, dan secara internal saat build.
-  // Hapus baris baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+  // Menggunakan URL lengkap HTTPS://HOTELOZA.COM untuk FETCH DATA HOTEL
+  // Atau Anda bisa kembali ke http://localhost:3000 jika itu yang Anda inginkan untuk DEVELOPMENT/VPS saat server belum live
   const apiUrl = `https://hoteloza.com/api/${sanitizedParams.categoryslug}/${sanitizedParams.countryslug}/${sanitizedParams.stateslug}/${sanitizedParams.cityslug}/${sanitizedParams.hotelslug}`;
-  console.log('SERVER DEBUG [page.jsx - getHotelData]: Constructed API URL (relative):', apiUrl);
+  // ATAU: const apiUrl = `http://localhost:3000/api/${sanitizedParams.categoryslug}/${sanitizedParams.countryslug}/${sanitizedParams.stateslug}/${sanitizedParams.cityslug}/${sanitizedParams.hotelslug}`;
+  console.log('SERVER DEBUG [page.jsx - getHotelData]: Constructed API URL:', apiUrl);
 
   try {
-    // REVALIDATE SET TO 1 TAHUN (31,536,000 detik)
     const response = await fetch(apiUrl, { next: { revalidate: 31536000 } }); 
     if (!response.ok) {
       if (response.status === 404) {
@@ -69,20 +68,19 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
   }
 }
 
-// *** FUNGSI UNTUK MENGAMBIL, MEMFILTER, MENGHITUNG JARAK, MENGURUTKAN, DAN MENGACAK LANDMARK ***
 async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityId) { 
   if (!hotelLatitude || !hotelLongitude || !hotelCityId) {
     console.warn("SERVER WARN [page.jsx - getLandmarkDataForHotel]: Hotel coordinates or cityId missing. Cannot find relevant landmarks. Returning empty array.");
     return [];
   }
 
-  try {
-    // MENGGUNAKAN PATH RELATIF SECARA LANGSUNG UNTUK API ROUTES INTERNAL
-    // Hapus baris baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
-    const allLandmarksApiUrl = `/api/fast-landmarks-by-city?city_id=${hotelCityId}`; 
-    console.log(`SERVER DEBUG [page.jsx - getLandmarkDataForHotel]: Calling SQL API for landmarks relevant to city_id ${hotelCityId} (relative): ${allLandmarksApiUrl}`);
+  // Menggunakan URL lengkap HTTPS://HOTELOZA.COM untuk FETCH DATA LANDMARK
+  // Atau Anda bisa kembali ke http://localhost:3000 jika itu yang Anda inginkan untuk DEVELOPMENT/VPS saat server belum live
+  const allLandmarksApiUrl = `https://hoteloza.com/api/fast-landmarks-by-city?city_id=${hotelCityId}`; 
+  // ATAU: const allLandmarksApiUrl = `http://localhost:3000/api/fast-landmarks-by-city?city_id=${hotelCityId}`;
+  console.log('SERVER DEBUG [page.jsx - getLandmarkDataForHotel]: Calling SQL API for landmarks:', allLandmarksApiUrl);
 
-    // REVALIDATE SET TO 1 TAHUN (31,536,000 detik)
+  try {
     const response = await fetch(allLandmarksApiUrl, { next: { revalidate: 31536000 } }); 
     
     if (!response.ok) {
@@ -122,7 +120,7 @@ async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityI
       landmark !== null && landmark.distance <= MAX_RELEVANT_DISTANCE_KM && landmark.slug && landmark.name
     );
 
-    processedLandmarks.sort((a, b) => a.distance - b.distance);
+    processedLandmarks.sort((a, b) => a.distance - b.distance); 
 
     const relevantAndLimitedPool = processedLandmarks.slice(0, POOL_SIZE_FOR_SHUFFLE);
 
@@ -142,48 +140,32 @@ async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityI
   }
 }
 
-// ------ MENGGUNAKAN PATH RELATIF DI generateStaticParams ------
+// MENGGUNAKAN generateStaticParams DENGAN DATA HARDCODED (RUTE PASTI)
 export async function generateStaticParams() {
-  // Hapus baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-  // Hapus pengecekan if (!baseUrl) { ... }
-  try {
-    // Memanggil API Route yang Anda buat untuk mendapatkan semua path hotel
-    // MENGGUNAKAN PATH RELATIF SECARA LANGSUNG
-    const response = await fetch(`/api/all-hotel-paths`, { 
-      cache: 'no-store' // Penting: cache: 'no-store' agar selalu mengambil data terbaru saat build
-    });
+  console.warn("WARNING: Using hardcoded paths for generateStaticParams. All other paths will result in 404.");
+  console.warn("THIS IS ONLY FOR BUILD SUCCESS VERIFICATION. For full dynamic coverage, you NEED to implement API calls to fetch all paths from your database.");
 
-    if (!response.ok) {
-      console.error(`Failed to fetch all hotel paths. Status: ${response.status} - ${response.statusText}`);
-      // Lempar error untuk membuat build gagal jika data path tidak bisa diambil
-      // Ini lebih baik daripada build sukses tapi halaman 404 semua.
-      throw new Error(`Failed to fetch all hotel paths during build: ${response.statusText}`);
-    }
-
-    const paths = await response.json();
-    
-    if (!Array.isArray(paths) || paths.some(p => 
-      !p.categoryslug || !p.countryslug || !p.stateslug || !p.cityslug || !p.hotelslug
-    )) {
-      console.error("Fetched paths are not in the expected format for generateStaticParams:", paths);
-      // Mengembalikan array kosong jika format data salah
-      return []; 
-    }
-
-    console.log(`SERVER DEBUG [page.jsx - generateStaticParams]: Successfully fetched ${paths.length} hotel paths.`);
-    return paths;
-
-  } catch (error) {
-    console.error('SERVER FATAL ERROR [page.jsx - generateStaticParams]: Error fetching static paths for hotels:', error);
-    // Mengembalikan array kosong jika ada error fatal, akan menyebabkan 404 untuk halaman ini
-    return []; 
-  }
+  return [
+    {
+      categoryslug: 'hotel',
+      countryslug: 'indonesia',
+      stateslug: 'bali',
+      cityslug: 'bali',
+      hotelslug: 'prime-plaza-hotel-sanur-bali',
+    },
+    // Jika Anda ingin menguji path lain yang sudah ada di database Anda:
+    // {
+    //   categoryslug: 'hotel',
+    //   countryslug: 'usa',
+    //   stateslug: 'california',
+    //   cityslug: 'los-angeles',
+    //   hotelslug: 'the-ritz-carlton-los-angeles',
+    // },
+  ];
 }
-// --------------------------------------------------------------------------
 
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
-  console.log('SERVER DEBUG [page.jsx - generateMetadata]: Metadata params:', resolvedParams);
   const { categoryslug, countryslug, stateslug, cityslug, hotelslug } = resolvedParams;
 
   try {
@@ -232,24 +214,19 @@ export async function generateMetadata({ params }) {
 
 export default async function HotelDetailPage({ params }) {
   const resolvedParams = await params;
-  console.log('SERVER DEBUG [page.jsx - HotelDetailPage]: Received params:', resolvedParams);
   const data = await getHotelData(resolvedParams);
 
   if (!data || !data.hotel) {
-    console.warn('SERVER WARN [page.jsx - HotelDetailPage]: Hotel data not found, returning 404.');
     notFound();
   }
 
   const hotel = data.hotel;
-  console.log('SERVER DEBUG [page.jsx - HotelDetailPage]: Hotel object:', hotel.title, 'city_id:', hotel.city_id, 'lat:', hotel.latitude, 'lon:', hotel.longitude);
 
   const landmarksForDisplay = await getLandmarkDataForHotel(
     hotel.latitude, 
     hotel.longitude,
     hotel.city_id 
   );
-  console.log('SERVER DEBUG [page.jsx - HotelDetailPage]: Final landmarks for display (expected 12 relevant & random):', landmarksForDisplay.length, 'items.');
-
 
   const formattedHotel = formatSlug(resolvedParams.hotelslug) || hotel.title;
   const formattedCity = formatSlug(resolvedParams.cityslug) || hotel.city;
@@ -354,7 +331,7 @@ export default async function HotelDetailPage({ params }) {
       <ClientPage
         hotel={data.hotel}
         relatedHotels={data.relatedHotels}
-        landmarks={landmarksForDisplay} // Teruskan 12 landmark yang sudah di-shuffle dan dihitung jaraknya
+        landmarks={landmarksForDisplay}
         useHotels2={true}
         hotelslug={resolvedParams.hotelslug}
         categoryslug={resolvedParams.categoryslug}
