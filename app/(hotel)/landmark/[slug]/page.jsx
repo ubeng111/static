@@ -9,7 +9,7 @@ import Script from 'next/script';
 import contentTemplates from '@/utils/contentTemplates';
 import { notFound } from 'next/navigation';
 
-export const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic'; // Ini akan diabaikan jika `fetch` memiliki `revalidate`
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
@@ -27,16 +27,23 @@ async function fetchLandmarkData(slug) {
         WHERE slug = $1
         LIMIT 1
       `;
-      const landmarkResult = await client.query(landmarkQuery, [slug]);
-      console.log('SERVER DEBUG [page.jsx]: Landmark query result:', landmarkResult.rows);
+      // Mengubah strategi fetch menjadi ISR dengan revalidate 1 tahun (365 hari * 24 jam * 60 menit * 60 detik)
+      // Yakni: 31536000 detik
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/landmark-data?slug=${slug}`, {
+        next: { revalidate: 31536000 } // Revalidate every 1 year
+      });
 
-      if (landmarkResult.rows.length) {
-        const data = landmarkResult.rows[0];
+      if (!res.ok) {
+        console.error(`SERVER ERROR [page.jsx]: Failed to fetch landmark data from API. Status: ${res.status}`);
+        return null;
+      }
+      const data = await res.json();
+
+      if (data && data.landmark_name) {
         return {
           landmarkName: data.landmark_name,
           cityName: data.city_name,
           category: data.category,
-          // Hapus stateName dan countryName dari sini
         };
       }
       return null;
@@ -72,25 +79,21 @@ export async function generateMetadata({ params }) {
         type: 'website',
         url: landmarkUrl,
       },
-      // --- START MODIFIKASI: Aktifkan kembali canonical ---
       alternates: {
-        canonical: landmarkUrl, // Ini akan menunjuk ke dirinya sendiri
+        canonical: landmarkUrl,
       },
-      // --- END MODIFIKASI ---
     };
   }
 
   const landmarkData = await fetchLandmarkData(slug);
   if (landmarkData) {
-    const { landmarkName, cityName, category } = landmarkData; // Hapus stateName, countryName
+    const { landmarkName, cityName, category } = landmarkData;
     title = `${category} Near ${landmarkName}, ${cityName}`;
 
-    // Dapatkan longDescription dari template untuk meta description
-    // Ambil hanya konten paragraf pertama atau beberapa kalimat pertama untuk meta description
     const fullDescriptionSegmentsForMeta = contentTemplates.getGeoCategoryDescription(
         category, 'landmark', landmarkName, cityName, null, null
     );
-    description = fullDescriptionSegmentsForMeta[0]?.content || ''; // Potong untuk meta description
+    description = fullDescriptionSegmentsForMeta[0]?.content || '';
   } else {
     description = 'Discover top hotels near popular landmarks with exclusive deals and premium amenities on Hoteloza.';
   }
@@ -104,11 +107,9 @@ export async function generateMetadata({ params }) {
       type: 'website',
       url: landmarkUrl,
     },
-    // --- START MODIFIKASI: Aktifkan kembali canonical ---
     alternates: {
-      canonical: landmarkUrl, // Ini akan menunjuk ke dirinya sendiri
+      canonical: landmarkUrl,
     },
-    // --- END MODIFIKASI ---
   };
 }
 
@@ -122,7 +123,6 @@ export default async function LandmarkSlugPage({ params }) {
   const cityName = landmarkData?.cityName || 'Unknown City';
   const category = landmarkData?.category || 'Hotels';
 
-  // Dapatkan longDescription sebagai array objek dari template untuk konten utama
   const longDescriptionSegments = contentTemplates.getGeoCategoryDescription(
     category,
     'landmark',
@@ -132,7 +132,6 @@ export default async function LandmarkSlugPage({ params }) {
     null
   );
 
-  // Untuk schema.org description, gabungkan semua konten paragraf menjadi satu string
   const schemaDescription = longDescriptionSegments.map(segment => segment.content).join(' ');
 
   const schemas = [

@@ -23,7 +23,8 @@ async function getCategoryData(categoryslug) {
   const apiUrl = `${baseUrl}/api/${sanitizedCategory}`; //
 
   try {
-    const response = await fetch(apiUrl, { cache: 'no-store' }); //
+    // Mengubah 'cache: no-store' menjadi ISR dengan revalidate 1 tahun (31.536.000 detik)
+    const response = await fetch(apiUrl, { next: { revalidate: 31536000 } }); // 👈 PERUBAHAN DI SINI
     if (!response.ok) {
       console.error(`Failed to fetch category data for ${sanitizedCategory}. Status: ${response.status}`); //
       return null; //

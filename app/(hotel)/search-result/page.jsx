@@ -1,3 +1,4 @@
+// page.jsx (SearchResultPage)
 import { Suspense } from "react";
 import Header11 from "@/components/header/header-11";
 import Footer from "@/components/footer/";
@@ -7,10 +8,11 @@ import CityContent from "./CityContent";
 
 export default async function SearchResultPage({ searchParams }) { // Tambahkan 'async' di sini
   // --- START PERBAIKAN: await searchParams ---
-  const awaitedSearchParams = await searchParams; // await searchParams
-  const cityId = awaitedSearchParams.city_id;
-  const page = parseInt(awaitedSearchParams.page) || 1;
-  const cityName = awaitedSearchParams.city || "Selected City"; // Ambil city juga setelah await
+  // searchParams adalah objek URLSearchParams dari request, tidak perlu diawait.
+  // Next.js 13/14 secara otomatis menangani ini sebagai props.
+  const cityId = searchParams.city_id; // Langsung akses
+  const page = parseInt(searchParams.page) || 1; // Langsung akses
+  const cityName = searchParams.city || "Selected City"; // Langsung akses
   // --- END PERBAIKAN ---
 
   return (
@@ -36,7 +38,7 @@ export default async function SearchResultPage({ searchParams }) { // Tambahkan 
             <div className="col-12">
               <div className="text-center">
                 <h1 className="text-25 fw-600 text-white">
-                  Search Result Properties In {cityName} {/* Gunakan cityName yang sudah di-await */}
+                  Search Result Properties In {cityName} {/* Gunakan cityName */}
                 </h1>
               </div>
             </div>
@@ -55,6 +57,11 @@ export default async function SearchResultPage({ searchParams }) { // Tambahkan 
       </section>
 
       <Suspense fallback={<div>Loading City Content...</div>}>
+        {/*
+          ISR (dengan revalidate 1 tahun) harus diterapkan di dalam komponen CityContent,
+          pada fungsi pengambilan data (fetch) yang sebenarnya yang bergantung pada cityId.
+          Halaman ini sendiri (SearchResultPage) akan dinamis karena searchParams selalu berubah.
+        */}
         <CityContent initialCityId={cityId} initialPage={page} />
       </Suspense>
 

@@ -26,7 +26,8 @@ async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
   const apiUrl = `${baseUrl}/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`; //
 
   try {
-    const response = await fetch(apiUrl, { cache: 'no-store' }); //
+    // Mengubah 'cache: no-store' menjadi ISR dengan revalidate 1 tahun (31.536.000 detik)
+    const response = await fetch(apiUrl, { next: { revalidate: 31536000 } }); //
     if (!response.ok) { //
       console.error(`Failed to fetch city data for ${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}. Status: ${response.status}`); //
       return null; //

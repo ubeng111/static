@@ -48,7 +48,8 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
   console.log('SERVER DEBUG [page.jsx - getHotelData]: Constructed API URL:', apiUrl);
 
   try {
-    const response = await fetch(apiUrl, { cache: 'no-store' });
+    // REVALIDATE SET TO 1 YEAR (31,536,000 seconds)
+    const response = await fetch(apiUrl, { next: { revalidate: 31536000 } }); 
     if (!response.ok) {
       console.error(
         `SERVER ERROR [page.jsx - getHotelData]: Failed to fetch hotel data for ${sanitizedParams.hotelslug}. Status: ${response.status} - ${response.statusText}`
@@ -74,7 +75,8 @@ async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityI
     const allLandmarksApiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000'}/api/fast-landmarks-by-city?city_id=${hotelCityId}`; 
     console.log(`SERVER DEBUG [page.jsx - getLandmarkDataForHotel]: Calling SQL API for landmarks relevant to city_id ${hotelCityId}: ${allLandmarksApiUrl}`);
 
-    const response = await fetch(allLandmarksApiUrl, { cache: 'no-store' }); 
+    // REVALIDATE SET TO 1 YEAR (31,536,000 seconds)
+    const response = await fetch(allLandmarksApiUrl, { next: { revalidate: 31536000 } }); 
     
     if (!response.ok) {
       console.warn(`SERVER WARN [page.jsx - getLandmarkDataForHotel]: Failed to fetch landmark data from SQL API. Status: ${response.status}`);
@@ -319,7 +321,7 @@ export default async function HotelDetailPage({ params }) {
       <Script
         id="hotel-schema"
         type="application/ld+json"
-        dangeriouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
       />
       <BookNow hotel={data.hotel} hotelId={data.hotel?.id} />
       <ClientPage
