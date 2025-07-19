@@ -46,7 +46,7 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
   // MENGGUNAKAN PATH RELATIF SECARA LANGSUNG UNTUK API ROUTES INTERNAL
   // Next.js akan menyelesaikan ini ke domain Anda saat runtime, dan secara internal saat build.
   // Hapus baris baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
-  const apiUrl = `/api/${sanitizedParams.categoryslug}/${sanitizedParams.countryslug}/${sanitizedParams.stateslug}/${sanitizedParams.cityslug}/${sanitizedParams.hotelslug}`;
+  const apiUrl = `https://hoteloza.com/api/${sanitizedParams.categoryslug}/${sanitizedParams.countryslug}/${sanitizedParams.stateslug}/${sanitizedParams.cityslug}/${sanitizedParams.hotelslug}`;
   console.log('SERVER DEBUG [page.jsx - getHotelData]: Constructed API URL (relative):', apiUrl);
 
   try {

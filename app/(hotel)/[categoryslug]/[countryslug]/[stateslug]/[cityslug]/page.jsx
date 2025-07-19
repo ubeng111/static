@@ -24,7 +24,7 @@ async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
 
   // Using relative path for API Routes that are part of the same Next.js project.
   // Next.js will internally handle this routing during build and runtime.
-  const apiUrl = `/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`; // <-- CHANGE HERE
+  const apiUrl = `https://hoteloza.com/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`; // <-- CHANGE HERE
 
   try {
     // ISR with revalidate 1 year (31,536,000 seconds)

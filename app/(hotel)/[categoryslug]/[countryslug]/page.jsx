@@ -22,7 +22,7 @@ async function getCountryData(categoryslug, countryslug) {
 
   // Menggunakan path relatif untuk API Routes yang ada di proyek Next.js yang sama
   // Next.js akan secara internal menangani routing ini saat build dan runtime
-  const apiUrl = `/api/${sanitizedCategory}/${sanitizedCountry}`; // <-- PERUBAHAN DI SINI
+  const apiUrl = `https://hoteloza.com/api/${sanitizedCategory}/${sanitizedCountry}`; // <-- PERUBAHAN DI SINI
 
   try {
     // ISR with revalidate 1 year (31,536,000 seconds)
