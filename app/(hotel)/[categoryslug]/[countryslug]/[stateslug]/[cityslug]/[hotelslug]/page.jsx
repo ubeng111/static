@@ -41,12 +41,17 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
     return null;
   }
 
-  // MENGGUNAKAN URL LENGKAP HTTPS://HOTELOZA.COM untuk FETCH DATA HOTEL
+  // Menggunakan URL lengkap HTTPS://HOTELOZA.COM (atau http://localhost:3000 untuk lokal)
   const apiUrl = `https://hoteloza.com/api/${sanitizedParams.categoryslug}/${sanitizedParams.countryslug}/${sanitizedParams.stateslug}/${sanitizedParams.cityslug}/${sanitizedParams.hotelslug}`;
+  // ATAU: const apiUrl = `http://localhost:3000/api/${sanitizedParams.categoryslug}/${sanitizedParams.countryslug}/${sanitizedParams.stateslug}/${sanitizedParams.cityslug}/${sanitizedParams.hotelslug}`;
   console.log('SERVER DEBUG [page.jsx - getHotelData]: Constructed API URL:', apiUrl);
 
   try {
-    const response = await fetch(apiUrl, { next: { revalidate: 31536000 } }); 
+    // Karena generateStaticParams dihapus, halaman ini akan menjadi SSR (server-rendered on demand).
+    // fetch tanpa 'next: { revalidate }' atau 'cache: "no-store"' di Server Component Next.js 13/14
+    // secara default akan menggunakan caching, tapi akan di-render di server untuk setiap request unik
+    // jika menggunakan dynamic functions atau dynamic data.
+    const response = await fetch(apiUrl); // Hapus revalidate untuk SSR murni (on-demand)
     if (!response.ok) {
       if (response.status === 404) {
           console.warn(`SERVER WARN [page.jsx - getHotelData]: Hotel not found for ${sanitizedParams.hotelslug}. Status: 404.`);
@@ -70,12 +75,14 @@ async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityI
     return [];
   }
 
-  // MENGGUNAKAN URL LENGKAP HTTPS://HOTELOZA.COM untuk FETCH DATA LANDMARK
+  // Menggunakan URL lengkap HTTPS://HOTELOZA.COM
+  // ATAU: const allLandmarksApiUrl = `http://localhost:3000/api/fast-landmarks-by-city?city_id=${hotelCityId}`;
   const allLandmarksApiUrl = `https://hoteloza.com/api/fast-landmarks-by-city?city_id=${hotelCityId}`; 
-  console.log(`SERVER DEBUG [page.jsx - getLandmarkDataForHotel]: Calling SQL API for landmarks: ${allLandmarksApiUrl}`);
+  console.log(`SERVER DEBUG [page.jsx - getLandmarkDataForHotel]: Calling SQL API for landmarks:`, allLandmarksApiUrl);
 
   try {
-    const response = await fetch(allLandmarksApiUrl, { next: { revalidate: 31536000 } }); 
+    // Karena generateStaticParams dihapus, fetch ini akan terjadi saat runtime
+    const response = await fetch(allLandmarksApiUrl); // Hapus revalidate
     
     if (!response.ok) {
       console.warn(`SERVER WARN [page.jsx - getLandmarkDataForHotel]: Failed to fetch landmark data from SQL API. Status: ${response.status}`);
@@ -134,38 +141,9 @@ async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityI
   }
 }
 
-// MENGGUNAKAN generateStaticParams YANG MEMANGGIL API all-hotel-paths DARI HTTPS://HOTELOZA.COM
-export async function generateStaticParams() {
-  console.warn("SERVER DEBUG [generateStaticParams]: Attempting to fetch all hotel paths from https://hoteloza.com/api/all-hotel-paths.");
-  
-  try {
-    const response = await fetch(`https://hoteloza.com/api/all-hotel-paths`, { 
-      cache: 'no-store' // Penting: cache: 'no-store' agar selalu mengambil data terbaru saat build
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`SERVER ERROR [generateStaticParams]: Failed to fetch all hotel paths. Status: ${response.status} - ${response.statusText}. Response: ${errorText}`);
-      throw new Error(`Failed to fetch all hotel paths during build from https://hoteloza.com: ${response.statusText}`);
-    }
-
-    const paths = await response.json();
-    
-    if (!Array.isArray(paths) || paths.some(p => 
-      !p.categoryslug || !p.countryslug || !p.stateslug || !p.cityslug || !p.hotelslug
-    )) {
-      console.error("SERVER ERROR [generateStaticParams]: Fetched hotel paths are not in the expected format:", paths);
-      return []; 
-    }
-
-    console.log(`SERVER DEBUG [generateStaticParams]: Successfully fetched ${paths.length} hotel paths.`);
-    return paths;
-
-  } catch (error) {
-    console.error('SERVER FATAL ERROR [generateStaticParams]: Error fetching static paths for hotels:', error);
-    return []; 
-  }
-}
+// HAPUS generateStaticParams() SECARA KESELURUHAN DARI SINI
+// Ini akan membuat halaman ini menjadi Server-Side Rendered (SSR) secara dinamis
+// karena tidak ada generateStaticParams yang mendefinisikan path statis.
 
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
@@ -266,7 +244,7 @@ export default async function HotelDetailPage({ params }) {
           ratingValue: parseFloat(hotel.ratings).toFixed(1),
           bestRating: 10,
           worstRating: 1,
-          reviewCount: parseInt(hotel.numberofreviews) || 0,
+          reviewCount: parseInt(hotel.numberOfReviews) || 0, // Menggunakan numberOfReviews
         },
       }),
       ...(hotel.starRating && {

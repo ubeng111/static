@@ -19,12 +19,13 @@ async function getCategoryData(categoryslug) {
     return null;
   }
 
-  // MENGGUNAKAN URL LENGKAP HTTPS://HOTELOZA.COM untuk FETCH DATA KATEGORI
+  // MENGGUNAKAN URL LENGKAP HTTPS://HOTELOZA.COM
   const apiUrl = `https://hoteloza.com/api/${sanitizedCategory}`;
   console.log('SERVER DEBUG [page.jsx - getCategoryData]: Constructed API URL:', apiUrl);
 
   try {
-    const response = await fetch(apiUrl, { next: { revalidate: 31536000 } });
+    // Karena generateStaticParams dihapus, halaman ini akan menjadi SSR (server-rendered on demand).
+    const response = await fetch(apiUrl); // Hapus revalidate
     if (!response.ok) {
       if (response.status === 404) {
           console.warn(`Failed to fetch category data: 404 Not Found for ${apiUrl}`);
@@ -42,36 +43,9 @@ async function getCategoryData(categoryslug) {
 
 const ClientPage = dynamic(() => import('./ClientPage'));
 
-// MENGGUNAKAN generateStaticParams YANG MEMANGGIL API all-category-paths DARI HTTPS://HOTELOZA.COM
-export async function generateStaticParams() {
-  console.warn("SERVER DEBUG [generateStaticParams]: Attempting to fetch all category paths from https://hoteloza.com/api/all-category-paths.");
-  
-  try {
-    const response = await fetch(`https://hoteloza.com/api/all-category-paths`, { 
-      cache: 'no-store' 
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`SERVER ERROR [generateStaticParams]: Failed to fetch all category paths. Status: ${response.status} - ${response.statusText}. Response: ${errorText}`);
-      throw new Error(`Failed to fetch all category paths during build from https://hoteloza.com: ${response.statusText}`);
-    }
-
-    const paths = await response.json();
-    
-    if (!Array.isArray(paths) || paths.some(p => !p.categoryslug)) {
-      console.error("SERVER ERROR [generateStaticParams]: Fetched category paths are not in the expected format:", paths);
-      return []; 
-    }
-
-    console.log(`SERVER DEBUG [generateStaticParams]: Successfully fetched ${paths.length} category paths.`);
-    return paths;
-
-  } catch (error) {
-    console.error('SERVER FATAL ERROR [generateStaticParams]: Error fetching static paths for categories:', error);
-    return []; 
-  }
-}
+// HAPUS generateStaticParams() SECARA KESELURUHAN DARI SINI
+// Ini akan membuat halaman ini menjadi Server-Side Rendered (SSR) secara dinamis
+// karena tidak ada generateStaticParams yang mendefinisikan path statis.
 
 export async function generateMetadata({ params }) {
   const awaitedParams = await params;
