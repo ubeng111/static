@@ -21,10 +21,8 @@ async function getStateData(categoryslug, countryslug, stateslug) {
     return null;
   }
 
-  // MENGGUNAKAN URL LENGKAP HTTPS://HOTELOZA.COM UNTUK FETCH DATA NEGARA BAGIAN
-  // Atau Anda bisa kembali ke http://localhost:3000 jika itu yang Anda inginkan untuk DEVELOPMENT/VPS saat server belum live
+  // MENGGUNAKAN URL LENGKAP HTTPS://HOTELOZA.COM untuk FETCH DATA NEGARA BAGIAN
   const apiUrl = `https://hoteloza.com/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
-  // ATAU: const apiUrl = `http://localhost:3000/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
   console.log('SERVER DEBUG [page.jsx - getStateData]: Constructed API URL:', apiUrl);
 
   try {
@@ -46,18 +44,37 @@ async function getStateData(categoryslug, countryslug, stateslug) {
 
 const ClientPage = dynamic(() => import('./ClientPage'));
 
-// MENGGUNAKAN generateStaticParams DENGAN DATA HARDCODED (RUTE PASTI)
+// MENGGUNAKAN generateStaticParams YANG MEMANGGIL API all-state-paths DARI HTTPS://HOTELOZA.COM
 export async function generateStaticParams() {
-  console.warn("WARNING: Using hardcoded paths for generateStaticParams. All other paths will result in 404.");
-  console.warn("THIS IS ONLY FOR BUILD SUCCESS VERIFICATION. For full dynamic coverage, you NEED to implement API calls to fetch all paths from your database.");
+  console.warn("SERVER DEBUG [generateStaticParams]: Attempting to fetch all state paths from https://hoteloza.com/api/all-state-paths.");
+  
+  try {
+    const response = await fetch(`https://hoteloza.com/api/all-state-paths`, { 
+      cache: 'no-store' 
+    });
 
-  return [
-    {
-      categoryslug: 'hotel',
-      countryslug: 'indonesia',
-      stateslug: 'bali',
-    },
-  ];
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`SERVER ERROR [generateStaticParams]: Failed to fetch all state paths. Status: ${response.status} - ${response.statusText}. Response: ${errorText}`);
+      throw new Error(`Failed to fetch all state paths during build from https://hoteloza.com: ${response.statusText}`);
+    }
+
+    const paths = await response.json();
+    
+    if (!Array.isArray(paths) || paths.some(p => 
+      !p.categoryslug || !p.countryslug || !p.stateslug
+    )) {
+      console.error("SERVER ERROR [generateStaticParams]: Fetched state paths are not in the expected format:", paths);
+      return []; 
+    }
+
+    console.log(`SERVER DEBUG [generateStaticParams]: Successfully fetched ${paths.length} state paths.`);
+    return paths;
+
+  } catch (error) {
+    console.error('SERVER FATAL ERROR [generateStaticParams]: Error fetching static paths for states:', error);
+    return []; 
+  }
 }
 
 export async function generateMetadata({ params }) {
@@ -191,7 +208,6 @@ export default async function Page({ params }) {
       ],
     },
     {
-      '@context': 'https://schema.org',
       '@type': 'ItemList',
       name: `Top ${formattedCategory} in ${formattedState}, ${formattedCountry} ${currentYear}`,
       description: schemaDescription.substring(0, 160) + '...',

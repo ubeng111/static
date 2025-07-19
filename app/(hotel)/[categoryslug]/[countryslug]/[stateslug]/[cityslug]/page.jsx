@@ -22,7 +22,7 @@ async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
     return null;
   }
 
-  // MENGGUNAKAN URL LENGKAP HTTPS://HOTELOZA.COM UNTUK FETCH DATA KOTA
+  // MENGGUNAKAN URL LENGKAP HTTPS://HOTELOZA.COM untuk FETCH DATA KOTA
   const apiUrl = `https://hoteloza.com/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`;
   console.log('SERVER DEBUG [page.jsx - getCityData]: Constructed API URL:', apiUrl);
 
@@ -45,19 +45,37 @@ async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
 
 const ClientPage = dynamic(() => import('./ClientPage'));
 
-// MENGGUNAKAN generateStaticParams DENGAN DATA HARDCODED (RUTE PASTI)
+// MENGGUNAKAN generateStaticParams YANG MEMANGGIL API all-city-paths DARI HTTPS://HOTELOZA.COM
 export async function generateStaticParams() {
-  console.warn("WARNING: Using hardcoded paths for generateStaticParams. All other paths will result in 404.");
-  console.warn("THIS IS ONLY FOR BUILD SUCCESS VERIFICATION. For full dynamic coverage, you NEED to implement API calls to fetch all paths from your database.");
+  console.warn("SERVER DEBUG [generateStaticParams]: Attempting to fetch all city paths from https://hoteloza.com/api/all-city-paths.");
+  
+  try {
+    const response = await fetch(`https://hoteloza.com/api/all-city-paths`, { 
+      cache: 'no-store' 
+    });
 
-  return [
-    {
-      categoryslug: 'hotel',
-      countryslug: 'indonesia',
-      stateslug: 'bali',
-      cityslug: 'bali',
-    },
-  ];
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`SERVER ERROR [generateStaticParams]: Failed to fetch all city paths. Status: ${response.status} - ${response.statusText}. Response: ${errorText}`);
+      throw new Error(`Failed to fetch all city paths during build from https://hoteloza.com: ${response.statusText}`);
+    }
+
+    const paths = await response.json();
+    
+    if (!Array.isArray(paths) || paths.some(p => 
+      !p.categoryslug || !p.countryslug || !p.stateslug || !p.cityslug
+    )) {
+      console.error("SERVER ERROR [generateStaticParams]: Fetched city paths are not in the expected format:", paths);
+      return []; 
+    }
+
+    console.log(`SERVER DEBUG [generateStaticParams]: Successfully fetched ${paths.length} city paths.`);
+    return paths;
+
+  } catch (error) {
+    console.error('SERVER FATAL ERROR [generateStaticParams]: Error fetching static paths for cities:', error);
+    return []; 
+  }
 }
 
 export async function generateMetadata({ params }) {

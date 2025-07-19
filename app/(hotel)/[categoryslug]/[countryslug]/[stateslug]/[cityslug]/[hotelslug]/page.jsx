@@ -4,11 +4,9 @@ import BookNow from '@/components/hotel-single/BookNow';
 import ClientPage from './ClientPage';
 import Script from 'next/script';
 
-// Helper function to format slugs for display purposes
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
-// Fungsi calculateDistance
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6371; // Radius of Earth in kilometers
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
@@ -43,10 +41,8 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
     return null;
   }
 
-  // Menggunakan URL lengkap HTTPS://HOTELOZA.COM untuk FETCH DATA HOTEL
-  // Atau Anda bisa kembali ke http://localhost:3000 jika itu yang Anda inginkan untuk DEVELOPMENT/VPS saat server belum live
+  // MENGGUNAKAN URL LENGKAP HTTPS://HOTELOZA.COM untuk FETCH DATA HOTEL
   const apiUrl = `https://hoteloza.com/api/${sanitizedParams.categoryslug}/${sanitizedParams.countryslug}/${sanitizedParams.stateslug}/${sanitizedParams.cityslug}/${sanitizedParams.hotelslug}`;
-  // ATAU: const apiUrl = `http://localhost:3000/api/${sanitizedParams.categoryslug}/${sanitizedParams.countryslug}/${sanitizedParams.stateslug}/${sanitizedParams.cityslug}/${sanitizedParams.hotelslug}`;
   console.log('SERVER DEBUG [page.jsx - getHotelData]: Constructed API URL:', apiUrl);
 
   try {
@@ -74,11 +70,9 @@ async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityI
     return [];
   }
 
-  // Menggunakan URL lengkap HTTPS://HOTELOZA.COM untuk FETCH DATA LANDMARK
-  // Atau Anda bisa kembali ke http://localhost:3000 jika itu yang Anda inginkan untuk DEVELOPMENT/VPS saat server belum live
+  // MENGGUNAKAN URL LENGKAP HTTPS://HOTELOZA.COM untuk FETCH DATA LANDMARK
   const allLandmarksApiUrl = `https://hoteloza.com/api/fast-landmarks-by-city?city_id=${hotelCityId}`; 
-  // ATAU: const allLandmarksApiUrl = `http://localhost:3000/api/fast-landmarks-by-city?city_id=${hotelCityId}`;
-  console.log('SERVER DEBUG [page.jsx - getLandmarkDataForHotel]: Calling SQL API for landmarks:', allLandmarksApiUrl);
+  console.log(`SERVER DEBUG [page.jsx - getLandmarkDataForHotel]: Calling SQL API for landmarks: ${allLandmarksApiUrl}`);
 
   try {
     const response = await fetch(allLandmarksApiUrl, { next: { revalidate: 31536000 } }); 
@@ -140,28 +134,37 @@ async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityI
   }
 }
 
-// MENGGUNAKAN generateStaticParams DENGAN DATA HARDCODED (RUTE PASTI)
+// MENGGUNAKAN generateStaticParams YANG MEMANGGIL API all-hotel-paths DARI HTTPS://HOTELOZA.COM
 export async function generateStaticParams() {
-  console.warn("WARNING: Using hardcoded paths for generateStaticParams. All other paths will result in 404.");
-  console.warn("THIS IS ONLY FOR BUILD SUCCESS VERIFICATION. For full dynamic coverage, you NEED to implement API calls to fetch all paths from your database.");
+  console.warn("SERVER DEBUG [generateStaticParams]: Attempting to fetch all hotel paths from https://hoteloza.com/api/all-hotel-paths.");
+  
+  try {
+    const response = await fetch(`https://hoteloza.com/api/all-hotel-paths`, { 
+      cache: 'no-store' // Penting: cache: 'no-store' agar selalu mengambil data terbaru saat build
+    });
 
-  return [
-    {
-      categoryslug: 'hotel',
-      countryslug: 'indonesia',
-      stateslug: 'bali',
-      cityslug: 'bali',
-      hotelslug: 'prime-plaza-hotel-sanur-bali',
-    },
-    // Jika Anda ingin menguji path lain yang sudah ada di database Anda:
-    // {
-    //   categoryslug: 'hotel',
-    //   countryslug: 'usa',
-    //   stateslug: 'california',
-    //   cityslug: 'los-angeles',
-    //   hotelslug: 'the-ritz-carlton-los-angeles',
-    // },
-  ];
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`SERVER ERROR [generateStaticParams]: Failed to fetch all hotel paths. Status: ${response.status} - ${response.statusText}. Response: ${errorText}`);
+      throw new Error(`Failed to fetch all hotel paths during build from https://hoteloza.com: ${response.statusText}`);
+    }
+
+    const paths = await response.json();
+    
+    if (!Array.isArray(paths) || paths.some(p => 
+      !p.categoryslug || !p.countryslug || !p.stateslug || !p.cityslug || !p.hotelslug
+    )) {
+      console.error("SERVER ERROR [generateStaticParams]: Fetched hotel paths are not in the expected format:", paths);
+      return []; 
+    }
+
+    console.log(`SERVER DEBUG [generateStaticParams]: Successfully fetched ${paths.length} hotel paths.`);
+    return paths;
+
+  } catch (error) {
+    console.error('SERVER FATAL ERROR [generateStaticParams]: Error fetching static paths for hotels:', error);
+    return []; 
+  }
 }
 
 export async function generateMetadata({ params }) {

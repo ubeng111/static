@@ -20,10 +20,8 @@ async function getCountryData(categoryslug, countryslug) {
     return null;
   }
 
-  // MENGGUNAKAN URL LENGKAP HTTPS://HOTELOZA.COM UNTUK FETCH DATA NEGARA
-  // Atau Anda bisa kembali ke http://localhost:3000 jika itu yang Anda inginkan untuk DEVELOPMENT/VPS saat server belum live
+  // MENGGUNAKAN URL LENGKAP HTTPS://HOTELOZA.COM untuk FETCH DATA NEGARA
   const apiUrl = `https://hoteloza.com/api/${sanitizedCategory}/${sanitizedCountry}`;
-  // ATAU: const apiUrl = `http://localhost:3000/api/${sanitizedCategory}/${sanitizedCountry}`;
   console.log('SERVER DEBUG [page.jsx - getCountryData]: Constructed API URL:', apiUrl);
 
   try {
@@ -45,17 +43,37 @@ async function getCountryData(categoryslug, countryslug) {
 
 const ClientPage = dynamic(() => import('./ClientPage'));
 
-// MENGGUNAKAN generateStaticParams DENGAN DATA HARDCODED (RUTE PASTI)
+// MENGGUNAKAN generateStaticParams YANG MEMANGGIL API all-country-paths DARI HTTPS://HOTELOZA.COM
 export async function generateStaticParams() {
-  console.warn("WARNING: Using hardcoded paths for generateStaticParams. All other paths will result in 404.");
-  console.warn("THIS IS ONLY FOR BUILD SUCCESS VERIFICATION. For full dynamic coverage, you NEED to implement API calls to fetch all paths from your database.");
+  console.warn("SERVER DEBUG [generateStaticParams]: Attempting to fetch all country paths from https://hoteloza.com/api/all-country-paths.");
+  
+  try {
+    const response = await fetch(`https://hoteloza.com/api/all-country-paths`, { 
+      cache: 'no-store' 
+    });
 
-  return [
-    {
-      categoryslug: 'hotel',
-      countryslug: 'indonesia',
-    },
-  ];
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`SERVER ERROR [generateStaticParams]: Failed to fetch all country paths. Status: ${response.status} - ${response.statusText}. Response: ${errorText}`);
+      throw new Error(`Failed to fetch all country paths during build from https://hoteloza.com: ${response.statusText}`);
+    }
+
+    const paths = await response.json();
+    
+    if (!Array.isArray(paths) || paths.some(p => 
+      !p.categoryslug || !p.countryslug
+    )) {
+      console.error("SERVER ERROR [generateStaticParams]: Fetched country paths are not in the expected format:", paths);
+      return []; 
+    }
+
+    console.log(`SERVER DEBUG [generateStaticParams]: Successfully fetched ${paths.length} country paths.`);
+    return paths;
+
+  } catch (error) {
+    console.error('SERVER FATAL ERROR [generateStaticParams]: Error fetching static paths for countries:', error);
+    return []; 
+  }
 }
 
 export async function generateMetadata({ params }) {

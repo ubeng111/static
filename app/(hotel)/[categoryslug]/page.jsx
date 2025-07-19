@@ -19,10 +19,8 @@ async function getCategoryData(categoryslug) {
     return null;
   }
 
-  // MENGGUNAKAN URL LENGKAP HTTPS://HOTELOZA.COM UNTUK FETCH DATA KATEGORI
-  // Atau Anda bisa kembali ke http://localhost:3000 jika itu yang Anda inginkan untuk DEVELOPMENT/VPS saat server belum live
+  // MENGGUNAKAN URL LENGKAP HTTPS://HOTELOZA.COM untuk FETCH DATA KATEGORI
   const apiUrl = `https://hoteloza.com/api/${sanitizedCategory}`;
-  // ATAU: const apiUrl = `http://localhost:3000/api/${sanitizedCategory}`;
   console.log('SERVER DEBUG [page.jsx - getCategoryData]: Constructed API URL:', apiUrl);
 
   try {
@@ -44,16 +42,35 @@ async function getCategoryData(categoryslug) {
 
 const ClientPage = dynamic(() => import('./ClientPage'));
 
-// MENGGUNAKAN generateStaticParams DENGAN DATA HARDCODED (RUTE PASTI)
+// MENGGUNAKAN generateStaticParams YANG MEMANGGIL API all-category-paths DARI HTTPS://HOTELOZA.COM
 export async function generateStaticParams() {
-  console.warn("WARNING: Using hardcoded paths for generateStaticParams. All other paths will result in 404.");
-  console.warn("THIS IS ONLY FOR BUILD SUCCESS VERIFICATION. For full dynamic coverage, you NEED to implement API calls to fetch all paths from your database.");
+  console.warn("SERVER DEBUG [generateStaticParams]: Attempting to fetch all category paths from https://hoteloza.com/api/all-category-paths.");
+  
+  try {
+    const response = await fetch(`https://hoteloza.com/api/all-category-paths`, { 
+      cache: 'no-store' 
+    });
 
-  return [
-    {
-      categoryslug: 'hotel',
-    },
-  ];
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`SERVER ERROR [generateStaticParams]: Failed to fetch all category paths. Status: ${response.status} - ${response.statusText}. Response: ${errorText}`);
+      throw new Error(`Failed to fetch all category paths during build from https://hoteloza.com: ${response.statusText}`);
+    }
+
+    const paths = await response.json();
+    
+    if (!Array.isArray(paths) || paths.some(p => !p.categoryslug)) {
+      console.error("SERVER ERROR [generateStaticParams]: Fetched category paths are not in the expected format:", paths);
+      return []; 
+    }
+
+    console.log(`SERVER DEBUG [generateStaticParams]: Successfully fetched ${paths.length} category paths.`);
+    return paths;
+
+  } catch (error) {
+    console.error('SERVER FATAL ERROR [generateStaticParams]: Error fetching static paths for categories:', error);
+    return []; 
+  }
 }
 
 export async function generateMetadata({ params }) {
