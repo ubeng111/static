@@ -29,7 +29,7 @@ export default function ClientPage({
   formattedCity,
   formattedState,
   formattedCountry,
-  longDescriptionSegments
+  longDescriptionSegments: initialLongDescriptionSegments // Renamed prop to distinguish from useMemo result
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -37,7 +37,20 @@ export default function ClientPage({
 
   const fetcher = useCallback(async (url) => {
     const response = await fetch(url);
-    if (!response.ok) throw new Error('Failed to fetch data');
+    if (!response.ok) {
+        // Attempt to parse error message if available, otherwise use status text
+        const errorText = await response.text();
+        let errorMessage = `Failed to fetch data: ${response.status} - ${response.statusText}`;
+        try {
+            const errorJson = JSON.parse(errorText);
+            if (errorJson.message) {
+                errorMessage = errorJson.message;
+            }
+        } catch (e) {
+            // Not a JSON error message, use default
+        }
+        throw new Error(errorMessage);
+    }
     return response.json();
   }, []);
 
@@ -47,12 +60,19 @@ export default function ClientPage({
     {
       revalidateOnFocus: false,
       keepPreviousData: true,
+      // Error handling for SWR, can be more granular
+      onError: (err) => {
+          console.error("SWR Error fetching hotels:", err.message);
+      }
     }
   );
 
   const hotels = useMemo(() => data?.hotels || [], [data]);
   const relatedcity = useMemo(() => data?.relatedcity || [], [data]);
   const pagination = useMemo(() => data?.pagination || { page: 1, totalPages: 1, totalHotels: 0 }, [data]);
+
+  // Ensure longDescriptionSegments is an array, using the passed prop as initial value
+  const longDescriptionSegments = useMemo(() => initialLongDescriptionSegments || [], [initialLongDescriptionSegments]);
 
   const shortDescription = useMemo(() => {
     if (!longDescriptionSegments || longDescriptionSegments.length === 0) return '';
@@ -86,11 +106,24 @@ export default function ClientPage({
   }
 
   if (error) {
-    return <div>Error loading data. Please try again later.</div>;
+    // Display a user-friendly error message
+    return (
+        <div style={{ padding: '50px', textAlign: 'center' }}>
+            <h2>Oops! There was an error loading the page.</h2>
+            <p>{error.message || 'Please try again later.'}</p>
+        </div>
+    );
   }
 
-  if (!hotels.length) {
-    return <div>No hotels found for this location.</div>;
+  // Changed this check to use hotels.length, which is derived from data?.hotels || []
+  // Only show "No hotels found" if not loading and no error, and the array is empty
+  if (!hotels.length && !isLoading && !error) {
+    return (
+        <div style={{ padding: '50px', textAlign: 'center' }}>
+            <h2>No hotels found for this location.</h2>
+            <p>Please check back later or explore other destinations.</p>
+        </div>
+    );
   }
 
   return (
@@ -142,46 +175,59 @@ export default function ClientPage({
       <section className="layout-pt-md layout-pb-lg">
         <div className="container">
           <div className="row">
-            <HotelProperties88 hotels={hotels} />
+            {/* Conditional rendering for hotels array to ensure it's not empty */}
+            {hotels.length > 0 ? (
+                <HotelProperties88 hotels={hotels} />
+            ) : (
+                <div className="col-12 text-center">
+                    <p>No accommodations found matching your criteria. Please adjust your search.</p>
+                </div>
+            )}
           </div>
         </div>
       </section>
 
-      <div style={{ display: 'flex', justifyContent: 'center', transform: 'translateY(-90px)', marginTop: '7%' }}>
-        <ReactPaginate
-          pageCount={pagination.totalPages}
-          onPageChange={handlePageClick}
-          containerClassName="pagination"
-          activeClassName="active"
-          pageClassName="page-item"
-          pageLinkClassName="page-link"
-          previousLabel={null}
-          nextLabel={null}
-          forcePage={pagination.page - 1}
-        />
-      </div>
+      {/* Only show pagination if there are hotels and more than one page */}
+      {hotels.length > 0 && pagination.totalPages > 1 && (
+        <div style={{ display: 'flex', justifyContent: 'center', transform: 'translateY(-90px)', marginTop: '7%' }}>
+          <ReactPaginate
+            pageCount={pagination.totalPages}
+            onPageChange={handlePageClick}
+            containerClassName="pagination"
+            activeClassName="active"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousLabel={null}
+            nextLabel={null}
+            forcePage={pagination.page - 1}
+          />
+        </div>
+      )}
 
       {/* Bagian H2 dan LONG DESKRIPSI penuh setelah paginasi dan daftar hotel */}
-      <section className="layout-pt-md layout-pb-lg">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <h2 className="text-24 fw-600 mb-20">
-                {`About Our ${formattedCategory} Collection in ${formattedCity}, ${formattedState}`}
-              </h2>
-              {/* Render setiap segmen paragraf dengan sub-header */}
-              {longDescriptionSegments.map((segment, index) => (
-                <div key={index} className="mt-10">
-                  {segment.subHeader && (
-                    <h3 className="text-18 fw-500 mb-5">{segment.subHeader}</h3>
-                  )}
-                  <p className="text-15">{segment.content}</p>
-                </div>
-              ))}
+      {/* Ensure longDescriptionSegments is an array and not empty before mapping */}
+      {longDescriptionSegments.length > 0 && (
+        <section className="layout-pt-md layout-pb-lg">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <h2 className="text-24 fw-600 mb-20">
+                  {`About Our ${formattedCategory} Collection in ${formattedCity}, ${formattedState}`}
+                </h2>
+                {/* Render setiap segmen paragraf dengan sub-header */}
+                {longDescriptionSegments.map((segment, index) => (
+                  <div key={index} className="mt-10">
+                    {segment.subHeader && (
+                      <h3 className="text-18 fw-500 mb-5">{segment.subHeader}</h3>
+                    )}
+                    <p className="text-15">{segment.content}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <div className="pt-40 sm:pt-20 item_gap-x30">
         {relatedcity.length > 0 ? (
@@ -215,10 +261,10 @@ export default function ClientPage({
                     stateName={formattedState}
                     countryName={formattedCountry}
                     hotels={hotels}
-                    categoryslug={categoryslug} // <<< TERUSKAN SLUG INI
-                    countryslug={countryslug}    // <<< TERUSKAN SLUG INI
-                    stateslug={stateslug}        // <<< TERUSKAN SLUG INI
-                    cityslug={cityslug}          // <<< TERUSKAN SLUG INI
+                    categoryslug={categoryslug}
+                    countryslug={countryslug}
+                    stateslug={stateslug}
+                    cityslug={cityslug}
                   />
                 </div>
               </div>

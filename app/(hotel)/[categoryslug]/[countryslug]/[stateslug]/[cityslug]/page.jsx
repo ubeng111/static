@@ -1,8 +1,21 @@
 // app/(hotel)/[categoryslug]/[countryslug]/[stateslug]/[cityslug]/page.jsx
-import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
-import contentTemplates from '@/utils/contentTemplates';
+import contentTemplates from '@/utils/contentTemplates'; // Ensure this path is correct
 import Script from 'next/script';
+import { Pool } from 'pg';
+import fs from 'fs';
+import path from 'path';
+import 'dotenv/config';
+
+// Aliased 'dynamic' import to avoid conflict with the 'export const dynamic' page configuration.
+import dynamicComponent from 'next/dynamic';
+
+export const dynamic = 'force-dynamic';
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
+  ssl: { ca: fs.readFileSync(path.resolve(process.cwd(), 'certs', 'root.crt')) },
+});
 
 // Helper function to sanitize slugs
 const sanitizeSlug = (slug) => slug?.replace(/[^a-zA-Z0-9-]/g, '');
@@ -19,93 +32,128 @@ async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
   const sanitizedCity = sanitizeSlug(cityslug);
   if (!sanitizedCategory || !sanitizedCountry || !sanitizedState || !sanitizedCity) {
     console.error('Invalid slugs:', { categoryslug, countryslug, stateslug, cityslug });
-    return null;
+    return { hotels: [] }; // Always return an object with an empty hotels array
   }
 
-  // MENGGUNAKAN URL lengkap HTTPS://HOTELOZA.COM
-  const apiUrl = `https://hoteloza.com/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`;
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`;
   console.log('SERVER DEBUG [page.jsx - getCityData]: Constructed API URL:', apiUrl);
 
   try {
-    // Karena generateStaticParams dihapus, halaman ini akan menjadi SSR (server-rendered on demand).
-    const response = await fetch(apiUrl); // Hapus revalidate
+    const response = await fetch(apiUrl, { next: { revalidate: 31536000 } });
     if (!response.ok) {
       if (response.status === 404) {
-          console.warn(`Failed to fetch city data: 404 Not Found for ${apiUrl}`);
+          console.warn(`SERVER WARN [page.jsx - getCityData]: City data not found for ${sanitizedCity}. Status: 404.`);
       } else {
-          console.error(`Failed to fetch city data for ${apiUrl}. Status: ${response.status} - ${response.statusText}`);
+          console.error(
+              `SERVER ERROR [page.jsx - getCityData]: Failed to fetch city data for ${sanitizedCity}. Status: ${response.status} - ${response.statusText}`
+          );
       }
-      return null;
+      return { hotels: [] }; // Ensure empty array on non-OK response
     }
-    return response.json();
+    const data = await response.json();
+    return data || { hotels: [] }; // Ensure data itself is not null/undefined and has hotels array
   } catch (error) {
-    console.error('Error fetching city data:', error);
-    return null;
+    console.error('SERVER FATAL ERROR [page.jsx - getCityData]: Error fetching city data:', error);
+    return { hotels: [] }; // Ensure empty array on fetch error
   }
 }
 
-const ClientPage = dynamic(() => import('./ClientPage'));
-
-// HAPUS generateStaticParams() SECARA KESELURUHAN DARI SINI
-// Ini akan membuat halaman ini menjadi Server-Side Rendered (SSR) secara dinamis
-// karena tidak ada generateStaticParams yang mendefinisikan path statis.
+// ClientPage is dynamically loaded, requiring the aliased 'dynamicComponent' import.
+const ClientPage = dynamicComponent(() => import('./ClientPage'));
 
 export async function generateMetadata({ params }) {
-  const awaitedParams = await params;
-  const { categoryslug, countryslug, stateslug, cityslug } = awaitedParams;
+  const { categoryslug, countryslug, stateslug, cityslug } = params; // No need for await params, it's already resolved
 
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
   const sanitizedState = sanitizeSlug(stateslug);
   const sanitizedCity = sanitizeSlug(cityslug);
 
-  const currentUrl = `https://hoteloza.com/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`;
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_BASE_URL || 'https://hoteloza.com';
+  const currentUrl = `${baseUrl}/${sanitizedCategory || 'hotels'}/${sanitizedCountry || 'country'}/${sanitizedState || 'state'}/${sanitizedCity || 'city'}`;
 
+  let title = 'Page Not Found | Hoteloza';
+  let description = 'The requested category, country, state, or city was not found on Hoteloza. Discover amazing hotel deals!';
+  let ogTitle = 'Explore Hotel Deals | Hoteloza';
+  let ogDescription = 'Discover amazing hotel deals and premium amenities on Hoteloza.';
+
+  // If any slug is invalid, return generic metadata
   if (!sanitizedCategory || !sanitizedCountry || !sanitizedState || !sanitizedCity) {
     return {
-      title: 'Page Not Found | Hoteloza',
-      description: 'The requested category, country, state, or city was not found on Hoteloza.',
+      title,
+      description,
+      openGraph: {
+        title: ogTitle,
+        description: ogDescription,
+        url: currentUrl,
+        type: 'website',
+      },
       alternates: {
         canonical: currentUrl,
       },
     };
   }
 
+  // Fetch data for dynamic metadata
   const data = await getCityData(categoryslug, countryslug, stateslug, cityslug);
-  if (!data || !data.hotels || data.hotels.length === 0) {
-    return {
-      title: 'Page Not Found | Hoteloza',
-      description: 'The requested category, country, state, or city was not found on Hoteloza.',
-      alternates: {
-        canonical: currentUrl,
-      },
-    };
+
+  // Initialize longDescriptionSegments to an empty array for safety
+  let longDescriptionSegments = [];
+
+  if (data && data.hotels && data.hotels.length > 0) {
+    const hotel = data.hotels[0]; // Use the first hotel for consistent metadata
+    const formattedCity = formatSlug(hotel.kota || sanitizedCity);
+    const formattedState = formatSlug(hotel['negara bagian'] || sanitizedState);
+    const formattedCountry = formatSlug(hotel.country || sanitizedCountry);
+    const formattedCategory = formatSlug(hotel.category || sanitizedCategory);
+    const currentYear = new Date().getFullYear();
+
+    longDescriptionSegments = contentTemplates.getGeoCategoryDescription(
+      formattedCategory,
+      'city',
+      formattedCity,
+      formattedCity, // Passing formattedCity twice as per template
+      formattedState,
+      formattedCountry
+    );
+
+    const firstParagraphContent = longDescriptionSegments[0]?.content || '';
+    // Ensure meta description is not too long and is relevant
+    const metaDescription = firstParagraphContent.substring(0, 160) + (firstParagraphContent.length > 160 ? '...' : '');
+
+    title = `Best ${formattedCategory} in ${formattedCity}, ${formattedState} ${currentYear} - Book Now! | Hoteloza`;
+    description = metaDescription;
+    ogTitle = `Top ${formattedCategory} in ${formattedCity}, ${formattedState} ${currentYear} | Hoteloza`;
+    ogDescription = `Discover the best ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState} for ${currentYear} on Hoteloza. Book now for exclusive offers and premium amenities!`;
+  } else {
+    // Fallback metadata if no hotels are found
+    const formattedCityFallback = formatSlug(sanitizedCity) || 'City';
+    const formattedStateFallback = formatSlug(sanitizedState) || 'State';
+    const formattedCountryFallback = formatSlug(sanitizedCountry) || 'Country';
+    const formattedCategoryFallback = formatSlug(sanitizedCategory) || 'Hotels';
+
+    // Even if no hotels, generate fallback longDescriptionSegments for consistent structure
+    longDescriptionSegments = contentTemplates.getGeoCategoryDescription(
+        formattedCategoryFallback,
+        'city',
+        formattedCityFallback,
+        formattedCityFallback,
+        formattedStateFallback,
+        formattedCountryFallback
+    );
+
+    title = `Hotels in ${formattedCityFallback}, ${formattedStateFallback}, ${formattedCountryFallback} | Hoteloza`;
+    description = `Discover amazing hotel deals and premium accommodations in ${formattedCityFallback}, ${formattedStateFallback}, ${formattedCountryFallback} on Hoteloza. Find your perfect stay!`;
+    ogTitle = `Best Hotels in ${formattedCityFallback}, ${formattedStateFallback}, ${formattedCountryFallback} | Hoteloza`;
+    ogDescription = `Explore a wide range of hotels and accommodations in ${formattedCityFallback}, ${formattedStateFallback}, ${formattedCountryFallback} for your next trip on Hoteloza.`;
   }
-
-  const formattedCity = data.hotels[0]?.kota ? formatSlug(data.hotels[0].kota) : formatSlug(sanitizedCity) || 'City';
-  const formattedState = data.hotels[0]?.['negara bagian'] ? formatSlug(data.hotels[0]['negara bagian']) : formatSlug(sanitizedState) || 'State';
-  const formattedCountry = data.hotels[0]?.country ? formatSlug(data.hotels[0].country) : formatSlug(sanitizedCountry) || 'Country';
-  const formattedCategory = data.hotels[0]?.category ? formatSlug(data.hotels[0].category) : formatSlug(sanitizedCategory) || 'Category';
-  const currentYear = new Date().getFullYear();
-
-  const longDescriptionSegments = contentTemplates.getGeoCategoryDescription(
-    formattedCategory,
-    'city',
-    formattedCity,
-    formattedCity,
-    formattedState,
-    formattedCountry
-  );
-
-  const firstParagraphContent = longDescriptionSegments[0]?.content || '';
-  const metaDescription = firstParagraphContent.substring(0, 160) + (firstParagraphContent.length > 160 ? '...' : '');
 
   return {
-    title: `Best ${formattedCategory} in ${formattedCity}, ${formattedState} ${currentYear} - Book Now! | Hoteloza`,
-    description: metaDescription,
+    title,
+    description,
     openGraph: {
-      title: `Top ${formattedCategory} in ${formattedCity}, ${formattedState} ${currentYear} | Hoteloza`,
-      description: metaDescription,
+      title: ogTitle,
+      description: ogDescription,
       url: currentUrl,
       type: 'website',
     },
@@ -116,59 +164,91 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-  const awaitedParams = await params;
-  const { categoryslug, countryslug, stateslug, cityslug } = awaitedParams;
+  const { categoryslug, countryslug, stateslug, cityslug } = params; // params is already awaited by Next.js in Page components
 
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
   const sanitizedState = sanitizeSlug(stateslug);
   const sanitizedCity = sanitizeSlug(cityslug);
 
+  // If any slug is invalid, we might want to show a 404 or redirect.
+  // The generateMetadata function already handles this, but for the page content,
+  // we should also ensure we don't proceed with invalid data.
   if (!sanitizedCategory || !sanitizedCountry || !sanitizedState || !sanitizedCity) {
-    notFound();
+    // Optionally, you could redirect or render a specific "not found" message here.
+    // For now, we'll proceed with fallback values, mirroring the metadata behavior.
+    console.warn('SERVER WARN [page.jsx]: One or more slugs are invalid for rendering the page content. Proceeding with fallbacks.');
   }
 
-  const data = await getCityData(categoryslug, countryslug, stateslug, cityslug);
-  if (!data || !data.hotels || data.hotels.length === 0) {
-    notFound();
+  let formattedCategory = 'Hotels';
+  let formattedCountry = 'Country';
+  let formattedState = 'State';
+  let formattedCity = 'City';
+  let data = { hotels: [] }; // Always initialize data with an empty hotels array
+
+  // Only attempt to fetch data if all slugs are valid
+  if (sanitizedCategory && sanitizedCountry && sanitizedState && sanitizedCity) {
+    data = await getCityData(categoryslug, countryslug, stateslug, cityslug);
   }
 
-  const formattedCity = data.hotels[0]?.kota ? formatSlug(data.hotels[0].kota) : formatSlug(sanitizedCity) || 'City';
-  const formattedState = data.hotels[0]?.['negara bagian'] ? formatSlug(data.hotels[0]['negara bagian']) : formatSlug(sanitizedState) || 'State';
-  const formattedCountry = data.hotels[0]?.country ? formatSlug(data.hotels[0].country) : formatSlug(sanitizedCountry) || 'Country';
-  const formattedCategory = data.hotels[0]?.category ? formatSlug(data.hotels[0].category) : formatSlug(sanitizedCategory) || 'Category';
-  const currentYear = new Date().getFullYear();
+  // Ensure data.hotels is an array for safety, even though getCityData should handle it.
+  const hotelsData = data?.hotels || [];
 
-  const baseUrl = 'https://hoteloza.com';
-  const currentUrl = `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}`;
+  if (hotelsData.length > 0) {
+    const hotel = hotelsData[0];
+    formattedCategory = formatSlug(hotel.category || sanitizedCategory);
+    formattedCountry = formatSlug(hotel.country || sanitizedCountry);
+    formattedState = formatSlug(hotel['negara bagian'] || sanitizedState);
+    formattedCity = formatSlug(hotel.kota || sanitizedCity);
+  } else {
+    // Use sanitized slugs as fallbacks if no hotel data
+    formattedCategory = formatSlug(sanitizedCategory) || 'Hotels';
+    formattedCountry = formatSlug(sanitizedCountry) || 'Country';
+    formattedState = formatSlug(sanitizedState) || 'State';
+    formattedCity = formatSlug(sanitizedCity) || 'City';
+  }
 
+  // Fetch long description segments from contentTemplates
+  // This is crucial for passing to ClientPage
   const longDescriptionSegments = contentTemplates.getGeoCategoryDescription(
     formattedCategory,
-    'city',
-    formattedCity,
-    formattedCity,
+    'city', // entityType
+    formattedCity, // entityName
+    formattedCity, // cityName (used again here as per template, ensure it's correct)
     formattedState,
     formattedCountry
   );
 
+  const currentYear = new Date().getFullYear();
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_BASE_URL || 'https://hoteloza.com';
+  const currentUrl = `${baseUrl}/${sanitizedCategory || 'hotels'}/${sanitizedCountry || 'country'}/${sanitizedState || 'state'}/${sanitizedCity || 'city'}`;
+
+  // Use the formatted values for display and schema, which are derived from actual data or sanitized fallbacks
+  const displayCity = formattedCity;
+  const displayState = formattedState;
+  const displayCountry = formattedCountry;
+  const displayCategory = formattedCategory;
+
   const schemaDescription = longDescriptionSegments.map(segment => segment.content).join(' ');
 
-  const hotelItems = data.hotels.map((hotel, index) => ({
+  const hotelItems = (hotelsData || []).map((hotel, index) => ({ // Ensure hotelsData is an array here
     '@type': 'ListItem',
     position: index + 1,
     item: {
       '@type': 'Hotel',
       name: hotel.name || hotel.title || 'Unnamed Hotel',
-      url: hotel.hotelslug ? `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}/${sanitizedCity}/${hotel.hotelslug}` : `${currentUrl}/${hotel.id || index + 1}`,
+      url: hotel.hotelslug && hotel.cityslug && hotel.stateslug && hotel.countryslug && hotel.categoryslug
+        ? `${baseUrl}/${hotel.categoryslug}/${hotel.countryslug}/${hotel.stateslug}/${hotel.cityslug}/${hotel.hotelslug}`
+        : `${currentUrl}/${hotel.id || index + 1}`, // Fallback URL generation
       image: hotel.img || hotel.slideimg || '',
       address: {
         '@type': 'PostalAddress',
         streetAddress: hotel.lokasi || 'Unknown Address',
-        addressLocality: hotel.kota ? formatSlug(hotel.kota) : formattedCity || 'Unknown City',
-        addressRegion: hotel['negara bagian'] ? formatSlug(hotel['negara bagian']) : formattedState || 'Unknown Region',
-        addressCountry: hotel.country ? formatSlug(hotel.country) : formattedCountry || 'Unknown Country',
+        addressLocality: formatSlug(hotel.kota || formattedCity) || 'Unknown City',
+        addressRegion: formatSlug(hotel['negara bagian'] || formattedState) || 'Unknown Region',
+        addressCountry: formatSlug(hotel.country || formattedCountry) || 'Unknown Country',
       },
-      description: hotel.description || hotel.overview || `A ${formattedCategory.toLowerCase()} in ${formattedCity}, ${formattedState}.`,
+      description: hotel.description || hotel.overview || `A ${displayCategory.toLowerCase()} in ${displayCity}, ${displayState}, ${displayCountry}.`,
     },
   }));
 
@@ -178,7 +258,7 @@ export default async function Page({ params }) {
       {
         '@type': 'WebPage',
         url: currentUrl,
-        name: `Top ${formattedCategory} in ${formattedCity}, ${formattedState} ${currentYear}`,
+        name: `Best ${displayCategory} in ${displayCity}, ${displayState} ${currentYear}`,
         description: schemaDescription,
         publisher: {
           '@type': 'Organization',
@@ -190,16 +270,16 @@ export default async function Page({ params }) {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
-          { '@type': 'ListItem', position: 2, name: formattedCategory, item: `${baseUrl}/${sanitizedCategory}` },
-          { '@type': 'ListItem', position: 3, name: formattedCountry, item: `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}` },
-          { '@type': 'ListItem', position: 4, name: formattedState, item: `${baseUrl}/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}` },
-          { '@type': 'ListItem', position: 5, name: formattedCity, item: currentUrl },
+          { '@type': 'ListItem', position: 2, name: displayCategory, item: `${baseUrl}/${sanitizedCategory || 'hotels'}` },
+          { '@type': 'ListItem', position: 3, name: displayCountry, item: `${baseUrl}/${sanitizedCategory || 'hotels'}/${sanitizedCountry || 'country'}` },
+          { '@type': 'ListItem', position: 4, name: displayState, item: `${baseUrl}/${sanitizedCategory || 'hotels'}/${sanitizedCountry || 'country'}/${sanitizedState || 'state'}` },
+          { '@type': 'ListItem', position: 5, name: displayCity, item: currentUrl },
         ],
       },
       {
         '@type': 'ItemList',
-        name: `Top ${formattedCategory} in ${formattedCity}, ${formattedState}`,
-        description: schemaDescription.substring(0, 160) + '...',
+        name: `Top ${displayCategory} in ${displayCity}, ${displayState}`,
+        description: schemaDescription.substring(0, 160) + '...', // Shorten description for ItemList if needed
         itemListElement: hotelItems,
       },
     ],
@@ -209,15 +289,16 @@ export default async function Page({ params }) {
     <>
       <Script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }} />
       <ClientPage
-        categoryslug={sanitizedCategory}
-        countryslug={sanitizedCountry}
-        stateslug={sanitizedState}
-        cityslug={sanitizedCity}
+        categoryslug={sanitizedCategory || 'hotels'}
+        countryslug={sanitizedCountry || 'country'}
+        stateslug={sanitizedState || 'state'}
+        cityslug={sanitizedCity || 'city'}
         formattedCategory={formattedCategory}
         formattedCity={formattedCity}
         formattedState={formattedState}
         formattedCountry={formattedCountry}
-        longDescriptionSegments={longDescriptionSegments}
+        initialHotelsData={hotelsData} // Pass the guaranteed array
+        longDescriptionSegments={longDescriptionSegments} 
       />
     </>
   );
