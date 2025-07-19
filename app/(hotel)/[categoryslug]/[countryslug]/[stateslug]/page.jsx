@@ -21,14 +21,19 @@ async function getStateData(categoryslug, countryslug, stateslug) {
     return null;
   }
 
+  // PENTING: PASTIKAN NEXT_PUBLIC_API_BASE_URL di VPS Anda sudah disetel ke https://hoteloza.com atau URL API Anda yang benar
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
   const apiUrl = `${baseUrl}/api/${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}`;
 
   try {
     // Mengubah 'cache: no-store' menjadi ISR dengan revalidate 1 tahun (31.536.000 detik)
-    const response = await fetch(apiUrl, { next: { revalidate: 31536000 } }); // 👈 PERUBAHAN DI SINI
+    const response = await fetch(apiUrl, { next: { revalidate: 31536000 } });
     if (!response.ok) {
-      console.error(`Failed to fetch state data for ${sanitizedCategory}/${sanitizedCountry}/${sanitizedState}. Status: ${response.status}`);
+      if (response.status === 404) {
+          console.warn(`Failed to fetch state data: 404 Not Found for ${apiUrl}`);
+      } else {
+          console.error(`Failed to fetch state data for ${apiUrl}. Status: ${response.status} - ${response.statusText}`);
+      }
       return null;
     }
     return response.json();
@@ -39,6 +44,51 @@ async function getStateData(categoryslug, countryslug, stateslug) {
 }
 
 const ClientPage = dynamic(() => import('./ClientPage'));
+
+// ------ PERBAIKAN: Mengambil slug negara bagian secara dinamis dari database melalui API ------
+export async function generateStaticParams() {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL; // Pastikan ini sudah benar di lingkungan VPS Anda!
+  if (!baseUrl) {
+    console.error("ERROR: NEXT_PUBLIC_API_BASE_URL is not defined for generateStaticParams. Cannot fetch state paths.");
+    return []; // Mengembalikan array kosong jika tidak terdefinisi
+  }
+
+  try {
+    // Memanggil API Route yang Anda buat untuk mendapatkan semua path negara bagian
+    // Contoh API endpoint: /api/all-state-paths
+    const response = await fetch(`${baseUrl}/api/all-state-paths`, {
+      // Gunakan 'no-store' agar selalu mengambil data terbaru saat build atau revalidate
+      cache: 'no-store'
+    });
+
+    if (!response.ok) {
+      console.error(`Failed to fetch all state paths. Status: ${response.status} - ${response.statusText}`);
+      // Melemparkan error agar build gagal jika pengambilan data path penting.
+      // Ini membantu mencegah 404 massal di produksi.
+      throw new Error(`Failed to fetch all state paths during build: ${response.statusText}`);
+    }
+
+    const paths = await response.json();
+    
+    // Memastikan `paths` adalah array objek dengan properti yang sesuai
+    // Contoh format yang diharapkan: [{ categoryslug: '...', countryslug: '...', stateslug: '...' }, ...]
+    if (!Array.isArray(paths) || paths.some(p => 
+      !p.categoryslug || !p.countryslug || !p.stateslug
+    )) {
+      console.error("Fetched state paths are not in the expected format for generateStaticParams:", paths);
+      return []; // Mengembalikan array kosong jika format data salah
+    }
+
+    console.log(`SERVER DEBUG [page.jsx - generateStaticParams]: Successfully fetched ${paths.length} state paths.`);
+    return paths;
+
+  } catch (error) {
+    console.error('SERVER FATAL ERROR [page.jsx - generateStaticParams]: Error fetching static paths for states:', error);
+    // Mengembalikan array kosong jika ada error fatal, akan menyebabkan 404 untuk halaman negara bagian
+    return [];
+  }
+}
+// --------------------------------------------------------------------------
 
 export async function generateMetadata({ params }) {
   const awaitedParams = await params;
