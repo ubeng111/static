@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import 'dotenv/config';
 import { gzipSync } from 'zlib';
+import { NextResponse } from 'next/server'; // Import NextResponse
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
@@ -39,16 +40,16 @@ function setCache(key, data) {
 }
 
 export async function GET(request, { params }) {
-  // --- START PERBAIKAN: await params ---
-  const awaitedParams = await params; // await params seperti instruksi Anda
-  const { categoryslug, countryslug, stateslug, cityslug, hotelslug } = awaitedParams;
-  // --- END PERBAIKAN ---
+  // --- PERBAIKAN UTAMA: Hapus 'await' dari 'params' ---
+  // Objek 'params' sudah tersedia dan tidak perlu di-await.
+  const { categoryslug, countryslug, stateslug, cityslug, hotelslug } = params;
+  // --- AKHIR PERBAIKAN UTAMA ---
 
   try {
     const url = new URL(request.url);
     const reset = url.searchParams.get('reset') === 'true';
 
-    // Validasi Awal untuk Menghindari Pencocokan yang Salah (dari perbaikan sebelumnya)
+    // Validasi Awal untuk Menghindari Pencocokan yang Salah
     if (
       categoryslug === 'next' ||
       categoryslug === '_next' ||
@@ -66,11 +67,8 @@ export async function GET(request, { params }) {
     }
 
     if (!categoryslug || !countryslug || !stateslug || !cityslug || !hotelslug) {
-      console.error('SERVER ERROR [route.js - GET]: Missing required parameters after sanitization:', awaitedParams); // Log awaitedParams
-      return new Response(JSON.stringify({ error: 'Semua parameter slug diperlukan' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      console.error('SERVER ERROR [route.js - GET]: Missing required parameters:', { categoryslug, countryslug, stateslug, cityslug, hotelslug });
+      return NextResponse.json({ error: 'Semua parameter slug diperlukan' }, { status: 400 }); // Gunakan NextResponse.json
     }
 
     const cacheKey = `${categoryslug}/${countryslug}/${stateslug}/${cityslug}/${hotelslug}`;
@@ -92,10 +90,7 @@ export async function GET(request, { params }) {
     );
 
     if (hotelResult.rows.length === 0) {
-      return new Response(JSON.stringify({ error: 'Hotel tidak ditemukan' }), {
-        status: 404,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return NextResponse.json({ error: 'Hotel tidak ditemukan' }, { status: 404 }); // Gunakan NextResponse.json
     }
 
     const relatedHotelsQuery = `
@@ -129,9 +124,6 @@ export async function GET(request, { params }) {
     });
   } catch (error) {
     console.error('Error saat mengambil data hotel:', error.message);
-    return new Response(JSON.stringify({ error: 'Kesalahan server' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return NextResponse.json({ error: 'Kesalahan server' }, { status: 500 }); // Gunakan NextResponse.json
   }
 }
