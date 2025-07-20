@@ -1,17 +1,13 @@
 // ClientPage.jsx
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, Suspense } from 'react'; // Import Suspense
 import dynamic from 'next/dynamic';
 
 import GalleryTwo from '@/components/hotel-single/GalleryTwo';
-// Dynamic imports with ssr: true for components that can be server-rendered
-// and benefit from Suspense for loading states or potential hydration issues.
-// Note: ssr: true is default for dynamic, explicitly setting here for clarity.
 const CallToActions = dynamic(() => import('@/components/common/CallToActions'), { ssr: true });
 const Header11 = dynamic(() => import('@/components/header/header-11'), { ssr: true });
 const Footer = dynamic(() => import('@/components/footer/'), { ssr: true });
-// MapComponent explicitly ssr: false as it's client-side only (often due to browser APIs)
 const MapComponent = dynamic(() => import('@/components/hotel-single/MapComponent'), { ssr: false });
 const Facilities = dynamic(() => import('@/components/hotel-single/Facilities'), { ssr: true });
 const Hotels2 = dynamic(() => import('@/components/hotels/Hotels2'), { ssr: true });
@@ -50,7 +46,7 @@ export default function ClientPage({
   countryslug,
   stateslug,
   cityslug,
-  landmarks,
+  landmarks, // *** Terima data landmark di sini ***
 }) {
   const [openSections, setOpenSections] = useState({
     facilities: true,
@@ -116,18 +112,13 @@ export default function ClientPage({
       `}</style>
 
       <div className="header-margin"></div>
-      <Suspense fallback={<div>Memuat Header...</div>}>
-        <Header11 />
-      </Suspense>
-
+      <Header11 />
 
       <div className="py-10 bg-white">
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <Suspense fallback={<div>Memuat Breadcrumb...</div>}>
-                <TopBreadCrumb88 hotel={hotel} />
-              </Suspense>
+              <TopBreadCrumb88 hotel={hotel} />
             </div>
           </div>
         </div>
@@ -137,6 +128,7 @@ export default function ClientPage({
         <div className="container">
           <div className="row">
             <div className="col-12">
+              {/* Wrap MainFilterSearchBox with Suspense */}
               <Suspense fallback={<div>Memuat kotak pencarian...</div>}>
                 <MainFilterSearchBox />
               </Suspense>
@@ -163,9 +155,7 @@ export default function ClientPage({
               ariaLabel={`Alihkan Fasilitas ${hotel?.title}`}
             >
               <div className="row x-gap-40 y-gap-40">
-                <Suspense fallback={<div>Memuat Fasilitas...</div>}>
-                  <Facilities />
-                </Suspense>
+                <Facilities />
               </div>
             </AccordionItem>
 
@@ -178,9 +168,8 @@ export default function ClientPage({
                 toggle={() => toggleSection('landmark')}
                 ariaLabel="Alihkan Landmark Terdekat"
               >
-                <Suspense fallback={<div>Memuat Landmark...</div>}>
-                  <LandmarkList landmarks={landmarks} />
-                </Suspense>
+                {/* *** Pastikan LandmarksList menerima prop 'landmarks' *** */}
+                <LandmarkList landmarks={landmarks} />
               </AccordionItem>
             )}
 
@@ -204,22 +193,18 @@ export default function ClientPage({
                   </div>
                 </div>
                 <div className="pt-40 sm:pt-20 item_gap-x30">
-                  <Suspense fallback={<div>Memuat Hotel Terkait (1/2)...</div>}>
-                    <Hotels2
-                      relatedHotels={relatedHotels}
-                      categoryslug={categoryslug}
-                      countryslug={countryslug}
-                      stateslug={stateslug}
-                      cityslug={cityslug}
-                    />
-                  </Suspense>
-                  <Suspense fallback={<div>Memuat Hotel Terkait (2/2)...</div>}>
-                    <RelatedHotels
-                      relatedHotels={relatedHotels}
-                      category={categoryslug}
-                      city={hotel?.city || cityslug?.replace(/-/g, ' ') || ''}
-                    />
-                  </Suspense>
+                  <Hotels2
+                    relatedHotels={relatedHotels}
+                    categoryslug={categoryslug}
+                    countryslug={countryslug}
+                    stateslug={stateslug}
+                    cityslug={cityslug}
+                  />
+                  <RelatedHotels
+                    relatedHotels={relatedHotels}
+                    category={categoryslug}
+                    city={hotel?.city || cityslug?.replace(/-/g, ' ') || ''}
+                  />
                 </div>
               </AccordionItem>
             )}
@@ -237,14 +222,11 @@ export default function ClientPage({
                     toggle={() => toggleSection('map')}
                     ariaLabel="Alihkan Peta Lokasi"
                   >
-                    {/* MapComponent sudah ssr:false, jadi Suspense di sini lebih untuk fallback saat di-mount */}
-                    <Suspense fallback={<div>Memuat Peta...</div>}>
-                      <MapComponent
-                        latitude={hotel?.latitude}
-                        longitude={hotel?.longitude}
-                        title={hotel?.title}
-                      />
-                    </Suspense>
+                    <MapComponent
+                      latitude={hotel?.latitude}
+                      longitude={hotel?.longitude}
+                      title={hotel?.title}
+                    />
                   </AccordionItem>
                 )}
               </div>
@@ -253,12 +235,8 @@ export default function ClientPage({
         </div>
       </section>
 
-      <Suspense fallback={<div>Memuat Call to Actions...</div>}>
-        <CallToActions />
-      </Suspense>
-      <Suspense fallback={<div>Memuat Footer...</div>}>
-        <Footer />
-      </Suspense>
+      <CallToActions />
+      <Footer />
     </>
   );
 }
