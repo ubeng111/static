@@ -45,7 +45,6 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
 
   // MENGGUNAKAN URL LENGKAP DARI ENVIRONMENT VARIABLE untuk FETCH DATA HOTEL
   const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/${sanitizedParams.categoryslug}/${sanitizedParams.countryslug}/${sanitizedParams.stateslug}/${sanitizedParams.cityslug}/${sanitizedParams.hotelslug}`;
-  console.log('SERVER DEBUG [page.jsx - getHotelData]: Constructed API URL:', apiUrl);
 
   try {
     const response = await fetch(apiUrl, { next: { revalidate: 31536000 } }); 
@@ -74,7 +73,6 @@ async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityI
 
   // MENGGUNAKAN URL LENGKAP DARI ENVIRONMENT VARIABLE untuk FETCH DATA LANDMARK
   const allLandmarksApiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/fast-landmarks-by-city?city_id=${hotelCityId}`;
-  console.log(`SERVER DEBUG [page.jsx - getLandmarkDataForHotel]: Calling SQL API for landmarks: ${allLandmarksApiUrl}`);
 
   try {
     const response = await fetch(allLandmarksApiUrl, { next: { revalidate: 31536000 } }); 
@@ -89,7 +87,6 @@ async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityI
         console.warn("SERVER WARN [page.jsx - getLandmarkDataForHotel]: SQL API for landmarks did not return an array. Returning empty array.");
         return [];
     }
-    console.log(`SERVER DEBUG [page.jsx - getLandmarkDataForHotel]: Received ${data.length} landmarks from SQL API for city_id ${hotelCityId}.`);
 
     const MAX_RELEVANT_DISTANCE_KM = 20; 
     const POOL_SIZE_FOR_SHUFFLE = 30; 
@@ -127,7 +124,6 @@ async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityI
 
     const finalLandmarks = relevantAndLimitedPool.slice(0, FINAL_DISPLAY_COUNT);
 
-    console.log(`SERVER DEBUG [page.jsx - getLandmarkDataForHotel]: Returning ${finalLandmarks.length} relevant, random, and limited landmarks.`);
     return finalLandmarks; 
 
   } catch (error) {
@@ -140,7 +136,6 @@ async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityI
 // Ini akan mencegah pembuatan jalur statis pada waktu build.
 // Halaman akan di-render on-demand dan di-cache/direvalidasi sesuai fetch revalidate.
 export async function generateStaticParams() {
-  console.log("SERVER DEBUG [generateStaticParams]: generateStaticParams is returning an empty array. Hotel detail pages will be generated on-demand.");
   return []; 
 }
 
