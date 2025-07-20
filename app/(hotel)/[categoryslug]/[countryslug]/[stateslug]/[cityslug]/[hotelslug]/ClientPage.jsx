@@ -1,7 +1,7 @@
 // ClientPage.jsx
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react'; // Import Suspense
 import dynamic from 'next/dynamic';
 
 import GalleryTwo from '@/components/hotel-single/GalleryTwo';
@@ -65,7 +65,7 @@ export default function ClientPage({
   if (!hotel) {
     return (
       <div className="text-center py-5">
-        <p>Hotel data is not available. Please try again later.</p>
+        <p>Data hotel tidak tersedia. Silakan coba lagi nanti.</p>
       </div>
     );
   }
@@ -128,7 +128,10 @@ export default function ClientPage({
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <MainFilterSearchBox />
+              {/* Wrap MainFilterSearchBox with Suspense */}
+              <Suspense fallback={<div>Memuat kotak pencarian...</div>}>
+                <MainFilterSearchBox />
+              </Suspense>
             </div>
           </div>
         </div>
@@ -146,10 +149,10 @@ export default function ClientPage({
             <AccordionItem
               id="facilitiesCollapse"
               icon="fas fa-concierge-bell"
-              title={`Facilities of ${hotel?.title}`}
+              title={`Fasilitas ${hotel?.title}`}
               isOpen={openSections.facilities}
               toggle={() => toggleSection('facilities')}
-              ariaLabel={`Toggle Facilities of ${hotel?.title}`}
+              ariaLabel={`Alihkan Fasilitas ${hotel?.title}`}
             >
               <div className="row x-gap-40 y-gap-40">
                 <Facilities />
@@ -160,13 +163,13 @@ export default function ClientPage({
               <AccordionItem
                 id="landmarkCollapse"
                 icon="fas fa-landmark"
-                title="Nearby Landmarks"
+                title="Landmark Terdekat"
                 isOpen={openSections.landmark}
                 toggle={() => toggleSection('landmark')}
-                ariaLabel="Toggle Nearby Landmarks"
+                ariaLabel="Alihkan Landmark Terdekat"
               >
                 {/* *** Pastikan LandmarksList menerima prop 'landmarks' *** */}
-                <LandmarkList landmarks={landmarks} /> 
+                <LandmarkList landmarks={landmarks} />
               </AccordionItem>
             )}
 
@@ -174,18 +177,18 @@ export default function ClientPage({
               <AccordionItem
                 id="relatedHotelsCollapse"
                 icon="fas fa-hotel"
-                title={`Popular properties similar to ${hotel?.title}`}
+                title={`Properti populer serupa dengan ${hotel?.title}`}
                 isOpen={openSections.relatedHotels}
                 toggle={() => toggleSection('relatedHotels')}
-                ariaLabel={`Toggle Popular properties similar to ${hotel?.title}`}
+                ariaLabel={`Alihkan Properti populer serupa dengan ${hotel?.title}`}
               >
                 <div className="row justify-center text-center">
                   <div className="col-auto">
                     <h2 style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>
-                      Popular properties similar to {hotel?.title}
+                      Properti populer serupa dengan {hotel?.title}
                     </h2>
                     <p style={{ fontSize: '14px', marginTop: '14px' }}>
-                      Find top-rated stays with similar perks near your destination
+                      Temukan penginapan berperingkat teratas dengan fasilitas serupa di dekat tujuan Anda
                     </p>
                   </div>
                 </div>
@@ -214,10 +217,10 @@ export default function ClientPage({
                   <AccordionItem
                     id="mapCollapse"
                     icon="fas fa-map-marker-alt"
-                    title="Location Map"
+                    title="Peta Lokasi"
                     isOpen={openSections.map}
                     toggle={() => toggleSection('map')}
-                    ariaLabel="Toggle Location Map"
+                    ariaLabel="Alihkan Peta Lokasi"
                   >
                     <MapComponent
                       latitude={hotel?.latitude}
