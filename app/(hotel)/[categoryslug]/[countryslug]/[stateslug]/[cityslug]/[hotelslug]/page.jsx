@@ -24,30 +24,36 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 };
 
 async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, hotelslug }) {
-  // Menggunakan parameter langsung tanpa sanitasi
+  const sanitizedParams = {
+    categoryslug: categoryslug?.replace(/[^a-zA-Z0-9-]/g, ''),
+    countryslug: countryslug?.replace(/[^a-zA-Z0-9-]/g, ''),
+    stateslug: stateslug?.replace(/[^a-zA-Z0-9-]/g, ''),
+    cityslug: cityslug?.replace(/[^a-zA-Z0-9-]/g, ''),
+    hotelslug: hotelslug?.replace(/[^a-zA-Z0-9-]/g, ''),
+  };
+
   if (
-    !categoryslug ||
-    !countryslug ||
-    !stateslug ||
-    !cityslug ||
-    !hotelslug
+    !sanitizedParams.categoryslug ||
+    !sanitizedParams.countryslug ||
+    !sanitizedParams.stateslug ||
+    !sanitizedParams.cityslug ||
+    !sanitizedParams.hotelslug
   ) {
-    console.error('SERVER ERROR [page.jsx - getHotelData]: Missing required parameters:', { categoryslug, countryslug, stateslug, cityslug, hotelslug });
+    console.error('SERVER ERROR [page.jsx - getHotelData]: Missing required parameters after sanitization:', sanitizedParams);
     return null;
   }
 
   // MENGGUNAKAN URL LENGKAP DARI ENVIRONMENT VARIABLE untuk FETCH DATA HOTEL
-  const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/${categoryslug}/${countryslug}/${stateslug}/${cityslug}/${hotelslug}`;
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/${sanitizedParams.categoryslug}/${sanitizedParams.countryslug}/${sanitizedParams.stateslug}/${sanitizedParams.cityslug}/${sanitizedParams.hotelslug}`;
 
   try {
-    // MODIFIKASI: Hapus opsi revalidate untuk SSR murni
-    const response = await fetch(apiUrl); //
+    const response = await fetch(apiUrl, { next: { revalidate: 31536000 } }); 
     if (!response.ok) {
       if (response.status === 404) {
-          console.warn(`SERVER WARN [page.jsx - getHotelData]: Hotel not found for ${hotelslug}. Status: 404.`);
+          console.warn(`SERVER WARN [page.jsx - getHotelData]: Hotel not found for ${sanitizedParams.hotelslug}. Status: 404.`);
       } else {
           console.error(
-              `SERVER ERROR [page.jsx - getHotelData]: Failed to fetch hotel data for ${hotelslug}. Status: ${response.status} - ${response.statusText}`
+              `SERVER ERROR [page.jsx - getHotelData]: Failed to fetch hotel data for ${sanitizedParams.hotelslug}. Status: ${response.status} - ${response.statusText}`
           );
       }
       return null;
@@ -59,7 +65,7 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
   }
 }
 
-async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityId) {
+async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityId) { 
   if (!hotelLatitude || !hotelLongitude || !hotelCityId) {
     console.warn("SERVER WARN [page.jsx - getLandmarkDataForHotel]: Hotel coordinates or cityId missing. Cannot find relevant landmarks. Returning empty array.");
     return [];
@@ -69,23 +75,22 @@ async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityI
   const allLandmarksApiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/fast-landmarks-by-city?city_id=${hotelCityId}`;
 
   try {
-    // MODIFIKASI: Hapus opsi revalidate untuk SSR murni
-    const response = await fetch(allLandmarksApiUrl); //
-
+    const response = await fetch(allLandmarksApiUrl, { next: { revalidate: 31536000 } }); 
+    
     if (!response.ok) {
       console.warn(`SERVER WARN [page.jsx - getLandmarkDataForHotel]: Failed to fetch landmark data from SQL API. Status: ${response.status}`);
       return [];
     }
     const data = await response.json();
-
+    
     if (!Array.isArray(data)) {
         console.warn("SERVER WARN [page.jsx - getLandmarkDataForHotel]: SQL API for landmarks did not return an array. Returning empty array.");
         return [];
     }
 
-    const MAX_RELEVANT_DISTANCE_KM = 20;
-    const POOL_SIZE_FOR_SHUFFLE = 30;
-    const FINAL_DISPLAY_COUNT = 12;
+    const MAX_RELEVANT_DISTANCE_KM = 20; 
+    const POOL_SIZE_FOR_SHUFFLE = 30; 
+    const FINAL_DISPLAY_COUNT = 12; 
 
     let processedLandmarks = data.map(landmark => {
       const landmarkLat = parseFloat(landmark.latitude);
@@ -93,7 +98,7 @@ async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityI
 
       if (isNaN(landmarkLat) || isNaN(landmarkLon)) {
           console.warn(`SERVER WARN [page.jsx - getLandmarkDataForHotel]: Invalid coordinates for landmark ${landmark.name}. Skipping.`);
-          return null;
+          return null; 
       }
 
       const distance = calculateDistance(
@@ -102,13 +107,13 @@ async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityI
       );
       return {
         ...landmark,
-        distance: distance,
+        distance: distance, 
       };
-    }).filter(landmark =>
+    }).filter(landmark => 
       landmark !== null && landmark.distance <= MAX_RELEVANT_DISTANCE_KM && landmark.slug && landmark.name
     );
 
-    processedLandmarks.sort((a, b) => a.distance - b.distance);
+    processedLandmarks.sort((a, b) => a.distance - b.distance); 
 
     const relevantAndLimitedPool = processedLandmarks.slice(0, POOL_SIZE_FOR_SHUFFLE);
 
@@ -119,7 +124,7 @@ async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityI
 
     const finalLandmarks = relevantAndLimitedPool.slice(0, FINAL_DISPLAY_COUNT);
 
-    return finalLandmarks;
+    return finalLandmarks; 
 
   } catch (error) {
     console.error("SERVER FATAL ERROR [page.jsx - getLandmarkDataForHotel]: Error processing landmark data:", error);
@@ -131,7 +136,7 @@ async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityI
 // Ini akan mencegah pembuatan jalur statis pada waktu build.
 // Halaman akan di-render on-demand dan di-cache/direvalidasi sesuai fetch revalidate.
 export async function generateStaticParams() {
-  return []; // Ini berarti tidak ada jalur yang dibuat secara statis saat build time
+  return []; 
 }
 
 export async function generateMetadata({ params }) {
@@ -139,10 +144,10 @@ export async function generateMetadata({ params }) {
   const { categoryslug, countryslug, stateslug, cityslug, hotelslug } = resolvedParams;
 
   // URL utama juga bisa diambil dari variabel lingkungan untuk konsistensi
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://hoteloza.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_BASE_URL || 'https://hoteloza.com';
 
   try {
-    const data = await getHotelData(resolvedParams); // Ini akan fetch data pada permintaan
+    const data = await getHotelData(resolvedParams);
     if (!data || !data.hotel) {
       const formattedHotel = formatSlug(hotelslug) || 'Hotel';
       const formattedCity = formatSlug(cityslug) || 'City';
@@ -187,7 +192,7 @@ export async function generateMetadata({ params }) {
 
 export default async function HotelDetailPage({ params }) {
   const resolvedParams = await params;
-  const data = await getHotelData(resolvedParams); // Ini akan fetch data pada permintaan
+  const data = await getHotelData(resolvedParams);
 
   if (!data || !data.hotel) {
     notFound();
@@ -196,9 +201,9 @@ export default async function HotelDetailPage({ params }) {
   const hotel = data.hotel;
 
   const landmarksForDisplay = await getLandmarkDataForHotel(
-    hotel.latitude,
+    hotel.latitude, 
     hotel.longitude,
-    hotel.city_id
+    hotel.city_id 
   );
 
   const formattedHotel = formatSlug(resolvedParams.hotelslug) || hotel.title;
@@ -206,7 +211,7 @@ export default async function HotelDetailPage({ params }) {
   const currentYear = new Date().getFullYear();
 
   // URL utama juga diambil dari variabel lingkungan untuk konsistensi
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://hoteloza.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_BASE_URL || 'https://hoteloza.com';
 
   const schemas = [
     {
@@ -231,7 +236,7 @@ export default async function HotelDetailPage({ params }) {
       email: hotel.email || '',
       priceRange: hotel.priceRange || '$$$',
       checkinTime: hotel.checkinTime || '15:00',
-      checkoutTime: hotel.checkoutTime || '11:00',
+      checkoutTime: hotel.checkoutTime || '11:00', 
       url: `${baseUrl}/${resolvedParams.categoryslug}/${resolvedParams.countryslug}/${resolvedParams.stateslug}/${resolvedParams.cityslug}/${resolvedParams.hotelslug}`,
       ...(hotel.ratings && {
         aggregateRating: {
