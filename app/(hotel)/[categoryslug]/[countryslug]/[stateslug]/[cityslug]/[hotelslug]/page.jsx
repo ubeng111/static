@@ -40,7 +40,8 @@ async function getHotelData({ categoryslug, countryslug, stateslug, cityslug, ho
   const apiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/${categoryslug}/${countryslug}/${stateslug}/${cityslug}/${hotelslug}`;
 
   try {
-    const response = await fetch(apiUrl, { next: { revalidate: 31536000 } });
+    // MODIFIKASI: Hapus opsi revalidate untuk SSR murni
+    const response = await fetch(apiUrl); //
     if (!response.ok) {
       if (response.status === 404) {
           console.warn(`SERVER WARN [page.jsx - getHotelData]: Hotel not found for ${hotelslug}. Status: 404.`);
@@ -68,7 +69,8 @@ async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityI
   const allLandmarksApiUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/fast-landmarks-by-city?city_id=${hotelCityId}`;
 
   try {
-    const response = await fetch(allLandmarksApiUrl, { next: { revalidate: 31536000 } });
+    // MODIFIKASI: Hapus opsi revalidate untuk SSR murni
+    const response = await fetch(allLandmarksApiUrl); //
 
     if (!response.ok) {
       console.warn(`SERVER WARN [page.jsx - getLandmarkDataForHotel]: Failed to fetch landmark data from SQL API. Status: ${response.status}`);
@@ -129,7 +131,7 @@ async function getLandmarkDataForHotel(hotelLatitude, hotelLongitude, hotelCityI
 // Ini akan mencegah pembuatan jalur statis pada waktu build.
 // Halaman akan di-render on-demand dan di-cache/direvalidasi sesuai fetch revalidate.
 export async function generateStaticParams() {
-  return [];
+  return []; // Ini berarti tidak ada jalur yang dibuat secara statis saat build time
 }
 
 export async function generateMetadata({ params }) {
@@ -140,7 +142,7 @@ export async function generateMetadata({ params }) {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://hoteloza.com';
 
   try {
-    const data = await getHotelData(resolvedParams);
+    const data = await getHotelData(resolvedParams); // Ini akan fetch data pada permintaan
     if (!data || !data.hotel) {
       const formattedHotel = formatSlug(hotelslug) || 'Hotel';
       const formattedCity = formatSlug(cityslug) || 'City';
@@ -185,7 +187,7 @@ export async function generateMetadata({ params }) {
 
 export default async function HotelDetailPage({ params }) {
   const resolvedParams = await params;
-  const data = await getHotelData(resolvedParams);
+  const data = await getHotelData(resolvedParams); // Ini akan fetch data pada permintaan
 
   if (!data || !data.hotel) {
     notFound();
@@ -204,7 +206,7 @@ export default async function HotelDetailPage({ params }) {
   const currentYear = new Date().getFullYear();
 
   // URL utama juga diambil dari variabel lingkungan untuk konsistensi
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_BASE_URL || 'https://hoteloza.com';
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://hoteloza.com';
 
   const schemas = [
     {
