@@ -8,7 +8,6 @@ import path from 'path';
 import 'dotenv/config';
 import dynamicImport from 'next/dynamic'; // ✅ alias untuk menghindari konflik nama
 
-export const dynamic = 'force-dynamic';    // ✅ tetap di-export dengan nama 'dynamic'
 
 // This Pool connection is included for consistency with the landmark page,
 // but it's not actually used by the getCategoryData function in this file,

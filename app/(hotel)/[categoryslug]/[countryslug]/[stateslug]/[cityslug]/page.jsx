@@ -10,7 +10,6 @@ import 'dotenv/config';
 // Aliased 'dynamic' import to avoid conflict with the 'export const dynamic' page configuration.
 import dynamicComponent from 'next/dynamic';
 
-export const dynamic = 'force-dynamic';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,

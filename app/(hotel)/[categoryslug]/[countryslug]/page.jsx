@@ -8,7 +8,6 @@ import fs from 'fs'; // Added for consistency
 import path from 'path'; // Added for consistency
 import 'dotenv/config'; // Added for consistency
 
-export const dynamic = 'force-dynamic'; // ✅ tidak bentrok lagi
 
 // This Pool connection is included for consistency with landmark and category pages,
 // but it's not actually used by the getCountryData function in this file,

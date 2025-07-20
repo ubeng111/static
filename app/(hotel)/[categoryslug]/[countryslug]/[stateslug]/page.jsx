@@ -10,7 +10,6 @@ import 'dotenv/config';
 // FIX: Rename the 'dynamic' import to avoid conflict with 'export const dynamic'.
 import dynamicComponent from 'next/dynamic'; // Renamed to dynamicComponent
 
-export const dynamic = 'force-dynamic'; // This is the Next.js page configuration, keep it.
 
 // This Pool connection is included for consistency with landmark and category pages,
 // but it's not actually used by the getStateData function in this file,
