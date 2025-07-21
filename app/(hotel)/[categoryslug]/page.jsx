@@ -2,47 +2,31 @@
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import contentTemplates from '@/utils/contentTemplates';
-import { Pool } from 'pg'; // TETAP DIHAPUS DI FINAL CODE, INI HANYA UNTUK MENGINGATKAN!
-import fs from 'fs';       // TETAP DIHAPUS DI FINAL CODE, INI HANYA UNTUK MENGINGATKAN!
-import path from 'path';     // TETAP DIHAPUS DI FINAL CODE, INI HANYA UNTUK MENGINGATKAN!
-import 'dotenv/config';    // TETAP DIHAPUS DI FINAL CODE, INI HANYA UNTUK MENGINGATKAN!
 import dynamicImport from 'next/dynamic';
 
-export const dynamic = 'force-dynamic';
 
-// === PENTING: HAPUS BAGIAN INI DARI FILE PAGE.JSX ANDA ===
-// Kode database ini harus berada di API Route Anda (misalnya: app/api/hotel/[...slug]/route.js)
-// const pool = new Pool({
-//   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
-//   ssl: { ca: fs.readFileSync(path.resolve(process.cwd(), 'certs', 'root.crt')) },
-// });
-// === AKHIR BAGIAN YANG HARUS DIHAPUS ===
+ 
+const REVALIDATE_IN_SECONDS = 31536000;
 
-
-// Helper function to format slugs (tetap digunakan untuk tampilan, bukan untuk sanitasi URL API)
-const formatSlug = (slug) =>
-  slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
-
-// Function to fetch category data - VERSI YANG LEBIH SEDERHANA
+// Function to fetch category data
 async function getCategoryData(categoryslug) {
   if (!categoryslug) {
     console.error('SERVER ERROR [page.jsx - getCategoryData]: categoryslug is empty.');
     return { hotels: [] };
   }
 
-  // === PERUBAHAN UTAMA: Hanya satu pola URL API yang digunakan ===
-  // Asumsi: API Route Anda dapat menangani seluruh string categoryslug
-  // baik itu "luxury-hotels" atau "nigeria/federal-capital-territory/abuja"
-  // API Route Anda harus berupa sesuatu seperti app/api/hotel/[...categoryPath]/route.js
-  // atau pages/api/hotel/[...categoryPath].js
   const encodedCategorySlug = encodeURIComponent(categoryslug);
   const baseUrlApi = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
-  const apiUrl = `${baseUrlApi}/api/${encodedCategorySlug}`; // Contoh: http://localhost:3000/api/hotel/nigeria/federal-capital-territory/abuja
+  const apiUrl = `${baseUrlApi}/api/${encodedCategorySlug}`;
 
   console.log('SERVER DEBUG [page.jsx - getCategoryData]: Constructed API URL:', apiUrl);
 
   try {
-    const response = await fetch(apiUrl, { next: { revalidate: 31536000 } });
+    const response = await fetch(apiUrl, { 
+      // KUNCI ISR: Mengatur revalidasi data setelah REVALIDATE_IN_SECONDS (1 tahun)
+      next: { revalidate: REVALIDATE_IN_SECONDS } 
+    });
+    
     if (!response.ok) {
       if (response.status === 404) {
         console.warn(`SERVER WARN [page.jsx - getCategoryData]: Failed to fetch category data: 404 Not Found for ${apiUrl}`);
@@ -60,11 +44,22 @@ async function getCategoryData(categoryslug) {
   }
 }
 
+// Helper function to format slugs
+const formatSlug = (slug) =>
+  slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
+
+// dynamic import untuk ClientPage
 const ClientPage = dynamicImport(() => import('./ClientPage'));
 
+// HAPUS FUNGSI generateStaticParams
+// export async function generateStaticParams() {
+//   // Fungsi ini tidak lagi digunakan
+//   return [];
+// }
+
+
 export async function generateMetadata({ params }) {
-  const awaitedParams = await params;
-  const categoryslug = awaitedParams.categoryslug;
+  const categoryslug = params.categoryslug;
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_BASE_URL || 'https://hoteloza.com';
   const currentUrl = `${baseUrl}/hotel/${categoryslug}`;
@@ -129,14 +124,13 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-  const awaitedParams = await params;
-  const categoryslug = awaitedParams.categoryslug;
+  const categoryslug = params.categoryslug;
 
   if (!categoryslug) {
-    // Consider adding a notFound() here if a page with an empty slug should not exist
+    notFound();
   }
 
-  let formattedCategory = 'Hotels'; // Fallback
+  let formattedCategory = 'Hotel';
   let data = { hotels: [] };
   let longDescriptionSegments;
 
@@ -154,7 +148,7 @@ export default async function Page({ params }) {
   longDescriptionSegments = contentTemplates.getCategoryPageDescription(formattedCategory);
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_BASE_URL || 'https://hoteloza.com';
-  const currentUrl = `${baseUrl}/hotel/${categoryslug}`;
+  const currentUrl = `${baseUrl}/${categoryslug}`;
 
   const schemaDescription = longDescriptionSegments.map(segment => segment.content).join(' ');
 
@@ -178,7 +172,7 @@ export default async function Page({ params }) {
         { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
         ...categoryslug.split('/').map((segment, index) => {
           const pathSegment = categoryslug.split('/').slice(0, index + 1).join('/');
-          const itemUrl = `${baseUrl}/hotel/${pathSegment}`;
+          const itemUrl = `${baseUrl}/${pathSegment}`;
           return { '@type': 'ListItem', position: index + 2, name: formatSlug(segment), item: itemUrl };
         }),
       ],
@@ -195,8 +189,8 @@ export default async function Page({ params }) {
           '@type': 'Hotel',
           name: hotel.title || hotel.name || 'Unnamed Hotel',
           url: hotel.hotelslug && hotel.countryslug && hotel.stateslug && hotel.cityslug
-            ? `${baseUrl}/hotel/${hotel.categoryslug || 'hotels'}/${hotel.countryslug}/${hotel.stateslug}/${hotel.cityslug}/${hotel.hotelslug}` // Menambahkan /hotel/
-            : `${currentUrl}/${hotel.id || index + 1}`, // Fallback jika slug hotel tidak lengkap
+            ? `${baseUrl}/${hotel.categoryslug || 'hotel'}/${hotel.countryslug}/${hotel.stateslug}/${hotel.cityslug}/${hotel.hotelslug}`
+            : `${currentUrl}/${hotel.id || index + 1}`,
           image: hotel.img || hotel.slideimg || '',
           address: {
             '@type': 'PostalAddress',
@@ -219,7 +213,7 @@ export default async function Page({ params }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
       />
       <ClientPage
-        categoryslug={categoryslug || 'hotels'}
+        categoryslug={categoryslug || 'hotel'}
         longDescriptionSegments={longDescriptionSegments}
         initialCategoryName={formattedCategory}
         initialHotelsData={data.hotels || []}

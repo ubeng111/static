@@ -1,13 +1,27 @@
 // app/[lang]/landmark/[slug]/page.jsx
 import { Suspense } from 'react';
-import 'dotenv/config';
+import 'dotenv/config'; // Pastikan dotenv sudah dikonfigurasi dengan benar di proyek Anda
 import LandmarkClient from './LandmarkClient';
 import Script from 'next/script';
-import contentTemplates from '@/utils/contentTemplates';
+import contentTemplates from '@/utils/contentTemplates'; // Pastikan path ini benar
 import { notFound } from 'next/navigation';
 
-export const dynamic = 'force-dynamic';
+// Hapus: export const dynamic = 'force-dynamic';
+// Next.js akan secara otomatis mengidentifikasi ini sebagai halaman statis (dengan ISR)
+// karena adanya next: { revalidate } pada fetch dan absennya dynamic = 'force-dynamic'.
 
+/**
+ * Konversi 1 bulan ke detik:
+ * 1 bulan ≈ 30 hari
+ * 30 hari * 24 jam/hari * 60 menit/jam * 60 detik/menit = 2,592,000 detik
+ */
+const REVALIDATE_IN_SECONDS = 2592000;
+
+/**
+ * Fungsi untuk mengambil data landmark dari API.
+ * Menggunakan `next: { revalidate: REVALIDATE_IN_SECONDS }` untuk mengaktifkan ISR pada data fetch.
+ * Data akan di-cache selama 1 bulan di sisi server Next.js.
+ */
 async function fetchLandmarkData(slug) {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/landmark`, {
@@ -16,7 +30,8 @@ async function fetchLandmarkData(slug) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ landmark_slug: slug }),
-      next: { revalidate: 31536000 }
+      // KUNCI ISR: Data akan direvalidate setelah 1 bulan
+      next: { revalidate: REVALIDATE_IN_SECONDS }
     });
 
     if (!res.ok) {
@@ -39,20 +54,43 @@ async function fetchLandmarkData(slug) {
   }
 }
 
+// Fungsi pembantu untuk memformat slug (tetap sama)
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
+// HAPUS FUNGSI generateStaticParams JIKA ANDA TIDAK INGIN MENGGUNAKANNYA:
+/*
+export async function generateStaticParams() {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/landmarks/all-slugs`, {
+        cache: 'no-store'
+    });
+    if (!res.ok) {
+      console.error(`SERVER ERROR [generateStaticParams]: Failed to fetch all slugs: ${res.status}`);
+      return [];
+    }
+    const slugsData = await res.json();
+    return slugsData.map(slug => ({ slug }));
+  } catch (error) {
+    console.error('SERVER ERROR [generateStaticParams]: Error fetching all slugs:', error);
+    return [];
+  }
+}
+*/
+
+/**
+ * Fungsi untuk menghasilkan metadata SEO untuk halaman.
+ * Ini juga akan dijalankan saat build time (atau saat regenerasi).
+ */
 export async function generateMetadata({ params }) {
-  // MODIFIKASI SESUAI PERMINTAAN: Menambahkan 'await' pada params
-  const awaitedParams = await params;
-  const { slug } = awaitedParams;
+  const { slug } = params;
 
   let title = 'Hotels near Landmark';
   let description = 'Find top hotels near popular landmarks with great deals and reviews.';
   let landmarkUrl = `https://hoteloza.com/landmark/${slug}`;
 
   if (!slug || typeof slug !== 'string') {
-    console.error('SERVER DEBUG [page.jsx]: Invalid or missing slug:', slug);
+    console.error('SERVER DEBUG [page.jsx]: Invalid or missing slug in generateMetadata:', slug);
     return {
       title: 'Invalid Landmark | Hoteloza',
       description: 'The requested landmark was not found on Hoteloza.',
@@ -68,7 +106,7 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  const landmarkData = await fetchLandmarkData(slug);
+  const landmarkData = await fetchLandmarkData(slug); // Data akan diambil dengan revalidate ISR
   if (landmarkData) {
     const { landmarkName, cityName, category } = landmarkData;
     title = `${category} Near ${landmarkName}, ${cityName}`;
@@ -96,15 +134,18 @@ export async function generateMetadata({ params }) {
   };
 }
 
+/**
+ * Komponen halaman utama untuk menampilkan detail landmark.
+ * Ini akan dijalankan saat build time dan saat regenerasi.
+ */
 export default async function LandmarkSlugPage({ params }) {
-  // MODIFIKASI SESUAI PERMINTAAN: Menambahkan 'await' pada params
-  const awaitedParams = await params;
-  const { slug } = awaitedParams;
+  const { slug } = params;
   console.log('SERVER DEBUG [page.jsx]: Received slug from URL params:', slug);
 
-  const landmarkData = await fetchLandmarkData(slug);
+  const landmarkData = await fetchLandmarkData(slug); // Data akan diambil dengan revalidate ISR
 
   if (!landmarkData) {
+    // Jika data tidak ditemukan, tampilkan halaman 404
     notFound();
   }
 
