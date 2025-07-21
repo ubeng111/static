@@ -1,9 +1,9 @@
 // app/[lang]/landmark/[slug]/page.jsx
 import { Suspense } from 'react';
-import { Pool } from 'pg';
-import fs from 'fs';
-import path from 'path';
-import 'dotenv/config';
+// import { Pool } from 'pg'; // TIDAK DIPERLUKAN di sini, karena API route yang akan mengakses DB
+// import fs from 'fs'; // TIDAK DIPERLUKAN di sini
+// import path from 'path'; // TIDAK DIPERLUKAN di sini
+import 'dotenv/config'; // Pastikan .env dimuat jika ada variabel lingkungan lain yang digunakan
 import LandmarkClient from './LandmarkClient';
 import Script from 'next/script';
 import contentTemplates from '@/utils/contentTemplates';
@@ -11,44 +11,49 @@ import { notFound } from 'next/navigation';
 
 export const dynamic = 'force-dynamic'; // Ini akan diabaikan jika `fetch` memiliki `revalidate`
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
-  ssl: { ca: fs.readFileSync(path.resolve(process.cwd(), 'certs', 'root.crt')) },
-});
+// Pool koneksi database TIDAK perlu ada di page.jsx.
+// Ini ditangani oleh API route (route.js)
+// const pool = new Pool({
+//   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
+//   ssl: { ca: fs.readFileSync(path.resolve(process.cwd(), 'certs', 'root.crt')) },
+// });
 
 // Reusable function to fetch landmark data
 async function fetchLandmarkData(slug) {
   try {
-    const client = await pool.connect();
+    // Klien database tidak perlu lagi dihubungkan langsung dari sini.
+    // Tugas ini ada pada API route Anda (route.js).
+    // const client = await pool.connect(); // HAPUS BARIS INI
     try {
-      const landmarkQuery = `
-        SELECT name AS landmark_name, city AS city_name, category
-        FROM landmarks
-        WHERE slug = $1
-        LIMIT 1
-      `;
-      // Mengubah strategi fetch menjadi ISR dengan revalidate 1 tahun (365 hari * 24 jam * 60 menit * 60 detik)
-      // Yakni: 31536000 detik
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/landmark-data?slug=${slug}`, {
-        next: { revalidate: 31536000 } // Revalidate every 1 year
+      // Ubah panggilan fetch ini agar sesuai dengan API route yang berfungsi
+      // yang ada di `app/api/landmark/route.js` dan mengharapkan POST request.
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/landmark`, {
+        method: 'POST', // KRUSIAL: Ubah ke metode POST
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ landmark_slug: slug }), // KRUSIAL: Kirim slug dalam body permintaan
+        next: { revalidate: 31536000 } // Revalidate setiap 1 tahun
       });
 
       if (!res.ok) {
-        console.error(`SERVER ERROR [page.jsx]: Failed to fetch landmark data from API. Status: ${res.status}`);
+        console.error(`SERVER ERROR [page.jsx]: Failed to fetch landmark data from /api/landmark. Status: ${res.status}`);
         return null;
       }
       const data = await res.json();
 
-      if (data && data.landmark_name) {
+      // Sesuaikan struktur data yang dikembalikan dengan apa yang dihasilkan route.js
+      // route.js mengembalikan { hotels, landmarkName, cityName, category }
+      if (data && data.landmarkName) {
         return {
-          landmarkName: data.landmark_name,
-          cityName: data.city_name,
+          landmarkName: data.landmarkName,
+          cityName: data.cityName,
           category: data.category,
         };
       }
       return null;
     } finally {
-      client.release();
+      // client.release(); // HAPUS BARIS INI karena client.connect() dihapus
     }
   } catch (error) {
     console.error('SERVER ERROR [page.jsx]: Failed to fetch landmark data:', error);
@@ -118,6 +123,11 @@ export default async function LandmarkSlugPage({ params }) {
   console.log('SERVER DEBUG [page.jsx]: Received slug from URL params:', slug);
 
   const landmarkData = await fetchLandmarkData(slug);
+
+  // Jika landmarkData null, arahkan ke halaman 404
+  if (!landmarkData) {
+    notFound();
+  }
 
   const landmarkName = landmarkData?.landmarkName || 'Landmark';
   const cityName = landmarkData?.cityName || 'Unknown City';

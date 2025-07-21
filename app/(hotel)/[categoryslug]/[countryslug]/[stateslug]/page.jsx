@@ -62,7 +62,9 @@ async function getStateData(categoryslug, countryslug, stateslug) {
 const ClientPage = dynamicComponent(() => import('./ClientPage'));
 
 export async function generateMetadata({ params }) {
-  const { categoryslug, countryslug, stateslug } = params;
+  // MODIFIKASI: Menambahkan 'await' pada params sesuai instruksi
+  const awaitedParams = await params;
+  const { categoryslug, countryslug, stateslug } = awaitedParams;
 
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
@@ -155,7 +157,9 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-  const { categoryslug, countryslug, stateslug } = params;
+  // MODIFIKASI: Menambahkan 'await' pada params sesuai instruksi
+  const awaitedParams = await params;
+  const { categoryslug, countryslug, stateslug } = awaitedParams;
   
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);

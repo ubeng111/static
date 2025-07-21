@@ -61,7 +61,9 @@ async function getCityData(categoryslug, countryslug, stateslug, cityslug) {
 const ClientPage = dynamicComponent(() => import('./ClientPage'));
 
 export async function generateMetadata({ params }) {
-  const { categoryslug, countryslug, stateslug, cityslug } = params; // No need for await params, it's already resolved
+  // MODIFIKASI SESUAI PERMINTAAN: Menambahkan 'await' pada params
+  const awaitedParams = await params;
+  const { categoryslug, countryslug, stateslug, cityslug } = awaitedParams;
 
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
@@ -163,8 +165,10 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-  const { categoryslug, countryslug, stateslug, cityslug } = params; // params is already awaited by Next.js in Page components
-
+  // MODIFIKASI SESUAI PERMINTAAN: Menambahkan 'await' pada params
+  const awaitedParams = await params;
+  const { categoryslug, countryslug, stateslug, cityslug } = awaitedParams;
+  
   const sanitizedCategory = sanitizeSlug(categoryslug);
   const sanitizedCountry = sanitizeSlug(countryslug);
   const sanitizedState = sanitizeSlug(stateslug);

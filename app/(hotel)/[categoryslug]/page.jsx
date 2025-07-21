@@ -37,7 +37,7 @@ async function getCategoryData(categoryslug) {
   // atau pages/api/hotel/[...categoryPath].js
   const encodedCategorySlug = encodeURIComponent(categoryslug);
   const baseUrlApi = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
-  const apiUrl = `${baseUrlApi}/api/hotel/${encodedCategorySlug}`; // Contoh: http://localhost:3000/api/hotel/nigeria/federal-capital-territory/abuja
+  const apiUrl = `${baseUrlApi}/api/${encodedCategorySlug}`; // Contoh: http://localhost:3000/api/hotel/nigeria/federal-capital-territory/abuja
 
   console.log('SERVER DEBUG [page.jsx - getCategoryData]: Constructed API URL:', apiUrl);
 
