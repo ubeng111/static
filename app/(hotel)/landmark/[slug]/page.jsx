@@ -1,73 +1,51 @@
 // app/[lang]/landmark/[slug]/page.jsx
 import { Suspense } from 'react';
-// import { Pool } from 'pg'; // TIDAK DIPERLUKAN di sini, karena API route yang akan mengakses DB
-// import fs from 'fs'; // TIDAK DIPERLUKAN di sini
-// import path from 'path'; // TIDAK DIPERLUKAN di sini
-import 'dotenv/config'; // Pastikan .env dimuat jika ada variabel lingkungan lain yang digunakan
+import 'dotenv/config';
 import LandmarkClient from './LandmarkClient';
 import Script from 'next/script';
 import contentTemplates from '@/utils/contentTemplates';
 import { notFound } from 'next/navigation';
 
-export const dynamic = 'force-dynamic'; // Ini akan diabaikan jika `fetch` memiliki `revalidate`
+export const dynamic = 'force-dynamic';
 
-// Pool koneksi database TIDAK perlu ada di page.jsx.
-// Ini ditangani oleh API route (route.js)
-// const pool = new Pool({
-//   connectionString: process.env.DATABASE_URL_SUBTLE_CUSCUS,
-//   ssl: { ca: fs.readFileSync(path.resolve(process.cwd(), 'certs', 'root.crt')) },
-// });
-
-// Reusable function to fetch landmark data
 async function fetchLandmarkData(slug) {
   try {
-    // Klien database tidak perlu lagi dihubungkan langsung dari sini.
-    // Tugas ini ada pada API route Anda (route.js).
-    // const client = await pool.connect(); // HAPUS BARIS INI
-    try {
-      // Ubah panggilan fetch ini agar sesuai dengan API route yang berfungsi
-      // yang ada di `app/api/landmark/route.js` dan mengharapkan POST request.
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/landmark`, {
-        method: 'POST', // KRUSIAL: Ubah ke metode POST
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ landmark_slug: slug }), // KRUSIAL: Kirim slug dalam body permintaan
-        next: { revalidate: 31536000 } // Revalidate setiap 1 tahun
-      });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/landmark`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ landmark_slug: slug }),
+      next: { revalidate: 31536000 }
+    });
 
-      if (!res.ok) {
-        console.error(`SERVER ERROR [page.jsx]: Failed to fetch landmark data from /api/landmark. Status: ${res.status}`);
-        return null;
-      }
-      const data = await res.json();
-
-      // Sesuaikan struktur data yang dikembalikan dengan apa yang dihasilkan route.js
-      // route.js mengembalikan { hotels, landmarkName, cityName, category }
-      if (data && data.landmarkName) {
-        return {
-          landmarkName: data.landmarkName,
-          cityName: data.cityName,
-          category: data.category,
-        };
-      }
+    if (!res.ok) {
+      console.error(`SERVER ERROR [page.jsx]: Failed to fetch landmark data from /api/landmark. Status: ${res.status}`);
       return null;
-    } finally {
-      // client.release(); // HAPUS BARIS INI karena client.connect() dihapus
     }
+    const data = await res.json();
+
+    if (data && data.landmarkName) {
+      return {
+        landmarkName: data.landmarkName,
+        cityName: data.cityName,
+        category: data.category,
+      };
+    }
+    return null;
   } catch (error) {
     console.error('SERVER ERROR [page.jsx]: Failed to fetch landmark data:', error);
     return null;
   }
 }
 
-// Helper function to format slugs (pindahkan ke utils jika sering dipakai)
 const formatSlug = (slug) =>
   slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '';
 
-
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  // MODIFIKASI SESUAI PERMINTAAN: Menambahkan 'await' pada params
+  const awaitedParams = await params;
+  const { slug } = awaitedParams;
 
   let title = 'Hotels near Landmark';
   let description = 'Find top hotels near popular landmarks with great deals and reviews.';
@@ -119,12 +97,13 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function LandmarkSlugPage({ params }) {
-  const { slug } = params;
+  // MODIFIKASI SESUAI PERMINTAAN: Menambahkan 'await' pada params
+  const awaitedParams = await params;
+  const { slug } = awaitedParams;
   console.log('SERVER DEBUG [page.jsx]: Received slug from URL params:', slug);
 
   const landmarkData = await fetchLandmarkData(slug);
 
-  // Jika landmarkData null, arahkan ke halaman 404
   if (!landmarkData) {
     notFound();
   }
